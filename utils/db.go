@@ -53,8 +53,15 @@ func (model TableColumn) TableName() string {
 	return "columns"
 }
 
+type DbUtils struct {
+}
+
+func New() DbUtils {
+	return DbUtils{}
+}
+
 // QueryTables 查询表数组
-func QueryTables(dsn string, TableNames string, prefix string) []Table {
+func (DbUtils) QueryTables(dsn string, TableNames string, prefix string) []Table {
 	split := strings.Split(dsn, "/")
 	s := split[0] + "/information_schema"
 	db, err := gorm.Open(mysql.Open(s))

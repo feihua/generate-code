@@ -8,7 +8,6 @@
 .vscode/
 bin/
 **/.DS_Store
-gf
 main
 main.exe
 output/

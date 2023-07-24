@@ -22,7 +22,7 @@ and usage of using your command. For example:
 
 `,
 	Run: func(c *cobra.Command, args []string) {
-		tables := utils.QueryTables(Dsn, TableNames, prefix)
+		tables := utils.New().QueryTables(Dsn, TableNames, prefix)
 		for _, t := range tables {
 			Generate(t)
 		}

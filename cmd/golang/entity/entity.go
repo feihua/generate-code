@@ -23,7 +23,7 @@ Cobra is a CLI library for Go that empowers applications.
 This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		tables := utils.QueryTables(Dsn, TableNames, prefix)
+		tables := utils.New().QueryTables(Dsn, TableNames, prefix)
 		for _, t := range tables {
 			Generate(t)
 		}

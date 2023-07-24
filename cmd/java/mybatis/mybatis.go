@@ -26,7 +26,7 @@ This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println("mybatis called")
-		tables := utils.QueryTables(Dsn, TableNames, prefix)
+		tables := utils.New().QueryTables(Dsn, TableNames, prefix)
 		var path = "generate/java"
 		for _, t := range tables {
 			Generate(t, "template/java/entity.tpl", path+"/entity", t.JavaName+"Bean.java")

@@ -10,7 +10,45 @@ use crate::model::entity::{ {{.JavaName}} };
 use crate::vo::handle_result;
 use crate::vo::{{.RustName}}_vo::{*};
 
+// 添加{{.Comment}}
+pub async fn {{.RustName}}_save(State(state): State<Arc<AppState>>, Json(item): Json<{{.JavaName}}SaveReq>) -> impl IntoResponse {
+    log::info!("{{.RustName}}_save params: {:?}", &item);
+    let mut rb = &state.batis;
 
+    let {{.RustName}} = {{.JavaName}} {
+
+    };
+
+    let result = {{.JavaName}}::insert(&mut rb, &{{.RustName}}).await;
+
+    Json(handle_result(result))
+}
+
+// 删除{{.Comment}}
+pub async fn {{.RustName}}_delete(State(state): State<Arc<AppState>>, Json(item): Json<{{.JavaName}}DeleteReq>) -> impl IntoResponse {
+    log::info!("{{.RustName}}_delete params: {:?}", &item);
+    let mut rb = &state.batis;
+
+    let result = {{.JavaName}}::delete_in_column(&mut rb, "id", &item.ids).await;
+
+    Json(handle_result(result))
+}
+
+// 更新{{.Comment}}
+pub async fn {{.RustName}}_update(State(state): State<Arc<AppState>>, Json(item): Json<{{.JavaName}}UpdateReq>) -> impl IntoResponse {
+    log::info!("{{.RustName}}_update params: {:?}", &item);
+    let mut rb = &state.batis;
+
+    let {{.RustName}} = {{.JavaName}} {
+
+    };
+
+    let result = {{.JavaName}}::update_by_column(&mut rb, &{{.RustName}}, "id").await;
+
+    Json(handle_result(result))
+}
+
+// 查询{{.Comment}}
 pub async fn {{.RustName}}_list(State(state): State<Arc<AppState>>, Json(item): Json<{{.JavaName}}ListReq>) -> impl IntoResponse {
     log::info!("{{.RustName}}_list params: {:?}", &item);
     let mut rb = &state.batis;
@@ -58,38 +96,3 @@ pub async fn {{.RustName}}_list(State(state): State<Arc<AppState>>, Json(item): 
     Json(resp)
 }
 
-pub async fn {{.RustName}}_save(State(state): State<Arc<AppState>>, Json(item): Json<{{.JavaName}}SaveReq>) -> impl IntoResponse {
-    log::info!("{{.RustName}}_save params: {:?}", &item);
-    let mut rb = &state.batis;
-
-    let {{.RustName}} = {{.JavaName}} {
-
-    };
-
-    let result = {{.JavaName}}::insert(&mut rb, &{{.RustName}}).await;
-
-    Json(handle_result(result))
-}
-
-pub async fn {{.RustName}}_update(State(state): State<Arc<AppState>>, Json(item): Json<{{.JavaName}}UpdateReq>) -> impl IntoResponse {
-    log::info!("{{.RustName}}_update params: {:?}", &item);
-    let mut rb = &state.batis;
-
-    let {{.RustName}} = {{.JavaName}} {
-
-    };
-
-    let result = {{.JavaName}}::update_by_column(&mut rb, &{{.RustName}}, "id").await;
-
-    Json(handle_result(result))
-}
-
-
-pub async fn {{.RustName}}_delete(State(state): State<Arc<AppState>>, Json(item): Json<{{.JavaName}}DeleteReq>) -> impl IntoResponse {
-    log::info!("{{.RustName}}_delete params: {:?}", &item);
-    let mut rb = &state.batis;
-
-    let result = {{.JavaName}}::delete_in_column(&mut rb, "id", &item.ids).await;
-
-    Json(handle_result(result))
-}

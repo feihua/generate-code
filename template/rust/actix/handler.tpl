@@ -7,7 +7,51 @@ use crate::model::entity::{ {{.JavaName}} };
 use crate::vo::handle_result;
 use crate::vo::{{.RustName}}_vo::{*};
 
+// 添加{{.Comment}}
+#[post("/{{.RustName}}_save")]
+pub async fn {{.RustName}}_save(item: web::Json<{{.JavaName}}SaveReq>, data: web::Data<AppState>) -> Result<impl Responder> {
+    log::info!("{{.RustName}}_save params: {:?}", &item);
+    let mut rb = &data.batis;
 
+    let req = item.0;
+
+    let {{.RustName}} = {{.JavaName}} {
+
+    };
+
+    let result = {{.JavaName}}::insert(&mut rb, &{{.RustName}}).await;
+
+    Ok(web::Json(handle_result(result)))
+}
+
+// 删除{{.Comment}}
+#[post("/{{.RustName}}_delete")]
+pub async fn {{.RustName}}_delete(item: web::Json<{{.JavaName}}DeleteReq>, data: web::Data<AppState>) -> Result<impl Responder> {
+    log::info!("{{.RustName}}_delete params: {:?}", &item);
+    let mut rb = &data.batis;
+
+    let result = {{.JavaName}}::delete_in_column(&mut rb, "id", &item.ids).await;
+
+    Ok(web::Json(handle_result(result)))
+}
+
+// 更新{{.Comment}}
+#[post("/{{.RustName}}_update")]
+pub async fn {{.RustName}}_update(item: web::Json<{{.JavaName}}UpdateReq>, data: web::Data<AppState>) -> Result<impl Responder> {
+    log::info!("{{.RustName}}_update params: {:?}", &item);
+    let mut rb = &data.batis;
+    let req = item.0;
+
+    let {{.RustName}} = {{.JavaName}} {
+
+    };
+
+    let result = {{.JavaName}}::update_by_column(&mut rb, &{{.RustName}}, "id").await;
+
+    Ok(web::Json(handle_result(result)))
+}
+
+// 查询{{.Comment}}
 #[post("/{{.RustName}}_list")]
 pub async fn {{.RustName}}_list(item: web::Json<{{.JavaName}}ListReq>, data: web::Data<AppState>) -> Result<impl Responder> {
     log::info!("{{.RustName}}_list params: {:?}", &item);
@@ -54,46 +98,4 @@ pub async fn {{.RustName}}_list(item: web::Json<{{.JavaName}}ListReq>, data: web
             };
 
     Ok(web::Json(resp))
-}
-
-#[post("/{{.RustName}}_save")]
-pub async fn {{.RustName}}_save(item: web::Json<{{.JavaName}}SaveReq>, data: web::Data<AppState>) -> Result<impl Responder> {
-    log::info!("{{.RustName}}_save params: {:?}", &item);
-    let mut rb = &data.batis;
-
-    let req = item.0;
-
-    let {{.RustName}} = {{.JavaName}} {
-
-    };
-
-    let result = {{.JavaName}}::insert(&mut rb, &{{.RustName}}).await;
-
-    Ok(web::Json(handle_result(result)))
-}
-
-#[post("/{{.RustName}}_update")]
-pub async fn {{.RustName}}_update(item: web::Json<{{.JavaName}}UpdateReq>, data: web::Data<AppState>) -> Result<impl Responder> {
-    log::info!("{{.RustName}}_update params: {:?}", &item);
-    let mut rb = &data.batis;
-    let req = item.0;
-
-    let {{.RustName}} = {{.JavaName}} {
-
-    };
-
-    let result = {{.JavaName}}::update_by_column(&mut rb, &{{.RustName}}, "id").await;
-
-    Ok(web::Json(handle_result(result)))
-}
-
-
-#[post("/{{.RustName}}_delete")]
-pub async fn {{.RustName}}_delete(item: web::Json<{{.JavaName}}DeleteReq>, data: web::Data<AppState>) -> Result<impl Responder> {
-    log::info!("{{.RustName}}_delete params: {:?}", &item);
-    let mut rb = &data.batis;
-
-    let result = {{.JavaName}}::delete_in_column(&mut rb, "id", &item.ids).await;
-
-    Ok(web::Json(handle_result(result)))
 }

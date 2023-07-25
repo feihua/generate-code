@@ -145,6 +145,8 @@ var ToRustType = map[string]string{
 	"char":      "String",
 	"datetime":  "FastDateTime",
 	"text":      "String",
+	"timestamp": "FastDateTime",
+	"decimal":   "i32",
 }
 var ToGoType = map[string]string{
 	"int":       "int32",

@@ -13,7 +13,9 @@ import (
 	"github.com/feihua/generate-code/cmd/java"
 	"github.com/feihua/generate-code/cmd/java/mybatis"
 	"github.com/feihua/generate-code/cmd/rust"
-	"github.com/feihua/generate-code/cmd/rust/vo"
+	"github.com/feihua/generate-code/cmd/rust/actix"
+	"github.com/feihua/generate-code/cmd/rust/axum"
+	"github.com/feihua/generate-code/cmd/rust/rocket"
 	"github.com/spf13/cobra"
 	"os"
 )
@@ -52,7 +54,9 @@ func init() {
 	golang.GoCmd.AddCommand(proto.Cmd)
 
 	RootCmd.AddCommand(rust.RustCmd)
-	rust.RustCmd.AddCommand(vo.VoCmd)
+	rust.RustCmd.AddCommand(axum.Cmd)
+	rust.RustCmd.AddCommand(actix.Cmd)
+	rust.RustCmd.AddCommand(rocket.Cmd)
 
 	RootCmd.AddCommand(java.JavaCmd)
 	java.JavaCmd.AddCommand(mybatis.Cmd)

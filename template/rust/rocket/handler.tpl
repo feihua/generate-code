@@ -15,16 +15,19 @@ pub async fn {{.RustName}}_list(item: Json<{{.JavaName}}ListReq>, _auth: Token) 
     log::info!("{{.RustName}}_list params: {:?}", &item);
     let mut rb = RB.to_owned();
 
-    let result = {{.JavaName}}::select_page(&mut rb, &PageRequest::new(1, 1000)).await;
+    let page = &PageRequest::new(item.page_no, item.page_size);
+    let result = {{.JavaName}}::select_page(&mut rb, page).await;
 
     match result {
         Ok(d) => {
             let total = d.total;
+            let page_no = d.page_no;
+            let page_size = d.page_size;
 
-            let mut {{.RustName}}_list: Vec<MenuListData> = Vec::new();
+            let mut {{.RustName}}_list: Vec<{{.JavaName}}ListData> = Vec::new();
 
             for x in d.records {
-                {{.RustName}}_list.push(MenuListData {
+                {{.RustName}}_list.push({{.JavaName}}ListData {
 
                 })
             }
@@ -32,6 +35,9 @@ pub async fn {{.RustName}}_list(item: Json<{{.JavaName}}ListReq>, _auth: Token) 
             json!(&{{.JavaName}}ListResp {
                 msg: "successful".to_string(),
                 code: 0,
+                page_no,
+                page_size,
+                success: true,
                 total,
                 data: Some({{.RustName}}_list),
             })

@@ -4,7 +4,7 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
 pub struct {{.JavaName}} {
-{{range .TableColumn}}    pub {{.RustName}}: Option<{{.RustType}}>,
+{{range .TableColumn}}    pub {{.RustName}}: {{if eq .IsNullable `YES` }}Option<{{.RustType}}> {{else}}{{.RustType}} {{end}},
 {{end}}
 }
 

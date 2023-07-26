@@ -9,7 +9,7 @@ import (
 	"github.com/feihua/generate-code/cmd/golang/entity"
 	"github.com/feihua/generate-code/cmd/golang/gf"
 	"github.com/feihua/generate-code/cmd/golang/gorm_entity"
-	"github.com/feihua/generate-code/cmd/golang/proto"
+	"github.com/feihua/generate-code/cmd/golang/zero"
 	"github.com/feihua/generate-code/cmd/java"
 	"github.com/feihua/generate-code/cmd/java/mybatis"
 	"github.com/feihua/generate-code/cmd/rust"
@@ -51,7 +51,7 @@ func init() {
 	golang.GoCmd.AddCommand(entity.Cmd)
 	golang.GoCmd.AddCommand(gorm_entity.Cmd)
 	golang.GoCmd.AddCommand(gf.Cmd)
-	golang.GoCmd.AddCommand(proto.Cmd)
+	golang.GoCmd.AddCommand(zero.Cmd)
 
 	RootCmd.AddCommand(rust.RustCmd)
 	rust.RustCmd.AddCommand(axum.Cmd)

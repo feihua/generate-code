@@ -27,7 +27,7 @@ to quickly create a Cobra application.`,
 		tables := utils.New().QueryTables(Dsn, TableNames, prefix)
 		var path = "generate/go/gf"
 		for _, t := range tables {
-			Generate(t, "template/go/gf/api.tpl", path+"/api/"+moduleName+"/v1")
+			Generate(t, "template/go/gf/zero.tpl", path+"/zero/"+moduleName+"/v1")
 			Generate(t, "template/go/gf/logic.tpl", path+"/logic/"+moduleName+"_"+t.GoName)
 			Generate(t, "template/go/gf/model.tpl", path+"/model")
 

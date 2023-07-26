@@ -55,8 +55,8 @@ message {{.JavaName}}FindOneReq {
 }
 
 message {{.JavaName}}FindOneResp {
-  {{range .TableColumn}}  {{.ProtoType}} {{.JavaName}} = {{.Sort}}; //{{.ColumnComment}}
-  {{end}}
+{{range .TableColumn}}  {{.ProtoType}} {{.JavaName}} = {{.Sort}}; //{{.ColumnComment}}
+{{end}}
 }
 
 service {{.JavaName}}Service {

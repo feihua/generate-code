@@ -28,27 +28,28 @@ to quickly create a Cobra application.`,
 		fmt.Println("mybatis called")
 		tables := utils.New().QueryTables(Dsn, TableNames, prefix)
 		var path = "generate/java"
+		var tPath = "template/java/mybatis"
 		for _, t := range tables {
-			Generate(t, "template/java/entity.tpl", path+"/entity", t.JavaName+"Bean.java")
-			Generate(t, "template/java/dao.tpl", path+"/dao", t.JavaName+"Dao.java")
-			Generate(t, "template/java/mapper.tpl", path+"/mapper", t.JavaName+"Mapper.xml")
-			Generate(t, "template/java/biz.tpl", path+"/biz", t.JavaName+"Biz.java")
-			Generate(t, "template/java/bizImpl.tpl", path+"/biz/impl", t.JavaName+"BizImpl.java")
-			Generate(t, "template/java/service.tpl", path+"/service", t.JavaName+"Service.java")
-			Generate(t, "template/java/serviceImpl.tpl", path+"/service/impl", t.JavaName+"ServiceImpl.java")
-			Generate(t, "template/java/ctrl.tpl", path+"/controller", t.JavaName+"Controller.java")
-			Generate(t, "template/java/result.tpl", path+"/vo", "Result.java")
-			Generate(t, "template/java/resultPage.tpl", path+"/vo", "ResultPage.java")
-			Generate(t, "template/java/enum.tpl", path+"/enums", "ResponseExceptionEnum.java")
+			Generate(t, tPath+"/entity/entity.tpl", path+"/entity", t.JavaName+"Bean.java")
+			Generate(t, tPath+"/dao/dao.tpl", path+"/dao", t.JavaName+"Dao.java")
+			Generate(t, tPath+"/mapper/mapper.tpl", path+"/mapper", t.JavaName+"Mapper.xml")
+			Generate(t, tPath+"/biz/biz.tpl", path+"/biz", t.JavaName+"Biz.java")
+			Generate(t, tPath+"/biz/bizImpl.tpl", path+"/biz/impl", t.JavaName+"BizImpl.java")
+			Generate(t, tPath+"/service/service.tpl", path+"/service", t.JavaName+"Service.java")
+			Generate(t, tPath+"/service/serviceImpl.tpl", path+"/service/impl", t.JavaName+"ServiceImpl.java")
+			Generate(t, tPath+"/ctrl/ctrl.tpl", path+"/controller", t.JavaName+"Controller.java")
+			Generate(t, tPath+"/vo/result.tpl", path+"/vo", "Result.java")
+			Generate(t, tPath+"/vo/resultPage.tpl", path+"/vo", "ResultPage.java")
+			Generate(t, tPath+"/enum/enum.tpl", path+"/enums", "ResponseExceptionEnum.java")
 
 			reqPath := path + "/vo/req"
-			Generate(t, "template/java/vo/req/addReq.tpl", reqPath, t.JavaName+"AddReqVo.java")
-			Generate(t, "template/java/vo/req/deleteReq.tpl", reqPath, t.JavaName+"DeleteReqVo.java")
-			Generate(t, "template/java/vo/req/updateReq.tpl", reqPath, t.JavaName+"UpdateReqVo.java")
-			Generate(t, "template/java/vo/req/req.tpl", reqPath, t.JavaName+"ReqVo.java")
-			Generate(t, "template/java/vo/req/listReq.tpl", reqPath, t.JavaName+"ListReqVo.java")
+			Generate(t, tPath+"/vo/req/addReq.tpl", reqPath, t.JavaName+"AddReqVo.java")
+			Generate(t, tPath+"/vo/req/deleteReq.tpl", reqPath, t.JavaName+"DeleteReqVo.java")
+			Generate(t, tPath+"/vo/req/updateReq.tpl", reqPath, t.JavaName+"UpdateReqVo.java")
+			Generate(t, tPath+"/vo/req/req.tpl", reqPath, t.JavaName+"ReqVo.java")
+			Generate(t, tPath+"/vo/req/listReq.tpl", reqPath, t.JavaName+"ListReqVo.java")
 
-			Generate(t, "template/java/vo/resp/resp.tpl", path+"/vo/resp", t.JavaName+"RespVo.java")
+			Generate(t, tPath+"/vo/resp/resp.tpl", path+"/vo/resp", t.JavaName+"RespVo.java")
 
 		}
 	},

@@ -27,7 +27,7 @@ to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println("mybatis called")
 		tables := utils.New().QueryTables(Dsn, TableNames, prefix)
-		var path = "generate/java"
+		var path = "generate/java/mybatis"
 		var tPath = "template/java/mybatis"
 		for _, t := range tables {
 			Generate(t, tPath+"/entity/entity.tpl", path+"/entity", t.JavaName+"Bean.java")

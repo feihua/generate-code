@@ -8,7 +8,6 @@
 .vscode/
 bin/
 **/.DS_Store
-main
 main.exe
 output/
 manifest/output/

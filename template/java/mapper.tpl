@@ -11,28 +11,6 @@
         {{.AllColumns}}
     </sql>
 
-    <select id="query{{.JavaName}}" parameterType="{{.PackageName}}.entity.{{.JavaName}}Bean" resultMap="BaseResultMap">
-        select
-        <include refid="Base_Column_List"/>
-        from {{.OriginalName}}
-        <where>{{range .TableColumn}}
-        <!--<if test="{{.JavaName}} != null">-->
-        <!--    and {{.ColumnName}} = #{ {{.JavaName}}}-->
-        <!--</if>-->{{end}}
-        </where>
-    </select>
-
-    <select id="query{{.JavaName}}List" parameterType="{{.PackageName}}.entity.{{.JavaName}}Bean" resultMap="BaseResultMap">
-        select
-        <include refid="Base_Column_List"/>
-        from {{.OriginalName}}
-        <where>{{range .TableColumn}}
-          <!--<if test="{{.JavaName}} != null">-->
-          <!--    and {{.ColumnName}} = #{ {{.JavaName}}}-->
-          <!--</if>-->{{end}}
-        </where>
-    </select>
-
     <insert id="save{{.JavaName}}" parameterType="{{.PackageName}}.entity.{{.JavaName}}Bean">
         insert into {{.OriginalName}}
         <trim prefix="(" suffix=")" suffixOverrides=",">{{range .TableColumn}}
@@ -69,4 +47,25 @@
         </where>
     </update>
 
+    <select id="query{{.JavaName}}" parameterType="{{.PackageName}}.entity.{{.JavaName}}Bean" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from {{.OriginalName}}
+        <where>{{range .TableColumn}}
+        <!--<if test="{{.JavaName}} != null">-->
+        <!--    and {{.ColumnName}} = #{ {{.JavaName}}}-->
+        <!--</if>-->{{end}}
+        </where>
+    </select>
+
+    <select id="query{{.JavaName}}List" parameterType="{{.PackageName}}.entity.{{.JavaName}}Bean" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from {{.OriginalName}}
+        <where>{{range .TableColumn}}
+          <!--<if test="{{.JavaName}} != null">-->
+          <!--    and {{.ColumnName}} = #{ {{.JavaName}}}-->
+          <!--</if>-->{{end}}
+        </where>
+    </select>
 </mapper>

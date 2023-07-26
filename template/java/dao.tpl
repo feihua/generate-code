@@ -14,26 +14,6 @@ import {{.PackageName}}.entity.{{.JavaName}}Bean;
 public interface {{.JavaName}}Dao {
 
    /**
-    * 查询{{.Comment}}
-    *
-    * @param {{.LowerJavaName}} 请求参数
-    * @return {{.JavaName}}
-    * @author {{.Author}}
-    * @date: {{.CreateTime}}
-    */
-   {{.JavaName}}Bean query{{.JavaName}}({{.JavaName}}Bean {{.LowerJavaName}});
-
-   /**
-    * 查询{{.Comment}}列表
-    *
-    * @param {{.LowerJavaName}} 请求参数
-    * @return List<{{.JavaName}}>
-    * @author {{.Author}}
-    * @date: {{.CreateTime}}
-    */
-   List<{{.JavaName}}Bean> query{{.JavaName}}List({{.JavaName}}Bean {{.LowerJavaName}});
-
-   /**
     * 添加{{.Comment}}
     *
     * @param {{.LowerJavaName}} 请求参数
@@ -62,5 +42,25 @@ public interface {{.JavaName}}Dao {
     * @date: {{.CreateTime}}
     */
    int update{{.JavaName}}({{.JavaName}}Bean {{.LowerJavaName}});
+
+   /**
+    * 查询{{.Comment}}
+    *
+    * @param {{.LowerJavaName}} 请求参数
+    * @return {{.JavaName}}
+    * @author {{.Author}}
+    * @date: {{.CreateTime}}
+    */
+   {{.JavaName}}Bean query{{.JavaName}}({{.JavaName}}Bean {{.LowerJavaName}});
+
+   /**
+    * 查询{{.Comment}}列表
+    *
+    * @param {{.LowerJavaName}} 请求参数
+    * @return List<{{.JavaName}}>
+    * @author {{.Author}}
+    * @date: {{.CreateTime}}
+    */
+   List<{{.JavaName}}Bean> query{{.JavaName}}List({{.JavaName}}Bean {{.LowerJavaName}});
 
 }

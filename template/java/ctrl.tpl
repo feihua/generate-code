@@ -37,34 +37,6 @@ public class {{.JavaName}}Controller {
    private {{.JavaName}}Service {{.LowerJavaName}}Service;
 
    /**
-    * 查询{{.Comment}}
-    *
-    * @param record 请求参数
-    * @return {{.JavaName}}Resp
-    * @author {{.Author}}
-    * @date: {{.CreateTime}}
-    */
-   @ApiOperation("查询{{.Comment}}")
-   @PostMapping("/query{{.JavaName}}")
-   public {{.JavaName}}RespVo query(@RequestBody @Valid {{.JavaName}}ReqVo record){
-       return {{.LowerJavaName}}Service.query{{.JavaName}}(record);
-   }
-
-   /**
-    * 查询{{.Comment}}列表
-    *
-    * @param record 请求参数
-    * @return {{.JavaName}}Resp
-    * @author {{.Author}}
-    * @date: {{.CreateTime}}
-    */
-   @ApiOperation("查询{{.Comment}}列表")
-   @PostMapping("/query{{.JavaName}}List")
-   public Result<ResultPage<{{.JavaName}}RespVo>> query{{.JavaName}}List(@RequestBody @Valid {{.JavaName}}ListReqVo record){
-        return Result.success({{.LowerJavaName}}Service.query{{.JavaName}}List(record));
-   }
-
-   /**
     * 添加{{.Comment}}
     *
     * @param record 请求参数
@@ -104,6 +76,34 @@ public class {{.JavaName}}Controller {
    @PostMapping("/update{{.JavaName}}")
    public Result<Integer> update{{.JavaName}}(@RequestBody @Valid {{.JavaName}}UpdateReqVo record){
         return Result.success({{.LowerJavaName}}Service.update{{.JavaName}}(record));
+   }
+
+   /**
+    * 查询{{.Comment}}
+    *
+    * @param record 请求参数
+    * @return {{.JavaName}}Resp
+    * @author {{.Author}}
+    * @date: {{.CreateTime}}
+    */
+   @ApiOperation("查询{{.Comment}}")
+   @PostMapping("/query{{.JavaName}}")
+   public {{.JavaName}}RespVo query(@RequestBody @Valid {{.JavaName}}ReqVo record){
+       return {{.LowerJavaName}}Service.query{{.JavaName}}(record);
+   }
+
+   /**
+    * 查询{{.Comment}}列表
+    *
+    * @param record 请求参数
+    * @return {{.JavaName}}Resp
+    * @author {{.Author}}
+    * @date: {{.CreateTime}}
+    */
+   @ApiOperation("查询{{.Comment}}列表")
+   @PostMapping("/query{{.JavaName}}List")
+   public Result<ResultPage<{{.JavaName}}RespVo>> query{{.JavaName}}List(@RequestBody @Valid {{.JavaName}}ListReqVo record){
+        return Result.success({{.LowerJavaName}}Service.query{{.JavaName}}List(record));
    }
 
 }

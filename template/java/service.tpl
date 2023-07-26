@@ -18,26 +18,6 @@ import {{.PackageName}}.vo.resp.{{.JavaName}}RespVo;
 public interface {{.JavaName}}Service {
 
    /**
-    * 查询{{.Comment}}
-    *
-    * @param {{.LowerJavaName}} 请求参数
-    * @return {{.JavaName}}Resp
-    * @author {{.Author}}
-    * @date: {{.CreateTime}}
-    */
-   {{.JavaName}}RespVo query{{.JavaName}}({{.JavaName}}ReqVo {{.LowerJavaName}});
-
-   /**
-    * 查询{{.Comment}}列表
-    *
-    * @param {{.LowerJavaName}} 请求参数
-    * @return ResultPage<{{.JavaName}}Resp>
-    * @author {{.Author}}
-    * @date: {{.CreateTime}}
-    */
-   ResultPage<{{.JavaName}}RespVo> query{{.JavaName}}List({{.JavaName}}ListReqVo {{.LowerJavaName}});
-
-   /**
     * 添加{{.Comment}}
     *
     * @param {{.LowerJavaName}} 请求参数
@@ -66,5 +46,25 @@ public interface {{.JavaName}}Service {
     * @date: {{.CreateTime}}
     */
    int update{{.JavaName}}({{.JavaName}}UpdateReqVo {{.LowerJavaName}});
+
+   /**
+    * 查询{{.Comment}}
+    *
+    * @param {{.LowerJavaName}} 请求参数
+    * @return {{.JavaName}}Resp
+    * @author {{.Author}}
+    * @date: {{.CreateTime}}
+    */
+   {{.JavaName}}RespVo query{{.JavaName}}({{.JavaName}}ReqVo {{.LowerJavaName}});
+
+   /**
+    * 查询{{.Comment}}列表
+    *
+    * @param {{.LowerJavaName}} 请求参数
+    * @return ResultPage<{{.JavaName}}Resp>
+    * @author {{.Author}}
+    * @date: {{.CreateTime}}
+    */
+   ResultPage<{{.JavaName}}RespVo> query{{.JavaName}}List({{.JavaName}}ListReqVo {{.LowerJavaName}});
 
 }

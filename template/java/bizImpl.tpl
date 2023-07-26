@@ -34,51 +34,6 @@ public class {{.JavaName}}BizImpl implements {{.JavaName}}Biz {
    private {{.JavaName}}Dao {{.LowerJavaName}}Dao;
 
    /**
-    * 查询{{.Comment}}
-    *
-    * @param {{.LowerJavaName}} 请求参数
-    * @return {{.JavaName}}Resp
-    * @author {{.Author}}
-    * @date: {{.CreateTime}}
-    */
-   @Override
-   public {{.JavaName}}RespVo query{{.JavaName}}({{.JavaName}}ReqVo {{.LowerJavaName}}){
-        {{.JavaName}}Bean bean = new {{.JavaName}}Bean();{{range .TableColumn}}
-        //bean.set{{.GoNamePublic}}({{.LowerJavaName}}.get{{.GoNamePublic}}());{{end}}
-
-        {{.JavaName}}Bean query = {{.LowerJavaName}}Dao.query{{.JavaName}}(bean);
-
-        return {{.JavaName}}RespVo.builder().build();
-   }
-
-   /**
-    * 查询{{.Comment}}列表
-    *
-    * @param {{.LowerJavaName}} 请求参数
-    * @return {{.JavaName}}Resp
-    * @author {{.Author}}
-    * @date: {{.CreateTime}}
-    */
-   @Override
-   public ResultPage<{{.JavaName}}RespVo> query{{.JavaName}}List({{.JavaName}}ListReqVo {{.LowerJavaName}}){
-        {{.JavaName}}Bean bean = new {{.JavaName}}Bean();{{range .TableColumn}}
-        //bean.set{{.GoNamePublic}}({{.LowerJavaName}}.get{{.GoNamePublic}}());{{end}}
-
-        PageHelper.startPage({{.LowerJavaName}}.getPageNum(), {{.LowerJavaName}}.getPageSize());
-	    List<{{.JavaName}}Bean> query = {{.LowerJavaName}}Dao.query{{.JavaName}}List(bean);
-        PageInfo<{{.JavaName}}Bean> pageInfo = new PageInfo<>(query);
-
-	    List<{{.JavaName}}RespVo> list = pageInfo.getList().stream().map(x -> {
-            {{.JavaName}}RespVo resp = new {{.JavaName}}RespVo();{{range .TableColumn}}
-            resp.set{{.GoNamePublic}}(x.get{{.GoNamePublic}}());{{end}}
-		   return resp;
-	    }).collect(Collectors.toList());
-
-        return new ResultPage<>(list,pageInfo.getPageNum(),pageInfo.getPageSize(),pageInfo.getTotal());
-
-   }
-
-   /**
     * 添加{{.Comment}}
     *
     * @param {{.LowerJavaName}} 请求参数
@@ -123,4 +78,48 @@ public class {{.JavaName}}BizImpl implements {{.JavaName}}Biz {
         return {{.LowerJavaName}}Dao.update{{.JavaName}}(bean);
    }
 
+   /**
+    * 查询{{.Comment}}
+    *
+    * @param {{.LowerJavaName}} 请求参数
+    * @return {{.JavaName}}Resp
+    * @author {{.Author}}
+    * @date: {{.CreateTime}}
+    */
+   @Override
+   public {{.JavaName}}RespVo query{{.JavaName}}({{.JavaName}}ReqVo {{.LowerJavaName}}){
+        {{.JavaName}}Bean bean = new {{.JavaName}}Bean();{{range .TableColumn}}
+        //bean.set{{.GoNamePublic}}({{.LowerJavaName}}.get{{.GoNamePublic}}());{{end}}
+
+        {{.JavaName}}Bean query = {{.LowerJavaName}}Dao.query{{.JavaName}}(bean);
+
+        return {{.JavaName}}RespVo.builder().build();
+   }
+
+   /**
+    * 查询{{.Comment}}列表
+    *
+    * @param {{.LowerJavaName}} 请求参数
+    * @return {{.JavaName}}Resp
+    * @author {{.Author}}
+    * @date: {{.CreateTime}}
+    */
+   @Override
+   public ResultPage<{{.JavaName}}RespVo> query{{.JavaName}}List({{.JavaName}}ListReqVo {{.LowerJavaName}}){
+        {{.JavaName}}Bean bean = new {{.JavaName}}Bean();{{range .TableColumn}}
+        //bean.set{{.GoNamePublic}}({{.LowerJavaName}}.get{{.GoNamePublic}}());{{end}}
+
+        PageHelper.startPage({{.LowerJavaName}}.getPageNum(), {{.LowerJavaName}}.getPageSize());
+	    List<{{.JavaName}}Bean> query = {{.LowerJavaName}}Dao.query{{.JavaName}}List(bean);
+        PageInfo<{{.JavaName}}Bean> pageInfo = new PageInfo<>(query);
+
+	    List<{{.JavaName}}RespVo> list = pageInfo.getList().stream().map(x -> {
+            {{.JavaName}}RespVo resp = new {{.JavaName}}RespVo();{{range .TableColumn}}
+            resp.set{{.GoNamePublic}}(x.get{{.GoNamePublic}}());{{end}}
+		   return resp;
+	    }).collect(Collectors.toList());
+
+        return new ResultPage<>(list,pageInfo.getPageNum(),pageInfo.getPageSize(),pageInfo.getTotal());
+
+   }
 }

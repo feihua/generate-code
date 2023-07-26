@@ -25,34 +25,6 @@ public class {{.JavaName}}ServiceImpl implements {{.JavaName}}Service {
    private {{.JavaName}}Biz {{.LowerJavaName}}Biz;
 
    /**
-    * 查询{{.Comment}}
-    *
-    * @param {{.LowerJavaName}} 请求参数
-    * @return {{.JavaName}}Resp
-    * @author {{.Author}}
-    * @date: {{.CreateTime}}
-    */
-   @Override
-   public {{.JavaName}}RespVo query{{.JavaName}}({{.JavaName}}ReqVo {{.LowerJavaName}}){
-
-       return {{.LowerJavaName}}Biz.query{{.JavaName}}({{.LowerJavaName}});
-   }
-
-   /**
-    * 查询{{.Comment}}列表
-    *
-    * @param {{.LowerJavaName}} 请求参数
-    * @return {{.JavaName}}Resp
-    * @author {{.Author}}
-    * @date: {{.CreateTime}}
-    */
-   @Override
-   public ResultPage<{{.JavaName}}RespVo> query{{.JavaName}}List({{.JavaName}}ListReqVo {{.LowerJavaName}}){
-
-        return {{.LowerJavaName}}Biz.query{{.JavaName}}List({{.LowerJavaName}});
-   }
-
-   /**
     * 添加{{.Comment}}
     *
     * @param {{.LowerJavaName}} 请求参数
@@ -91,6 +63,34 @@ public class {{.JavaName}}ServiceImpl implements {{.JavaName}}Service {
    public int update{{.JavaName}}({{.JavaName}}UpdateReqVo {{.LowerJavaName}}){
 
         return {{.LowerJavaName}}Biz.update{{.JavaName}}({{.LowerJavaName}});
+   }
+
+   /**
+    * 查询{{.Comment}}
+    *
+    * @param {{.LowerJavaName}} 请求参数
+    * @return {{.JavaName}}Resp
+    * @author {{.Author}}
+    * @date: {{.CreateTime}}
+    */
+   @Override
+   public {{.JavaName}}RespVo query{{.JavaName}}({{.JavaName}}ReqVo {{.LowerJavaName}}){
+
+       return {{.LowerJavaName}}Biz.query{{.JavaName}}({{.LowerJavaName}});
+   }
+
+   /**
+    * 查询{{.Comment}}列表
+    *
+    * @param {{.LowerJavaName}} 请求参数
+    * @return {{.JavaName}}Resp
+    * @author {{.Author}}
+    * @date: {{.CreateTime}}
+    */
+   @Override
+   public ResultPage<{{.JavaName}}RespVo> query{{.JavaName}}List({{.JavaName}}ListReqVo {{.LowerJavaName}}){
+
+        return {{.LowerJavaName}}Biz.query{{.JavaName}}List({{.LowerJavaName}});
    }
 
 }

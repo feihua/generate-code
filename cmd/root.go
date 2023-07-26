@@ -6,9 +6,8 @@ package cmd
 
 import (
 	"github.com/feihua/generate-code/cmd/golang"
-	"github.com/feihua/generate-code/cmd/golang/entity"
 	"github.com/feihua/generate-code/cmd/golang/gf"
-	"github.com/feihua/generate-code/cmd/golang/gorm_entity"
+	"github.com/feihua/generate-code/cmd/golang/gorm"
 	"github.com/feihua/generate-code/cmd/golang/zero"
 	"github.com/feihua/generate-code/cmd/java"
 	"github.com/feihua/generate-code/cmd/java/mybatis"
@@ -48,8 +47,7 @@ func Execute() {
 func init() {
 
 	RootCmd.AddCommand(golang.GoCmd)
-	golang.GoCmd.AddCommand(entity.Cmd)
-	golang.GoCmd.AddCommand(gorm_entity.Cmd)
+	golang.GoCmd.AddCommand(gorm.Cmd)
 	golang.GoCmd.AddCommand(gf.Cmd)
 	golang.GoCmd.AddCommand(zero.Cmd)
 

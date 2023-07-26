@@ -39,7 +39,7 @@ var PackageName string
 
 func init() {
 
-	//rust actix --dsn "root:ad879037-c7a4-4063-9236-6bfc35d54b7d@tcp(139.159.180.129:3306)/gozero" --tableNames sys_ --prefix sys_
+	//go run main.go rust actix --dsn "root:ad879037-c7a4-4063-9236-6bfc35d54b7d@tcp(139.159.180.129:3306)/gozero" --tableNames sys_ --prefix sys_
 	Cmd.Flags().StringVarP(&Dsn, "dsn", "", "", "请输入数据库的地址")
 	Cmd.Flags().StringVarP(&TableNames, "tableNames", "", "", "请输入表名称")
 	Cmd.Flags().StringVarP(&prefix, "prefix", "", "", "生成表时候去掉前缀")

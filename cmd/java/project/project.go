@@ -12,7 +12,6 @@ import (
 	"io/ioutil"
 	"os"
 	"text/template"
-	"time"
 )
 
 var Cmd = &cobra.Command{
@@ -26,9 +25,9 @@ This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println("mybatis called")
-		t := utils.Table{}
-		t.PackageName = groupId
-		t.ProjectName = artifactId
+		t := utils.Project{}
+		t.GroupId = groupId
+		t.ArtifactId = artifactId
 
 		var path = "generate/java/" + artifactId
 		var tPath = "template/java/project"
@@ -47,10 +46,9 @@ func init() {
 	Cmd.Flags().StringVarP(&groupId, "groupId", "", "", "请输入项目包名称")
 }
 
-func Generate(t utils.Table, tplName, path, fileName string) {
+func Generate(t utils.Project, tplName, path, fileName string) {
 	tpl, err := template.ParseFiles(tplName)
 
-	t.CreateTime = time.Now().Format("2006-01-02 15:04:05")
 	err = tpl.Execute(os.Stdout, t)
 	if err != nil {
 		fmt.Println(err)

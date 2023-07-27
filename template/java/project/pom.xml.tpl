@@ -9,8 +9,8 @@
         <version>2.1.8.RELEASE</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>{{.PackageName}}</groupId>
-    <artifactId>{{.ProjectName}}</artifactId>
+    <groupId>{{.GroupId}}</groupId>
+    <artifactId>{{.ArtifactId}}</artifactId>
     <packaging>pom</packaging>
     <version>0.0.1-SNAPSHOT</version>
 

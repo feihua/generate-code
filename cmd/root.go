@@ -10,6 +10,7 @@ import (
 	"github.com/feihua/generate-code/cmd/golang/gorm"
 	"github.com/feihua/generate-code/cmd/golang/zero"
 	"github.com/feihua/generate-code/cmd/java"
+	"github.com/feihua/generate-code/cmd/java/eureka"
 	"github.com/feihua/generate-code/cmd/java/gateway"
 	"github.com/feihua/generate-code/cmd/java/modules"
 	"github.com/feihua/generate-code/cmd/java/mybatis"
@@ -62,6 +63,7 @@ func init() {
 	RootCmd.AddCommand(java.JavaCmd)
 	java.JavaCmd.AddCommand(mybatis.Cmd)
 	java.JavaCmd.AddCommand(project.Cmd)
+	java.JavaCmd.AddCommand(eureka.Cmd)
 	java.JavaCmd.AddCommand(gateway.Cmd)
 	java.JavaCmd.AddCommand(modules.Cmd)
 

@@ -42,6 +42,7 @@ to quickly create a Cobra application.`,
 		Generate(t, "template/java/common/common.pom.xml.tpl", cPath, "pom.xml")
 
 		Generate(t, "template/java/common/enums/ResponseExceptionEnum.java.tpl", jPath+"/enums", "ResponseExceptionEnum.java")
+		Generate(t, "template/java/common/annotation/Log.java.tpl", jPath+"/annotation", "Log.java")
 		Generate(t, "template/java/common/utils/JsonUtils.java.tpl", jPath+"/utils", "JsonUtils.java")
 		Generate(t, "template/java/common/vo/Result.tpl", jPath+"/vo", "Result.java")
 		Generate(t, "template/java/common/vo/ResultPage.tpl", jPath+"/vo", "ResultPage.java")

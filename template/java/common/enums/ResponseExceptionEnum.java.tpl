@@ -6,7 +6,7 @@ import lombok.Getter;
 /**
  * 描述：统一返回枚举
  * 作者：{{.Author}}
- * 日期{{.CreateTime}}
+ * 日期: {{.CreateTime}}
  */
 @Getter
 @AllArgsConstructor

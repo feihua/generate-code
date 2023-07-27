@@ -61,10 +61,10 @@ func init() {
 	rust.RustCmd.AddCommand(rocket.Cmd)
 
 	RootCmd.AddCommand(java.JavaCmd)
-	java.JavaCmd.AddCommand(mybatis.Cmd)
 	java.JavaCmd.AddCommand(project.Cmd)
 	java.JavaCmd.AddCommand(eureka.Cmd)
 	java.JavaCmd.AddCommand(gateway.Cmd)
 	java.JavaCmd.AddCommand(modules.Cmd)
+	java.JavaCmd.AddCommand(mybatis.Cmd)
 
 }

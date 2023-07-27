@@ -25,7 +25,7 @@ import com.google.gson.internal.LinkedTreeMap;
 /**
  * 描述：SON格式化工具类(对象转JSON，JSON转对象)
  * 作者：{{.Author}}
- * 日期{{.CreateTime}}
+ * 日期: {{.CreateTime}}
  */
 public class JsonUtils {
 

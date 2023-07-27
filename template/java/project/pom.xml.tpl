@@ -15,7 +15,8 @@
     <version>0.0.1-SNAPSHOT</version>
 
     <modules>
-
+        <module>common-utils</module>
+        <module>common-service</module>
     </modules>
 
 

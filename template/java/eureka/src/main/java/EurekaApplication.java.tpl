@@ -1,4 +1,4 @@
-package com.transaction.demo.eureka;
+package {{.PackageName}};
 
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;

@@ -11,7 +11,9 @@ import (
 	"github.com/spf13/cobra"
 	"io/ioutil"
 	"os"
+	"strings"
 	"text/template"
+	"time"
 )
 
 var Cmd = &cobra.Command{
@@ -28,22 +30,36 @@ to quickly create a Cobra application.`,
 		t := utils.Project{}
 		t.GroupId = groupId
 		t.ArtifactId = artifactId
+		t.CreateTime = time.Now().Format("2006/01/02 15:04:05")
+		t.Author = author
 
 		var path = "generate/java/" + artifactId
 		var tPath = "template/java/project"
 		Generate(t, tPath+"/pom.xml.tpl", path, "pom.xml")
 
+		cPath := path + "/common-utils"
+		jPath := cPath + "/src/main/java/" + strings.ReplaceAll(groupId, ".", "/") + "/common"
+		Generate(t, "template/java/common/common.pom.xml.tpl", cPath, "pom.xml")
+
+		Generate(t, "template/java/common/enums/ResponseExceptionEnum.java.tpl", jPath+"/enums", "ResponseExceptionEnum.java")
+		Generate(t, "template/java/common/utils/JsonUtils.java.tpl", jPath+"/utils", "JsonUtils.java")
+		Generate(t, "template/java/common/vo/Result.tpl", jPath+"/vo", "Result.java")
+		Generate(t, "template/java/common/vo/ResultPage.tpl", jPath+"/vo", "ResultPage.java")
+
+		Generate(t, "template/java/service/service.pom.xml.tpl", "generate/java/"+artifactId+"/common-service", "pom.xml")
 	},
 }
 
 var artifactId string
 var groupId string
+var author string
 
 func init() {
 
-	//go run main.go java project --artifactId uaf-devops-test --groupId com.demo
+	//go run main.go java project --artifactId uaf-devops-test --groupId com.demo --author 刘飞华
 	Cmd.Flags().StringVarP(&artifactId, "artifactId", "", "", "请输入项目名称")
 	Cmd.Flags().StringVarP(&groupId, "groupId", "", "", "请输入项目包名称")
+	Cmd.Flags().StringVarP(&author, "author", "", "", "请输入作者")
 }
 
 func Generate(t utils.Project, tplName, path, fileName string) {

@@ -37,8 +37,8 @@ import {{.GroupId}}.common.utils.JsonUtils;
  * 作者：{{.Author}}
  * 日期：{{.CreateTime}}
  */
-@Aspect
-@Component
+//@Aspect
+//@Component
 @Slf4j
 public class LogAspect {
 

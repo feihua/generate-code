@@ -38,8 +38,8 @@ to quickly create a Cobra application.`,
 			Generate(t, tPath+"/service/service.tpl", path+"/service", t.JavaName+"Service.java")
 			Generate(t, tPath+"/service/serviceImpl.tpl", path+"/service/impl", t.JavaName+"ServiceImpl.java")
 			Generate(t, tPath+"/ctrl/ctrl.tpl", path+"/controller", t.JavaName+"Controller.java")
-			Generate(t, tPath+"/vo/result.tpl", path+"/vo", "Result.java")
-			Generate(t, tPath+"/vo/resultPage.tpl", path+"/vo", "ResultPage.java")
+			//Generate(t, tPath+"/vo/result.tpl", path+"/vo", "Result.java")
+			//Generate(t, tPath+"/vo/resultPage.tpl", path+"/vo", "ResultPage.java")
 			Generate(t, tPath+"/enum/enum.tpl", path+"/enums", "ResponseExceptionEnum.java")
 
 			reqPath := path + "/vo/req"
@@ -60,16 +60,18 @@ var TableNames string
 var prefix string
 var PackageName string
 var Author string
+var groupId string
 
 func init() {
 
-	//go run main.go java mybatis --dsn "root:ad879037-c7a4-4063-9236-6bfc35d54b7d@tcp(139.159.180.129:3306)/gozero" --tableNames sys_ --prefix sys_ --packageName com.demo.test --author liufeihua
+	//go run main.go java mybatis --dsn "root:ad879037-c7a4-4063-9236-6bfc35d54b7d@tcp(139.159.180.129:3306)/gozero" --tableNames sys_ --prefix sys_  --groupId com.demo --packageName com.demo.test --author liufeihua
 	Cmd.Flags().StringVarP(&Dsn, "dsn", "", "", "请输入数据库的地址")
 	Cmd.Flags().StringVarP(&TableNames, "tableNames", "", "", "请输入表名称")
 	Cmd.Flags().StringVarP(&prefix, "prefix", "", "", "生成表时候去掉前缀")
 
 	Cmd.Flags().StringVarP(&PackageName, "packageName", "", "", "请输入包名称")
 	Cmd.Flags().StringVarP(&Author, "author", "", "", "请输入作者名称")
+	Cmd.Flags().StringVarP(&groupId, "groupId", "", "", "请输入作者名称")
 }
 
 func Generate(t utils.Table, tplName, path, fileName string) {
@@ -79,6 +81,7 @@ func Generate(t utils.Table, tplName, path, fileName string) {
 	t.PackageName = PackageName
 	t.Author = Author
 	t.CreateTime = time.Now().Format("2006-01-02 15:04:05")
+	t.GroupId = groupId
 	err = tpl.Execute(os.Stdout, t)
 	if err != nil {
 		fmt.Println(err)

@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import {{.PackageName}}.entity.{{.JavaName}}Bean;
-import {{.PackageName}}.vo.ResultPage;
+import {{.GroupId}}.common.vo.ResultPage;
 import {{.PackageName}}.vo.req.{{.JavaName}}ReqVo;
 import {{.PackageName}}.vo.req.{{.JavaName}}ListReqVo;
 import {{.PackageName}}.vo.req.{{.JavaName}}AddReqVo;

@@ -22,6 +22,7 @@ type Table struct {
 	PackageName       string        ` gorm:"-"`                                        //生成java的时候,包的名称
 	Author            string        ` gorm:"-"`                                        //生成java的时候,作者的名称
 	CreateTime        string        ` gorm:"-"`                                        //生成java代码的时间
+	GroupId           string        ` gorm:"-"`                                        //生成java代码的common包目录
 	AllColumns        string        ` gorm:"-"`                                        //生成xml的时候用
 }
 
@@ -40,6 +41,7 @@ type TableColumn struct {
 	GoType        string ` gorm:"-"`                                         //go字段的类型   string
 	ProtoType     string ` gorm:"-"`                                         //生成proto的时候用  string
 	JavaType      string ` gorm:"-"`                                         //java字段的类型 String
+	JdbcType      string ` gorm:"-"`                                         //jdbc字段的类型 String
 	RustName      string ` gorm:"-"`                                         //rust字段的名称 nick_name
 	GoName        string ` gorm:"-"`                                         //go字段的名称 nick_name
 	GoNamePublic  string ` gorm:"-"`                                         //go公开字段的名称 NickName
@@ -118,6 +120,7 @@ func QueryTableColumns(dsn, TableName, lowerJavaName string) ([]TableColumn, str
 		column.GoType = ToGoType[column.DataType]
 		column.ProtoType = ToProtoType[column.DataType]
 		column.JavaType = ToJavaType[column.DataType]
+		column.JdbcType = ToJdbcType[column.DataType]
 		column.RustName = column.ColumnName
 		column.GoName = column.ColumnName
 		column.GoNamePublic = UnderScoreToUpperCamelCase(column.ColumnName)
@@ -197,6 +200,23 @@ var ToJavaType = map[string]string{
 	"decimal":   "int",
 	"timestamp": "Date",
 	"text":      "String",
+}
+
+var ToJdbcType = map[string]string{
+	"int":       "INTEGER",
+	"tinyint":   "TINYINT",
+	"smallint":  "SMALLINT",
+	"integer":   "INTEGER",
+	"double":    "DOUBLE",
+	"bigint":    "BIGINT",
+	"varchar":   "VARCHAR",
+	"char":      "CHAR",
+	"datetime":  "TIMESTAMP",
+	"decimal":   "DECIMAL",
+	"timestamp": "TIMESTAMP",
+	"text":      "VARCHAR",
+	"date":      "DATE",
+	"time":      "TIME",
 }
 
 // UnderScoreToUpperCamelCase 下划线单词转为大写驼峰单词

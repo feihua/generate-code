@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import {{.PackageName}}.vo.Result;
-import {{.PackageName}}.vo.ResultPage;
+import {{.GroupId}}.common.vo.Result;
+import {{.GroupId}}.common.vo.ResultPage;
 import {{.PackageName}}.vo.req.{{.JavaName}}ReqVo;
 import {{.PackageName}}.vo.req.{{.JavaName}}ListReqVo;
 import {{.PackageName}}.vo.req.{{.JavaName}}AddReqVo;

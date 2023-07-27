@@ -3,7 +3,7 @@
     <mapper namespace="{{.PackageName}}.dao.{{.JavaName}}Dao">
 
     <resultMap id="BaseResultMap" type="{{.PackageName}}.entity.{{.JavaName}}Bean">
-    {{range .TableColumn}}  <result column="{{.ColumnName}}" property="{{.JavaName}}" jdbcType="{{.JavaType}}"/>
+    {{range .TableColumn}}  <result column="{{.ColumnName}}" property="{{.JavaName}}" jdbcType="{{.JdbcType}}"/>
     {{end}}
     </resultMap>
 
@@ -20,7 +20,7 @@
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">{{range .TableColumn}}
             <if test="{{.JavaName}} != null">
-                #{ {{.JavaName}},jdbcType={{.JavaType}} },
+                #{ {{.JavaName}},jdbcType={{.JdbcType}} },
             </if>{{end}}
         </trim>
     </insert>
@@ -37,7 +37,7 @@
         update {{.OriginalName}}
         <set>{{range .TableColumn}}
             <if test="{{.JavaName}} != null">
-                {{.ColumnName}} = #{ {{.JavaName}},jdbcType={{.JavaType}}},
+                {{.ColumnName}} = #{ {{.JavaName}},jdbcType={{.JdbcType}}},
             </if>{{end}}
         </set>
         <where> {{range .TableColumn}}

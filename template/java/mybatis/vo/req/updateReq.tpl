@@ -26,7 +26,7 @@ import lombok.NoArgsConstructor;
 @ApiModel("{{.Comment}}请求updateVo")
 public class {{.JavaName}}UpdateReqVo implements Serializable {
 
-{{range .TableColumn}}	@ApiModelProperty("{{.ColumnComment}}")
+{{range .TableColumn}}	@ApiModelProperty(value = "{{.ColumnComment}}", required = true)
 	//@NotBlank(message = "{{.JavaName}}{{.ColumnComment}}不能为空")
 	private {{.JavaType}} {{.JavaName}};
 

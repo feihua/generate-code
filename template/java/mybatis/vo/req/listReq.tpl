@@ -27,16 +27,16 @@ import lombok.NoArgsConstructor;
 @ApiModel("{{.Comment}}请求listVo")
 public class {{.JavaName}}ListReqVo implements Serializable {
 
-    @ApiModelProperty("当前页")
+    @ApiModelProperty(value = "当前页", required = true)
     @NotNull(message = "pageNum当前页不能为空")
     @Min(value=1,message = "pageNum当前页不能小于1")
     private Integer pageNum;
 
-    @ApiModelProperty("每页的数量")
+    @ApiModelProperty(value = "每页的数量", required = true)
     @NotNull(message = "pageSize每页的数量不能为空")
     private Integer pageSize;
 
-{{range .TableColumn}}	@ApiModelProperty("{{.ColumnComment}}")
+{{range .TableColumn}}	@ApiModelProperty(value = "{{.ColumnComment}}")
 	//@NotBlank(message = "{{.JavaName}}{{.ColumnComment}}不能为空")
 	private {{.JavaType}} {{.JavaName}};
 

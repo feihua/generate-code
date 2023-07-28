@@ -200,6 +200,7 @@ var ToJavaType = map[string]string{
 	"decimal":   "int",
 	"timestamp": "Date",
 	"text":      "String",
+	"longtext":  "String",
 }
 
 var ToJdbcType = map[string]string{
@@ -215,6 +216,7 @@ var ToJdbcType = map[string]string{
 	"decimal":   "DECIMAL",
 	"timestamp": "TIMESTAMP",
 	"text":      "VARCHAR",
+	"longtext":  "VARCHAR",
 	"date":      "DATE",
 	"time":      "TIME",
 }

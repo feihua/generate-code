@@ -12,7 +12,7 @@ import java.lang.annotation.Target;
  */
 @Target({ ElementType.PARAMETER, ElementType.METHOD })
 @Retention(RetentionPolicy.RUNTIME)
-public @interface SystemControllerLog {
+public @interface Log {
 
 	/**
 	 * 描述业务操作 例:Xxx管理-执行Xxx操作

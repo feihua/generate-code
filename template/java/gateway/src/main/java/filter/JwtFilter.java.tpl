@@ -51,6 +51,13 @@ public class JwtFilter implements GlobalFilter {
 			return chain.filter(exchange);
 		}
 
+        //登录的时候用下面代码生成token
+        //Map<String, Object> claims = new HashMap<>();
+        //claims.put("userId", user.getUserId());
+        //claims.put("userName", user.getUserName());
+        //claims.put("permissions", interfacePaths);
+        //String token = Jwts.builder().setClaims(claims).setExpiration(new Date(System.currentTimeMillis() + 243600_000))
+        //		.signWith(SignatureAlgorithm.HS512, baseConfig.jwtSecretKey).compact();
 		HttpHeaders headers = exchange.getRequest().getHeaders();
 		String token = headers.getFirst("Authorization");
 		if (!StringUtils.hasText(token) || !token.startsWith("Bearer ")) {

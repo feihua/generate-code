@@ -4,8 +4,8 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
 pub struct {{.JavaName}} {
-{{range .TableColumn}}    pub {{.RustName}}: {{if eq .IsNullable `YES` }}Option<{{.RustType}}> {{else}}{{.RustType}} {{end}},
-{{end}}
+{{range .TableColumn}}    pub {{.RustName}}: {{if eq .IsNullable `YES` }}Option<{{.RustType}}>{{else if eq .RustType `DateTime`}}Option<{{.RustType}}>{{else}}{{.RustType}}{{end}},
+{{end}
 }
 
 rbatis::crud!({{.JavaName}} {});

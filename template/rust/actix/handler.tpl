@@ -16,7 +16,8 @@ pub async fn {{.RustName}}_save(item: web::Json<{{.JavaName}}SaveReq>, data: web
     let req = item.0;
 
     let {{.RustName}} = {{.JavaName}} {
-
+    {{range .TableColumn}}    {{.RustName}}: req.{{.RustName}},
+    {{end}}
     };
 
     let result = {{.JavaName}}::insert(&mut rb, &{{.RustName}}).await;
@@ -43,7 +44,8 @@ pub async fn {{.RustName}}_update(item: web::Json<{{.JavaName}}UpdateReq>, data:
     let req = item.0;
 
     let {{.RustName}} = {{.JavaName}} {
-
+    {{range .TableColumn}}    {{.RustName}}: req.{{.RustName}},
+    {{end}}
     };
 
     let result = {{.JavaName}}::update_by_column(&mut rb, &{{.RustName}}, "id").await;
@@ -70,7 +72,8 @@ pub async fn {{.RustName}}_list(item: web::Json<{{.JavaName}}ListReq>, data: web
 
                     for x in d.records {
                         {{.RustName}}_list.push({{.JavaName}}ListData {
-
+                            {{range .TableColumn}}    {{.RustName}}: {{if eq .IsNullable `YES` }}x.{{.RustName}}.unwrap_or_default(){{else if eq .RustType `DateTime`}}x.{{.RustName}}.unwrap().0.to_string(){{else}}x.{{.RustName}}{{end}},
+                            {{end}}
                         })
                     }
 

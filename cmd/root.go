@@ -19,6 +19,7 @@ import (
 	"github.com/feihua/generate-code/cmd/rust/actix"
 	"github.com/feihua/generate-code/cmd/rust/axum"
 	"github.com/feihua/generate-code/cmd/rust/rocket"
+	"github.com/feihua/generate-code/cmd/rust/salvo"
 	"github.com/spf13/cobra"
 	"os"
 )
@@ -59,6 +60,7 @@ func init() {
 	rust.RustCmd.AddCommand(axum.Cmd)
 	rust.RustCmd.AddCommand(actix.Cmd)
 	rust.RustCmd.AddCommand(rocket.Cmd)
+	rust.RustCmd.AddCommand(salvo.Cmd)
 
 	RootCmd.AddCommand(java.JavaCmd)
 	java.JavaCmd.AddCommand(project.Cmd)

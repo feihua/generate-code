@@ -146,9 +146,9 @@ var ToRustType = map[string]string{
 	"set":       "String",
 	"varchar":   "String",
 	"char":      "String",
-	"datetime":  "FastDateTime",
+	"datetime":  "DateTime",
 	"text":      "String",
-	"timestamp": "FastDateTime",
+	"timestamp": "DateTime",
 	"decimal":   "i32",
 }
 var ToGoType = map[string]string{

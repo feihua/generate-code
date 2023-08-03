@@ -6,7 +6,7 @@ use rbatis::rbdc::datetime::FastDateTime;
 use rbatis::sql::{PageRequest};
 use crate::{AppState};
 
-use crate::model::entity::{ {{.JavaName}} };
+use crate::model::{{.RustName}}::{ {{.JavaName}} };
 use crate::vo::handle_result;
 use crate::vo::{{.RustName}}_vo::{*};
 

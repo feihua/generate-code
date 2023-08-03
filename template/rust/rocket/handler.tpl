@@ -3,7 +3,7 @@ use rocket::serde::json::{Json, Value};
 use rbatis::rbdc::datetime::FastDateTime;
 use rbatis::sql::{PageRequest};
 
-use crate::model::entity::{ {{.JavaName}} };
+use crate::model::{{.RustName}}::{ {{.JavaName}} };
 use crate::RB;
 use crate::utils::auth::Token;
 use crate::vo::handle_result;

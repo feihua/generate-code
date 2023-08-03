@@ -31,6 +31,7 @@ pub struct {{.JavaName}}ListReq {
 pub struct {{.JavaName}}ListResp {
     pub msg: String,
     pub code: i32,
+    pub success: bool,
     pub total: u64,
     pub data: Option<Vec<{{.JavaName}}ListData>>,
 }

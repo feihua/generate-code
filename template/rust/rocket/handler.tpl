@@ -1,6 +1,6 @@
 use rocket::serde::json::serde_json::json;
 use rocket::serde::json::{Json, Value};
-use rbatis::rbdc::datetime::FastDateTime;
+use rbatis::rbdc::datetime::DateTime;
 use rbatis::sql::{PageRequest};
 
 use crate::model::{{.RustName}}::{ {{.JavaName}} };

@@ -2,7 +2,7 @@ use std::sync::Arc;
 use axum::extract::State;
 use axum::Json;
 use axum::response::IntoResponse;
-use rbatis::rbdc::datetime::FastDateTime;
+use rbatis::rbdc::datetime::DateTime;
 use rbatis::sql::{PageRequest};
 use crate::{AppState};
 

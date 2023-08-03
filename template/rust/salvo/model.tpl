@@ -11,7 +11,7 @@ pub struct {{.JavaName}} {
 rbatis::crud!({{.JavaName}} {},"{{.OriginalName}}");
 impl_select_page!({{.JavaName}}{select_page() =>"
      if !sql.contains('count'):
-       order by gmt_create desc"
+       order by create_time desc"
 },"{{.OriginalName}}");
 
 impl_select_page!({{.JavaName}}{select_page_by_name(name:&str) =>"

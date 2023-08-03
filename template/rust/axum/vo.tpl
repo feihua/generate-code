@@ -2,7 +2,7 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Deserialize)]
 pub struct {{.JavaName}}SaveReq {
-{{range .TableColumn}}    pub {{.RustName}}: {{if eq .IsNullable `YES` }}Option<{{.RustType}}>{{else if eq .RustType `DateTime`}}Option<{{.RustType}}>{{else}}{{.RustType}}{{end}},
+{{range .TableColumn}}    {{if ne .RustType `DateTime`}}pub {{.RustName}}: {{if eq .IsNullable `YES` }}Option<{{.RustType}}>{{else}}{{.RustType}}{{end}},{{end}}
 {{end}}
 }
 
@@ -13,7 +13,7 @@ pub struct {{.JavaName}}DeleteReq {
 
 #[derive(Debug, Deserialize)]
 pub struct {{.JavaName}}UpdateReq {
-{{range .TableColumn}}    pub {{.RustName}}: {{if eq .IsNullable `YES` }}Option<{{.RustType}}>{{else if eq .RustType `DateTime`}}Option<{{.RustType}}>{{else}}{{.RustType}}{{end}},
+{{range .TableColumn}}    {{if ne .RustType `DateTime`}}pub {{.RustName}}: {{if eq .IsNullable `YES` }}Option<{{.RustType}}>{{else}}{{.RustType}}{{end}},{{end}}
 {{end}}
 }
 
@@ -23,7 +23,7 @@ pub struct {{.JavaName}}ListReq {
     pub page_no: u64,
     #[serde(rename = "pageSize")]
     pub page_size: u64,
-{{range .TableColumn}}    pub {{.RustName}}: Option<{{.RustType}}>,
+{{range .TableColumn}}    {{if ne .RustType `DateTime`}}pub {{.RustName}}: Option<{{.RustType}}>,{{end}}
 {{end}}
 }
 

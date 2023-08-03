@@ -26,6 +26,7 @@ pub async fn {{.RustName}}_save(req: &mut Request, res: &mut Response) {
 }
 
 // 删除{{.Comment}}
+#[handler]
 pub async fn {{.RustName}}_delete(req: &mut Request, res: &mut Response) {
     let item = req.parse_json::<{{.JavaName}}DeleteReq>().await.unwrap();
     log::info!("{{.RustName}}_delete params: {:?}", &item);
@@ -36,6 +37,7 @@ pub async fn {{.RustName}}_delete(req: &mut Request, res: &mut Response) {
 }
 
 // 更新{{.Comment}}
+#[handler]
 pub async fn {{.RustName}}_update(req: &mut Request, res: &mut Response) {
     let item = req.parse_json::<{{.JavaName}}UpdateReq>().await.unwrap();
     log::info!("{{.RustName}}_update params: {:?}", &item);

@@ -7,7 +7,7 @@ use rbatis::sql::{PageRequest};
 use crate::{AppState};
 
 use crate::model::{{.RustName}}::{ {{.JavaName}} };
-use crate::vo::handle_result;
+use crate::vo::{err_result_page, handle_result, ok_result_page};
 use crate::vo::{{.RustName}}_vo::{*};
 
 // 添加{{.Comment}}
@@ -16,7 +16,7 @@ pub async fn {{.RustName}}_save(State(state): State<Arc<AppState>>, Json(item): 
     let mut rb = &state.batis;
 
     let {{.RustName}} = {{.JavaName}} {
-    {{range .TableColumn}}    {{.RustName}}: item.{{.RustName}},
+    {{range .TableColumn}}    {{.RustName}}: {{if eq .ColumnKey `PRI`}}None{{else if eq .RustType `DateTime`}}Some(DateTime::now()){{else}}item.{{.RustName}}{{end}},
     {{end}}
     };
 
@@ -41,7 +41,7 @@ pub async fn {{.RustName}}_update(State(state): State<Arc<AppState>>, Json(item)
     let mut rb = &state.batis;
 
     let {{.RustName}} = {{.JavaName}} {
-    {{range .TableColumn}}    {{.RustName}}: item.{{.RustName}},
+    {{range .TableColumn}}    {{.RustName}}: {{if eq .RustType `DateTime`}}Some(DateTime::now()){{else}}item.{{.RustName}}{{end}},
     {{end}}
     };
 
@@ -58,44 +58,24 @@ pub async fn {{.RustName}}_list(State(state): State<Arc<AppState>>, Json(item): 
     let page=&PageRequest::new(item.page_no, item.page_size);
     let result = {{.JavaName}}::select_page(&mut rb, page).await;
 
-    let resp = match result {
-            Ok(d) => {
-                let total = d.total;
-                let page_no = d.page_no;
-                let page_size = d.page_size;
+    let mut {{.RustName}}_list_data: Vec<{{.JavaName}}ListData> = Vec::new();
+    match result {
+        Ok(d) => {
+            let total = d.total;
 
-                let mut {{.RustName}}_list: Vec<{{.JavaName}}ListData> = Vec::new();
-
-                for x in d.records {
-                    {{.RustName}}_list.push({{.JavaName}}ListData {
-                        {{range .TableColumn}}    {{.RustName}}: {{if eq .IsNullable `YES` }}x.{{.RustName}}.unwrap_or_default(){{else if eq .RustType `DateTime`}}x.{{.RustName}}.unwrap().0.to_string(){{else}}x.{{.RustName}}{{end}},
-                        {{end}}
-                    })
-                }
-
-                {{.JavaName}}ListResp {
-                    msg: "successful".to_string(),
-                    code: 0,
-                    page_no,
-                    page_size,
-                    success: true,
-                    total,
-                    data: Some({{.RustName}}_list),
-                }
+            for x in d.records {
+                {{.RustName}}_list_data.push({{.JavaName}}ListData {
+                    {{range .TableColumn}}    {{.RustName}}: {{if eq .IsNullable `YES` }}x.{{.RustName}}.unwrap_or_default(){{else if eq .RustType `DateTime`}}x.{{.RustName}}.unwrap().0.to_string(){{else}}x.{{.RustName}}{{end}},
+                    {{end}}
+                })
             }
-            Err(err) => {
-                {{.JavaName}}ListResp {
-                    msg: err.to_string(),
-                    code: 1,
-                    page_no: 0,
-                    page_size: 0,
-                    success: true,
-                    total: 0,
-                    data: None,
-                }
-            }
-        };
 
-    Json(resp)
+            Json(ok_result_page({{.RustName}}_list_data, total))
+        }
+        Err(err) => {
+            Json(err_result_page({{.RustName}}_list_data, err.to_string()))
+        }
+    }
+
 }
 

@@ -13,7 +13,7 @@ pub struct {{.JavaName}}DeleteReq {
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct {{.JavaName}}UpdateReq {
-{{range .TableColumn}}    pub {{.RustName}}: {{if eq .IsNullable `YES` }}Option<{{.RustType}}>{{else if eq .RustType `DateTime`}}Option<{{.RustType}}>{{else}}{{.RustType}}{{end}},
+{{range .TableColumn}}    {{if ne .RustType `DateTime`}}pub {{.RustName}}: {{if eq .IsNullable `YES` }}Option<{{.RustType}}>{{else if eq .ColumnKey `PRI`}}Option<{{.RustType}}>{{else}}{{.RustType}}{{end}},{{end}}
 {{end}}
 }
 
@@ -28,16 +28,7 @@ pub struct {{.JavaName}}ListReq {
 }
 
 #[derive(Debug, Serialize, Deserialize)]
-pub struct {{.JavaName}}ListResp {
-    pub msg: String,
-    pub code: i32,
-    pub success: bool,
-    pub total: u64,
-    pub data: Option<Vec<{{.JavaName}}ListData>>,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
 pub struct {{.JavaName}}ListData {
-{{range .TableColumn}}    pub {{.RustName}}: {{if eq .RustType `DateTime`}}String{{else}}{{.RustType}}{{end}},
+{{range .TableColumn}}    pub {{.RustName}}: {{if eq .RustType `DateTime`}}String{{else if eq .ColumnKey `PRI`}}Option<{{.RustType}}>{{else}}{{.RustType}}{{end}},
 {{end}}
 }

@@ -6,7 +6,7 @@ use rbatis::sql::{PageRequest};
 use crate::model::{{.RustName}}::{ {{.JavaName}} };
 use crate::RB;
 use crate::utils::auth::Token;
-use crate::vo::handle_result;
+use crate::vo::{err_result_page, handle_result, ok_result_page};
 use crate::vo::{{.RustName}}_vo::{*};
 
 // 添加{{.Comment}}
@@ -18,7 +18,7 @@ pub async fn {{.RustName}}_save(item: Json<{{.JavaName}}SaveReq>, _auth: Token) 
     let req = item.0;
 
     let {{.RustName}} = {{.JavaName}} {
-    {{range .TableColumn}}    {{.RustName}}: req.{{.RustName}},
+    {{range .TableColumn}}    {{.RustName}}: {{if eq .ColumnKey `PRI`}}None{{else if eq .RustType `DateTime`}}Some(DateTime::now()){{else}}req.{{.RustName}}{{end}},
     {{end}}
     };
 
@@ -46,7 +46,7 @@ pub async fn {{.RustName}}_update(item: Json<{{.JavaName}}UpdateReq>, _auth: Tok
     let req = item.0;
 
     let {{.RustName}} = {{.JavaName}} {
-    {{range .TableColumn}}    {{.RustName}}: req.{{.RustName}},
+    {{range .TableColumn}}    {{.RustName}}: {{if eq .RustType `DateTime`}}Some(DateTime::now()){{else}}req.{{.RustName}}{{end}},
     {{end}}
     };
 
@@ -61,36 +61,26 @@ pub async fn {{.RustName}}_list(item: Json<{{.JavaName}}ListReq>, _auth: Token) 
     log::info!("{{.RustName}}_list params: {:?}", &item);
     let mut rb = RB.to_owned();
 
-    let page = &PageRequest::new(item.page_no, item.page_size);
+    let page = &PageRequest::new(item.page_no.clone(), item.page_size.clone());
     let result = {{.JavaName}}::select_page(&mut rb, page).await;
 
     match result {
         Ok(d) => {
             let total = d.total;
-            let page_no = d.page_no;
-            let page_size = d.page_size;
 
-            let mut {{.RustName}}_list: Vec<{{.JavaName}}ListData> = Vec::new();
+            let mut {{.RustName}}_list_data: Vec<{{.JavaName}}ListData> = Vec::new();
 
             for x in d.records {
-                {{.RustName}}_list.push({{.JavaName}}ListData {
+                {{.RustName}}_list_data.push({{.JavaName}}ListData {
                     {{range .TableColumn}}    {{.RustName}}: {{if eq .IsNullable `YES` }}x.{{.RustName}}.unwrap_or_default(){{else if eq .RustType `DateTime`}}x.{{.RustName}}.unwrap().0.to_string(){{else}}x.{{.RustName}}{{end}},
                     {{end}}
                 })
             }
 
-            json!(&{{.JavaName}}ListResp {
-                msg: "successful".to_string(),
-                code: 0,
-                page_no,
-                page_size,
-                success: true,
-                total,
-                data: Some({{.RustName}}_list),
-            })
+            json!(ok_result_page({{.RustName}}_list_data, total))
         }
         Err(err) => {
-            json!({"code":1,"msg":err.to_string()})
+            json!(err_result_page(err.to_string()))
         }
     }
 }

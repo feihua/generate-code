@@ -38,7 +38,12 @@ to quickly create a Cobra application.`,
 			Generate(t, tPath+"/biz/bizImpl.tpl", path+"/biz/impl", t.JavaName+"BizImpl.java")
 			Generate(t, tPath+"/service/service.tpl", path+"/service", t.JavaName+"Service.java")
 			Generate(t, tPath+"/service/serviceImpl.tpl", path+"/service/impl", t.JavaName+"ServiceImpl.java")
-			Generate(t, tPath+"/ctrl/ctrl.tpl", path+"/controller", t.JavaName+"Controller.java")
+			if swaggerVersion == 2 {
+				Generate(t, tPath+"/ctrl/ctrl.tpl", path+"/controller", t.JavaName+"Controller.java")
+			} else {
+				Generate(t, tPath+"/openapi/ctrl.tpl", path+"/controller", t.JavaName+"Controller.java")
+			}
+
 			//Generate(t, tPath+"/vo/result.tpl", path+"/vo", "Result.java")
 			//Generate(t, tPath+"/vo/resultPage.tpl", path+"/vo", "ResultPage.java")
 			Generate(t, tPath+"/enum/enum.tpl", path+"/enums", "ResponseExceptionEnum.java")

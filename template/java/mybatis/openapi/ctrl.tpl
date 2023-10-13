@@ -1,20 +1,23 @@
 package {{.PackageName}}.controller;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-
-import java.util.Map;
-
-import javax.validation.Valid;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import jakarta.validation.Valid;
 
 import {{.GroupId}}.common.vo.Result;
 import {{.GroupId}}.common.vo.ResultPage;
+import {{.PackageName}}.annotation.OperateLog;
 import {{.PackageName}}.vo.req.{{.JavaName}}ReqVo;
 import {{.PackageName}}.vo.req.{{.JavaName}}ListReqVo;
 import {{.PackageName}}.vo.req.{{.JavaName}}AddReqVo;
@@ -28,7 +31,7 @@ import {{.PackageName}}.service.{{.JavaName}}Service;
  * 作者：{{.Author}}
  * 日期：{{.CreateTime}}
  */
-@Api(tags = "{{.Comment}}")
+@Tag(name = "{{.Comment}}")
 @RestController
 @RequestMapping("/{{.LowerJavaName}}")
 public class {{.JavaName}}Controller {
@@ -44,8 +47,9 @@ public class {{.JavaName}}Controller {
     * @author {{.Author}}
     * @date: {{.CreateTime}}
     */
-   @ApiOperation("添加{{.Comment}}")
+   @Operation(summary = "添加{{.Comment}}")
    @PostMapping("/save{{.JavaName}}")
+   @OperateLog(description = "【{{.Comment}}】添加{{.Comment}}")
    public Result<Integer> save{{.JavaName}}(@RequestBody @Valid {{.JavaName}}AddReqVo record){
         return Result.success({{.LowerJavaName}}Service.save{{.JavaName}}(record));
    }
@@ -58,8 +62,9 @@ public class {{.JavaName}}Controller {
     * @author {{.Author}}
     * @date: {{.CreateTime}}
     */
-   @ApiOperation("删除{{.Comment}}")
-   @PostMapping("/delete{{.JavaName}}")
+   @Operation(summary = "删除{{.Comment}}")
+   @DeleteMapping("/delete{{.JavaName}}")
+   @OperateLog(description = "【{{.Comment}}】删除{{.Comment}}")
    public Result<Integer> delete{{.JavaName}}(@RequestBody @Valid {{.JavaName}}DeleteReqVo record){
         return Result.success({{.LowerJavaName}}Service.delete{{.JavaName}}(record));
    }
@@ -72,8 +77,9 @@ public class {{.JavaName}}Controller {
     * @author {{.Author}}
     * @date: {{.CreateTime}}
     */
-   @ApiOperation("更新{{.Comment}}")
-   @PostMapping("/update{{.JavaName}}")
+   @Operation(summary = "更新{{.Comment}}")
+   @PutMapping("/update{{.JavaName}}")
+   @OperateLog(description = "【{{.Comment}}】更新{{.Comment}}")
    public Result<Integer> update{{.JavaName}}(@RequestBody @Valid {{.JavaName}}UpdateReqVo record){
         return Result.success({{.LowerJavaName}}Service.update{{.JavaName}}(record));
    }
@@ -86,8 +92,9 @@ public class {{.JavaName}}Controller {
     * @author {{.Author}}
     * @date: {{.CreateTime}}
     */
-   @ApiOperation("查询{{.Comment}}")
+   @Operation(summary = "查询{{.Comment}}")
    @PostMapping("/query{{.JavaName}}")
+   @OperateLog(description = "【{{.Comment}}】查询{{.Comment}}")
    public {{.JavaName}}RespVo query(@RequestBody @Valid {{.JavaName}}ReqVo record){
        return {{.LowerJavaName}}Service.query{{.JavaName}}(record);
    }
@@ -100,8 +107,9 @@ public class {{.JavaName}}Controller {
     * @author {{.Author}}
     * @date: {{.CreateTime}}
     */
-   @ApiOperation("查询{{.Comment}}列表")
+   @Operation(summary = "查询{{.Comment}}列表")
    @PostMapping("/query{{.JavaName}}List")
+   @OperateLog(description = "【{{.Comment}}】查询{{.Comment}}列表")
    public Result<ResultPage<{{.JavaName}}RespVo>> query{{.JavaName}}List(@RequestBody @Valid {{.JavaName}}ListReqVo record){
         return Result.success({{.LowerJavaName}}Service.query{{.JavaName}}List(record));
    }

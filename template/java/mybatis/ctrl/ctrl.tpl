@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import {{.GroupId}}.common.vo.Result;
 import {{.GroupId}}.common.vo.ResultPage;
+import {{.PackageName}}.annotation.OperateLog;
 import {{.PackageName}}.vo.req.{{.JavaName}}ReqVo;
 import {{.PackageName}}.vo.req.{{.JavaName}}ListReqVo;
 import {{.PackageName}}.vo.req.{{.JavaName}}AddReqVo;
@@ -46,6 +47,7 @@ public class {{.JavaName}}Controller {
     */
    @ApiOperation("添加{{.Comment}}")
    @PostMapping("/save{{.JavaName}}")
+   @OperateLog(description = "【{{.Comment}}】添加{{.Comment}}")
    public Result<Integer> save{{.JavaName}}(@RequestBody @Valid {{.JavaName}}AddReqVo record){
         return Result.success({{.LowerJavaName}}Service.save{{.JavaName}}(record));
    }
@@ -59,7 +61,8 @@ public class {{.JavaName}}Controller {
     * @date: {{.CreateTime}}
     */
    @ApiOperation("删除{{.Comment}}")
-   @PostMapping("/delete{{.JavaName}}")
+   @DeleteMapping("/delete{{.JavaName}}")
+   @OperateLog(description = "【{{.Comment}}】删除{{.Comment}}")
    public Result<Integer> delete{{.JavaName}}(@RequestBody @Valid {{.JavaName}}DeleteReqVo record){
         return Result.success({{.LowerJavaName}}Service.delete{{.JavaName}}(record));
    }
@@ -73,7 +76,8 @@ public class {{.JavaName}}Controller {
     * @date: {{.CreateTime}}
     */
    @ApiOperation("更新{{.Comment}}")
-   @PostMapping("/update{{.JavaName}}")
+   @PutMapping("/update{{.JavaName}}")
+   @OperateLog(description = "【{{.Comment}}】更新{{.Comment}}")
    public Result<Integer> update{{.JavaName}}(@RequestBody @Valid {{.JavaName}}UpdateReqVo record){
         return Result.success({{.LowerJavaName}}Service.update{{.JavaName}}(record));
    }
@@ -88,6 +92,7 @@ public class {{.JavaName}}Controller {
     */
    @ApiOperation("查询{{.Comment}}")
    @PostMapping("/query{{.JavaName}}")
+   @OperateLog(description = "【{{.Comment}}】查询{{.Comment}}")
    public {{.JavaName}}RespVo query(@RequestBody @Valid {{.JavaName}}ReqVo record){
        return {{.LowerJavaName}}Service.query{{.JavaName}}(record);
    }
@@ -102,6 +107,7 @@ public class {{.JavaName}}Controller {
     */
    @ApiOperation("查询{{.Comment}}列表")
    @PostMapping("/query{{.JavaName}}List")
+   @OperateLog(description = "【{{.Comment}}】查询{{.Comment}}列表")
    public Result<ResultPage<{{.JavaName}}RespVo>> query{{.JavaName}}List(@RequestBody @Valid {{.JavaName}}ListReqVo record){
         return Result.success({{.LowerJavaName}}Service.query{{.JavaName}}List(record));
    }

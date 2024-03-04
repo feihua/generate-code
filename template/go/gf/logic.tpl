@@ -1,11 +1,17 @@
 package assetmanager_approval_record
 
+/*
+{{.Comment}}相关逻辑
+Author: {{.Author}}
+Date: {{.CreateTime}}
+*/
+
 import (
 	"context"
 	"github.com/gogf/gf/v2/util/gconv"
-	"{{.ProjectName}}/internal/dao"
-	"{{.ProjectName}}/internal/model"
-	"{{.ProjectName}}/internal/service"
+	"github.com/feihua/{{.ProjectName}}/internal/dao"
+	"github.com/feihua/{{.ProjectName}}/internal/model"
+	"github.com/feihua/{{.ProjectName}}/internal/service"
 )
 
 type s{{.JavaName}} struct {
@@ -19,10 +25,10 @@ func New() *s{{.JavaName}} {
 	return &s{{.JavaName}}{}
 }
 
-// Add 添加待办任务
-func (s *s{{.JavaName}}) Add(ctx context.Context, in model.{{.JavaName}}AddInput) (*model.{{.JavaName}}AddOutput, error) {
+// Add{{.JavaName}} 添加{{.Comment}}
+func (s *s{{.JavaName}}) Add{{.JavaName}}(ctx context.Context, in model.Add{{.JavaName}}Input) (*model.Add{{.JavaName}}Output, error) {
 
-	out := &model.{{.JavaName}}AddOutput{}
+	out := &model.Add{{.JavaName}}Output{}
 
 	_, err := dao.{{.UpperOriginalName}}.Ctx(ctx).Data(in).Insert()
 	if err != nil {
@@ -32,10 +38,10 @@ func (s *s{{.JavaName}}) Add(ctx context.Context, in model.{{.JavaName}}AddInput
 	return out, nil
 }
 
-// Delete 删除待办任务
-func (s *s{{.JavaName}}) Delete(ctx context.Context, in model.{{.JavaName}}DeleteInput) (*model.{{.JavaName}}DeleteOutput, error) {
+// Delete{{.JavaName}} 删除{{.Comment}}
+func (s *s{{.JavaName}}) Delete{{.JavaName}}(ctx context.Context, in model.Delete{{.JavaName}}Input) (*model.Delete{{.JavaName}}Output, error) {
 
-	out := &model.{{.JavaName}}DeleteOutput{}
+	out := &model.Delete{{.JavaName}}Output{}
 
 	_, err := dao.{{.UpperOriginalName}}.Ctx(ctx).WhereIn("id", in.Ids).Delete()
 	if err != nil {
@@ -45,10 +51,10 @@ func (s *s{{.JavaName}}) Delete(ctx context.Context, in model.{{.JavaName}}Delet
 	return out, nil
 }
 
-// Update 更新待办任务
-func (s *s{{.JavaName}}) Update(ctx context.Context, in model.{{.JavaName}}UpdateInput) (*model.{{.JavaName}}UpdateOutput, error) {
+// Update{{.JavaName}} 更新{{.Comment}}
+func (s *s{{.JavaName}}) Update{{.JavaName}}(ctx context.Context, in model.Update{{.JavaName}}Input) (*model.Update{{.JavaName}}Output, error) {
 
-	out := &model.{{.JavaName}}UpdateOutput{}
+	out := &model.Update{{.JavaName}}Output{}
 
 	_, err := dao.{{.UpperOriginalName}}.Ctx(ctx).Data(in).Where("id", in.{{.JavaName}}Id).Update()
 	if err != nil {
@@ -58,8 +64,8 @@ func (s *s{{.JavaName}}) Update(ctx context.Context, in model.{{.JavaName}}Updat
 	return out, nil
 }
 
-// Record 查询单条待办任务
-func (s *s{{.JavaName}}) Record(ctx context.Context, in model.{{.JavaName}}Input) (*model.{{.JavaName}}Output, error) {
+// Record{{.JavaName}} 查询单条{{.Comment}}
+func (s *s{{.JavaName}}) Record{{.JavaName}}(ctx context.Context, in model.{{.JavaName}}Input) (*model.{{.JavaName}}Output, error) {
 
 	out := &model.{{.JavaName}}Output{}
 
@@ -76,10 +82,10 @@ func (s *s{{.JavaName}}) Record(ctx context.Context, in model.{{.JavaName}}Input
 	return out, nil
 }
 
-// List 查询待办任务
-func (s *s{{.JavaName}}) List(ctx context.Context, in model.{{.JavaName}}ListInput) (*model.{{.JavaName}}ListOutput, error) {
+// Query{{.JavaName}}List 查询{{.Comment}}
+func (s *s{{.JavaName}}) Query{{.JavaName}}List(ctx context.Context, in model.Query{{.JavaName}}ListInput) (*model.Query{{.JavaName}}ListOutput, error) {
 
-	out := &model.{{.JavaName}}ListOutput{
+	out := &model.Query{{.JavaName}}ListOutput{
 		PageNum:  in.PageNum,
 		PageSize: in.PageSize,
 	}

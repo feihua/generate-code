@@ -1,6 +1,5 @@
 /*
 Copyright © 2023 NAME HERE <EMAIL ADDRESS>
-
 */
 package gf
 
@@ -12,6 +11,7 @@ import (
 	"os"
 	"strings"
 	"text/template"
+	"time"
 )
 
 var Cmd = &cobra.Command{
@@ -45,15 +45,18 @@ var TableNames string
 var prefix string
 var moduleName string
 var projectName string
+var author string
 
 func init() {
-	//main.exe golang gf --dsn "root:ad879037-c7a4-4063-9236-6bfc35d54b7d@tcp(139.159.180.129:3306)/gozero" --tableNames sys_ --prefix sys_ --moduleName base --projectName uaf-devops-project
+	//main.exe golang gf --dsn "root:oMbPi5munxCsBSsiLoPV@tcp(110.41.179.89:3306)/hertzdb" --tableNames sys_ --prefix sys_ --moduleName system --projectName gf-admin --author koobe
 	Cmd.Flags().StringVarP(&Dsn, "dsn", "", "", "请输入数据库的地址")
 	Cmd.Flags().StringVarP(&TableNames, "tableNames", "", "", "请输入表名称")
 	Cmd.Flags().StringVarP(&prefix, "prefix", "", "", "生成表时候去掉前缀")
 
 	Cmd.Flags().StringVarP(&moduleName, "moduleName", "", "base", "请输入模块名称")
 	Cmd.Flags().StringVarP(&projectName, "projectName", "", "test", "请输入项目名称")
+
+	Cmd.Flags().StringVarP(&author, "author", "", "", "请输入作者")
 }
 
 func Generate(t utils.Table, tplName, path string) error {
@@ -61,6 +64,8 @@ func Generate(t utils.Table, tplName, path string) error {
 
 	t.ModuleName = moduleName
 	t.ProjectName = projectName
+	t.CreateTime = time.Now().Format("2006-01-02 15:04:05")
+	t.Author = author
 	err = tpl.Execute(os.Stdout, t)
 	if err != nil {
 		return err
@@ -82,16 +87,16 @@ func Generate(t utils.Table, tplName, path string) error {
 	}
 
 	if strings.Contains(tplName, "ctrl_add") {
-		fileName = moduleName + "_v1_" + fileName + "_add"
+		fileName = moduleName + "_v1_add_" + fileName
 	}
 	if strings.Contains(tplName, "ctrl_delete") {
-		fileName = moduleName + "_v1_" + fileName + "_delete"
+		fileName = moduleName + "_v1_delete_" + fileName
 	}
 	if strings.Contains(tplName, "ctrl_update") {
-		fileName = moduleName + "_v1_" + fileName + "_update"
+		fileName = moduleName + "_v1_update_" + fileName
 	}
 	if strings.Contains(tplName, "ctrl_list") {
-		fileName = moduleName + "_v1_" + fileName + "_list"
+		fileName = moduleName + "_v1_query_" + fileName + "_list"
 	}
 
 	return ioutil.WriteFile(path+string(os.PathSeparator)+fileName+".go", buf.Bytes(), 0755)

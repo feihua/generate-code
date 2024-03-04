@@ -1,26 +1,33 @@
 package {{.ModuleName}}
 
+/*
+// 更新{{.Comment}}
+Author: {{.Author}}
+Date: {{.CreateTime}}
+*/
+
 import (
 	"context"
 	"github.com/gogf/gf/v2/util/gconv"
-	"{{.ProjectName}}/internal/model"
-	"{{.ProjectName}}/internal/service"
+	"github.com/feihua/{{.ProjectName}}/internal/model"
+	"github.com/feihua/{{.ProjectName}}/internal/service"
 
-	"{{.ProjectName}}/api/{{.ModuleName}}/v1"
+	"github.com/feihua/{{.ProjectName}}/api/{{.ModuleName}}/v1"
 )
 
-func (c *ControllerV1) {{.JavaName}}Update(ctx context.Context, req *v1.{{.JavaName}}UpdateReq) (res *v1.{{.JavaName}}UpdateRes, err error) {
-	var input = model.{{.JavaName}}UpdateInput{}
+// Update{{.JavaName}} 更新{{.Comment}}
+func (c *ControllerV1) Update{{.JavaName}}(ctx context.Context, req *v1.Update{{.JavaName}}Req) (res *v1.Update{{.JavaName}}Res, err error) {
+	var input = model.Update{{.JavaName}}Input{}
 	err = gconv.Struct(req, &input)
 	if err != nil {
 		return nil, err
 	}
-	_, err = service.{{.JavaName}}().Update(ctx, input)
+	_, err = service.{{.JavaName}}().Update{{.JavaName}}(ctx, input)
 	if err != nil {
 		return nil, err
 	}
 
-	res = &v1.{{.JavaName}}UpdateRes{}
+	res = &v1.Update{{.JavaName}}Res{}
 
 	return
 }

@@ -1,26 +1,33 @@
 package {{.ModuleName}}
 
+/*
+// 添加{{.Comment}}
+Author: {{.Author}}
+Date: {{.CreateTime}}
+*/
+
 import (
 	"context"
 	"github.com/gogf/gf/v2/util/gconv"
-	"{{.ProjectName}}/internal/model"
-	"{{.ProjectName}}/internal/service"
+	"github.com/feihua/{{.ProjectName}}/internal/model"
+	"github.com/feihua/{{.ProjectName}}/internal/service"
 
-	"{{.ProjectName}}/api/{{.ModuleName}}/v1"
+	"github.com/feihua/{{.ProjectName}}/api/{{.ModuleName}}/v1"
 )
 
-func (c *ControllerV1) {{.JavaName}}Add(ctx context.Context, req *v1.{{.JavaName}}AddReq) (res *v1.{{.JavaName}}AddRes, err error) {
-	var input = model.{{.JavaName}}AddInput{}
+// Add{{.JavaName}} 添加{{.Comment}}
+func (c *ControllerV1) Add{{.JavaName}}(ctx context.Context, req *v1.Add{{.JavaName}}Req) (res *v1.Add{{.JavaName}}Res, err error) {
+	var input = model.Add{{.JavaName}}Input{}
 	err = gconv.Struct(req, &input)
 	if err != nil {
 		return nil, err
 	}
-	_, err = service.{{.JavaName}}().Add(ctx, input)
+	_, err = service.{{.JavaName}}().Add{{.JavaName}}(ctx, input)
 	if err != nil {
 		return nil, err
 	}
 
-	res = &v1.{{.JavaName}}AddRes{}
+	res = &v1.Add{{.JavaName}}Res{}
 
 	return
 }

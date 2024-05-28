@@ -5,16 +5,40 @@ info(
 )
 
 type (
-	add{{.JavaName}}Req {
+    // 添加{{.Comment}}
+	Add{{.JavaName}}Req {
     {{range .TableColumn}}    {{.GoNamePublic}} {{if eq .GoType `time.Time`}}string{{else}}{{.GoType}}{{end}} `json:"{{.JavaName}}"` //{{.ColumnComment}}
     {{end}}}
-	add{{.JavaName}}Resp {
+	Add{{.JavaName}}Resp {
 		Code    string `json:"code"`
 		Message string `json:"message"`
 	}
+
+    // 删除{{.Comment}}
+	Delete{{.JavaName}}Req {
+        Ids []int64 `form:"ids"`
+    }
+    Delete{{.JavaName}}Resp {
+        Code    string `json:"code"`
+        Message string `json:"message"`
+    }
+
+    // 更新{{.Comment}}
+    Update{{.JavaName}}Req {
+    {{range .TableColumn}}    {{.GoNamePublic}} {{if eq .GoType `time.Time`}}string{{else}}{{.GoType}}{{end}} `json:"{{.JavaName}}"` //{{.ColumnComment}}
+    {{end}}
+    }
+    Update{{.JavaName}}Resp {
+        Code    string `json:"code"`
+        Message string `json:"message"`
+    }
+
+    // 分页查询{{.Comment}}列表
 	List{{.JavaName}}Req {
-		Current         int64  `json:"current,default=1"`
-		PageSize        int64  `json:"pageSize,default=20"`
+		Current         int64  `form:"current,default=1"`
+		PageSize        int64  `form:"pageSize,default=20"`
+    {{range .TableColumn}}    {{.GoNamePublic}} {{if eq .GoType `time.Time`}}string{{else}}{{.GoType}}{{end}} `form:"{{.JavaName}},optional"` //{{.ColumnComment}}
+    {{end}}
 	}
 	List{{.JavaName}}Data {
     {{range .TableColumn}}    {{.GoNamePublic}} {{if eq .GoType `time.Time`}}string{{else}}{{.GoType}}{{end}} `json:"{{.JavaName}}"` //{{.ColumnComment}}
@@ -29,21 +53,6 @@ type (
 		Success  bool                `json:"success"`
 		Total    int64               `json:"total"`
 	}
-	Update{{.JavaName}}Req {
-    {{range .TableColumn}}    {{.GoNamePublic}} {{if eq .GoType `time.Time`}}string{{else}}{{.GoType}}{{end}} `json:"{{.JavaName}}"` //{{.ColumnComment}}
-    {{end}}
-	}
-	Update{{.JavaName}}Resp {
-		Code    string `json:"code"`
-		Message string `json:"message"`
-	}
-	Delete{{.JavaName}}Req {
-		Ids []int64 `json:"ids"`
-	}
-	Delete{{.JavaName}}Resp {
-		Code    string `json:"code"`
-		Message string `json:"message"`
-	}
 )
 
 @server(
@@ -51,15 +60,20 @@ type (
 	prefix: /api/demo/{{.LowerJavaName}}
 )
 service admin-api {
-	@handler {{.JavaName}}Add
-	post /add (add{{.JavaName}}Req) returns (add{{.JavaName}}Resp)
-	
-	@handler {{.JavaName}}List
-	post /list (List{{.JavaName}}Req) returns (List{{.JavaName}}Resp)
-	
-	@handler {{.JavaName}}Update
-	post /update (Update{{.JavaName}}Req) returns (Update{{.JavaName}}Resp)
-	
-	@handler {{.JavaName}}Delete
-	post /delete (Delete{{.JavaName}}Req) returns (Delete{{.JavaName}}Resp)
+    // 添加{{.Comment}}
+	@handler Add{{.JavaName}}
+	post /add{{.JavaName}} (Add{{.JavaName}}Req) returns (Add{{.JavaName}}Resp)
+
+	// 删除{{.Comment}}
+	@handler Delete{{.JavaName}}
+    get /delete{{.JavaName}} (Delete{{.JavaName}}Req) returns (Delete{{.JavaName}}Resp)
+
+    // 更新{{.Comment}}
+    @handler Update{{.JavaName}}
+    post /update{{.JavaName}} (Update{{.JavaName}}Req) returns (Update{{.JavaName}}Resp)
+
+    // 分页查询{{.Comment}}列表
+	@handler Query{{.JavaName}}List
+	get /query{{.JavaName}}List (List{{.JavaName}}Req) returns (List{{.JavaName}}Resp)
+
 }

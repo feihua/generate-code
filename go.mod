@@ -1,11 +1,11 @@
 module github.com/feihua/generate-code
 
-go 1.18
+go 1.22
 
 require (
-	github.com/spf13/cobra v1.7.0
-	gorm.io/driver/mysql v1.5.1
-	gorm.io/gorm v1.25.2
+	github.com/spf13/cobra v1.8.0
+	gorm.io/driver/mysql v1.5.6
+	gorm.io/gorm v1.25.9
 )
 
 require (

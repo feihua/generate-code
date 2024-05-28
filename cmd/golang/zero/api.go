@@ -1,6 +1,5 @@
 /*
 Copyright © 2023 NAME HERE <EMAIL ADDRESS>
-
 */
 package zero
 
@@ -40,7 +39,7 @@ var Author string
 
 func init() {
 
-	//golang zero --dsn "root:ad879037-c7a4-4063-9236-6bfc35d54b7d@tcp(139.159.180.129:3306)/gozero" --tableNames sys_ --prefix sys_ --author koobe
+	//go run main.go golang zero --dsn "root:oMbPi5munxCsBSsiLoPV@tcp(110.41.179.89:3306)/zero-sys" --tableNames sys_ --prefix sys_ --author liufeihua
 	Cmd.Flags().StringVarP(&Dsn, "dsn", "", "", "请输入数据库的地址")
 	Cmd.Flags().StringVarP(&TableNames, "tableNames", "", "", "请输入表名称")
 	Cmd.Flags().StringVarP(&prefix, "prefix", "", "", "生成表时候去掉前缀")

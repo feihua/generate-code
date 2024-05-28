@@ -4,7 +4,7 @@ package main;
 
 option go_package = "./proto";
 
-// 添加用户管理
+// 添加{{.Comment}}
 message {{.JavaName}}AddReq {
 {{range .TableColumn}}  {{.ProtoType}} {{.GoNamePublic}} = {{.Sort}}; //{{.ColumnComment}}
 {{end}}
@@ -16,7 +16,7 @@ message {{.JavaName}}AddResp {
 
 // 删除{{.Comment}}
 message {{.JavaName}}DeleteReq {
-  int64 id = 1;
+  repeated int64 ids = 1;
 }
 
 message {{.JavaName}}DeleteResp {
@@ -33,7 +33,18 @@ message {{.JavaName}}UpdateResp {
   string pong = 1;
 }
 
-// 查询{{.Comment}}
+// 查询单条{{.Comment}}记录
+message {{.JavaName}}Req {
+{{range .TableColumn}}  {{.ProtoType}} {{.JavaName}} = {{.Sort}}; //{{.ColumnComment}}
+{{end}}
+}
+
+message {{.JavaName}}Resp {
+{{range .TableColumn}}  {{.ProtoType}} {{.JavaName}} = {{.Sort}}; //{{.ColumnComment}}
+{{end}}
+}
+
+// 分页查询{{.Comment}}列表
 message {{.JavaName}}ListReq {
 {{range .TableColumn}}  {{.ProtoType}} {{.JavaName}} = {{.Sort}}; //{{.ColumnComment}}
 {{end}}
@@ -49,25 +60,18 @@ message {{.JavaName}}ListResp {
   repeated  {{.JavaName}}ListData list = 2;
 }
 
-// 根据条件查询单条{{.Comment}}记录
-message {{.JavaName}}FindOneReq {
-  int64 id = 1;
-}
-
-message {{.JavaName}}FindOneResp {
-{{range .TableColumn}}  {{.ProtoType}} {{.JavaName}} = {{.Sort}}; //{{.ColumnComment}}
-{{end}}
-}
-
+// {{.Comment}}
 service {{.JavaName}}Service {
   // 添加{{.Comment}}
-  rpc {{.JavaName}}Add({{.JavaName}}AddReq) returns ({{.JavaName}}AddResp){}
+  rpc Add{{.JavaName}}({{.JavaName}}AddReq) returns ({{.JavaName}}AddResp){}
   // 删除{{.Comment}}
-  rpc {{.JavaName}}Delete({{.JavaName}}DeleteReq) returns ({{.JavaName}}DeleteResp){}
+  rpc Delete{{.JavaName}}({{.JavaName}}DeleteReq) returns ({{.JavaName}}DeleteResp){}
   // 更新{{.Comment}}
-  rpc {{.JavaName}}Update({{.JavaName}}UpdateReq) returns ({{.JavaName}}UpdateResp ){}
-  // 查询{{.Comment}}
-  rpc {{.JavaName}}List({{.JavaName}}ListReq) returns ({{.JavaName}}ListResp){}
+  rpc Update{{.JavaName}}({{.JavaName}}UpdateReq) returns ({{.JavaName}}UpdateResp ){}
   // 根据条件查询单条{{.Comment}}记录
-  rpc {{.JavaName}}FindOne({{.JavaName}}FindOneReq) returns ({{.JavaName}}FindOneResp){}
+    rpc Query{{.JavaName}}({{.JavaName}}Req) returns ({{.JavaName}}Resp){}
+  // 查询{{.Comment}}列表
+  rpc Query{{.JavaName}}List({{.JavaName}}ListReq) returns ({{.JavaName}}ListResp){}
+
+
 }

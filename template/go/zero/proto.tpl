@@ -47,7 +47,8 @@ message {{.JavaName}}Resp {
 // 分页查询{{.Comment}}列表
 message {{.JavaName}}ListReq {
 {{range .TableColumn}}  {{.ProtoType}} {{.JavaName}} = {{.Sort}}; //{{.ColumnComment}}
-{{end}}
+{{end}}  int64 current = 1; //第几页
+  int64 pageSize = 2; //每页的数量
 }
 
 message {{.JavaName}}ListData {

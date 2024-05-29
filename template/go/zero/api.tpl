@@ -44,22 +44,22 @@ type (
     }
 
     // 查询{{.Comment}}详情
-	{{.JavaName}}DetailReq {
+	Query{{.JavaName}}DetailReq {
 		Id         int64  `form:"id"`
 	}
-	{{.JavaName}}DetailData {
+	Query{{.JavaName}}DetailData {
     {{range .TableColumn}}    {{.GoNamePublic}} {{if eq .GoType `time.Time`}}string{{else}}{{.GoType}}{{end}} `json:"{{.JavaName}}"` //{{.ColumnComment}}
     {{end}}
 	}
-	{{.JavaName}}DetailResp {
+	Query{{.JavaName}}DetailResp {
 		Code     string              `json:"code"`
 		Message  string              `json:"message"`
-		Data     {{.JavaName}}DetailData `json:"data"`
+		Data     Query{{.JavaName}}DetailData `json:"data"`
 	}
     // 分页查询{{.Comment}}列表
 	List{{.JavaName}}Req {
-		Current         int64  `form:"current,default=1"`
-		PageSize        int64  `form:"pageSize,default=20"`
+		Current         int64  `form:"current,default=1"` //第几页
+		PageSize        int64  `form:"pageSize,default=20"` //每页的数量
     {{range .TableColumn}}    {{.GoNamePublic}} {{if eq .GoType `time.Time`}}string{{else}}{{.GoType}}{{end}} `form:"{{.JavaName}},optional"` //{{.ColumnComment}}
     {{end}}
 	}
@@ -101,7 +101,7 @@ service admin-api {
 
     // 查询{{.Comment}}详情
 	@handler Query{{.JavaName}}Detail
-	get /query{{.JavaName}}Detail ({{.JavaName}}DetailReq) returns ({{.JavaName}}DetailResp)
+	get /query{{.JavaName}}Detail (Query{{.JavaName}}DetailReq) returns (Query{{.JavaName}}DetailResp)
 
     // 分页查询{{.Comment}}列表
 	@handler Query{{.JavaName}}List

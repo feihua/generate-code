@@ -33,12 +33,22 @@ message Update{{.JavaName}}Resp {
   string pong = 1;
 }
 
-// 查询单条{{.Comment}}记录
-message {{.JavaName}}Req {
+// 更新{{.Comment}}状态
+message Update{{.JavaName}}StatusReq {
+{{range .TableColumn}}  {{.ProtoType}} {{.GoName}} = {{.Sort}}; //{{.ColumnComment}}
+{{end}}
+}
+
+message Update{{.JavaName}}StatusResp {
+  string pong = 1;
+}
+
+// 查询{{.Comment}}详情
+message Query{{.JavaName}}DetailReq {
     int64 id = 1;
 }
 
-message {{.JavaName}}Resp {
+message Query{{.JavaName}}DetailResp {
 {{range .TableColumn}}  {{.ProtoType}} {{.GoName}} = {{.Sort}}; //{{.ColumnComment}}
 {{end}}
 }
@@ -46,7 +56,7 @@ message {{.JavaName}}Resp {
 // 分页查询{{.Comment}}列表
 message Query{{.JavaName}}ListReq {
 {{range .TableColumn}}  {{.ProtoType}} {{.GoName}} = {{.Sort}}; //{{.ColumnComment}}
-{{end}}  int64 page_num = 1; //第几页
+{{end}} int64 page_num = 1; //第几页
   int64 page_size = 2; //每页的数量
 }
 
@@ -68,8 +78,10 @@ service {{.JavaName}}Service {
   rpc Delete{{.JavaName}}(Delete{{.JavaName}}Req) returns (Delete{{.JavaName}}Resp){}
   // 更新{{.Comment}}
   rpc Update{{.JavaName}}(Update{{.JavaName}}Req) returns (Update{{.JavaName}}Resp ){}
-  // 根据条件查询单条{{.Comment}}记录
-    rpc Query{{.JavaName}}({{.JavaName}}Req) returns ({{.JavaName}}Resp){}
+  // 更新{{.Comment}}状态
+  rpc Update{{.JavaName}}Status(Update{{.JavaName}}StatusReq) returns (Update{{.JavaName}}StatusResp ){}
+  // 查询{{.Comment}}详情
+   rpc Query{{.JavaName}}Detail(Query{{.JavaName}}DetailReq) returns (Query{{.JavaName}}DetailResp){}
   // 查询{{.Comment}}列表
   rpc Query{{.JavaName}}List(Query{{.JavaName}}ListReq) returns (Query{{.JavaName}}ListResp){}
 

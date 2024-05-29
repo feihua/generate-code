@@ -5,58 +5,57 @@ package main;
 option go_package = "./proto";
 
 // 添加{{.Comment}}
-message {{.JavaName}}AddReq {
-{{range .TableColumn}}  {{.ProtoType}} {{.GoNamePublic}} = {{.Sort}}; //{{.ColumnComment}}
+message Add{{.JavaName}}Req {
+{{range .TableColumn}}  {{.ProtoType}} {{.GoName}} = {{.Sort}}; //{{.ColumnComment}}
 {{end}}
 }
 
-message {{.JavaName}}AddResp {
+message Add{{.JavaName}}Resp {
   string pong = 1;
 }
 
 // 删除{{.Comment}}
-message {{.JavaName}}DeleteReq {
+message Delete{{.JavaName}}Req {
   repeated int64 ids = 1;
 }
 
-message {{.JavaName}}DeleteResp {
+message Delete{{.JavaName}}Resp {
   string pong = 1;
 }
 
 // 更新{{.Comment}}
-message {{.JavaName}}UpdateReq {
-{{range .TableColumn}}  {{.ProtoType}} {{.JavaName}} = {{.Sort}}; //{{.ColumnComment}}
+message Update{{.JavaName}}Req {
+{{range .TableColumn}}  {{.ProtoType}} {{.GoName}} = {{.Sort}}; //{{.ColumnComment}}
 {{end}}
 }
 
-message {{.JavaName}}UpdateResp {
+message Update{{.JavaName}}Resp {
   string pong = 1;
 }
 
 // 查询单条{{.Comment}}记录
 message {{.JavaName}}Req {
-{{range .TableColumn}}  {{.ProtoType}} {{.JavaName}} = {{.Sort}}; //{{.ColumnComment}}
-{{end}}
+    int64 id = 1;
 }
 
 message {{.JavaName}}Resp {
-{{range .TableColumn}}  {{.ProtoType}} {{.JavaName}} = {{.Sort}}; //{{.ColumnComment}}
+{{range .TableColumn}}  {{.ProtoType}} {{.GoName}} = {{.Sort}}; //{{.ColumnComment}}
 {{end}}
 }
 
 // 分页查询{{.Comment}}列表
-message {{.JavaName}}ListReq {
-{{range .TableColumn}}  {{.ProtoType}} {{.JavaName}} = {{.Sort}}; //{{.ColumnComment}}
-{{end}}  int64 current = 1; //第几页
-  int64 pageSize = 2; //每页的数量
+message Query{{.JavaName}}ListReq {
+{{range .TableColumn}}  {{.ProtoType}} {{.GoName}} = {{.Sort}}; //{{.ColumnComment}}
+{{end}}  int64 page_num = 1; //第几页
+  int64 page_size = 2; //每页的数量
 }
 
 message {{.JavaName}}ListData {
-{{range .TableColumn}}  {{.ProtoType}} {{.JavaName}} = {{.Sort}}; //{{.ColumnComment}}
+{{range .TableColumn}}  {{.ProtoType}} {{.GoName}} = {{.Sort}}; //{{.ColumnComment}}
 {{end}}
 }
 
-message {{.JavaName}}ListResp {
+message Query{{.JavaName}}ListResp {
   int64 total = 1;
   repeated  {{.JavaName}}ListData list = 2;
 }
@@ -64,15 +63,15 @@ message {{.JavaName}}ListResp {
 // {{.Comment}}
 service {{.JavaName}}Service {
   // 添加{{.Comment}}
-  rpc Add{{.JavaName}}({{.JavaName}}AddReq) returns ({{.JavaName}}AddResp){}
+  rpc Add{{.JavaName}}(Add{{.JavaName}}Req) returns (Add{{.JavaName}}Resp){}
   // 删除{{.Comment}}
-  rpc Delete{{.JavaName}}({{.JavaName}}DeleteReq) returns ({{.JavaName}}DeleteResp){}
+  rpc Delete{{.JavaName}}(Delete{{.JavaName}}Req) returns (Delete{{.JavaName}}Resp){}
   // 更新{{.Comment}}
-  rpc Update{{.JavaName}}({{.JavaName}}UpdateReq) returns ({{.JavaName}}UpdateResp ){}
+  rpc Update{{.JavaName}}(Update{{.JavaName}}Req) returns (Update{{.JavaName}}Resp ){}
   // 根据条件查询单条{{.Comment}}记录
     rpc Query{{.JavaName}}({{.JavaName}}Req) returns ({{.JavaName}}Resp){}
   // 查询{{.Comment}}列表
-  rpc Query{{.JavaName}}List({{.JavaName}}ListReq) returns ({{.JavaName}}ListResp){}
+  rpc Query{{.JavaName}}List(Query{{.JavaName}}ListReq) returns (Query{{.JavaName}}ListResp){}
 
 
 }

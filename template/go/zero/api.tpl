@@ -33,6 +33,29 @@ type (
         Message string `json:"message"`
     }
 
+    // 更新{{.Comment}}状态
+    Update{{.JavaName}}StatusReq {
+    {{range .TableColumn}}    {{.GoNamePublic}} {{if eq .GoType `time.Time`}}string{{else}}{{.GoType}}{{end}} `json:"{{.JavaName}}"` //{{.ColumnComment}}
+    {{end}}
+    }
+    Update{{.JavaName}}StatusResp {
+        Code    string `json:"code"`
+        Message string `json:"message"`
+    }
+
+    // 查询{{.Comment}}详情
+	{{.JavaName}}DetailReq {
+		Id         int64  `form:"id"`
+	}
+	{{.JavaName}}DetailData {
+    {{range .TableColumn}}    {{.GoNamePublic}} {{if eq .GoType `time.Time`}}string{{else}}{{.GoType}}{{end}} `json:"{{.JavaName}}"` //{{.ColumnComment}}
+    {{end}}
+	}
+	{{.JavaName}}DetailResp {
+		Code     string              `json:"code"`
+		Message  string              `json:"message"`
+		Data     {{.JavaName}}DetailData `json:"data"`
+	}
     // 分页查询{{.Comment}}列表
 	List{{.JavaName}}Req {
 		Current         int64  `form:"current,default=1"`
@@ -71,6 +94,14 @@ service admin-api {
     // 更新{{.Comment}}
     @handler Update{{.JavaName}}
     post /update{{.JavaName}} (Update{{.JavaName}}Req) returns (Update{{.JavaName}}Resp)
+
+    // 更新{{.Comment}}状态
+    @handler Update{{.JavaName}}Status
+    post /update{{.JavaName}}Status (Update{{.JavaName}}StatusReq) returns (Update{{.JavaName}}StatusResp)
+
+    // 查询{{.Comment}}详情
+	@handler Query{{.JavaName}}Detail
+	get /query{{.JavaName}}Detail ({{.JavaName}}DetailReq) returns ({{.JavaName}}DetailResp)
 
     // 分页查询{{.Comment}}列表
 	@handler Query{{.JavaName}}List

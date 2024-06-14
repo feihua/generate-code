@@ -1,6 +1,5 @@
 /*
 Copyright © 2023 NAME HERE <EMAIL ADDRESS>
-
 */
 package cmd
 
@@ -20,6 +19,8 @@ import (
 	"github.com/feihua/generate-code/cmd/rust/axum"
 	"github.com/feihua/generate-code/cmd/rust/rocket"
 	"github.com/feihua/generate-code/cmd/rust/salvo"
+	"github.com/feihua/generate-code/cmd/web"
+	react_pro "github.com/feihua/generate-code/cmd/web/react"
 	"github.com/spf13/cobra"
 	"os"
 )
@@ -69,4 +70,6 @@ func init() {
 	java.JavaCmd.AddCommand(modules.Cmd)
 	java.JavaCmd.AddCommand(mybatis.Cmd)
 
+	RootCmd.AddCommand(web.WebCmd)
+	web.WebCmd.AddCommand(react_pro.Cmd)
 }

@@ -42,6 +42,7 @@ type TableColumn struct {
 	ProtoType     string ` gorm:"-"`                                         //生成proto的时候用  string
 	JavaType      string ` gorm:"-"`                                         //java字段的类型 String
 	JdbcType      string ` gorm:"-"`                                         //jdbc字段的类型 String
+	TsType        string ` gorm:"-"`                                         //ts字段的类型 string
 	RustName      string ` gorm:"-"`                                         //rust字段的名称 nick_name
 	GoName        string ` gorm:"-"`                                         //go字段的名称 nick_name
 	GoNamePublic  string ` gorm:"-"`                                         //go公开字段的名称 NickName
@@ -116,6 +117,7 @@ func QueryTableColumns(dsn, TableName, lowerJavaName string) ([]TableColumn, str
 	var allColumns string
 	var tt []TableColumn
 	for i, column := range t {
+		column.TsType = TsType[column.DataType]
 		column.RustType = ToRustType[column.DataType]
 		column.GoType = ToGoType[column.DataType]
 		column.ProtoType = ToProtoType[column.DataType]
@@ -135,6 +137,22 @@ func QueryTableColumns(dsn, TableName, lowerJavaName string) ([]TableColumn, str
 	return tt, allColumns[0:lastIndex]
 }
 
+var TsType = map[string]string{
+	"int":       "number",
+	"tinyint":   "number",
+	"smallint":  "number",
+	"mediumint": "number",
+	"bigint":    "number",
+	"bool":      "bool",
+	"enum":      "string",
+	"set":       "string",
+	"varchar":   "string",
+	"char":      "string",
+	"datetime":  "string",
+	"text":      "string",
+	"timestamp": "string",
+	"decimal":   "number",
+}
 var ToRustType = map[string]string{
 	"int":       "i32",
 	"tinyint":   "i32",
@@ -153,8 +171,8 @@ var ToRustType = map[string]string{
 }
 var ToGoType = map[string]string{
 	"int":       "int32",
-	"tinyint":   "int8",
-	"smallint":  "int",
+	"tinyint":   "int32",
+	"smallint":  "int32",
 	"mediumint": "int64",
 	"bigint":    "int64",
 	"bool":      "bool",
@@ -181,6 +199,7 @@ var ToProtoType = map[string]string{
 	"char":      "string",
 	"text":      "string",
 	"datetime":  "string",
+	"date":      "string",
 	"timestamp": "string",
 	"decimal":   "float",
 }

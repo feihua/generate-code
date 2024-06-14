@@ -57,21 +57,21 @@ type (
 		Data     Query{{.JavaName}}DetailData `json:"data"`
 	}
     // 分页查询{{.Comment}}列表
-	List{{.JavaName}}Req {
+	Query{{.JavaName}}ListReq {
 		Current         int64  `form:"current,default=1"` //第几页
 		PageSize        int64  `form:"pageSize,default=20"` //每页的数量
     {{range .TableColumn}}    {{.GoNamePublic}} {{if eq .GoType `time.Time`}}string{{else}}{{.GoType}}{{end}} `form:"{{.JavaName}},optional"` //{{.ColumnComment}}
     {{end}}
 	}
-	List{{.JavaName}}Data {
+	Query{{.JavaName}}ListData {
     {{range .TableColumn}}    {{.GoNamePublic}} {{if eq .GoType `time.Time`}}string{{else}}{{.GoType}}{{end}} `json:"{{.JavaName}}"` //{{.ColumnComment}}
     {{end}}
 	}
-	List{{.JavaName}}Resp {
+	Query{{.JavaName}}ListResp {
 		Code     string              `json:"code"`
 		Message  string              `json:"message"`
 		Current  int64               `json:"current,default=1"`
-		Data     []*List{{.JavaName}}Data `json:"data"`
+		Data     []*Query{{.JavaName}}ListData `json:"data"`
 		PageSize int64               `json:"pageSize,default=20"`
 		Success  bool                `json:"success"`
 		Total    int64               `json:"total"`
@@ -105,6 +105,6 @@ service admin-api {
 
     // 分页查询{{.Comment}}列表
 	@handler Query{{.JavaName}}List
-	get /query{{.JavaName}}List (List{{.JavaName}}Req) returns (List{{.JavaName}}Resp)
+	get /query{{.JavaName}}List (Query{{.JavaName}}ListReq) returns (Query{{.JavaName}}ListResp)
 
 }

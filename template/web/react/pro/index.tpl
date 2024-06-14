@@ -78,7 +78,7 @@ const handleStatus = async (ids: number[], status: number) => {
     return true;
   }
   try {
-    await update{{.JavaName}}Status({postIds: ids, postStatus: status});
+    await update{{.JavaName}}Status({ {{.LowerJavaName}}Ids: ids, {{.LowerJavaName}}Status: status});
     hide();
     message.success('更新状态成功');
     return true;
@@ -146,6 +146,30 @@ const {{.JavaName}}List: React.FC = () => {
             setShowDetail(true);
           }}>{dom}</a>;
         },
+    },
+    {{else if isContain .JavaName "Type"}}
+    {
+      title: '{{.ColumnComment}}',
+      dataIndex: '{{.JavaName}}',
+      renderFormItem: (text, row, index) => {
+          return <Select
+            value={row.value}
+            options={ [
+              {value: '1', label: '正常'},
+              {value: '0', label: '禁用'},
+            ]}
+          />
+
+    },
+    render: (dom, entity) => {
+        switch (entity.{{.JavaName}}) {
+          case 1:
+            return <Tag color={'success'}>正常</Tag>;
+          case 0:
+            return <Tag>禁用</Tag>;
+        }
+        return <>未知{entity.{{.JavaName}}}</>;
+      },
     },
     {{else if isContain .JavaName "status"}}
     {

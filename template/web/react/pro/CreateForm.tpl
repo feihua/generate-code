@@ -64,6 +64,11 @@ const CreateForm: React.FC<CreateFormProps> = (props) => {
                 <Radio value={0}>禁用</Radio>
                 <Radio value={1}>正常</Radio>
               </Radio.Group>
+       {{else if isContain .JavaName "Type"}}
+                <Radio.Group>
+                  <Radio value={0}>禁用</Radio>
+                  <Radio value={1}>正常</Radio>
+                </Radio.Group>
          {{else if isContain .JavaName "remark"}}
             <Input.TextArea rows={2} placeholder={'请输入备注'}/>
          {{else}}

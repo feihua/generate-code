@@ -5,9 +5,6 @@ import (
 	"github.com/zeromicro/go-zero/core/logc"
 	"google.golang.org/grpc/status"
 
-	"github.com/feihua/zero-admin/api/admin/internal/svc"
-	"github.com/feihua/zero-admin/api/admin/internal/types"
-
 	"github.com/zeromicro/go-zero/core/logx"
 )
 

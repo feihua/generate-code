@@ -110,12 +110,13 @@ const {{.JavaName}}List: React.FC = () => {
     });
   };
 
-  const showStatusConfirm = (item: {{.JavaName}}ListItem[], status: number) => {
+  const showStatusConfirm = (ids: number[], status: number) => {
     confirm({
       title: `确定${status == 1 ? "启用" : "禁用"}吗？`,
       icon: <ExclamationCircleOutlined/>,
       async onOk() {
-        await handleStatus(item.map((x) => x.id), status)
+        await handleStatus(ids, status)
+        actionRef.current?.clearSelected?.();
         actionRef.current?.reload?.();
       },
       onCancel() {
@@ -188,7 +189,7 @@ const {{.JavaName}}List: React.FC = () => {
     render: (dom, entity) => {
       return (
         <Switch checked={entity.{{.JavaName}} == 1} onChange={(flag) => {
-          showStatusConfirm( [entity], flag ? 1 : 0)
+          showStatusConfirm( [entity.id], flag ? 1 : 0)
         }}/>
       );
     },
@@ -210,7 +211,7 @@ const {{.JavaName}}List: React.FC = () => {
     render: (dom, entity) => {
       return (
         <Switch checked={entity.{{.JavaName}} == 1} onChange={(flag) => {
-          showStatusConfirm( [entity], flag ? 1 : 0)
+          showStatusConfirm( [entity.id], flag ? 1 : 0)
         }}/>
       );
     },
@@ -256,7 +257,7 @@ const {{.JavaName}}List: React.FC = () => {
 return (
     <PageContainer>
       <ProTable<{{.JavaName}}ListItem>
-        headerTitle="岗位管理"
+        headerTitle="{{.Comment}}管理"
         actionRef={actionRef}
         rowKey="id"
         search={ {
@@ -274,7 +275,6 @@ return (
         tableAlertRender={ ({
                              selectedRowKeys,
                              selectedRows,
-                             onCleanSelected,
                            }) => {
           const ids = selectedRows.map((row) => row.id);
           return (
@@ -284,18 +284,14 @@ return (
                 icon={<EditOutlined/>}
                 style={ {borderRadius: '5px'}}
                 onClick={async () => {
-                  await handleStatus(ids, 1);
-                  onCleanSelected()
-                  actionRef.current?.reload?.();
+                  showStatusConfirm(ids, 1)
                 }}
               >批量启用</Button>
               <Button
                 icon={<EditOutlined/>}
                 style={ {borderRadius: '5px'} }
                 onClick={async () => {
-                  await handleStatus(ids, 1);
-                  onCleanSelected()
-                  actionRef.current?.reload?.();
+                  showStatusConfirm(ids, 0)
                 }}
               >批量禁用</Button>
               <Button
@@ -367,7 +363,7 @@ return (
         {currentRow?.id && (
           <ProDescriptions<{{.JavaName}}ListItem>
             column={2}
-            title={"岗位详情"}
+            title={"{{.Comment}}详情"}
             request={async () => ({
               data: currentRow || {},
             })}

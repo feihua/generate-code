@@ -24,6 +24,7 @@ type Table struct {
 	CreateTime        string        ` gorm:"-"`                                        //生成java代码的时间
 	GroupId           string        ` gorm:"-"`                                        //生成java代码的common包目录
 	AllColumns        string        ` gorm:"-"`                                        //生成xml的时候用
+	RpcClient         string        ` gorm:"-"`                                        //生成grpc的时候用
 }
 
 func (model Table) TableName() string {
@@ -84,6 +85,7 @@ func (DbUtils) QueryTables(dsn string, TableNames string, prefix string) []Table
 		trimPrefix := strings.TrimPrefix(table.OriginalName, prefix)
 		table.RustName = trimPrefix
 		table.GoName = trimPrefix
+		table.Comment = strings.Replace(table.Comment, "表", "", -1)
 		table.JavaName = UnderScoreToUpperCamelCase(trimPrefix)
 		table.LowerJavaName = UnderScoreToLowerCamelCase(trimPrefix)
 		table.UpperOriginalName = UnderScoreToUpperCamelCase(table.OriginalName)

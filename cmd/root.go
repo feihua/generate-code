@@ -20,6 +20,7 @@ import (
 	"github.com/feihua/generate-code/cmd/rust/rocket"
 	"github.com/feihua/generate-code/cmd/rust/salvo"
 	"github.com/feihua/generate-code/cmd/web"
+	"github.com/feihua/generate-code/cmd/web/antd"
 	react_pro "github.com/feihua/generate-code/cmd/web/react"
 	"github.com/spf13/cobra"
 	"os"
@@ -72,4 +73,5 @@ func init() {
 
 	RootCmd.AddCommand(web.WebCmd)
 	web.WebCmd.AddCommand(react_pro.Cmd)
+	web.WebCmd.AddCommand(antd.Cmd)
 }

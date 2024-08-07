@@ -25,14 +25,15 @@ This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		tables := utils.New().QueryTables(Dsn, TableNames, prefix)
-		var path = "generate/web/react/pro/"
+		var path = "generate/web/react/antd/"
 		for _, t := range tables {
-			Generate(t, "template/web/react/pro/data.tpl", path+t.JavaName, "data.d.ts")
-			Generate(t, "template/web/react/pro/service.tpl", path+t.JavaName, "service.ts")
-			Generate(t, "template/web/react/pro/index.tpl", path+t.JavaName, "index.tsx")
-
-			Generate(t, "template/web/react/pro/CreateForm.tpl", path+t.JavaName+"/components", "CreateForm.tsx")
-			Generate(t, "template/web/react/pro/UpdateForm.tpl", path+t.JavaName+"/components", "UpdateForm.tsx")
+			Generate(t, "template/web/react/antd/data.tpl", path+t.JavaName, "data.d.ts")
+			Generate(t, "template/web/react/antd/service.tpl", path+t.JavaName, "service.ts")
+			Generate(t, "template/web/react/antd/index.tpl", path+t.JavaName, "index..tsx")
+			//
+			Generate(t, "template/web/react/antd/Add.tpl", path+t.JavaName+"/components", "CreateForm.tsx")
+			Generate(t, "template/web/react/antd/Update.tpl", path+t.JavaName+"/components", "UpdateForm.tsx")
+			Generate(t, "template/web/react/antd/Search.tpl", path+t.JavaName+"/components", "SearchForm.tsx")
 		}
 	},
 }

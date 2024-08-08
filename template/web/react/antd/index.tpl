@@ -1,7 +1,8 @@
 import React, {useEffect, useState} from 'react';
-import {Button, Divider, message, Modal, Space, Table, Switch} from 'antd';
+import type {MenuProps} from 'antd';
+import {Button, Divider, message, Modal, Space, Table, Switch, Dropdown} from 'antd';
 import type {ColumnsType} from 'antd/es/table';
-import {DeleteOutlined, EditOutlined, PlusOutlined, SettingOutlined, ExclamationCircleOutlined} from '@ant-design/icons';
+import {DeleteOutlined, EditOutlined, PlusOutlined, SettingOutlined, ExclamationCircleOutlined, DownOutlined} from '@ant-design/icons';
 import { {{.JavaName}}Vo} from './data';
 import CreateForm from "./components/CreateForm";
 import UpdateForm from "./components/UpdateForm";
@@ -40,7 +41,7 @@ const {{.JavaName}}: React.FC = () => {
         {
           title: '{{.ColumnComment}}',
           dataIndex: '{{.JavaName}}',
-          render: (_, { {{.JavaName}}}) => (
+          render: (_, { {{.JavaName}} }) => (
               <>
                   { {{.JavaName}} === 0 ? '禁用' : '启用'}
               </>
@@ -86,10 +87,38 @@ const {{.JavaName}}: React.FC = () => {
                     <Button type="link" size={'small'} icon={<EditOutlined/>} onClick={() => showEditModal(record)}>编辑</Button>
                     <Button type="link" size={'small'} danger icon={<DeleteOutlined/>}
                             onClick={() => showDeleteConfirm(record)}>删除</Button>
+                    <Dropdown menu={ {items} }>
+                                <a onMouseEnter={(e) => {
+                                  setCurrent{{.JavaName}}(record)
+                                  return e.preventDefault()
+                                } }>
+                                  <Space>
+                                    更多
+                                    <DownOutlined/>
+                                  </Space>
+                                </a>
+                    </Dropdown>
                 </div>
             ),
         },
     ];
+
+   const items: MenuProps['items'] = [
+    {
+      key: '1',
+      label: (
+        <a
+          key="1"
+          onClick={() => {
+            //handleMoreModalVisible(true);
+          }}
+        >
+          分配角色
+        </a>
+      ),
+      icon: <PlusOutlined/>,
+    },
+   ];
 
    const showStatusConfirm = (ids: number[], status: number) => {
     Modal.confirm({
@@ -265,7 +294,7 @@ const {{.JavaName}}: React.FC = () => {
             />
 
             <CreateForm onCancel={handleAddCancel} onCreate={handleAddOk} open={isShowAddModal}></CreateForm>
-            <UpdateForm onCancel={handleEditCancel} onCreate={handleEditOk} open={isShowEditModal} {{.LowerJavaName}}Vo={current{{.JavaName}}}></UpdateForm>
+            <UpdateForm onCancel={handleEditCancel} onCreate={handleEditOk} open={isShowEditModal} {{.LowerJavaName}}Vo={current{{.JavaName}} }></UpdateForm>
             <DetailModal onCancel={handleDetailCancel}  open={isShowDetailModal} id={current{{.JavaName}}.id}></DetailModal>
 
             {selectedRowKeys.length > 0 &&

@@ -107,9 +107,7 @@ const {{.JavaName}}: React.FC = () => {
     {
       key: '1',
       label: (
-        <a
-          key="1"
-          onClick={() => {
+        <a key="1" onClick={() => {
             //handleMoreModalVisible(true);
           }}
         >

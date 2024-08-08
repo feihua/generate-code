@@ -6,6 +6,7 @@ import { {{.JavaName}}Vo} from './data';
 import CreateForm from "./components/CreateForm";
 import UpdateForm from "./components/UpdateForm";
 import AdvancedSearchForm from "./components/SearchForm";
+import DetailModal from "./components/DetailModal";
 import {add{{.JavaName}}, handleResp, remove{{.JavaName}}, update{{.JavaName}}, query{{.JavaName}}List, update{{.JavaName}}Status} from "./service";
 
 
@@ -159,7 +160,7 @@ const {{.JavaName}}: React.FC = () => {
     };
 
     const showDetailModal = (param: MenuVo) => {
-        setCurrentMenu(param)
+        setCurrent{{.JavaName}}(param)
         setShowDetailModal(true);
     };
 
@@ -265,7 +266,7 @@ const {{.JavaName}}: React.FC = () => {
 
             <CreateForm onCancel={handleAddCancel} onCreate={handleAddOk} open={isShowAddModal}></CreateForm>
             <UpdateForm onCancel={handleEditCancel} onCreate={handleEditOk} open={isShowEditModal} {{.LowerJavaName}}Vo={current{{.JavaName}}}></UpdateForm>
-            <DetailModal onCancel={handleDetailCancel}  open={isShowDetailModal} id={ {{.LowerJavaName}}Vo.id}></DetailModal>
+            <DetailModal onCancel={handleDetailCancel}  open={isShowDetailModal} id={current{{.JavaName}}Vo.id}></DetailModal>
 
             {selectedRowKeys.length > 0 &&
                 <div>

@@ -82,8 +82,8 @@ const {{.JavaName}}: React.FC = () => {
             width:280,
             render: (_, record) => (
                 <div>
-                    <Button type="link" size={'small'} icon={<EditOutlined/>} onClick={() => showEditModal(record)}>编辑</Button>
                     <Button type="link" size={'small'} icon={<EditOutlined/>} onClick={() => showDetailModal(record)}>详情</Button>
+                    <Button type="link" size={'small'} icon={<EditOutlined/>} onClick={() => showEditModal(record)}>编辑</Button>
                     <Button type="link" size={'small'} danger icon={<DeleteOutlined/>}
                             onClick={() => showDeleteConfirm(record)}>删除</Button>
                 </div>
@@ -159,7 +159,7 @@ const {{.JavaName}}: React.FC = () => {
         setShowEditModal(false);
     };
 
-    const showDetailModal = (param: MenuVo) => {
+    const showDetailModal = (param: {{.JavaName}}Vo) => {
         setCurrent{{.JavaName}}(param)
         setShowDetailModal(true);
     };

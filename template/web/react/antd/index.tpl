@@ -266,7 +266,7 @@ const {{.JavaName}}: React.FC = () => {
 
             <CreateForm onCancel={handleAddCancel} onCreate={handleAddOk} open={isShowAddModal}></CreateForm>
             <UpdateForm onCancel={handleEditCancel} onCreate={handleEditOk} open={isShowEditModal} {{.LowerJavaName}}Vo={current{{.JavaName}}}></UpdateForm>
-            <DetailModal onCancel={handleDetailCancel}  open={isShowDetailModal} id={current{{.JavaName}}Vo.id}></DetailModal>
+            <DetailModal onCancel={handleDetailCancel}  open={isShowDetailModal} id={current{{.JavaName}}.id}></DetailModal>
 
             {selectedRowKeys.length > 0 &&
                 <div>

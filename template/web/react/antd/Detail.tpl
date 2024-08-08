@@ -41,7 +41,7 @@ const DetailModal: React.FC<DetailModalProps> = (props) => {
         <Descriptions column={2}>
 
         {{range .TableColumn}}    <Descriptions.Item label="{{.ColumnComment}}">
-              { {{.LowerJavaName}}Vo.name}
+              { {{.LowerJavaName}}Vo.{{.JavaName}}}
             </Descriptions.Item>
         {{end}}
 

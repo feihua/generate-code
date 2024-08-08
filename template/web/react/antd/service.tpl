@@ -52,11 +52,11 @@ export const query{{.JavaName}}Detail = (id: number): Promise<IResponse> => {
 
 /**
  * @description: 分页查询{{.Comment}}列表
- * @params {req} UserListReq
+ * @params {params} UserListReq
  * @return {Promise}
  */
-export const query{{.JavaName}}List = (req: {{.JavaName}}ListParam): Promise<IResponse> => {
-    return axiosInstance.get('/api/demo/{{.LowerJavaName}}/query{{.JavaName}}List', req).then(res => res.data);
+export const query{{.JavaName}}List = (params: {{.JavaName}}ListParam): Promise<IResponse> => {
+    return axiosInstance.get('/api/demo/{{.LowerJavaName}}/query{{.JavaName}}List', {params}).then(res => res.data);
 };
 
 

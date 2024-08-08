@@ -13,6 +13,7 @@ const {{.JavaName}}: React.FC = () => {
     const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
     const [isShowAddModal, setShowAddModal] = useState<boolean>(false);
     const [isShowEditModal, setShowEditModal] = useState<boolean>(false);
+    const [isShowDetailModal, setShowDetailModal] = useState<boolean>(false);
     const [{{.LowerJavaName}}ListData, set{{.JavaName}}ListData] = useState<{{.JavaName}}Vo[]>([]);
     const [current{{.JavaName}}, setCurrent{{.JavaName}}] = useState<{{.JavaName}}Vo>({
         
@@ -81,6 +82,7 @@ const {{.JavaName}}: React.FC = () => {
             render: (_, record) => (
                 <div>
                     <Button type="link" size={'small'} icon={<EditOutlined/>} onClick={() => showEditModal(record)}>编辑</Button>
+                    <Button type="link" size={'small'} icon={<EditOutlined/>} onClick={() => showDetailModal(record)}>详情</Button>
                     <Button type="link" size={'small'} danger icon={<DeleteOutlined/>}
                             onClick={() => showDeleteConfirm(record)}>删除</Button>
                 </div>
@@ -156,6 +158,15 @@ const {{.JavaName}}: React.FC = () => {
         setShowEditModal(false);
     };
 
+    const showDetailModal = (param: MenuVo) => {
+        setCurrentMenu(param)
+        setShowDetailModal(true);
+    };
+
+
+    const handleDetailCancel = () => {
+        setShowDetailModal(false);
+    };
 
     //删除单条数据
     const showDeleteConfirm = (param: {{.JavaName}}Vo) => {
@@ -254,6 +265,7 @@ const {{.JavaName}}: React.FC = () => {
 
             <CreateForm onCancel={handleAddCancel} onCreate={handleAddOk} open={isShowAddModal}></CreateForm>
             <UpdateForm onCancel={handleEditCancel} onCreate={handleEditOk} open={isShowEditModal} {{.LowerJavaName}}Vo={current{{.JavaName}}}></UpdateForm>
+            <DetailModal onCancel={handleDetailCancel}  open={isShowDetailModal} id={ {{.LowerJavaName}}Vo.id}></DetailModal>
 
             {selectedRowKeys.length > 0 &&
                 <div>

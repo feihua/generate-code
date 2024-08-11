@@ -2,26 +2,26 @@
 
   <div style=";background-color: white">
     <AddForm @handleQuery="handleQueryWithPageParam" ref="addChildrenRef"/>
-    <ListTable :tableData="tableData" @handleEditView="handleEditView" @handleSetRoleView="handleSetRoleView" @handleQuery="handleQueryWithPageParam"
+    <ListTable :tableData="tableData" @handleEditView="handleEditView" @handleDetailView="handleDetailView" @handleQuery="handleQueryWithPageParam"
                @handleSelectMore="handleSelectMore"/>
     <UpdateForm v-model="dialogUpdateFormVisible" @handleQuery="handleQuery" @handleEdit="dialogUpdateFormVisible = false" :record="recordVo"/>
-    <SetUserRoleForm v-model="roleFormVisible" ref="childrenRef" @handleQuery="handleQuery" @handleEdit="roleFormVisible = false"/>
+    <DetailModal v-model="detailFormVisible" ref="childrenRef" @handleQuery="handleQuery" @handleEdit="detailFormVisible = false"/>
   </div>
 
 </template>
 
 <script lang="ts" setup>
 import {onMounted, ref} from 'vue'
-import {listData} from "@/views/user/service";
+import {list{{.JavaName}}Data} from "../service";
 import type {IResponse} from "@/api/ajax";
-import type {SearchParam, ListParam, RecordVo} from "@/views/user/data.d";
-import AddForm from "@/views/user/components/AddForm.vue";
-import UpdateForm from "@/views/user/components/UpdateForm.vue";
-import ListTable from "@/views/user/components/ListTable.vue";
-import SetUserRoleForm from "@/views/user/components/SetUserRoleForm.vue";
+import type {Search{{.JavaName}}Param, List{{.JavaName}}Param, {{.JavaName}}RecordVo} from "@./data.d";
+import AddForm from "./components/AddForm.vue";
+import UpdateForm from "./components/UpdateForm.vue";
+import ListTable from "./components/ListTable.vue";
+import DetailModal from "./components/DetailModal.vue";
 
 const dialogUpdateFormVisible = ref(false)
-const roleFormVisible = ref(false)
+const detailFormVisible = ref(false)
 const childrenRef = ref();
 const addChildrenRef = ref();
 
@@ -37,27 +37,27 @@ const recordVo = ref<RecordVo>({
 
 const handleQuery = async (data: ListParam) => {
   dialogUpdateFormVisible.value = false
-  roleFormVisible.value = false
+  detailFormVisible.value = false
   searchParam.value = {...data}
   let res: IResponse = await listData({...data, ...searchParam.value, current: currentPage.value, pageSize: pageSize.value})
   tableData.value = {...res}
 }
 
-const handleQueryWithPageParam = async (data: ListParam) => {
+const handleQueryWithPageParam = async (data: List{{.JavaName}}Param) => {
   currentPage.value = data.current || 1
   pageSize.value = data.pageSize || 10
   await handleQuery(data)
 }
 
-const handleEditView = (row: RecordVo) => {
+const handleEditView = (row: {{.JavaName}}RecordVo) => {
   recordVo.value = row
   dialogUpdateFormVisible.value = true
 }
 
-const handleSetRoleView = (row: RecordVo) => {
+const handleDetailView = (row: {{.JavaName}}RecordVo) => {
   recordVo.value = row
-  roleFormVisible.value = true
-  childrenRef.value.queryUserRole(row.id, row.real_name)
+  detailFormVisible.value = true
+  childrenRef.value.query{{.JavaName}}Detail(row.id)
 }
 
 const handleSelectMore = (ids: number[]) => {
@@ -72,6 +72,6 @@ onMounted(async () => {
 
 </script>
 
-<style lang="less" scoped>
+<style scoped>
 
 </style>

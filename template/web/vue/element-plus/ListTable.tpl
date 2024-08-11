@@ -1,30 +1,57 @@
 <template>
   <el-divider />
   <el-table :data="props.tableData.data" table-layout="auto" @selection-change="handleSelectionChange" size="large">
-    <el-table-column type="selection" width="55" />
-    <el-table-column label="手机号" prop="mobile" />
-    <el-table-column label="姓名" prop="real_name" />
-    <el-table-column label="排序" prop="sort" />
-    <el-table-column label="状态" prop="status_id">
+  {{range .TableColumn}}{{if isContain .JavaName "Name"}}
+  <el-table-column label="{{.ColumnComment}}" prop="{{.JavaName}}" />
+  {{else if isContain .JavaName "name"}}
+  <el-table-column label="{{.ColumnComment}}" prop="{{.JavaName}}" />
+  {{else if isContain .JavaName "Type"}}
+  <el-table-column label="{{.ColumnComment}}" prop="{{.JavaName}}" >
+    <template #default="scope">
+          <el-tag
+            :type="scope.row.{{.JavaName}} === 0 ? 'danger' : 'success'"
+            disable-transitions
+            size="large"
+            effect="dark"
+          >{ { scope.row.{{.JavaName}} === 0 ? '禁用' : '启用' } }
+          </el-tag
+          >
+    </template>
+  </el-table-column>
+  {{else if isContain .JavaName "status"}}
+  <el-table-column label="{{.ColumnComment}}" prop="{{.JavaName}}" >
       <template #default="scope">
-        <el-tag
-          :type="scope.row.status_id === 0 ? 'danger' : 'success'"
-          disable-transitions
-          size="large"
-          effect="dark"
-        >{{ scope.row.status_id === 0 ? '禁用' : '启用' }}
-        </el-tag
-        >
+            <el-tag
+              :type="scope.row.{{.JavaName}} === 0 ? 'danger' : 'success'"
+              disable-transitions
+              size="large"
+              effect="dark"
+            >{ { scope.row.{{.JavaName}} === 0 ? '禁用' : '启用' } }
+            </el-tag
+            >
       </template>
     </el-table-column>
-    <el-table-column label="备注" prop="remark" />
-    <el-table-column label="创建时间" prop="create_time" />
-    <el-table-column label="更新时间" prop="update_time" />
+  {{else if isContain .JavaName "Status"}}
+  <el-table-column label="{{.ColumnComment}}" prop="{{.JavaName}}" >
+      <template #default="scope">
+            <el-tag
+              :type="scope.row.{{.JavaName}} === 0 ? 'danger' : 'success'"
+              disable-transitions
+              size="large"
+              effect="dark"
+            >{ { scope.row.{{.JavaName}} === 0 ? '禁用' : '启用' } }
+            </el-tag
+            >
+      </template>
+    </el-table-column>
+  {{else}}
+  <el-table-column label="{{.ColumnComment}}" prop="{{.JavaName}}" />
+  {{end}}{{end}}
+
     <el-table-column label="操作">
       <template #default="scope">
+      <el-button type="primary" link @click="handleDetailView(scope.$index, scope.row)" icon="Setting">详情 </el-button>
         <el-button type="primary" link @click="handleEditView(scope.$index, scope.row)" icon="EditPen">编辑</el-button>
-        <el-button type="primary" link @click="handleSetRoleView(scope.$index, scope.row)" icon="Setting">设置角色
-        </el-button>
         <el-button type="danger" link @click="handleDelete(scope.$index, scope.row)" icon="Delete">删除</el-button>
       </template>
     </el-table-column>
@@ -44,9 +71,9 @@
 
 <script lang="ts" setup>
 
-import type { RecordVo } from '@/views/user/data'
+import type { {{.JavaName}}RecordVo } from '../data'
 import type { IResponse } from '@/api/ajax'
-import { remove } from '@/views/user/service'
+import { remove{{.JavaName}} } from '../service'
 import { ref } from 'vue'
 import { EditPen } from '@element-plus/icons-vue'
 
@@ -59,19 +86,19 @@ const currentPage = ref(1)
 const pageSize = ref(10)
 
 
-const emit = defineEmits(['handleQuery', 'handleEditView', 'handleSetRoleView', 'handleSelectMore'])
+const emit = defineEmits(['handleQuery', 'handleEditView', 'handleDetailView', 'handleSelectMore'])
 
-const handleEditView = (index: number, row: RecordVo) => {
+const handleEditView = (index: number, row: {{.JavaName}}RecordVo) => {
   emit('handleEditView', row)
 }
 
-const handleSetRoleView = (index: number, row: RecordVo) => {
-  emit('handleSetRoleView', row)
+const handleDetailView = (index: number, row: {{.JavaName}}RecordVo) => {
+  emit('handleDetailView', row)
 }
 
-const handleDelete = (index: number, row: RecordVo) => {
+const handleDelete = (index: number, row: {{.JavaName}}RecordVo) => {
   ElMessageBox.confirm(
-    '确定删除用户' + row.real_name + '?',
+    '确定删除?',
     {
       confirmButtonText: '删除',
       cancelButtonText: '取消',
@@ -90,7 +117,7 @@ const handleDelete = (index: number, row: RecordVo) => {
 
 }
 
-const handleSelectionChange = (recordVo: RecordVo[]) => {
+const handleSelectionChange = (recordVo: {{.JavaName}}RecordVo[]) => {
   emit('handleSelectMore', recordVo.map((value) => value.id))
 }
 

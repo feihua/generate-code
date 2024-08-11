@@ -2,35 +2,35 @@
   <el-dialog :model-value="dialogUpdateFormVisible" title="更新" style="width: 480px;border-radius: 10px">
     <el-form
         label-width="100px"
-        :model="props.record"
+        :model="props.update{{.JavaName}}Param"
         style="max-width: 380px"
         :rules="rules"
     >
     {{range .TableColumn}}
 
      <el-form-item label="{{.ColumnComment}}" prop="{{.JavaName}}">{{if isContain .JavaName "Sort"}}
-        <el-input-number v-model="props.record.{{.JavaName}}" placeholder="请输入{{.ColumnComment}}"/>
+        <el-input-number v-model="props.update{{.JavaName}}Param.{{.JavaName}}" placeholder="请输入{{.ColumnComment}}"/>
     {{else if isContain .JavaName "sort"}}
-        <el-input-number v-model="props.record.{{.JavaName}}" placeholder="请输入{{.ColumnComment}}"/>
+        <el-input-number v-model="props.update{{.JavaName}}Param.{{.JavaName}}" placeholder="请输入{{.ColumnComment}}"/>
     {{else if isContain .JavaName "status"}}
-        <el-select v-model="props.record.{{.JavaName}}" placeholder="请选择状态"/>
+        <el-select v-model="props.update{{.JavaName}}Param.{{.JavaName}}" placeholder="请选择状态">
           <el-option label="启用" value="1"/>
           <el-option label="禁用" value="0"/>
         </el-select>
     {{else if isContain .JavaName "Status"}}
-       <el-select v-model="props.record.{{.JavaName}}" placeholder="请选择状态"/>
+       <el-select v-model="props.update{{.JavaName}}Param.{{.JavaName}}" placeholder="请选择状态">
          <el-option label="启用" value="1"/>
          <el-option label="禁用" value="0"/>
        </el-select>
    {{else if isContain .JavaName "Type"}}
-        <el-select v-model="props.record.{{.JavaName}}" placeholder="请选择状态"/>
+        <el-select v-model="props.update{{.JavaName}}Param.{{.JavaName}}" placeholder="请选择状态">
           <el-option label="启用" value="1"/>
           <el-option label="禁用" value="0"/>
         </el-select>
      {{else if isContain .JavaName "remark"}}
-        <el-input v-model="props.record.{{.JavaName}}" type="textarea" placeholder="请输入{{.ColumnComment}}"/>
+        <el-input v-model="props.update{{.JavaName}}Param.{{.JavaName}}" type="textarea" placeholder="请输入{{.ColumnComment}}"/>
      {{else}}
-        <el-input v-model="props.record.{{.JavaName}}" placeholder="请输入{{.ColumnComment}}"/>
+        <el-input v-model="props.update{{.JavaName}}Param.{{.JavaName}}" placeholder="请输入{{.ColumnComment}}"/>
      {{end}} </el-form-item>{{end}}
 
       <el-form-item>
@@ -44,13 +44,13 @@
 <script lang="ts" setup>
 
 import {reactive, ref} from "vue";
-import type {UpdateParam} from "@/views/user/data.d";
-import type {FormRules} from "element-plus";
+import type {Update{{.JavaName}}Param} from "../data.d";
+import { type FormRules, type FormInstance, ElMessage, ElMessageBox } from 'element-plus'
 import type {IResponse} from "@/api/ajax";
-import {update} from "@/views/user/service";
+import {update{{.JavaName}} } from "../service";
 
 const props = defineProps<{
-  record: UpdateParam
+  update{{.JavaName}}Param: Update{{.JavaName}}Param
 }>()
 
 const dialogUpdateFormVisible = ref(false)
@@ -72,8 +72,8 @@ const handleEditViewClose = () => {
 }
 
 const handleEdit = async () => {
-  if (props.record) {
-    let addResult: IResponse = await update(props.record)
+  if (props.update{{.JavaName}}Param) {
+    let addResult: IResponse = await update{{.JavaName}}(props.update{{.JavaName}}Param)
     if (addResult.code === 0) {
       dialogUpdateFormVisible.value = false
       emit("handleQuery");

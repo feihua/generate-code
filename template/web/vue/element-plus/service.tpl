@@ -8,8 +8,8 @@ import { ElMessage } from 'element-plus'
  * @params {params} Add{{.JavaName}}Param
  * @return {Promise}
  */
-export const add{{.JavaName}} = (params: Add{{.JavaName}}Param): Promise<IResponse> => {
-    return axiosInstance.post('/api/demo/{{.LowerJavaName}}/add{{.JavaName}}', params).then(res => res.data);
+export const add{{.JavaName}} = async (params: Add{{.JavaName}}Param): Promise<IResponse> => {
+  return axiosInstance.post('/api/demo/{{.LowerJavaName}}/add{{.JavaName}}', params).then(res => res.data);
 };
 
 /**
@@ -17,8 +17,8 @@ export const add{{.JavaName}} = (params: Add{{.JavaName}}Param): Promise<IRespon
  * @params {ids} number[]
  * @return {Promise}
  */
-export const remove{{.JavaName}} = (ids: Number[]): Promise<IResponse> => {
-    return axiosInstance.get('/api/demo/{{.LowerJavaName}}/delete{{.JavaName}}?ids=[' + ids + "]").then(res => res.data);
+export const remove{{.JavaName}} = async (ids: Number[]): Promise<IResponse> => {
+  return axiosInstance.get('/api/demo/{{.LowerJavaName}}/delete{{.JavaName}}?ids=[' + ids + "]").then(res => res.data);
 };
 
 
@@ -27,8 +27,8 @@ export const remove{{.JavaName}} = (ids: Number[]): Promise<IResponse> => {
  * @params {params} Update{{.JavaName}}Param
  * @return {Promise}
  */
-export const update{{.JavaName}} = (params: Update{{.JavaName}}Param): Promise<IResponse> => {
-    return axiosInstance.post('/api/demo/{{.LowerJavaName}}/update{{.JavaName}}', params).then(res => res.data);
+export const update{{.JavaName}} = async (params: Update{{.JavaName}}Param): Promise<IResponse> => {
+  return axiosInstance.post('/api/demo/{{.LowerJavaName}}/update{{.JavaName}}', params).then(res => res.data);
 };
 
 /**
@@ -37,8 +37,8 @@ export const update{{.JavaName}} = (params: Update{{.JavaName}}Param): Promise<I
  @params { {{.LowerJavaName}}Status} number
  * @return {Promise}
  */
-export const update{{.JavaName}}Status = (params: { ids: number[], {{.LowerJavaName}}Status: number }): Promise<IResponse> => {
-    return axiosInstance.post('/api/demo/{{.LowerJavaName}}/update{{.JavaName}}Status', params).then(res => res.data);
+export const update{{.JavaName}}Status = async (params: { ids: number[], {{.LowerJavaName}}Status: number }): Promise<IResponse> => {
+  return axiosInstance.post('/api/demo/{{.LowerJavaName}}/update{{.JavaName}}Status', params).then(res => res.data);
 };
 
 /**
@@ -46,8 +46,8 @@ export const update{{.JavaName}}Status = (params: { ids: number[], {{.LowerJavaN
  * @params {id} number
  * @return {Promise}
  */
-export const query{{.JavaName}}Detail = (id: number): Promise<IResponse> => {
-    return axiosInstance.get('/api/demo/{{.LowerJavaName}}/query{{.JavaName}}Detail?id=' + id).then(res => res.data);
+export const query{{.JavaName}}Detail = async (id: number): Promise<IResponse> => {
+  return axiosInstance.get('/api/demo/{{.LowerJavaName}}/query{{.JavaName}}Detail?id=' + id).then(res => res.data);
 };
 
 
@@ -56,8 +56,8 @@ export const query{{.JavaName}}Detail = (id: number): Promise<IResponse> => {
  * @params {params} List{{.JavaName}}Param
  * @return {Promise}
  */
-export const query{{.JavaName}}List = (params: List{{.JavaName}}Param): Promise<IResponse> => {
-    return axiosInstance.get('/api/demo/{{.LowerJavaName}}/query{{.JavaName}}List', {params}).then(res => res.data);
+export const query{{.JavaName}}List = async(params: List{{.JavaName}}Param): Promise<IResponse> => {
+  return axiosInstance.get('/api/demo/{{.LowerJavaName}}/query{{.JavaName}}List', {params}).then(res => res.data);
 };
 
 
@@ -66,6 +66,6 @@ export const query{{.JavaName}}List = (params: List{{.JavaName}}Param): Promise<
  * @param resp
  */
 export const handleResp = (resp: IResponse): boolean => {
-    resp.code === 0 ? ElMessage.success(resp.msg) : ElMessage.error(resp.msg);
-    return resp.code === 0
+  resp.code === 0 ? ElMessage.success(resp.msg) : ElMessage.error(resp.msg);
+  return resp.code === 0
 };

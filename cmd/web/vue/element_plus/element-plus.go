@@ -26,12 +26,12 @@ to quickly create a Cobra application.`,
 		for _, t := range tables {
 			Generate(t, "template/web/vue/element-plus/data.tpl", path+t.JavaName, "data.d.ts")
 			Generate(t, "template/web/vue/element-plus/service.tpl", path+t.JavaName, "service.ts")
-			//Generate(t, "template/web/vue/element-plus/index.tpl", path+t.JavaName, "index.tsx")
+			Generate(t, "template/web/vue/element-plus/index.tpl", path+t.JavaName, "index.vue")
 			//
 			Generate(t, "template/web/vue/element-plus/AddForm.tpl", path+t.JavaName+"/components", "AddForm.vue")
 			Generate(t, "template/web/vue/element-plus/UpdateForm.tpl", path+t.JavaName+"/components", "UpdateForm.vue")
-			//Generate(t, "template/web/vue/element-plus/Search.tpl", path+t.JavaName+"/components", "ListTable.vue")
-			//Generate(t, "template/web/vue/element-plus/Detail.tpl", path+t.JavaName+"/components", "DetailModal.vue")
+			Generate(t, "template/web/vue/element-plus/ListTable.tpl", path+t.JavaName+"/components", "ListTable.vue")
+			Generate(t, "template/web/vue/element-plus/DetailModal.tpl", path+t.JavaName+"/components", "DetailModal.vue")
 		}
 	},
 }

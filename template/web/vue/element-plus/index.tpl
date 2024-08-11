@@ -4,7 +4,7 @@
     <AddForm @handleQuery="handleQueryWithPageParam" ref="addChildrenRef"/>
     <ListTable :tableData="tableData" @handleEditView="handleEditView" @handleDetailView="handleDetailView" @handleQuery="handleQueryWithPageParam"
                @handleSelectMore="handleSelectMore"/>
-    <UpdateForm v-model="dialogUpdateFormVisible" @handleQuery="handleQuery" @handleEdit="dialogUpdateFormVisible = false" :record="recordVo"/>
+    <UpdateForm v-model="dialogUpdateFormVisible" @handleQuery="handleQuery" @handleEdit="dialogUpdateFormVisible = false" :updateParam="recordVo"/>
     <DetailModal v-model="detailFormVisible" ref="childrenRef" @handleQuery="handleQuery" @handleEdit="detailFormVisible = false"/>
   </div>
 
@@ -12,9 +12,9 @@
 
 <script lang="ts" setup>
 import {onMounted, ref} from 'vue'
-import {list{{.JavaName}}Data} from "../service";
+import {query{{.JavaName}}List} from "./service";
 import type {IResponse} from "@/api/ajax";
-import type {Search{{.JavaName}}Param, List{{.JavaName}}Param, {{.JavaName}}RecordVo} from "@./data.d";
+import type {Search{{.JavaName}}Param, List{{.JavaName}}Param, {{.JavaName}}RecordVo} from "./data.d";
 import AddForm from "./components/AddForm.vue";
 import UpdateForm from "./components/UpdateForm.vue";
 import ListTable from "./components/ListTable.vue";
@@ -26,20 +26,21 @@ const childrenRef = ref();
 const addChildrenRef = ref();
 
 const tableData = ref<IResponse>({code: 0, data: [], msg: ""})
-const searchParam = ref<SearchParam>({})
+const searchParam = ref<Search{{.JavaName}}Param>({})
 
 const currentPage = ref(1)
 const pageSize = ref(10)
 
-const recordVo = ref<RecordVo>({
-  create_time: "", id: 0, mobile: "", real_name: "", remark: "", sort: 0, status_id: 0, update_time: ""
+const recordVo = ref<{{.JavaName}}RecordVo>({
+{{range .TableColumn}}
+  {{if eq .TsType "string"}}{{.JavaName}}: '',{{else}}{{.JavaName}}: 0,{{end}}{{end}}
 })
 
-const handleQuery = async (data: ListParam) => {
+const handleQuery = async (data: List{{.JavaName}}Param) => {
   dialogUpdateFormVisible.value = false
   detailFormVisible.value = false
   searchParam.value = {...data}
-  let res: IResponse = await listData({...data, ...searchParam.value, current: currentPage.value, pageSize: pageSize.value})
+  let res: IResponse = await query{{.JavaName}}List({...data, ...searchParam.value, current: currentPage.value, pageSize: pageSize.value})
   tableData.value = {...res}
 }
 

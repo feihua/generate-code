@@ -2,32 +2,32 @@
   <el-space direction="horizontal" size="large" style="margin-left: 20px;margin-top: 20px">
     <el-button type="primary" icon="Plus" @click="dialogFormVisible = true">新建</el-button>
     <el-button type="danger" icon="Delete" :disabled="btnDisabled" @click="handleDeleteMore">批量删除</el-button>
-    <el-form :inline="true" :model="search{{.JavaName}}Param" class="demo-form-inline" style="height: 32px;margin-left: 60px">
+    <el-form :inline="true" :model="searchParam" class="demo-form-inline" style="height: 32px;margin-left: 60px">
     {{range .TableColumn}}
 
      <el-form-item label="{{.ColumnComment}}">{{if isContain .JavaName "Sort"}}
-        <el-input-number v-model="search{{.JavaName}}Param.{{.JavaName}}" placeholder="请输入{{.ColumnComment}}"/>
+        <el-input-number v-model="searchParam.{{.JavaName}}" placeholder="请输入{{.ColumnComment}}"/>
     {{else if isContain .JavaName "sort"}}
-        <el-input-number v-model="search{{.JavaName}}Param.{{.JavaName}}" placeholder="请输入{{.ColumnComment}}"/>
+        <el-input-number v-model="searchParam.{{.JavaName}}" placeholder="请输入{{.ColumnComment}}"/>
     {{else if isContain .JavaName "status"}}
-        <el-select v-model="search{{.JavaName}}Param.{{.JavaName}}" placeholder="请选择状态">
+        <el-select v-model="searchParam.{{.JavaName}}" placeholder="请选择状态">
           <el-option label="启用" value="1"/>
           <el-option label="禁用" value="0"/>
         </el-select>
     {{else if isContain .JavaName "Status"}}
-       <el-select v-model="search{{.JavaName}}Param.{{.JavaName}}" placeholder="请选择状态">
+       <el-select v-model="searchParam.{{.JavaName}}" placeholder="请选择状态">
          <el-option label="启用" value="1"/>
          <el-option label="禁用" value="0"/>
        </el-select>
    {{else if isContain .JavaName "Type"}}
-        <el-select v-model="search{{.JavaName}}Param.{{.JavaName}}" placeholder="请选择状态">
+        <el-select v-model="searchParam.{{.JavaName}}" placeholder="请选择状态">
           <el-option label="启用" value="1"/>
           <el-option label="禁用" value="0"/>
         </el-select>
      {{else if isContain .JavaName "remark"}}
-        <el-input v-model="search{{.JavaName}}Param.{{.JavaName}}" :rows="2" type="textarea" 请输入备注/>
+        <el-input v-model="searchParam.{{.JavaName}}" :rows="2" type="textarea" 请输入备注/>
      {{else}}
-        <el-input v-model="search{{.JavaName}}Param.{{.JavaName}}" placeholder="请输入{{.ColumnComment}}"/>
+        <el-input v-model="searchParam.{{.JavaName}}" placeholder="请输入{{.ColumnComment}}"/>
      {{end}} </el-form-item>{{end}}
 
     </el-form>
@@ -36,7 +36,7 @@
   <el-dialog v-model="dialogFormVisible" title="新建" style="width: 480px;border-radius: 10px">
     <el-form
         label-width="100px"
-        :model="add{{.JavaName}}Param"
+        :model="addParam"
         style="max-width: 380px"
         :rules="rules"
         status-icon
@@ -45,28 +45,28 @@
     {{range .TableColumn}}
 
     <el-form-item label="{{.ColumnComment}}">{{if isContain .JavaName "Sort"}}
-        <el-input-number v-model="add{{.JavaName}}Param.{{.JavaName}}" placeholder="请输入{{.ColumnComment}}"/>
+        <el-input-number v-model="addParam.{{.JavaName}}" placeholder="请输入{{.ColumnComment}}"/>
     {{else if isContain .JavaName "sort"}}
-        <el-input-number v-model="add{{.JavaName}}Param.{{.JavaName}}" placeholder="请输入{{.ColumnComment}}"/>
+        <el-input-number v-model="addParam.{{.JavaName}}" placeholder="请输入{{.ColumnComment}}"/>
     {{else if isContain .JavaName "status"}}
-        <el-select v-model="add{{.JavaName}}Param.{{.JavaName}}" placeholder="请选择状态">
+        <el-select v-model="addParam.{{.JavaName}}" placeholder="请选择状态">
           <el-option label="启用" value="1"/>
           <el-option label="禁用" value="0"/>
         </el-select>
     {{else if isContain .JavaName "Status"}}
-       <el-select v-model="add{{.JavaName}}Param.{{.JavaName}}" placeholder="请选择状态">
+       <el-select v-model="addParam.{{.JavaName}}" placeholder="请选择状态">
          <el-option label="启用" value="1"/>
          <el-option label="禁用" value="0"/>
        </el-select>
    {{else if isContain .JavaName "Type"}}
-        <el-select v-model="add{{.JavaName}}Param.{{.JavaName}}" placeholder="请选择状态">
+        <el-select v-model="addParam.{{.JavaName}}" placeholder="请选择状态">
           <el-option label="启用" value="1"/>
           <el-option label="禁用" value="0"/>
         </el-select>
      {{else if isContain .JavaName "remark"}}
-        <el-input v-model="add{{.JavaName}}Param.{{.JavaName}}" :rows="2" type="textarea" 请输入备注/>
+        <el-input v-model="addParam.{{.JavaName}}" :rows="2" type="textarea" 请输入备注/>
      {{else}}
-        <el-input v-model="add{{.JavaName}}Param.{{.JavaName}}" placeholder="请输入{{.ColumnComment}}"/>
+        <el-input v-model="addParam.{{.JavaName}}" placeholder="请输入{{.ColumnComment}}"/>
      {{end}} </el-form-item>{{end}}
       <el-form-item>
         <el-button type="primary" @click="handleAdd(ruleFormRef)">保存</el-button>
@@ -91,13 +91,13 @@ const {{.LowerJavaName}}Ids = ref<number[]>([])
 
 const ruleFormRef = ref<FormInstance>()
 
-const add{{.JavaName}}Param = reactive<Add{{.JavaName}}Param>({
+const addParam = reactive<Add{{.JavaName}}Param>({
 {{range .TableColumn}}
   {{if eq .TsType "string"}}{{.JavaName}}: '',{{else}}{{.JavaName}}: 0,{{end}}{{end}}
 
 })
 
-const search{{.JavaName}}Param = reactive<Search{{.JavaName}}Param>({})
+const searchParam = reactive<Search{{.JavaName}}Param>({})
 
 const rules = reactive<FormRules>({
     {{range .TableColumn}}
@@ -114,7 +114,7 @@ const handleAdd = async (formEl: FormInstance | undefined) => {
   if (!formEl) return
   await formEl.validate(async (valid, fields) => {
     if (valid) {
-      const addResult: IResponse = await add{{.JavaName}}(add{{.JavaName}}Param)
+      const addResult: IResponse = await add{{.JavaName}}(addParam)
       if (addResult.code === 0) {
         dialogFormVisible.value = false
         formEl.resetFields()
@@ -129,17 +129,14 @@ const handleAdd = async (formEl: FormInstance | undefined) => {
 
 
 const handleQuery = async () => {
-  emit("handleQuery", search{{.JavaName}}Param);
+  emit("handleQuery", searchParam);
 }
 
 const handleQueryReset = async () => {
-  {{range .TableColumn}}
-  {{if eq .TsType "string"}}
-  search{{.JavaName}}Param.{{.JavaName}} = ''
-  {{else}}
-  search{{.JavaName}}Param.{{.JavaName}} = undefined
-  {{end}}{{end}}
-  emit("handleQuery", {current: 1, pageSize: 10, ...search{{.JavaName}}Param});
+  {{range .TableColumn}}{{if eq .TsType "string"}}
+  searchParam.{{.JavaName}} = ''{{else}}
+  searchParam.{{.JavaName}} = undefined{{end}}{{end}}
+  emit("handleQuery", {current: 1, pageSize: 10, ...searchParam});
 }
 
 const handleReceiveDeleteParam = async (ids: number[]) => {

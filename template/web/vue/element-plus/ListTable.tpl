@@ -76,6 +76,7 @@ import type { IResponse } from '@/api/ajax'
 import { remove{{.JavaName}} } from '../service'
 import { ref } from 'vue'
 import { EditPen } from '@element-plus/icons-vue'
+import { ElMessage, ElMessageBox } from 'element-plus'
 
 const props = defineProps<{
   tableData: IResponse
@@ -105,7 +106,7 @@ const handleDelete = (index: number, row: {{.JavaName}}RecordVo) => {
       type: 'warning'
     }
   ).then(async () => {
-    let res: IResponse = await remove([row.id])
+    let res: IResponse = await remove{{.JavaName}}([row.id])
     if (res.code == 0) {
       emit('handleQuery', { current: currentPage.value, pageSize: pageSize.value })
     }

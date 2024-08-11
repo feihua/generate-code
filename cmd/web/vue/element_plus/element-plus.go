@@ -24,7 +24,7 @@ to quickly create a Cobra application.`,
 		tables := utils.New().QueryTables(Dsn, TableNames, prefix)
 		var path = "generate/web/vue/element-plus/"
 		for _, t := range tables {
-			Generate(t, "template/web/vue/element-plus/data.d.ts", path+t.JavaName, "data.d.ts")
+			Generate(t, "template/web/vue/element-plus/data.tpl", path+t.JavaName, "data.d.ts")
 			//Generate(t, "template/web/vue/element-plus/service.ts", path+t.JavaName, "service.ts")
 			//Generate(t, "template/web/vue/element-plus/index.tpl", path+t.JavaName, "index.tsx")
 			//

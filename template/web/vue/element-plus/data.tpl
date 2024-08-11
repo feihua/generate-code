@@ -1,26 +1,26 @@
-export interface ListParam {
+export interface List{{.JavaName}}Param {
     current?: number;
     pageSize?: number;
 {{range .TableColumn}}    {{.JavaName}}?: {{.TsType}}; //{{.ColumnComment}}
 {{end}}
 }
 
-export interface SearchParam {
+export interface Search{{.JavaName}}Param {
 {{range .TableColumn}}    {{.JavaName}}?: {{.TsType}}; //{{.ColumnComment}}
 {{end}}
 }
 
-export interface AddParam {
+export interface Add{{.JavaName}}Param {
 {{range .TableColumn}}    {{.JavaName}}: {{.TsType}}; //{{.ColumnComment}}
 {{end}}
 }
 
-export interface UpdateParam {
+export interface Update{{.JavaName}}Param {
 {{range .TableColumn}}    {{.JavaName}}: {{.TsType}}; //{{.ColumnComment}}
 {{end}}
 }
 
-export interface RecordVo {
+export interface {{.JavaName}}RecordVo {
 {{range .TableColumn}}    {{.JavaName}}: {{.TsType}}; //{{.ColumnComment}}
 {{end}}
 }

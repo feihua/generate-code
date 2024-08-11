@@ -1,13 +1,14 @@
-import {axiosInstance, IResponse} from "../../../api/ajax.ts";
-import { {{.JavaName}}Vo, {{.JavaName}}ListParam} from "./data";
-import {message} from "antd";
+import type {IResponse} from "@/api/ajax";
+import type {Add{{.JavaName}}Param, Update{{.JavaName}}Param, List{{.JavaName}}Param} from "./data";
+import {axiosInstance} from "@/api/ajax";
+import { ElMessage } from 'element-plus'
 
 /**
  * @description: 添加{{.Comment}}
- * @params {record} {{.JavaName}}Vo
+ * @params {params} Add{{.JavaName}}Param
  * @return {Promise}
  */
-export const add{{.JavaName}} = (params: {{.JavaName}}Vo): Promise<IResponse> => {
+export const add{{.JavaName}} = (params: Add{{.JavaName}}Param): Promise<IResponse> => {
     return axiosInstance.post('/api/demo/{{.LowerJavaName}}/add{{.JavaName}}', params).then(res => res.data);
 };
 
@@ -23,10 +24,10 @@ export const remove{{.JavaName}} = (ids: Number[]): Promise<IResponse> => {
 
 /**
  * @description: 更新{{.Comment}}
- * @params {record} {{.JavaName}}Vo
+ * @params {params} Update{{.JavaName}}Param
  * @return {Promise}
  */
-export const update{{.JavaName}} = (params: {{.JavaName}}Vo): Promise<IResponse> => {
+export const update{{.JavaName}} = (params: Update{{.JavaName}}Param): Promise<IResponse> => {
     return axiosInstance.post('/api/demo/{{.LowerJavaName}}/update{{.JavaName}}', params).then(res => res.data);
 };
 
@@ -52,10 +53,10 @@ export const query{{.JavaName}}Detail = (id: number): Promise<IResponse> => {
 
 /**
  * @description: 分页查询{{.Comment}}列表
- * @params {params} {{.JavaName}}ListParam
+ * @params {params} List{{.JavaName}}Param
  * @return {Promise}
  */
-export const query{{.JavaName}}List = (params: {{.JavaName}}ListParam): Promise<IResponse> => {
+export const query{{.JavaName}}List = (params: List{{.JavaName}}Param): Promise<IResponse> => {
     return axiosInstance.get('/api/demo/{{.LowerJavaName}}/query{{.JavaName}}List', {params}).then(res => res.data);
 };
 
@@ -65,6 +66,6 @@ export const query{{.JavaName}}List = (params: {{.JavaName}}ListParam): Promise<
  * @param resp
  */
 export const handleResp = (resp: IResponse): boolean => {
-    resp.code === 0 ? message.success(resp.msg) : message.error(resp.msg);
+    resp.code === 0 ? ElMessage.success(resp.msg) : ElMessage.error(resp.msg);
     return resp.code === 0
 };

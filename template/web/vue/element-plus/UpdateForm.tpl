@@ -43,7 +43,7 @@
 
 <script lang="ts" setup>
 
-import {reactive, ref} from "vue";
+import { onMounted, reactive, ref} from "vue";
 import type {Update{{.JavaName}}Param} from "../data.d";
 import { type FormRules, type FormInstance, ElMessage, ElMessageBox } from 'element-plus'
 import type {IResponse} from "@/api/ajax";
@@ -53,7 +53,7 @@ const props = defineProps<{
   updateParam: Update{{.JavaName}}Param
 }>()
 
-const updateParamVo = reactive<Update{{.JavaName}}Param>({
+let updateParamVo = reactive<Update{{.JavaName}}Param>({
 {{range .TableColumn}}
   {{if eq .TsType "string"}}{{.JavaName}}: '',{{else}}{{.JavaName}}: 0,{{end}}{{end}}
 

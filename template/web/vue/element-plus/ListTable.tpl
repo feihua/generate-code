@@ -1,6 +1,7 @@
 <template>
   <el-divider />
   <el-table :data="props.tableData.data" table-layout="auto" @selection-change="handleSelectionChange" size="large">
+  <el-table-column type="selection" width="55" />
   {{range .TableColumn}}{{if isContain .JavaName "Name"}}
   <el-table-column label="{{.ColumnComment}}" prop="{{.JavaName}}" />
   {{else if isContain .JavaName "name"}}

@@ -5,7 +5,7 @@
     <ListTable :tableData="tableData" @handleEditView="handleEditView" @handleDetailView="handleDetailView" @handleQuery="handleQueryWithPageParam"
                @handleSelectMore="handleSelectMore"/>
     <UpdateForm v-model="dialogUpdateFormVisible" @handleQuery="handleQuery" @handleEdit="dialogUpdateFormVisible = false" :updateParam="recordVo"/>
-    <DetailModal v-model="detailFormVisible" ref="childrenRef" @handleQuery="handleQuery" @handleEdit="detailFormVisible = false"/>
+    <DetailModal v-model="detailFormVisible" ref="childrenRef" @handleEdit="detailFormVisible = false"/>
   </div>
 
 </template>
@@ -58,7 +58,7 @@ const handleEditView = (row: {{.JavaName}}RecordVo) => {
 const handleDetailView = (row: {{.JavaName}}RecordVo) => {
   recordVo.value = row
   detailFormVisible.value = true
-  childrenRef.value.query{{.JavaName}}Detail(row.id)
+  childrenRef.value.query{{.JavaName}}Info(row.id)
 }
 
 const handleSelectMore = (ids: number[]) => {

@@ -30,6 +30,10 @@
         <el-input v-model="searchParam.{{.JavaName}}" placeholder="请输入{{.ColumnComment}}"/>
      {{end}} </el-form-item>{{end}}
 
+     <el-form-item>
+        <el-button type="primary" @click="handleQuery" icon="Search" style="width: 120px">查询</el-button>
+        <el-button @click="handleQueryReset" style="width: 100px">重置</el-button>
+      </el-form-item>
     </el-form>
   </el-space>
 

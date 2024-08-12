@@ -48,19 +48,13 @@ import type {Update{{.JavaName}}Param} from "../data.d";
 import { type FormRules, type FormInstance, ElMessage, ElMessageBox } from 'element-plus'
 import type {IResponse} from "@/api/ajax";
 import {update{{.JavaName}} } from "../service";
+import {query{{.JavaName}}Detail} from "../service";
 
-const props = defineProps<{
-  updateParam: Update{{.JavaName}}Param
-}>()
 
-let updateParamVo = reactive<Update{{.JavaName}}Param>({
+let updateParamVo = ref<Update{{.JavaName}}Param>({
 {{range .TableColumn}}
   {{if eq .TsType "string"}}{{.JavaName}}: '',{{else}}{{.JavaName}}: 0,{{end}}{{end}}
 
-})
-
-onMounted(async () => {
-  updateParamVo=props.updateParam
 })
 
 const dialogUpdateFormVisible = ref(false)
@@ -82,8 +76,8 @@ const handleEditViewClose = () => {
 }
 
 const handleEdit = async () => {
-  if (updateParamVo) {
-    let addResult: IResponse = await update{{.JavaName}}(updateParamVo)
+  if (updateParamVo.value) {
+    let addResult: IResponse = await update{{.JavaName}}(updateParamVo.value)
     if (addResult.code === 0) {
       dialogUpdateFormVisible.value = false
       emit("handleQuery");
@@ -92,6 +86,15 @@ const handleEdit = async () => {
   }
 }
 
+const query{{.JavaName}}Info = async (id: number) => {
+  let res: IResponse = await query{{.JavaName}}Detail(id)
+  updateParamVo.value = res.data
+
+}
+
+defineExpose({
+  query{{.JavaName}}Info
+});
 </script>
 
 <style scoped>

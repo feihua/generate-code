@@ -48,7 +48,7 @@
     >
     {{range .TableColumn}}
 
-    <el-form-item label="{{.ColumnComment}}">{{if isContain .JavaName "Sort"}}
+    <el-form-item label="{{.ColumnComment}}" prop="{{.JavaName}}">{{if isContain .JavaName "Sort"}}
         <el-input-number v-model="addParam.{{.JavaName}}" placeholder="请输入{{.ColumnComment}}"/>
     {{else if isContain .JavaName "sort"}}
         <el-input-number v-model="addParam.{{.JavaName}}" placeholder="请输入{{.ColumnComment}}"/>

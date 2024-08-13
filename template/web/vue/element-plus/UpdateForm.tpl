@@ -13,20 +13,20 @@
     {{else if isContain .JavaName "sort"}}
         <el-input-number v-model="updateParamVo.{{.JavaName}}" placeholder="请输入{{.ColumnComment}}"/>
     {{else if isContain .JavaName "status"}}
-        <el-select v-model="updateParamVo.{{.JavaName}}" placeholder="请选择状态">
-          <el-option label="启用" value="1"/>
-          <el-option label="禁用" value="0"/>
-        </el-select>
+        <el-radio-group v-model="updateParamVo.{{.JavaName}}" placeholder="请选择状态">
+          <el-radio :label="1">启用</el-radio>
+          <el-radio :label="0">禁用</el-radio>
+        </el-radio-group>
     {{else if isContain .JavaName "Status"}}
-       <el-select v-model="updateParamVo.{{.JavaName}}" placeholder="请选择状态">
-         <el-option label="启用" value="1"/>
-         <el-option label="禁用" value="0"/>
-       </el-select>
+        <el-radio-group v-model="updateParamVo.{{.JavaName}}" placeholder="请选择状态">
+          <el-radio :label="1">启用</el-radio>
+          <el-radio :label="0">禁用</el-radio>
+        </el-radio-group>
    {{else if isContain .JavaName "Type"}}
-        <el-select v-model="updateParamVo.{{.JavaName}}" placeholder="请选择状态">
-          <el-option label="启用" value="1"/>
-          <el-option label="禁用" value="0"/>
-        </el-select>
+        <el-radio-group v-model="updateParamVo.{{.JavaName}}" placeholder="请选择状态">
+          <el-radio :label="1">启用</el-radio>
+          <el-radio :label="0">禁用</el-radio>
+        </el-radio-group>
      {{else if isContain .JavaName "remark"}}
         <el-input v-model="updateParamVo.{{.JavaName}}" type="textarea" placeholder="请输入{{.ColumnComment}}"/>
      {{else}}

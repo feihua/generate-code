@@ -5,6 +5,7 @@
         :model="updateParamVo"
         style="max-width: 380px"
         :rules="rules"
+        ref="ruleFormRef"
     >
     {{range .TableColumn}}
 
@@ -34,7 +35,7 @@
      {{end}} </el-form-item>{{end}}
 
       <el-form-item>
-        <el-button type="primary" @click="handleEdit">保存</el-button>
+        <el-button type="primary" @click="handleEdit(ruleFormRef)">保存</el-button>
         <el-button @click="handleEditViewClose">取消</el-button>
       </el-form-item>
     </el-form>
@@ -50,7 +51,7 @@ import type {IResponse} from "@/api/ajax";
 import {update{{.JavaName}} } from "../service";
 import {query{{.JavaName}}Detail} from "../service";
 
-
+const ruleFormRef = ref<FormInstance>()
 let updateParamVo = ref<Update{{.JavaName}}Param>({
 {{range .TableColumn}}
   {{if eq .TsType "string"}}{{.JavaName}}: '',{{else}}{{.JavaName}}: 0,{{end}}{{end}}
@@ -75,15 +76,21 @@ const handleEditViewClose = () => {
   emit("handleEdit");
 }
 
-const handleEdit = async () => {
-  if (updateParamVo.value) {
-    let addResult: IResponse = await update{{.JavaName}}(updateParamVo.value)
-    if (addResult.code === 0) {
-      dialogUpdateFormVisible.value = false
-      emit("handleQuery");
+const handleEdit = async (formEl: FormInstance | undefined) => {
+  if (!formEl) return
+  await formEl.validate(async (valid, fields) => {
+    if (valid) {
+      const updateResult: IResponse = await update{{.JavaName}}(updateParamVo.value)
+      if (updateResult.code === 0) {
+        dialogUpdateFormVisible.value = false
+        formEl.resetFields()
+        emit("handleQuery", {current: 1, pageSize: 10});
+      }
+      updateResult.code === 0 ? ElMessage.success(updateResult.message) : ElMessage.error(updateResult.message)
+    } else {
+      ElMessage.error("数据不能为空")
     }
-    addResult.code === 0 ? ElMessage.success(addResult.msg) : ElMessage.error(addResult.msg)
-  }
+  })
 }
 
 const query{{.JavaName}}Info = async (id: number) => {

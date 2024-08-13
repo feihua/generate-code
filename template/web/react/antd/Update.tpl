@@ -1,21 +1,24 @@
 import React, {useEffect} from 'react';
 import {Form, Input, InputNumber, Modal, Radio} from 'antd';
 import { {{.JavaName}}Vo} from "../data";
+import {query{{.JavaName}}Detail} from "../service";
 
 interface UpdateFormProps {
     open: boolean;
     onCreate: (values: {{.JavaName}}Vo) => void;
     onCancel: () => void;
-    {{.LowerJavaName}}Vo: {{.JavaName}}Vo;
+    id: number;
 }
 
-const UpdateForm: React.FC<UpdateFormProps> = ({open, onCreate, onCancel, {{.LowerJavaName}}Vo}) => {
+const UpdateForm: React.FC<UpdateFormProps> = ({open, onCreate, onCancel, id) => {
     const [form] = Form.useForm();
     const FormItem = Form.Item;
 
     useEffect(() => {
-        if ({{.LowerJavaName}}Vo) {
-            form.setFieldsValue({{.LowerJavaName}}Vo);
+        if (open) {
+          query{{.JavaName}}Detail(id).then((res) => {
+            form.setFieldsValue(res.data);
+          });
         }
     }, [open]);
 

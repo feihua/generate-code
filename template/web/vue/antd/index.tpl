@@ -65,30 +65,17 @@ const {page, {{.LowerJavaName}}List,} = storeToRefs(store)
 const {query{{.JavaName}}List} = store
 
 const columns = [
-  {
-    title: '角色名称',
-    dataIndex: '{{.LowerJavaName}}Name',
-    key: '{{.LowerJavaName}}Name',
-  },
-  {
-    title: '排序',
-    dataIndex: 'sort',
-    key: 'sort',
-  },
-  {
-    title: '状态',
-    dataIndex: 'status',
-    key: 'status',
-  },
-  {
-    title: '时间',
-    key: 'createTime',
-    dataIndex: 'createTime',
-  },
-  {
-    title: '操作',
-    key: 'action',
-  },
+{{range .TableColumn}}
+    {
+        title: '{{.ColumnComment}}',
+        dataIndex: '{{.JavaName}}',
+        key: '{{.JavaName}}',
+    },
+    {
+      title: '操作',
+      key: 'action',
+    },
+{{end}}
 ];
 
 const handleDetail = (record: {{.JavaName}}RecordVo) => {

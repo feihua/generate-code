@@ -3,7 +3,7 @@
     <a-modal
         v-model:open="detailVisible"
         title="{{.Comment}}详情"
-
+        footer=""
         width="480px"
         style="padding-top: 15px"
     >

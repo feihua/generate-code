@@ -11,9 +11,9 @@
         name="{{.JavaName}}"
         label="{{.ColumnComment}}"
     >{{if isContain .JavaName "Sort"}}
-        <a-input-number v-model:value="formState.{{.JavaName}}" style="width: 234px"/>
+        <a-input-number v-model:value="formState.{{.JavaName}}" style="width: 234px" placeholder="请选择{{.ColumnComment}}"/>
     {{else if isContain .JavaName "sort"}}
-        <a-input-number v-model:value="formState.{{.JavaName}}" style="width: 234px"/>
+        <a-input-number v-model:value="formState.{{.JavaName}}" style="width: 234px" placeholder="请选择{{.ColumnComment}}"/>
     {{else if isContain .JavaName "status"}}
       <a-select v-model:value="formState.{{.JavaName}}" placeholder="请选择{{.ColumnComment}}" style="width: 183px">
         <a-select-option value="1">正常</a-select-option>

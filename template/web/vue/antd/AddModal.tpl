@@ -23,28 +23,28 @@
             label="{{.ColumnComment}}"
             :rules="[{ required: true, message: '请输入{{.ColumnComment}}' }]"
         >{{if isContain .JavaName "Sort"}}
-            <a-input-number v-model:value="formState.{{.JavaName}}" style="width: 234px"/>
+            <a-input-number v-model:value="formState.{{.JavaName}}" style="width: 234px" placeholder="请选择{{.ColumnComment}}"/>
         {{else if isContain .JavaName "sort"}}
-            <a-input-number v-model:value="formState.{{.JavaName}}" style="width: 234px"/>
+            <a-input-number v-model:value="formState.{{.JavaName}}" style="width: 234px" placeholder="请选择{{.ColumnComment}}"/>
         {{else if isContain .JavaName "status"}}
-            <a-radio-group v-model:value="formState.{{.JavaName}}">
+            <a-radio-group v-model:value="formState.{{.JavaName}}" placeholder="请选择{{.ColumnComment}}">
                 <a-radio :value="1">是</a-radio>
                 <a-radio :value="0">否</a-radio>
             </a-radio-group>
         {{else if isContain .JavaName "Status"}}
-            <a-radio-group v-model:value="formState.{{.JavaName}}">
+            <a-radio-group v-model:value="formState.{{.JavaName}}" placeholder="请选择{{.ColumnComment}}">
                 <a-radio :value="1">是</a-radio>
                 <a-radio :value="0">否</a-radio>
             </a-radio-group>
         {{else if isContain .JavaName "Type"}}
-            <a-radio-group v-model:value="formState.{{.JavaName}}">
+            <a-radio-group v-model:value="formState.{{.JavaName}}" placeholder="请选择{{.ColumnComment}}">
                 <a-radio :value="1">正常</a-radio>
                 <a-radio :value="0">禁用</a-radio>
             </a-radio-group>
         {{else if isContain .JavaName "remark"}}
-            <a-textarea v-model:value="formState.{{.JavaName}}" allow-clear/>
+            <a-textarea v-model:value="formState.{{.JavaName}}" allow-clear placeholder="请选择{{.ColumnComment}}"/>
         {{else}}
-            <a-input v-model:value="formState.{{.JavaName}}"/>
+            <a-input v-model:value="formState.{{.JavaName}}" placeholder="请选择{{.ColumnComment}}"/>
         {{end}}</a-form-item>{{end}}
 
       </a-form>

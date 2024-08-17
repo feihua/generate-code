@@ -13,7 +13,6 @@
       <a-form-item
           name="{{.JavaName}}"
           label="{{.ColumnComment}}"
-          :rules="[{ required: true, message: '请输入{{.ColumnComment}}' }]"
       >{{if isContain .JavaName "Sort"}}
           <a-input-number v-model:value="formState.{{.JavaName}}" style="width: 234px" :bordered="false"/>
       {{else if isContain .JavaName "sort"}}

@@ -71,11 +71,11 @@ const columns = [
         dataIndex: '{{.JavaName}}',
         key: '{{.JavaName}}',
     },
+{{end}}
     {
       title: '操作',
       key: 'action',
     },
-{{end}}
 ];
 
 const handleDetail = (record: {{.JavaName}}RecordVo) => {

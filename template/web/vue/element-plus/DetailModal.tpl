@@ -7,8 +7,9 @@
         status-icon
         ref="ruleFormRef"
     >
+    <el-row :gutter="20">
     {{range .TableColumn}}
-
+    <el-col :span="6">
     <el-form-item label="{{.ColumnComment}}" prop="{{.JavaName}}">{{if isContain .JavaName "Sort"}}
         <el-input-number v-model="detailParam.{{.JavaName}}" placeholder="请输入{{.ColumnComment}}"/>
     {{else if isContain .JavaName "sort"}}
@@ -32,7 +33,8 @@
         <el-input v-model="detailParam.{{.JavaName}}" :rows="2" type="textarea" 请输入备注/>
      {{else}}
         <el-input v-model="detailParam.{{.JavaName}}" placeholder="请输入{{.ColumnComment}}"/>
-     {{end}} </el-form-item>{{end}}
+     {{end}} </el-form-item></el-col>{{end}}
+     </el-row>
     </el-form>
   </el-dialog>
 </template>

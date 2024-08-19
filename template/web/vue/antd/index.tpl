@@ -1,7 +1,7 @@
 <template>
-  <ASpace>
-    <AddModal/>
-    <SearchForm style="margin-left: 60px"/>
+  <ASpace style="margin-bottom: 10px">
+    <AddModal />
+    <SearchForm style="margin-left: 20px" />
   </ASpace>
   <a-table :columns="columns" :data-source="{{.LowerJavaName}}List" :pagination="page" @change="handlePageChange"
            table-layout="fixed">

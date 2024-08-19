@@ -9,9 +9,9 @@
     >
     <a-form ref="formRef" :model="formState" name="form_in_modal" :label-col="{ span: 7 }"
             :wrapper-col="{ span: 13 }">
-      <a-row>
-        <a-col :span="12">
+        <a-row>
       {{range .TableColumn}}
+       <a-col :span="12">
       <a-form-item
           name="{{.JavaName}}"
           label="{{.ColumnComment}}"
@@ -38,9 +38,9 @@
           <a-textarea v-model:value="formState.{{.JavaName}}" :bordered="false"/>
       {{else}}
           <a-input v-model:value="formState.{{.JavaName}}" :bordered="false"/>
-      {{end}}</a-form-item>{{end}}
-        </a-col>
-      <a-row>
+      {{end}}</a-form-item></a-col>
+       {{end}}
+        </a-row>
     </a-form>
     </a-modal>
   </div>
@@ -49,13 +49,13 @@
 import {ref} from 'vue';
 import {type FormInstance} from 'ant-design-vue';
 
-import type {Update{{.JavaName}}Param} from "../data";
+import type { {{.JavaName}}RecordVo} from "../data";
 import {query{{.JavaName}}Detail} from "../service";
 import type {IResponse} from "@/utils/ajax";
 
 const formRef = ref<FormInstance>();
 const detailVisible = ref(false);
-const formState = ref<Update{{.JavaName}}Param>({
+const formState = ref<{{.JavaName}}RecordVo>({
   {{range .TableColumn}}
     {{if eq .TsType "string"}}{{.JavaName}}: '',{{else}}{{.JavaName}}: 0,{{end}}{{end}}
 

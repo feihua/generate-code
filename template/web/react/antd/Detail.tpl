@@ -1,5 +1,5 @@
 import React, {useEffect, useRef, useState} from 'react';
-import {Card, Descriptions, Modal, Select, Tag} from 'antd';
+import {Form, Input, InputNumber, message, Modal, Radio, Col, Row} from 'antd';
 import { {{.JavaName}}Vo} from "../data";
 import {query{{.JavaName}}Detail} from "../service";
 
@@ -12,20 +12,57 @@ export interface DetailModalProps {
 
 const DetailModal: React.FC<DetailModalProps> = (props) => {
    const {open, id, onCancel} = props;
-
-   const [{{.LowerJavaName}}Vo, set{{.JavaName}}Vo] = useState<{{.JavaName}}Vo>({
-
-  });
-
+   const [form] = Form.useForm();
+   const FormItem = Form.Item;
 
   useEffect(() => {
     if (open) {
       query{{.JavaName}}Detail(id).then((res) => {
-        set{{.JavaName}}Vo(res.data)
+        form.setFieldsValue(res.data);
       });
     }
   }, [open]);
 
+    const renderContent = () => {
+        return (
+          <>
+          <Row>
+            {{range .TableColumn}}
+            <Col span={12}>
+            <FormItem
+              name="{{.JavaName}}"
+              label="{{.ColumnComment}}"
+              rules={[{required: true, message: '请输入{{.ColumnComment}}!'}]}
+            >{{if isContain .JavaName "Sort"}}
+                <InputNumber style={ {width: 255} }/>
+            {{else if isContain .JavaName "sort"}}
+                <InputNumber style={ {width: 255} }/>
+            {{else if isContain .JavaName "status"}}
+                  <Radio.Group>
+                    <Radio value={0}>禁用</Radio>
+                    <Radio value={1}>正常</Radio>
+                  </Radio.Group>
+            {{else if isContain .JavaName "Status"}}
+                  <Radio.Group>
+                    <Radio value={0}>禁用</Radio>
+                    <Radio value={1}>正常</Radio>
+                  </Radio.Group>
+           {{else if isContain .JavaName "Type"}}
+                    <Radio.Group>
+                      <Radio value={0}>禁用</Radio>
+                      <Radio value={1}>正常</Radio>
+                    </Radio.Group>
+             {{else if isContain .JavaName "remark"}}
+                <Input.TextArea rows={2} placeholder={'请输入备注'}/>
+             {{else}}
+                <Input id="create-{{.JavaName}}" placeholder={'请输入{{.ColumnComment}}!'}/>
+             {{end}}</FormItem></Col>{{end}}
+             </Row>
+          </>
+        );
+    };
+
+ const formLayout = {labelCol: {span: 7}, wrapperCol: {span: 13}, form};
   return (
     <Modal
       forceRender
@@ -37,16 +74,9 @@ const DetailModal: React.FC<DetailModalProps> = (props) => {
       onCancel={onCancel}
     >
 
-      <Card type="inner" title="{{.Comment}}详情">
-        <Descriptions column={2}>
-
-        {{range .TableColumn}}    <Descriptions.Item label="{{.ColumnComment}}">
-              { {{.LowerJavaName}}Vo.{{.JavaName}}}
-            </Descriptions.Item>
-        {{end}}
-
-        </Descriptions>
-      </Card>
+      <Form {...formLayout} style={ {marginTop: 30}}>
+              {renderContent()}
+      </Form>
 
     </Modal>
   );

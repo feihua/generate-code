@@ -9,6 +9,8 @@
     >
     <a-form ref="formRef" :model="formState" name="form_in_modal" :label-col="{ span: 7 }"
             :wrapper-col="{ span: 13 }">
+      <a-row>
+        <a-col :span="12">
       {{range .TableColumn}}
       <a-form-item
           name="{{.JavaName}}"
@@ -33,11 +35,12 @@
               <a-radio :value="0">禁用</a-radio>
           </a-radio-group>
       {{else if isContain .JavaName "remark"}}
-          <a-textarea v-model:value="formState.{{.JavaName}}" allow-clear :bordered="false"/>
+          <a-textarea v-model:value="formState.{{.JavaName}}" :bordered="false"/>
       {{else}}
           <a-input v-model:value="formState.{{.JavaName}}" :bordered="false"/>
       {{end}}</a-form-item>{{end}}
-
+        </a-col>
+      <a-row>
     </a-form>
     </a-modal>
   </div>

@@ -16,7 +16,7 @@ export const add{{.JavaName}} = (params: {{.JavaName}}Vo): Promise<IResponse> =>
  * @params {ids} number[]
  * @return {Promise}
  */
-export const remove{{.JavaName}} = (ids: Number[]): Promise<IResponse> => {
+export const remove{{.JavaName}} = (ids: number[]): Promise<IResponse> => {
     return axiosInstance.get('/api/demo/{{.LowerJavaName}}/delete{{.JavaName}}?ids=[' + ids + "]").then(res => res.data);
 };
 

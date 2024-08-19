@@ -17,7 +17,7 @@ export const add{{.JavaName}} = async (params: Add{{.JavaName}}Param): Promise<I
  * @params {ids} number[]
  * @return {Promise}
  */
-export const remove{{.JavaName}} = async (ids: Number[]): Promise<IResponse> => {
+export const remove{{.JavaName}} = async (ids: number[]): Promise<IResponse> => {
   return axiosInstance.get('/api/demo/{{.LowerJavaName}}/delete{{.JavaName}}?ids=[' + ids + "]").then(res => res.data);
 };
 

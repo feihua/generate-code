@@ -38,8 +38,8 @@
     </template>
   </a-table>
 
-  <UpdateModal ref="updateChildrenRef" v-model="updateVisible"></UpdateModal>
-  <DetailModal ref="detailChildrenRef" v-model="detailVisible"></DetailModal>
+  <UpdateModal ref="updateChildrenRef"></UpdateModal>
+  <DetailModal ref="detailChildrenRef"></DetailModal>
 </template>
 
 <script lang="ts" setup>
@@ -55,8 +55,6 @@ import {message, Modal} from "ant-design-vue";
 import {remove{{.JavaName}}, update{{.JavaName}}Status} from "./service";
 import SearchForm from "./components/SearchForm.vue";
 
-const updateVisible = ref(false);
-const detailVisible = ref(false);
 const updateChildrenRef = ref()
 const detailChildrenRef = ref()
 

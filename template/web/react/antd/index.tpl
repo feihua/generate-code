@@ -167,7 +167,7 @@ const {{.JavaName}}: React.FC = () => {
 
 
     const showEditModal = (param: {{.JavaName}}Vo) => {
-        setCurrent{{.JavaName}}(param.id)
+        setCurrent{{.JavaName}}(param)
         setShowEditModal(true);
     };
 

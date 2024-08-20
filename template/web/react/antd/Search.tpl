@@ -12,8 +12,9 @@ const AdvancedSearchForm: React.FC<CreateFormProps> = ({search, reSet}) => {
     const FormItem = Form.Item;
     const [form] = Form.useForm();
 
-    const onFinish = (values: any) => {
-        search(values)
+
+    const onFinish: FormProps<{{.JavaName}}Vo>['onFinish'] = (values) => {
+        search(values);
     };
 
     const onReset = () => {

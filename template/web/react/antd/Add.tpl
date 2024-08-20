@@ -60,16 +60,13 @@ const CreateForm: React.FC<CreateFormProps> = ({open, onCreate, onCancel}) => {
         );
     };
 
-    const modalFooter = {title: "新建", okText: '保存', onOk: handleOk, onCancel, cancelText: '取消', open, width: 480};
-    const formLayout = {labelCol: {span: 7}, wrapperCol: {span: 13}, form, initialValues: {"sort": 1, "status_id": 1}};
-
-    return (
-        <Modal {...modalFooter} style={ {top: 150}}>
-            <Form {...formLayout} style={ {marginTop: 30}}>
-                {renderContent()}
-            </Form>
-        </Modal>
-    );
+  return (
+    <Modal title="新建" okText="保存" onOk={handleOk} onCancel={onCancel} cancelText="取消" open={open} width={480} style={{ top: 150 }}>
+      <Form labelCol={{ span: 7 }} wrapperCol={{ span: 13 }} form={form} initialValues={{ sort: 1, status_id: 1 }} style={{ marginTop: 30 }}>
+        {renderContent()}
+      </Form>
+    </Modal>
+  );
 };
 
 export default CreateForm;

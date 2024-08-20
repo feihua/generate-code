@@ -62,22 +62,11 @@ const DetailModal: React.FC<DetailModalProps> = (props) => {
         );
     };
 
- const formLayout = {labelCol: {span: 7}, wrapperCol: {span: 13}, form};
   return (
-    <Modal
-      forceRender
-      destroyOnClose
-      title="{{.Comment}}详情"
-      open={open}
-      footer={false}
-      width={1200}
-      onCancel={onCancel}
-    >
-
-      <Form {...formLayout} style={ {marginTop: 30}}>
-              {renderContent()}
+    <Modal forceRender destroyOnClose title="订单详情" open={open} footer={false} width={1200} onCancel={onCancel}>
+      <Form labelCol={{ span: 7 }} wrapperCol={{ span: 13 }} form={form} style={{ marginTop: 30 }}>
+        {renderContent()}
       </Form>
-
     </Modal>
   );
 };

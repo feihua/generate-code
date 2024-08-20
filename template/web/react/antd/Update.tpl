@@ -10,7 +10,7 @@ interface UpdateFormProps {
     id: number;
 }
 
-const UpdateForm: React.FC<UpdateFormProps> = ({open, onCreate, onCancel, id) => {
+const UpdateForm: React.FC<UpdateFormProps> = ({open, onCreate, onCancel, id}) => {
     const [form] = Form.useForm();
     const FormItem = Form.Item;
 

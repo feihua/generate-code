@@ -1,5 +1,9 @@
 <template>
   <el-dialog :model-value="detailFormVisible" title="详情" style="width: 880px;border-radius: 10px" destroy-on-close :close="handleViewClose">
+      <el-descriptions title="{{.Comment}}详情">
+      {{range .TableColumn}}<el-descriptions-item label="{{.ColumnComment}}">{ {detailParam.{{.JavaName}} } }</el-descriptions-item>
+      {{end}}
+      </el-descriptions>
     <el-form
         label-width="100px"
         :model="detailParam"

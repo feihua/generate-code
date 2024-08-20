@@ -9,7 +9,6 @@
         :model="detailParam"
         style="max-width: 380px"
         status-icon
-        ref="ruleFormRef"
     >
     <el-row :gutter="20">
     {{range .TableColumn}}

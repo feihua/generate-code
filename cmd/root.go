@@ -24,6 +24,7 @@ import (
 	react_pro "github.com/feihua/generate-code/cmd/web/react"
 	"github.com/feihua/generate-code/cmd/web/vue/antdv"
 	"github.com/feihua/generate-code/cmd/web/vue/element_plus"
+	"github.com/feihua/generate-code/cmd/web/vue/element_plus_state"
 	"github.com/spf13/cobra"
 	"os"
 )
@@ -78,4 +79,5 @@ func init() {
 	web.WebCmd.AddCommand(antd.Cmd)
 	web.WebCmd.AddCommand(element_plus.Cmd)
 	web.WebCmd.AddCommand(antdv.Cmd)
+	web.WebCmd.AddCommand(element_plus_state.Cmd)
 }

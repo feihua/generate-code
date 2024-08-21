@@ -4,7 +4,7 @@ import type { List{{.JavaName}}Param, {{.JavaName}}RecordVo } from '../data';
 import { query{{.JavaName}}Detail1, query{{.JavaName}}List1 } from '../service';
 
 export const use{{.JavaName}}Store = defineStore('{{.LowerJavaName}}', () => {
-  const {{.LowerJavaName}}RecordVo = ref<{{.JavaName}}RecordVo>({
+  const detailRecordVo = ref<{{.JavaName}}RecordVo>({
   {{range .TableColumn}}
     {{if eq .TsType "string"}}{{.JavaName}}: '',{{else}}{{.JavaName}}: 0,{{end}}{{end}}
   });
@@ -30,7 +30,7 @@ export const use{{.JavaName}}Store = defineStore('{{.LowerJavaName}}', () => {
   function query{{.JavaName}}Detail(id: number, flag: boolean) {
     flag ? (updateVisible.value = true) : (detailVisible.value = true);
     query{{.JavaName}}Detail1(id).then((res) => {
-      {{.LowerJavaName}}RecordVo.value = res.data;
+      detailRecordVo.value = res.data;
     });
   }
 
@@ -44,7 +44,7 @@ export const use{{.JavaName}}Store = defineStore('{{.LowerJavaName}}', () => {
 
   return {
     listParam,
-    {{.LowerJavaName}}RecordVo,
+    detailRecordVo,
     updateVisible,
     detailVisible,
     {{.LowerJavaName}}List,

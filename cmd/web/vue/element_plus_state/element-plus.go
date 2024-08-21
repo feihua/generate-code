@@ -22,16 +22,18 @@ This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		tables := utils.New().QueryTables(Dsn, TableNames, prefix)
-		var path = "generate/web/vue/element-plus/"
+		var path = "generate/web/vue/element-plus-state/"
 		for _, t := range tables {
-			Generate(t, "template/web/vue/element-plus/data.tpl", path+t.JavaName, "data.d.ts")
-			Generate(t, "template/web/vue/element-plus/service.tpl", path+t.JavaName, "service.ts")
-			Generate(t, "template/web/vue/element-plus/index.tpl", path+t.JavaName, "index.vue")
-			//
-			Generate(t, "template/web/vue/element-plus/AddForm.tpl", path+t.JavaName+"/components", "AddForm.vue")
-			Generate(t, "template/web/vue/element-plus/UpdateForm.tpl", path+t.JavaName+"/components", "UpdateForm.vue")
-			Generate(t, "template/web/vue/element-plus/ListTable.tpl", path+t.JavaName+"/components", "ListTable.vue")
-			Generate(t, "template/web/vue/element-plus/DetailModal.tpl", path+t.JavaName+"/components", "DetailModal.vue")
+			Generate(t, "template/web/vue/element-plus-state/data.tpl", path+t.JavaName, "data.d.ts")
+			Generate(t, "template/web/vue/element-plus-state/service.tpl", path+t.JavaName, "service.ts")
+			Generate(t, "template/web/vue/element-plus-state/index.tpl", path+t.JavaName, "index.vue")
+			////
+			Generate(t, "template/web/vue/element-plus-state/store.tpl", path+t.JavaName+"/store", t.LowerJavaName+"Store.ts")
+			Generate(t, "template/web/vue/element-plus-state/SearchForm.tpl", path+t.JavaName+"/components", "SearchForm.vue")
+			Generate(t, "template/web/vue/element-plus-state/AddModal.tpl", path+t.JavaName+"/components", "AddModal.vue")
+			Generate(t, "template/web/vue/element-plus-state/UpdateModal.tpl", path+t.JavaName+"/components", "UpdateModal.vue")
+			Generate(t, "template/web/vue/element-plus-state/ListTable.tpl", path+t.JavaName+"/components", "ListTable.vue")
+			Generate(t, "template/web/vue/element-plus-state/DetailModal.tpl", path+t.JavaName+"/components", "DetailModal.vue")
 		}
 	},
 }

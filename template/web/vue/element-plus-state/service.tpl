@@ -1,7 +1,6 @@
-import type {IResponse} from "@/api/ajax";
-import type {Add{{.JavaName}}Param, Update{{.JavaName}}Param, List{{.JavaName}}Param} from "./data";
-import {axiosInstance} from "@/api/ajax";
-import { ElMessage } from 'element-plus'
+import type {IResponse} from "@/utils/ajax";
+import type {Add{{.JavaName}}Param, Update{{.JavaName}}Param, List{{.JavaName}}Param, Update{{.JavaName}}StatusParam, Delete{{.JavaName}}Param} from "./data";
+import {axiosInstance} from "@/utils/ajax";
 
 /**
  * @description: 添加{{.Comment}}
@@ -17,13 +16,13 @@ export const add{{.JavaName}} = async (params: Add{{.JavaName}}Param): Promise<I
  * @params {ids} number[]
  * @return {Promise}
  */
-export const remove{{.JavaName}} = async (ids: number[]): Promise<IResponse> => {
-  return axiosInstance.get('/api/demo/{{.LowerJavaName}}/delete{{.JavaName}}?ids=[' + ids + "]").then(res => res.data);
+export const remove{{.JavaName}} = async (params: Delete{{.JavaName}}Param): Promise<IResponse> => {
+  return axiosInstance.get('/api/demo/{{.LowerJavaName}}/delete{{.JavaName}}?ids=[' + params.ids + "]").then(res => res.data);
 };
 
 
 /**
- * @description: 更新{{.Comment}}
+ * @description: 修改{{.Comment}}
  * @params {params} Update{{.JavaName}}Param
  * @return {Promise}
  */
@@ -32,12 +31,12 @@ export const update{{.JavaName}} = async (params: Update{{.JavaName}}Param): Pro
 };
 
 /**
- * @description: 批量更新{{.Comment}}状态
- @params {ids} number[]
+ * @description: 批量修改{{.Comment}}状态
+ @params {ids} number[
  @params { {{.LowerJavaName}}Status} number
  * @return {Promise}
  */
-export const update{{.JavaName}}Status = async (params: { ids: number[], {{.LowerJavaName}}Status: number }): Promise<IResponse> => {
+export const update{{.JavaName}}Status = async (params: Update{{.JavaName}}StatusParam): Promise<IResponse> => {
   return axiosInstance.post('/api/demo/{{.LowerJavaName}}/update{{.JavaName}}Status', params).then(res => res.data);
 };
 
@@ -46,7 +45,7 @@ export const update{{.JavaName}}Status = async (params: { ids: number[], {{.Lowe
  * @params {id} number
  * @return {Promise}
  */
-export const query{{.JavaName}}Detail = async (id: number): Promise<IResponse> => {
+export const query{{.JavaName}}Detail1 = async (id: number): Promise<IResponse> => {
   return axiosInstance.get('/api/demo/{{.LowerJavaName}}/query{{.JavaName}}Detail?id=' + id).then(res => res.data);
 };
 
@@ -56,16 +55,6 @@ export const query{{.JavaName}}Detail = async (id: number): Promise<IResponse> =
  * @params {params} List{{.JavaName}}Param
  * @return {Promise}
  */
-export const query{{.JavaName}}List = async(params: List{{.JavaName}}Param): Promise<IResponse> => {
+export const query{{.JavaName}}List1 = async(params: List{{.JavaName}}Param): Promise<IResponse> => {
   return axiosInstance.get('/api/demo/{{.LowerJavaName}}/query{{.JavaName}}List', {params}).then(res => res.data);
-};
-
-
-/**
- * 统一处理
- * @param resp
- */
-export const handleResp = (resp: IResponse): boolean => {
-  resp.code === 0 ? ElMessage.success(resp.msg) : ElMessage.error(resp.msg);
-  return resp.code === 0
 };

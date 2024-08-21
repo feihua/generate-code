@@ -1,7 +1,7 @@
 <template>
   <el-divider />
-  <el-table :data="props.tableData.data" table-layout="auto" @selection-change="handleSelectionChange" size="large">
-  <el-table-column type="selection" width="55" />
+  <el-table :data="{{.LowerJavaName}}List" table-layout="auto" @selection-change="handleSelectionChange" size="large">
+    <el-table-column type="selection" width="55" />
   {{range .TableColumn}}{{if isContain .JavaName "Name"}}
   <el-table-column label="{{.ColumnComment}}" prop="{{.JavaName}}" />
   {{else if isContain .JavaName "name"}}
@@ -51,91 +51,76 @@
 
     <el-table-column label="操作">
       <template #default="scope">
-      <el-button type="primary" link @click="handleDetailView(scope.$index, scope.row)" icon="Setting">详情 </el-button>
-        <el-button type="primary" link @click="handleEditView(scope.$index, scope.row)" icon="EditPen">编辑</el-button>
+        <el-button type="primary" link @click="query{{.JavaName}}Detail(scope.row.id, false)" icon="Setting">详情</el-button>
+        <el-button type="primary" link @click="query{{.JavaName}}Detail(scope.row.id, true)" icon="EditPen">编辑</el-button>
         <el-button type="danger" link @click="handleDelete(scope.$index, scope.row)" icon="Delete">删除</el-button>
       </template>
     </el-table-column>
   </el-table>
   <el-pagination
     background
-    style="margin-top: 12px;padding-bottom: 12px;padding-right: 12px"
-    v-model:current-page="props.tableData.page_no"
-    v-model:page-size="pageSize"
+    style="margin-top: 12px; padding-bottom: 12px; padding-right: 12px"
+    v-model:current-page="listParam.current"
+    v-model:page-size="listParam.pageSize"
     :page-sizes="[10, 20, 30, 40]"
     layout="->,total, sizes, prev, pager, next, jumper"
-    :total="props.tableData.total"
+    :total="listParam.total"
     @size-change="handleSizeChange"
-    @current-change="handleCurrentChange"
-  />
+    @current-change="handleCurrentChange" />
 </template>
 
 <script lang="ts" setup>
+import type { {{.JavaName}}RecordVo } from '../data';
+import type { IResponse } from '@/api/ajax';
+import { remove{{.JavaName}} } from '../service';
+import { onMounted, ref } from 'vue';
+import { ElMessage, ElMessageBox } from 'element-plus';
 
-import type { {{.JavaName}}RecordVo } from '../data'
-import type { IResponse } from '@/api/ajax'
-import { remove{{.JavaName}} } from '../service'
-import { ref } from 'vue'
-import { EditPen } from '@element-plus/icons-vue'
-import { ElMessage, ElMessageBox } from 'element-plus'
+import { use{{.JavaName}}Store } from '../store/{{.LowerJavaName}}Store';
+import { storeToRefs } from 'pinia';
 
-const props = defineProps<{
-  tableData: IResponse
-}>()
+const store = use{{.JavaName}}Store();
 
+const { listParam, {{.LowerJavaName}}List } = storeToRefs(store);
+const { query{{.JavaName}}List, query{{.JavaName}}Detail } = store;
 
-const currentPage = ref(1)
-const pageSize = ref(10)
-
-
-const emit = defineEmits(['handleQuery', 'handleEditView', 'handleDetailView', 'handleSelectMore'])
-
-const handleEditView = (index: number, row: {{.JavaName}}RecordVo) => {
-  emit('handleEditView', row)
-}
-
-const handleDetailView = (index: number, row: {{.JavaName}}RecordVo) => {
-  emit('handleDetailView', row)
-}
+const value = ref(true);
 
 const handleDelete = (index: number, row: {{.JavaName}}RecordVo) => {
-  ElMessageBox.confirm(
-    '确定删除?',
-    {
-      confirmButtonText: '删除',
-      cancelButtonText: '取消',
-      type: 'warning'
-    }
-  ).then(async () => {
-    let res: IResponse = await remove{{.JavaName}}([row.id])
+  ElMessageBox.confirm('确定删除?', {
+    confirmButtonText: '删除',
+    cancelButtonText: '取消',
+    type: 'warning',
+  }).then(async () => {
+    let res: IResponse = await remove{{.JavaName}}({ids:[row.id]});
     if (res.code == 0) {
-      emit('handleQuery', { current: currentPage.value, pageSize: pageSize.value })
+      // emit('handleQuery', { current: currentPage.value, pageSize: pageSize.value });
     }
     ElMessage({
       type: res.code === 0 ? 'success' : 'error',
-      message: res.msg
-    })
-  })
-
-}
+      message: res.message,
+    });
+  });
+};
 
 const handleSelectionChange = (recordVo: {{.JavaName}}RecordVo[]) => {
-  emit('handleSelectMore', recordVo.map((value) => value.id))
-}
+  // emit(
+  //   'handleSelectMore',
+  //   recordVo.map((value) => value.id),
+  // );
+};
 
 const handleSizeChange = (val: number) => {
-  pageSize.value = val
-  emit('handleQuery', { current: currentPage.value, pageSize: pageSize.value })
-}
+  query{{.JavaName}}List({ current: listParam.value.current, pageSize: val });
+};
 
 const handleCurrentChange = (val: number) => {
-  currentPage.value = val
-  props.tableData.page_no = val
-  emit('handleQuery', { current: currentPage.value, pageSize: pageSize.value })
-}
+  query{{.JavaName}}List({ current: val, pageSize: listParam.value.pageSize });
+};
 
+onMounted(() => {
+  query{{.JavaName}}List({ current: listParam.value.current, pageSize: listParam.value.pageSize });
+});
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

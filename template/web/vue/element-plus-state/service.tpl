@@ -1,6 +1,6 @@
-import type {IResponse} from "@/utils/ajax";
+import type { IResponse } from '@/api/ajax'
+import { axiosInstance } from '@/api/ajax'
 import type {Add{{.JavaName}}Param, Update{{.JavaName}}Param, List{{.JavaName}}Param, Update{{.JavaName}}StatusParam, Delete{{.JavaName}}Param} from "./data";
-import {axiosInstance} from "@/utils/ajax";
 
 /**
  * @description: 添加{{.Comment}}

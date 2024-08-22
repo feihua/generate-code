@@ -28,8 +28,8 @@ to quickly create a Cobra application.`,
 			Generate(t, "template/web/vue/element-plus/service.tpl", path+t.JavaName, "service.ts")
 			Generate(t, "template/web/vue/element-plus/index.tpl", path+t.JavaName, "index.vue")
 			//
-			Generate(t, "template/web/vue/element-plus/AddForm.tpl", path+t.JavaName+"/components", "AddForm.vue")
-			Generate(t, "template/web/vue/element-plus/UpdateForm.tpl", path+t.JavaName+"/components", "UpdateForm.vue")
+			Generate(t, "template/web/vue/element-plus/AddForm.tpl", path+t.JavaName+"/components", "AddModal.vue")
+			Generate(t, "template/web/vue/element-plus/UpdateForm.tpl", path+t.JavaName+"/components", "UpdateModal.vue")
 			Generate(t, "template/web/vue/element-plus/ListTable.tpl", path+t.JavaName+"/components", "ListTable.vue")
 			Generate(t, "template/web/vue/element-plus/DetailModal.tpl", path+t.JavaName+"/components", "DetailModal.vue")
 		}

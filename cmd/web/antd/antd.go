@@ -31,8 +31,8 @@ to quickly create a Cobra application.`,
 			Generate(t, "template/web/react/antd/service.tpl", path+t.JavaName, "service.ts")
 			Generate(t, "template/web/react/antd/index.tpl", path+t.JavaName, "index.tsx")
 			//
-			Generate(t, "template/web/react/antd/Add.tpl", path+t.JavaName+"/components", "CreateForm.tsx")
-			Generate(t, "template/web/react/antd/Update.tpl", path+t.JavaName+"/components", "UpdateForm.tsx")
+			Generate(t, "template/web/react/antd/Add.tpl", path+t.JavaName+"/components", "AddModal.tsx")
+			Generate(t, "template/web/react/antd/Update.tpl", path+t.JavaName+"/components", "UpdateModal.tsx")
 			Generate(t, "template/web/react/antd/Search.tpl", path+t.JavaName+"/components", "SearchForm.tsx")
 			Generate(t, "template/web/react/antd/Detail.tpl", path+t.JavaName+"/components", "DetailModal.tsx")
 		}

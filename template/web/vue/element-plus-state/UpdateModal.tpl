@@ -69,7 +69,7 @@ const handleEdit = async (formEl: FormInstance | undefined) => {
         ElMessage.success(res.message);
         formEl.resetFields();
         updateVisible.value = false;
-        query{{.JavaName}}List({ current: listParam.value.current, pageSize: listParam.value.pageSize });
+        query{{.JavaName}}List(listParam.value);
       } else {
         ElMessage.error(res.message);
       }

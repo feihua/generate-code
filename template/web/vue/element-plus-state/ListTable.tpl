@@ -93,13 +93,12 @@ const handleDelete = (index: number, row: {{.JavaName}}RecordVo) => {
     type: 'warning',
   }).then(async () => {
     let res: IResponse = await remove{{.JavaName}}({ids:[row.id]});
-    if (res.code == 0) {
-      // emit('handleQuery', { current: currentPage.value, pageSize: pageSize.value });
+    if (res.code === 0) {
+      ElMessage.success(res.message);
+      queryUserList(listParam.value);
+    } else {
+      ElMessage.error(res.message);
     }
-    ElMessage({
-      type: res.code === 0 ? 'success' : 'error',
-      message: res.message,
-    });
   });
 };
 
@@ -119,7 +118,7 @@ const handleCurrentChange = (val: number) => {
 };
 
 onMounted(() => {
-  query{{.JavaName}}List({ current: listParam.value.current, pageSize: listParam.value.pageSize });
+  query{{.JavaName}}List({ current: 1, pageSize: 10 });
 });
 </script>
 

@@ -32,7 +32,7 @@ to quickly create a Cobra application.`,
 			Generate(t, "template/web/react/antd-state/store.tpl", path+t.JavaName+"/store", "store.ts")
 			//Generate(t, "template/web/react/antd-state/index.tpl", path+t.JavaName, "index.tsx")
 			////
-			//Generate(t, "template/web/react/antd-state/Add.tpl", path+t.JavaName+"/components", "AddModal.tsx")
+			Generate(t, "template/web/react/antd-state/AddModal.tpl", path+t.JavaName+"/components", "AddModal.tsx")
 			//Generate(t, "template/web/react/antd-state/Update.tpl", path+t.JavaName+"/components", "UpdateModal.tsx")
 			//Generate(t, "template/web/react/antd-state/Search.tpl", path+t.JavaName+"/components", "SearchForm.tsx")
 			//Generate(t, "template/web/react/antd-state/Detail.tpl", path+t.JavaName+"/components", "DetailModal.tsx")

@@ -79,7 +79,7 @@ const onOk = () => {
         const res = await add{{.JavaName}}(formState);
         if (res.code == 0) {
           message.success(res.message);
-          query{{.JavaName}}List({});
+          query{{.JavaName}}List({current:1, pageSize: 10});
           visible.value = false;
           formRef.value?.resetFields();
         } else {

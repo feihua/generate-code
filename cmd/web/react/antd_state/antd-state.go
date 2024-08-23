@@ -29,6 +29,7 @@ to quickly create a Cobra application.`,
 		for _, t := range tables {
 			Generate(t, "template/web/react/antd-state/data.d.tpl", path+t.JavaName, "data.d.ts")
 			Generate(t, "template/web/react/antd-state/service.tpl", path+t.JavaName, "service.ts")
+			Generate(t, "template/web/react/antd-state/store.tpl", path+t.JavaName+"/store", "store.ts")
 			//Generate(t, "template/web/react/antd-state/index.tpl", path+t.JavaName, "index.tsx")
 			////
 			//Generate(t, "template/web/react/antd-state/Add.tpl", path+t.JavaName+"/components", "AddModal.tsx")

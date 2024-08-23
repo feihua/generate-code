@@ -20,8 +20,9 @@ import (
 	"github.com/feihua/generate-code/cmd/rust/rocket"
 	"github.com/feihua/generate-code/cmd/rust/salvo"
 	"github.com/feihua/generate-code/cmd/web"
-	"github.com/feihua/generate-code/cmd/web/antd"
-	react_pro "github.com/feihua/generate-code/cmd/web/react"
+	"github.com/feihua/generate-code/cmd/web/react/antd"
+	"github.com/feihua/generate-code/cmd/web/react/antd_state"
+	react_pro "github.com/feihua/generate-code/cmd/web/react/pro"
 	"github.com/feihua/generate-code/cmd/web/vue/antdv"
 	"github.com/feihua/generate-code/cmd/web/vue/element_plus"
 	"github.com/feihua/generate-code/cmd/web/vue/element_plus_state"
@@ -77,6 +78,7 @@ func init() {
 	RootCmd.AddCommand(web.WebCmd)
 	web.WebCmd.AddCommand(react_pro.Cmd)
 	web.WebCmd.AddCommand(antd.Cmd)
+	web.WebCmd.AddCommand(antd_state.Cmd)
 	web.WebCmd.AddCommand(element_plus.Cmd)
 	web.WebCmd.AddCommand(antdv.Cmd)
 	web.WebCmd.AddCommand(element_plus_state.Cmd)

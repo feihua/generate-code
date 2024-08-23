@@ -154,6 +154,7 @@ var TsType = map[string]string{
 	"text":      "string",
 	"timestamp": "string",
 	"decimal":   "number",
+	"date":      "string",
 }
 var ToRustType = map[string]string{
 	"int":       "i32",

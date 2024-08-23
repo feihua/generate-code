@@ -66,7 +66,7 @@ const formState = reactive<Search{{.JavaName}}Param>({
 
 });
 const onFinish = (values: any) => {
-  query{{.JavaName}}List({...values})
+  query{{.JavaName}}List({ ...values, current:1, pageSize: 10 })
 };
 
 const resetFields = () => {

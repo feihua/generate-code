@@ -3,7 +3,7 @@
     <AddModal />
     <SearchForm style="margin-left: 20px" />
   </ASpace>
-  <a-table :columns="columns" :data-source="{{.LowerJavaName}}List" :pagination="page" @change="handlePageChange"
+  <a-table :columns="columns" :data-source="{{.LowerJavaName}}List" :pagination="listParam" @change="handlePageChange"
            table-layout="fixed">
     <template #bodyCell="{ column, record }">
       <template v-if="column.key === '{{.LowerJavaName}}Name'">
@@ -59,7 +59,7 @@ const updateChildrenRef = ref()
 const detailChildrenRef = ref()
 
 const store = use{{.JavaName}}Store()
-const {page, {{.LowerJavaName}}List,} = storeToRefs(store)
+const {listParam, {{.LowerJavaName}}List,} = storeToRefs(store)
 const {query{{.JavaName}}List} = store
 
 const columns = [
@@ -95,7 +95,7 @@ const handleDelete = (record: {{.JavaName}}RecordVo) => {
       const res = await remove{{.JavaName}}({ids:[record.id]});
       if (res.code == 0) {
         message.success(res.message);
-        query{{.JavaName}}List({current: page.value.current, pageSize: page.value.pageSize});
+        query{{.JavaName}}List(listParam.value);
       } else {
         message.error(res.message);
       }
@@ -107,7 +107,6 @@ const handleDelete = (record: {{.JavaName}}RecordVo) => {
 
 
 const handlePageChange = (obj: any) => {
-  delete obj.total
   query{{.JavaName}}List({...obj})
 }
 
@@ -115,7 +114,7 @@ const handleSwitchChange = async (checked: boolean, event: Event, record: {{.Jav
   const res = await update{{.JavaName}}Status({ids: [record.id], status: checked ? 1 : 0});
   if (res.code == 0) {
     message.success(res.message);
-    query{{.JavaName}}List({current: page.value.current, pageSize: page.value.pageSize});
+    query{{.JavaName}}List(listParam.value);
   } else {
     message.error(res.message);
   }

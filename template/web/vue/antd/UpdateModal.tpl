@@ -56,7 +56,7 @@ import type {IResponse} from "@/utils/ajax";
 import {storeToRefs} from "pinia";
 
 const store = use{{.JavaName}}Store()
-const {page} = storeToRefs(store)
+const {listParam} = storeToRefs(store)
 const {query{{.JavaName}}List} = store
 
 
@@ -75,7 +75,7 @@ const onOk = () => {
         const res = await update{{.JavaName}}(formState.value);
         if (res.code == 0) {
           message.success(res.message);
-          query{{.JavaName}}List({current: page.value.current, pageSize: page.value.pageSize});
+          query{{.JavaName}}List(listParam.value);
           updateVisible.value = false;
           formRef.value?.resetFields();
         } else {

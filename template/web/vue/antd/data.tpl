@@ -20,6 +20,7 @@ export interface Update{{.JavaName}}StatusParam {
 export interface List{{.JavaName}}Param {
     current?: number;
     pageSize?: number;
+    total?: number;
 {{range .TableColumn}}    {{.JavaName}}?: {{.TsType}}; //{{.ColumnComment}}
 {{end}}
 }

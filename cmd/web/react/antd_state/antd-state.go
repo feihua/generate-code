@@ -27,14 +27,14 @@ to quickly create a Cobra application.`,
 		tables := utils.New().QueryTables(Dsn, TableNames, prefix)
 		var path = "generate/web/react/antd/"
 		for _, t := range tables {
-			Generate(t, "template/web/react/antd/data.tpl", path+t.JavaName, "data.d.ts")
-			Generate(t, "template/web/react/antd/service.tpl", path+t.JavaName, "service.ts")
-			Generate(t, "template/web/react/antd/index.tpl", path+t.JavaName, "index.tsx")
-			//
-			Generate(t, "template/web/react/antd/Add.tpl", path+t.JavaName+"/components", "AddModal.tsx")
-			Generate(t, "template/web/react/antd/Update.tpl", path+t.JavaName+"/components", "UpdateModal.tsx")
-			Generate(t, "template/web/react/antd/Search.tpl", path+t.JavaName+"/components", "SearchForm.tsx")
-			Generate(t, "template/web/react/antd/Detail.tpl", path+t.JavaName+"/components", "DetailModal.tsx")
+			Generate(t, "template/web/react/antd-state/data.d.tpl", path+t.JavaName, "data.d.ts")
+			//Generate(t, "template/web/react/antd-state/service.tpl", path+t.JavaName, "service.ts")
+			//Generate(t, "template/web/react/antd-state/index.tpl", path+t.JavaName, "index.tsx")
+			////
+			//Generate(t, "template/web/react/antd-state/Add.tpl", path+t.JavaName+"/components", "AddModal.tsx")
+			//Generate(t, "template/web/react/antd-state/Update.tpl", path+t.JavaName+"/components", "UpdateModal.tsx")
+			//Generate(t, "template/web/react/antd-state/Search.tpl", path+t.JavaName+"/components", "SearchForm.tsx")
+			//Generate(t, "template/web/react/antd-state/Detail.tpl", path+t.JavaName+"/components", "DetailModal.tsx")
 		}
 	},
 }
@@ -47,7 +47,7 @@ var Author string
 
 func init() {
 
-	//go run main.go web react_antd --dsn "root:oMbPi5munxCsBSsiLoPV@tcp(110.41.179.89:3306)/better-pay" --tableNames pay_ --prefix pay_ --author liufeihua
+	//go run main.go web antd_state --dsn "root:oMbPi5munxCsBSsiLoPV@tcp(110.41.179.89:3306)/better-pay" --tableNames pay_ --prefix pay_ --author liufeihua
 	Cmd.Flags().StringVarP(&Dsn, "dsn", "", "", "请输入数据库的地址")
 	Cmd.Flags().StringVarP(&TableNames, "tableNames", "", "", "请输入表名称")
 	Cmd.Flags().StringVarP(&prefix, "prefix", "", "", "生成表时候去掉前缀")

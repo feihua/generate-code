@@ -1,5 +1,5 @@
 export interface {{.JavaName}}ListParam {
-    current: number;
+    current?: number;
     pageSize?: number;
     total?: number;
 {{range .TableColumn}}    {{.JavaName}}?: {{.TsType}}; //{{.ColumnComment}}

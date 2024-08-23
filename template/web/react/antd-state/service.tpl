@@ -59,6 +59,6 @@ export const query{{.JavaName}}Detail = async (id: number): Promise<IResponse> =
  * @return {Promise}
  */
 export const query{{.JavaName}}List1 = async (params: {{.JavaName}}ListParam): Promise<IResponse> => {
-  const res = await axiosInstance.get('/api/order/{{.LowerJavaName}}/query{{.JavaName}}List', { params });
+  const res = await axiosInstance.get('/api/demo/{{.LowerJavaName}}/query{{.JavaName}}List', { params });
   return res.data;
 };

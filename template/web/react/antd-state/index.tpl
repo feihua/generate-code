@@ -4,15 +4,15 @@ import { Button, Divider, Dropdown, message, Modal, Space, Switch, Table } from 
 import type { ColumnsType } from 'antd/es/table';
 import { DeleteOutlined, DownOutlined, EditOutlined, ExclamationCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import { {{.JavaName}}Vo } from './data';
-import CreateForm from './components/CreateForm';
-import UpdateForm from './components/UpdateForm';
+import AddModal from './components/AddModal';
+import UpdateModal from './components/UpdateModal';
 import AdvancedSearchForm from './components/SearchForm';
 import DetailModal from './components/DetailModal';
 import { remove{{.JavaName}}, update{{.JavaName}}Status } from './service';
 import use{{.JavaName}}Store from './store/{{.LowerJavaName}}Store.ts';
 
 const {{.JavaName}}: React.FC = () => {
-  const { query{{.JavaName}}List, {{.LowerJavaName}}InfoList, listParam, total } = use{{.JavaName}}Store();
+  const { query{{.JavaName}}List, {{.LowerJavaName}}List, listParam, total } = use{{.JavaName}}Store();
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
 
   const [isShowEditModal, setShowEditModal] = useState<boolean>(false);
@@ -72,7 +72,7 @@ const {{.JavaName}}: React.FC = () => {
             checked={entity.payStatus == 1}
             onChange={(flag) => {
               showStatusConfirm([entity.id], flag ? 1 : 0);
-            }}
+            } }
           />
         );
       },
@@ -90,7 +90,7 @@ const {{.JavaName}}: React.FC = () => {
             checked={entity.status == 1}
             onChange={(flag) => {
               showStatusConfirm([entity.id], flag ? 1 : 0);
-            }}
+            } }
           />
         );
       },
@@ -126,12 +126,12 @@ const {{.JavaName}}: React.FC = () => {
           <Button type="link" size={'small'} danger icon={<DeleteOutlined />} onClick={() => showDeleteConfirm(record)}>
             删除
           </Button>
-          <Dropdown menu={{ items }}>
+          <Dropdown menu={ { items } }>
             <a
               onMouseEnter={(e) => {
                 setCurrent{{.JavaName}}(record);
                 return e.preventDefault();
-              }}>
+              } }>
               <Space>
                 更多
                 <DownOutlined />
@@ -151,7 +151,7 @@ const {{.JavaName}}: React.FC = () => {
           key="1"
           onClick={() => {
             //handleMoreModalVisible(true);
-          }}>
+          } }>
           分配角色
         </a>
       ),
@@ -176,7 +176,7 @@ const {{.JavaName}}: React.FC = () => {
       return true;
     }
     try {
-      await update{{.JavaName}}Status({ ids, {{.LowerJavaName}}InfoStatus: status });
+      await update{{.JavaName}}Status({ ids, {{.LowerJavaName}}Status: status });
       hide();
       message.success('更新状态成功');
       query{{.JavaName}}List(listParam);
@@ -246,12 +246,12 @@ const {{.JavaName}}: React.FC = () => {
   };
 
   return (
-    <div style={{ padding: 24 }}>
+    <div style={ { padding: 24 } }>
       <div>
         <Space size={10}>
-          <CreateForm />
+          <AddModal />
           <Button
-            style={{ float: 'right' }}
+            style={ { float: 'right' } }
             danger
             disabled={selectedRowKeys.length == 0}
             icon={<DeleteOutlined />}
@@ -259,7 +259,7 @@ const {{.JavaName}}: React.FC = () => {
             onClick={async () => {
               await handleRemove(selectedRowKeys as number[]);
               setSelectedRowKeys([]);
-            }}>
+            } }>
             批量删除
           </Button>
           <AdvancedSearchForm />
@@ -269,20 +269,20 @@ const {{.JavaName}}: React.FC = () => {
       <Divider />
 
       <Table
-        rowSelection={{
+        rowSelection={ {
           onChange: (selectedRowKeys: React.Key[]) => {
             setSelectedRowKeys(selectedRowKeys);
           },
-        }}
+        } }
         size={'middle'}
         columns={columns}
-        dataSource={{{.LowerJavaName}}InfoList}
+        dataSource={ {{.LowerJavaName}}List}
         rowKey={'id'}
         pagination={paginationProps}
         // tableLayout={"fixed"}
       />
 
-      <UpdateForm onCancel={() => setShowEditModal(false)} open={isShowEditModal} id={current{{.JavaName}}.id}></UpdateForm>
+      <UpdateModal onCancel={() => setShowEditModal(false)} open={isShowEditModal} id={current{{.JavaName}}.id}></UpdateModal>
       <DetailModal onCancel={() => setShowDetailModal(false)} open={isShowDetailModal} id={current{{.JavaName}}.id}></DetailModal>
     </div>
   );

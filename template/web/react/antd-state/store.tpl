@@ -4,7 +4,7 @@ import { {{.JavaName}}ListParam, {{.JavaName}}Vo } from '../data';
 
 interface {{.JavaName}}State {
   listParam: {{.JavaName}}ListParam;
-  {{.LowerJavaName}}InfoList: {{.JavaName}}Vo[];
+  {{.LowerJavaName}}List: {{.JavaName}}Vo[];
   total: number;
   query{{.JavaName}}List: (params: {{.JavaName}}ListParam) => void;
 }
@@ -15,12 +15,12 @@ const use{{.JavaName}}Store = create<{{.JavaName}}State>()((set) => ({
     pageSize: 10,
   },
   total: 10,
-  {{.LowerJavaName}}InfoList: [],
+  {{.LowerJavaName}}List: [],
   query{{.JavaName}}List: (params: {{.JavaName}}ListParam) => {
     set({ listParam: params });
     query{{.JavaName}}List1(params).then((res) => {
       set({
-        {{.LowerJavaName}}InfoList: res.data,
+        {{.LowerJavaName}}List: res.data,
         total: res.total,
       });
     });

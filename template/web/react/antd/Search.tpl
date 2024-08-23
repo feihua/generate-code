@@ -29,7 +29,6 @@ const AdvancedSearchForm: React.FC<CreateFormProps> = ({search, reSet}) => {
                 <FormItem
                   name="{{.JavaName}}"
                   label="{{.ColumnComment}}"
-                  rules={[{required: true, message: '请输入{{.ColumnComment}}!'}]}
                 >{{if isContain .JavaName "Sort"}}
                     <InputNumber style={ {width: 255} }/>
                 {{else if isContain .JavaName "sort"}}

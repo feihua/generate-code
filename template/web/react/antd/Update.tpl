@@ -78,8 +78,8 @@ const UpdateForm: React.FC<UpdateFormProps> = ({open, onCreate, onCancel, id}) =
     };
 
   return (
-    <Modal title="更新" okText="保存" onOk={handleOk} onCancel={onCancel} cancelText="取消" open={open} width="480" style={{ top: 150 }}>
-      <Form labelCol={{ span: 7 }} wrapperCol={{ span: 13 }} form={form} style={{ marginTop: 30 }}>
+    <Modal title="更新" okText="保存" onOk={handleOk} onCancel={onCancel} cancelText="取消" open={open} width="480" style={ { top: 150 } }>
+      <Form labelCol={ { span: 7 } } wrapperCol={ { span: 13 } } form={form} style={ { marginTop: 30 } }>
         {renderContent()}
       </Form>
     </Modal>

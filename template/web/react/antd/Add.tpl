@@ -61,8 +61,8 @@ const CreateForm: React.FC<CreateFormProps> = ({open, onCreate, onCancel}) => {
     };
 
   return (
-    <Modal title="新建" okText="保存" onOk={handleOk} onCancel={onCancel} cancelText="取消" open={open} width={480} style={{ top: 150 }}>
-      <Form labelCol={{ span: 7 }} wrapperCol={{ span: 13 }} form={form} initialValues={{ sort: 1, status_id: 1 }} style={{ marginTop: 30 }}>
+    <Modal title="新建" okText="保存" onOk={handleOk} onCancel={onCancel} cancelText="取消" open={open} width={480} style={ { top: 150 } }>
+      <Form labelCol={ { span: 7 } } wrapperCol={ { span: 13 } } form={form} initialValues={ { sort: 1, status_id: 1 } } style={ { marginTop: 30 } }>
         {renderContent()}
       </Form>
     </Modal>

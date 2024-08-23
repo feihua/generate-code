@@ -64,7 +64,7 @@ const DetailModal: React.FC<DetailModalProps> = (props) => {
 
   return (
     <Modal forceRender destroyOnClose title="订单详情" open={open} footer={false} width={1200} onCancel={onCancel}>
-      <Form labelCol={{ span: 7 }} wrapperCol={{ span: 13 }} form={form} style={{ marginTop: 30 }}>
+      <Form labelCol={ { span: 7 } } wrapperCol={ { span: 13 } } form={form} style={ { marginTop: 30 } }>
         {renderContent()}
       </Form>
     </Modal>

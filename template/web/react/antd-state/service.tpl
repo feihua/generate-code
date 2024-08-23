@@ -8,7 +8,7 @@ import { {{.JavaName}}ListParam, {{.JavaName}}Vo } from './data';
  * @return {Promise}
  */
 export const add{{.JavaName}} = async (params: {{.JavaName}}Vo): Promise<IResponse> => {
-  const res = await axiosInstance.post('/api/demo/orderInfo/add{{.JavaName}}', params);
+  const res = await axiosInstance.post('/api/demo/{{.LowerJavaName}}/add{{.JavaName}}', params);
   return res.data;
 };
 
@@ -18,7 +18,7 @@ export const add{{.JavaName}} = async (params: {{.JavaName}}Vo): Promise<IRespon
  * @return {Promise}
  */
 export const remove{{.JavaName}} = async (ids: number[]): Promise<IResponse> => {
-  const res = await axiosInstance.get('/api/demo/orderInfo/delete{{.JavaName}}?ids=[' + ids + ']');
+  const res = await axiosInstance.get('/api/demo/{{.LowerJavaName}}/delete{{.JavaName}}?ids=[' + ids + ']');
   return res.data;
 };
 
@@ -28,18 +28,18 @@ export const remove{{.JavaName}} = async (ids: number[]): Promise<IResponse> => 
  * @return {Promise}
  */
 export const update{{.JavaName}} = async (params: {{.JavaName}}Vo): Promise<IResponse> => {
-  const res = await axiosInstance.post('/api/demo/orderInfo/update{{.JavaName}}', params);
+  const res = await axiosInstance.post('/api/demo/{{.LowerJavaName}}/update{{.JavaName}}', params);
   return res.data;
 };
 
 /**
  * @description: 批量更新{{.Comment}}状态
  @params {ids} number[]
- @params { orderInfoStatus} number
+ @params { {{.LowerJavaName}}Status} number
  * @return {Promise}
  */
-export const update{{.JavaName}}Status = async (params: { ids: number[]; orderInfoStatus: number }): Promise<IResponse> => {
-  const res = await axiosInstance.post('/api/demo/orderInfo/update{{.JavaName}}Status', params);
+export const update{{.JavaName}}Status = async (params: { ids: number[]; {{.LowerJavaName}}Status: number }): Promise<IResponse> => {
+  const res = await axiosInstance.post('/api/demo/{{.LowerJavaName}}/update{{.JavaName}}Status', params);
   return res.data;
 };
 
@@ -49,7 +49,7 @@ export const update{{.JavaName}}Status = async (params: { ids: number[]; orderIn
  * @return {Promise}
  */
 export const query{{.JavaName}}Detail = async (id: number): Promise<IResponse> => {
-  const res = await axiosInstance.get('/api/demo/orderInfo/query{{.JavaName}}Detail?id=' + id);
+  const res = await axiosInstance.get('/api/demo/{{.LowerJavaName}}/query{{.JavaName}}Detail?id=' + id);
   return res.data;
 };
 
@@ -59,6 +59,6 @@ export const query{{.JavaName}}Detail = async (id: number): Promise<IResponse> =
  * @return {Promise}
  */
 export const query{{.JavaName}}List1 = async (params: {{.JavaName}}ListParam): Promise<IResponse> => {
-  const res = await axiosInstance.get('/api/order/orderInfo/query{{.JavaName}}List', { params });
+  const res = await axiosInstance.get('/api/order/{{.LowerJavaName}}/query{{.JavaName}}List', { params });
   return res.data;
 };

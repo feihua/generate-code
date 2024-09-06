@@ -1,0 +1,307 @@
+<!--搜索条件-->
+<nz-space nzSize="small" style="margin-bottom: 15px">
+  <button *nzSpaceItem nz-button [nzType]="'primary'" (click)="showAddModal()"><span nz-icon nzType="plus"
+                                                                                     nzTheme="outline"></span>新增
+  </button>
+  <button *nzSpaceItem nz-button [nzType]="'primary'" [disabled]="setOfCheckedId.size === 0" nzDanger
+          (click)="batchDelete()"><span nz-icon nzType="delete" nzTheme="outline"></span>批量删除
+  </button>
+  <form *nzSpaceItem nz-form [nzLayout]="'inline'" [formGroup]="searchForm" (ngSubmit)="submitSearchForm()"
+        style="margin-left: 20px">
+    <nz-form-item>
+      <nz-form-label>名称</nz-form-label>
+      <nz-form-control>
+        <nz-input-group>
+          <input formControlName="userName" nz-input placeholder="请输入名称"/>
+        </nz-input-group>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label>手机号</nz-form-label>
+      <nz-form-control>
+        <nz-input-group>
+          <input formControlName="mobile" nz-input placeholder="请输入手机号"/>
+        </nz-input-group>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label>状态</nz-form-label>
+      <nz-form-control>
+        <nz-select formControlName="status" style="width: 183px" nzPlaceHolder="请选择状态">
+          <nz-option nzValue="1" nzLabel="正常"></nz-option>
+          <nz-option nzValue="0" nzLabel="禁用"></nz-option>
+        </nz-select>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-space nzSize="small">
+        <nz-form-control *nzSpaceItem>
+          <button nz-button nzType="primary"><span nz-icon nzType="search" nzTheme="outline"></span>查询</button>
+        </nz-form-control>
+        <nz-form-control *nzSpaceItem>
+          <button nz-button (click)="resetSearchForm()"><span nz-icon nzType="clear" nzTheme="outline"></span>重置
+          </button>
+        </nz-form-control>
+      </nz-space>
+
+    </nz-form-item>
+  </form>
+</nz-space>
+
+<!--新增数据-->
+<nz-modal
+  [(nzVisible)]="isAddVisible"
+  nzTitle="新增"
+  (nzOnCancel)="handleAddCancel()"
+  (nzOnOk)="handleAddOk()"
+  [nzOkLoading]="isAddOkLoading"
+>
+  <form nz-form [formGroup]="addForm" *nzModalContent>
+    <nz-form-item>
+      <nz-form-label [nzSpan]="7" nzRequired>名称</nz-form-label>
+      <nz-form-control [nzSpan]="12" nzHasFeedback nzValidatingTip="Validating..." [nzErrorTip]="userErrorTpl">
+        <input nz-input formControlName="userName" placeholder="async validate try to write JasonWood"/>
+        <ng-template #userErrorTpl let-control>
+          @if (control.errors?.['required']) {
+            Please input your username!
+          }
+          @if (control.errors?.['duplicated']) {
+            The username is redundant!
+          }
+        </ng-template>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSpan]="7" nzRequired>手机</nz-form-label>
+      <nz-form-control [nzSpan]="12" nzHasFeedback [nzErrorTip]="emailErrorTpl">
+        <input nz-input formControlName="mobile" placeholder="email"/>
+        <ng-template #emailErrorTpl let-control>
+          @if (control.errors?.['email']) {
+            The input is not valid E-mail!
+          }
+          @if (control.errors?.['required']) {
+            Please input your E-mail!
+          }
+        </ng-template>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSpan]="7" nzRequired>邮箱</nz-form-label>
+      <nz-form-control [nzSpan]="12" nzHasFeedback [nzErrorTip]="emailErrorTpl">
+        <input nz-input formControlName="email" placeholder="email" type="email"/>
+        <ng-template #emailErrorTpl let-control>
+          @if (control.errors?.['email']) {
+            The input is not valid E-mail!
+          }
+          @if (control.errors?.['required']) {
+            Please input your E-mail!
+          }
+        </ng-template>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSpan]="7" nzRequired>密码</nz-form-label>
+      <nz-form-control [nzSpan]="12" nzHasFeedback [nzErrorTip]="emailErrorTpl">
+        <input nz-input formControlName="password" placeholder="email" type="password"/>
+        <ng-template #emailErrorTpl let-control>
+          @if (control.errors?.['email']) {
+            The input is not valid E-mail!
+          }
+          @if (control.errors?.['required']) {
+            Please input your E-mail!
+          }
+        </ng-template>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSpan]="7" nzRequired>排序</nz-form-label>
+      <nz-form-control [nzSpan]="12" nzHasFeedback>
+        <nz-input-number formControlName="sort" [nzMin]="1" [nzStep]="1" style="width: 236px"></nz-input-number>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSpan]="7" nzRequired>状态</nz-form-label>
+      <nz-form-control [nzSpan]="12" nzHasFeedback>
+        <nz-radio-group formControlName="status">
+          <label nz-radio [nzValue]=1>正常</label>
+          <label nz-radio [nzValue]=0>禁用</label>
+        </nz-radio-group>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSpan]="7">备注</nz-form-label>
+      <nz-form-control [nzSpan]="12" nzHasFeedback>
+        <nz-textarea-count [nzMaxCharacterCount]="128">
+          <textarea formControlName="remark" nz-input rows="2" placeholder="write any thing"></textarea>
+        </nz-textarea-count>
+      </nz-form-control>
+    </nz-form-item>
+
+  </form>
+</nz-modal>
+
+<!--更新数据-->
+<nz-modal
+  [(nzVisible)]="isUpdateVisible"
+  nzTitle="编辑"
+  (nzOnCancel)="handleUpdateCancel()"
+  (nzOnOk)="handleUpdateOk()"
+  [nzOkLoading]="isUpdateOkLoading"
+>
+  <form nz-form [formGroup]="updateForm" *nzModalContent>
+    <
+    <nz-form-item>
+      <nz-form-label [nzSpan]="7" nzRequired>名称</nz-form-label>
+      <nz-form-control [nzSpan]="12" nzHasFeedback nzValidatingTip="Validating..." [nzErrorTip]="userErrorTpl">
+        <input nz-input formControlName="userName" placeholder="async validate try to write JasonWood"/>
+        <ng-template #userErrorTpl let-control>
+          @if (control.errors?.['required']) {
+            Please input your username!
+          }
+          @if (control.errors?.['duplicated']) {
+            The username is redundant!
+          }
+        </ng-template>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSpan]="7" nzRequired>手机</nz-form-label>
+      <nz-form-control [nzSpan]="12" nzHasFeedback [nzErrorTip]="emailErrorTpl">
+        <input nz-input formControlName="mobile" placeholder="email"/>
+        <ng-template #emailErrorTpl let-control>
+          @if (control.errors?.['email']) {
+            The input is not valid E-mail!
+          }
+          @if (control.errors?.['required']) {
+            Please input your E-mail!
+          }
+        </ng-template>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSpan]="7" nzRequired>邮箱</nz-form-label>
+      <nz-form-control [nzSpan]="12" nzHasFeedback [nzErrorTip]="emailErrorTpl">
+        <input nz-input formControlName="email" placeholder="email" type="email"/>
+        <ng-template #emailErrorTpl let-control>
+          @if (control.errors?.['email']) {
+            The input is not valid E-mail!
+          }
+          @if (control.errors?.['required']) {
+            Please input your E-mail!
+          }
+        </ng-template>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSpan]="7" nzRequired>排序</nz-form-label>
+      <nz-form-control [nzSpan]="12" nzHasFeedback>
+        <nz-input-number formControlName="sort" [nzMin]="1" [nzStep]="1" style="width: 236px"></nz-input-number>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSpan]="7" nzRequired>状态</nz-form-label>
+      <nz-form-control [nzSpan]="12" nzHasFeedback>
+        <nz-radio-group formControlName="status">
+          <label nz-radio [nzValue]=1>正常</label>
+          <label nz-radio [nzValue]=0>禁用</label>
+        </nz-radio-group>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSpan]="7">备注</nz-form-label>
+      <nz-form-control [nzSpan]="12" nzHasFeedback>
+        <nz-textarea-count [nzMaxCharacterCount]="128">
+          <textarea formControlName="remark" nz-input rows="2" placeholder="write any thing"></textarea>
+        </nz-textarea-count>
+      </nz-form-control>
+    </nz-form-item>
+  </form>
+</nz-modal>
+
+<!--详情信息-->
+<nz-modal
+  [(nzVisible)]="isDetailVisible"
+  nzTitle="详情"
+  (nzOnCancel)="handleDetailCancel()"
+  [nzWidth]="800"
+  [nzFooter]="null"
+>
+  <nz-descriptions *nzModalContent>
+    <nz-descriptions-item nzTitle="ID">{ { detailData.id } }</nz-descriptions-item>
+
+
+  </nz-descriptions>
+</nz-modal>
+
+<!--列表数据-->
+<nz-table #basicTable [nzData]="listData"
+          nzShowPagination
+          nzShowSizeChanger
+          [nzTotal]="total"
+          [nzFrontPagination]="false"
+          [nzPageSize]="pageSize"
+          [nzPageIndex]="pageIndex"
+          (nzCurrentPageDataChange)="onCurrentPageDataChange($event)"
+          (nzQueryParams)="onQueryParamsChange($event)">
+  <thead>
+  <tr>
+    <th
+      [nzChecked]="checked"
+      [nzIndeterminate]="indeterminate"
+      nzLabel="Select all"
+      (nzCheckedChange)="onAllChecked($event)"
+    ></th>
+    <th>Id</th>
+    <th>用户名</th>
+    <th>手机</th>
+    <th>邮箱</th>
+    <th>排序</th>
+    <th>状态</th>
+    <th>备注</th>
+    <th>创建者</th>
+    <th>创建时间</th>
+    <th>更新者</th>
+    <th>更新时间</th>
+    <th>操作</th>
+  </tr>
+  </thead>
+  <tbody>
+    @for (data of basicTable.data; track data) {
+      <tr>
+        <td
+          [nzChecked]="setOfCheckedId.has(data.id)"
+          [nzLabel]="data.userName"
+          (nzCheckedChange)="onItemChecked(data.id, $event)"
+        ></td>
+        <td>{{ data.id }}</td>
+        <td>{{ data.userName }}</td>
+        <td>{{ data.mobile }}</td>
+        <td>{{ data.email }}</td>
+        <td>{{ data.sort }}</td>
+        <td>
+          <nz-switch [ngModel]="data.status==1" [nzControl]="true" (click)="clickSwitch(data)"></nz-switch>
+        </td>
+        <td>{{ data.remark }}</td>
+        <td>{{ data.createBy }}</td>
+        <td>{{ data.createTime }}</td>
+        <td>{{ data.updateBy }}</td>
+        <td>{{ data.updateTime }}</td>
+        <td>
+          <a nz-button nzType="link" (click)="showDetailModal(data)" style="padding: 0">
+            <span nz-icon nzType="search" nzTheme="outline"></span>详情
+          </a>
+          <nz-divider nzType="vertical"></nz-divider>
+          <a nz-button nzType="link" (click)="showUpdateModal(data)" style="padding: 0">
+            <span nz-icon nzType="edit" nzTheme="outline"></span>编辑
+          </a>
+          <nz-divider nzType="vertical"></nz-divider>
+          <a nz-button nzType="link" (click)="showDeleteConfirm([data.id])" nzDanger="true" style="padding: 0">
+            <span nz-icon nzType="delete" nzTheme="outline"></span>删除
+          </a>
+        </td>
+      </tr>
+    }
+  </tbody>
+</nz-table>
+
+

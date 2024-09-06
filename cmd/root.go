@@ -20,6 +20,7 @@ import (
 	"github.com/feihua/generate-code/cmd/rust/rocket"
 	"github.com/feihua/generate-code/cmd/rust/salvo"
 	"github.com/feihua/generate-code/cmd/web"
+	"github.com/feihua/generate-code/cmd/web/angular/ng_zorro_antd"
 	"github.com/feihua/generate-code/cmd/web/react/antd"
 	"github.com/feihua/generate-code/cmd/web/react/antd_state"
 	react_pro "github.com/feihua/generate-code/cmd/web/react/pro"
@@ -82,4 +83,5 @@ func init() {
 	web.WebCmd.AddCommand(element_plus.Cmd)
 	web.WebCmd.AddCommand(antdv.Cmd)
 	web.WebCmd.AddCommand(element_plus_state.Cmd)
+	web.WebCmd.AddCommand(ng_zorro_antd.Cmd)
 }

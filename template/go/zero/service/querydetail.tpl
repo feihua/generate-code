@@ -43,10 +43,5 @@ func (l *Query{{.JavaName}}DetailLogic) Query{{.JavaName}}Detail(in *{{.RpcClien
     {{- end}}
 	}
 
-	if err != nil {
-		logc.Errorf(l.ctx, "查询{{.Comment}}详情失败,参数:%+v,异常:%s", in, err.Error())
-		return nil, errors.New("查询{{.Comment}}详情失败")
-	}
-
 	return data, nil
 }

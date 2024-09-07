@@ -29,12 +29,35 @@ func NewUpdate{{.JavaName}}Logic(ctx context.Context, svcCtx *svc.ServiceContext
 
 // Update{{.JavaName}} 更新{{.Comment}}
 func (l *Update{{.JavaName}}Logic) Update{{.JavaName}}(in *{{.RpcClient}}.Update{{.JavaName}}Req) (*{{.RpcClient}}.Update{{.JavaName}}Resp, error) {
+    q := query.{{.UpperOriginalName}}.WithContext(l.ctx)
 
+    // 1.根据{{.Comment}}id查询{{.Comment}}是否已存在
+	_, err := q.Where(query.{{.UpperOriginalName}}.ID.Eq(in.Id)).First()
 
-	//if err != nil {
-	//	logc.Errorf(l.ctx, "更新{{.Comment}}失败,参数:%+v,异常:%s", dictItem, err.Error())
-	//	return nil, errors.New("更新{{.Comment}}失败")
-	//}
+	if err != nil {
+		logc.Errorf(l.ctx, "根据{{.Comment}}id：%d,查询{{.Comment}}失败,异常:%s", in.Id, err.Error())
+		return nil, errors.New(fmt.Sprintf("查询{{.Comment}}失败"))
+	}
+
+	item := &model.{{.UpperOriginalName}}{
+	{{- range .TableColumn}}
+		{{- if isContain .GoNamePublic "Create"}}
+        {{- else if isContain .GoNamePublic "UpdateTime"}}
+        {{- else if isContain .GoNamePublic "Id"}}
+        {{Replace .GoNamePublic "Id" "ID"}}: in.{{.GoNamePublic}}, //{{.ColumnComment}}
+        {{- else}}
+        {{.GoNamePublic}}: in.{{.GoNamePublic}}, //{{.ColumnComment}}
+        {{- end}}
+        {{- end}}
+	}
+
+	// 2.{{.Comment}}存在时,则直接更新{{.Comment}}
+	_, err = q.Updates(item)
+	
+	if err != nil {
+		logc.Errorf(l.ctx, "更新{{.Comment}}失败,参数:%+v,异常:%s", item, err.Error())
+		return nil, errors.New("更新{{.Comment}}失败")
+	}
 
 	return &{{.RpcClient}}.Update{{.JavaName}}Resp{}, nil
 }

@@ -2,6 +2,7 @@ package {{.GoName}}
 
 import (
 	"context"
+	"github.com/feihua/zero-admin/api/admin/internal/common/errorx"
 	"github.com/zeromicro/go-zero/core/logc"
 	"google.golang.org/grpc/status"
 
@@ -30,11 +31,23 @@ func NewUpdate{{.JavaName}}Logic(ctx context.Context, svcCtx *svc.ServiceContext
 // Update{{.JavaName}} 更新{{.Comment}}
 func (l *Update{{.JavaName}}Logic) Update{{.JavaName}}(req *types.Update{{.JavaName}}Req) (resp *types.Update{{.JavaName}}Resp, err error) {
 
-	//if err != nil {
-	//	logc.Errorf(l.ctx, "更新{{.Comment}}失败,参数：%+v,响应：%s", req, err.Error())
-	//	s, _ := status.FromError(err)
-	//	return nil, errorx.NewDefaultError(s.Message())
-	//}
+    _, err = l.svcCtx.{{.JavaName}}Service.Update{{.JavaName}}(l.ctx, &{{.RpcClient}}.Update{{.JavaName}}Req{
+        {{- range .TableColumn}}
+        {{- if isContain .GoNamePublic "UpdateTime"}}
+        {{- else if isContain .GoNamePublic "Create"}}
+        {{- else if eq .GoNamePublic "UpdateBy"}}
+        UpdateBy: l.ctx.Value("userName").(string),
+        {{- else}}
+        {{.GoNamePublic}}: req.{{.GoNamePublic}}, //{{.ColumnComment}}
+        {{- end}}
+        {{- end}}
+    })
+
+	if err != nil {
+	    logc.Errorf(l.ctx, "更新{{.Comment}}失败,参数：%+v,响应：%s", req, err.Error())
+		s, _ := status.FromError(err)
+		return nil, errorx.NewDefaultError(s.Message())
+	}
 
 	return &types.Update{{.JavaName}}Resp{
 		Code:    "000000",

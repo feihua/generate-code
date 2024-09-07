@@ -5,6 +5,7 @@ package zero
 
 import (
 	"bytes"
+	"fmt"
 	"github.com/feihua/generate-code/utils"
 	"github.com/spf13/cobra"
 	"io/ioutil"
@@ -68,7 +69,15 @@ func init() {
 }
 
 func Generate(t utils.Table, tplName, path, fileName string) error {
-	tpl, err := template.ParseFiles(tplName)
+	htmlByte, err := ioutil.ReadFile(tplName)
+	if err != nil {
+		fmt.Println("read html failed, err:", err)
+		return err
+	}
+
+	fmap := template.FuncMap{"isContain": IsContain, "Replace": Replace}
+	tpl, _ := template.New("abc.html").Funcs(fmap).Parse(string(htmlByte))
+	//tpl, err := template.ParseFiles(tplName)
 
 	t.Author = Author
 	t.RpcClient = RpcClient
@@ -90,4 +99,16 @@ func Generate(t utils.Table, tplName, path, fileName string) error {
 	}
 
 	return ioutil.WriteFile(path+string(os.PathSeparator)+fileName, buf.Bytes(), 0755)
+}
+
+// IsContain 判断是否包含
+func IsContain(a, b string) bool {
+
+	return strings.Contains(a, b)
+}
+
+// Replace 替换
+func Replace(str, o, n string) string {
+
+	return strings.ReplaceAll(str, o, n)
 }

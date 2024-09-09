@@ -67,8 +67,14 @@ const visible = ref(false);
 const ruleFormRef = ref<FormInstance>();
 
 const addParam = reactive<Add{{.JavaName}}Param>({
-  {{range .TableColumn}}
-    {{if eq .TsType "string"}}{{.JavaName}}: '',{{else}}{{.JavaName}}: 0,{{end}}{{end}}
+  {{- range .TableColumn}}
+  {{- if isContain .JavaName "create"}}
+  {{- else if isContain .JavaName "update"}}
+  {{- else if isContain .JavaName "id"}}
+  {{- else}}
+  {{if eq .TsType "string"}}{{.JavaName}}: '',{{else}}{{.JavaName}}: 0,{{end}}
+  {{- end}}
+  {{- end}}
 });
 
 const rules = reactive<FormRules>({
@@ -82,8 +88,8 @@ const rules = reactive<FormRules>({
         {required: true, message: '{{.ColumnComment}}不能为空', trigger: 'blur'},
         // {min: 1, max: 5, message: 'Length should be 3 to 5', trigger: 'blur'},
       ],
-     {{end}}
-     {{end}}
+     {{- end}}
+     {{- end}}
 })
 
 const handleAdd = async (formEl: FormInstance | undefined) => {

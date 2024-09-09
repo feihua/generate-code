@@ -18,7 +18,9 @@ const {{.JavaName}}: React.FC = () => {
     const [isShowDetailModal, setShowDetailModal] = useState<boolean>(false);
     const [{{.LowerJavaName}}ListData, set{{.JavaName}}ListData] = useState<{{.JavaName}}Vo[]>([]);
     const [current{{.JavaName}}, setCurrent{{.JavaName}}] = useState<{{.JavaName}}Vo>({
-        
+      {{- range .TableColumn}}
+        {{.JavaName}}: {{if eq .TsType `string`}}''{{else}}0{{end}},
+      {{- end}}
     });
     const [currentPage, setCurrentPage] = useState<number>(1);
     const [pageSize, setPageSize] = useState<number>(10);

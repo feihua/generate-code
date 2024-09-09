@@ -97,8 +97,14 @@ const ruleFormRef = ref<FormInstance>()
 
 const addParam = reactive<Add{{.JavaName}}Param>({
 {{range .TableColumn}}
-  {{if eq .TsType "string"}}{{.JavaName}}: '',{{else}}{{.JavaName}}: 0,{{end}}{{end}}
-
+  {{- range .TableColumn}}
+  {{- if isContain .JavaName "create"}}
+  {{- else if isContain .JavaName "update"}}
+  {{- else if isContain .JavaName "id"}}
+  {{- else}}
+  {{if eq .TsType "string"}}{{.JavaName}}: '',{{else}}{{.JavaName}}: 0,{{end}}
+  {{- end}}
+  {{- end}}
 })
 
 const searchParam = reactive<Search{{.JavaName}}Param>({})
@@ -137,9 +143,9 @@ const handleQuery = async () => {
 }
 
 const handleQueryReset = async () => {
-  {{range .TableColumn}}{{if eq .TsType "string"}}
-  searchParam.{{.JavaName}} = ''{{else}}
-  searchParam.{{.JavaName}} = undefined{{end}}{{end}}
+  {{range .TableColumn}}
+  searchParam.{{.JavaName}} = undefined
+  {{end}}
   emit("handleQuery", {current: 1, pageSize: 10, ...searchParam});
 }
 

@@ -103,8 +103,14 @@ const {query{{.JavaName}}List} = store
 const formRef = ref<FormInstance>();
 const visible = ref(false);
 const formState = reactive<Add{{.JavaName}}Param>({
-  {{range .TableColumn}}
-    {{if eq .TsType "string"}}{{.JavaName}}: '',{{else}}{{.JavaName}}: 0,{{end}}{{end}}
+  {{- range .TableColumn}}
+  {{- if isContain .JavaName "create"}}
+  {{- else if isContain .JavaName "update"}}
+  {{- else if isContain .JavaName "id"}}
+  {{- else}}
+  {{if eq .TsType "string"}}{{.JavaName}}: '',{{else}}{{.JavaName}}: 0,{{end}}
+  {{- end}}
+  {{- end}}
 
 });
 

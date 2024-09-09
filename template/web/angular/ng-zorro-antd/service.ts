@@ -54,7 +54,7 @@ export class {{.JavaName}}Service {
 
   /**
    * 查询{{.Comment}}详情
-   * @param param
+   * @param id
    */
   query{{.JavaName}}Detail(id: number): Observable<IResponse<{{.JavaName}}RecordRes>> {
     return this.http.get<IResponse<{{.JavaName}}RecordRes>>('/api/demo/{{.LowerJavaName}}/query{{.JavaName}}Detail?id=' + id, {});

@@ -57,8 +57,15 @@ const formRef = ref<FormInstance>();
 const searchParam = reactive<List{{.JavaName}}Param>({
   current: 1,
   pageSize: 10,
-  {{range .TableColumn}}
-    {{if eq .TsType "string"}}{{.JavaName}}: undefined,{{else}}{{.JavaName}}: undefined,{{end}}{{end}}
+  {{- range .TableColumn}}
+  {{- if isContain .JavaName "create"}}
+  {{- else if isContain .JavaName "update"}}
+  {{- else if isContain .JavaName "id"}}
+  {{- else if isContain .JavaName "remark"}}
+  {{- else}}
+  {{if eq .TsType "string"}}{{.JavaName}}: '',{{else}}{{.JavaName}}: 0,{{end}}
+  {{- end}}
+  {{- end}}
 });
 
 const onFinish = () => {

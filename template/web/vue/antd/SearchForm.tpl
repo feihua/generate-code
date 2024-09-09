@@ -67,9 +67,15 @@ const {query{{.JavaName}}List} = store
 const formRef = ref<FormInstance>();
 
 const formState = reactive<Search{{.JavaName}}Param>({
-  {{range .TableColumn}}
-    {{if eq .TsType "string"}}{{.JavaName}}: '',{{else}}{{.JavaName}}: 0,{{end}}{{end}}
-
+  {{- range .TableColumn}}
+  {{- if isContain .JavaName "create"}}
+  {{- else if isContain .JavaName "update"}}
+  {{- else if isContain .JavaName "remark"}}
+  {{- else if isContain .JavaName "id"}}
+  {{- else}}
+  {{.JavaName}}: undefined,
+  {{- end}}
+  {{- end}}
 });
 const onFinish = (values: any) => {
   query{{.JavaName}}List({ ...values, current:1, pageSize: 10 })

@@ -87,11 +87,29 @@ export class {{.JavaName}}Component implements OnInit {
   isDetailVisible = false;
 
   searchForm: FormGroup<{
-  {{range .TableColumn}}    {{.JavaName}}: FormControl<{{.TsType}}>,//{{.ColumnComment}}
-  {{end}}
+  {{- range .TableColumn}}
+  {{- if isContain .JavaName "create"}}
+  {{- else if isContain .JavaName "update"}}
+  {{- else if isContain .JavaName "id"}}
+  {{- else if isContain .JavaName "sort"}}
+  {{- else if isContain .JavaName "Sort"}}
+  {{- else if isContain .JavaName "remark"}}
+  {{- else}}
+    {{.JavaName}}: FormControl<{{.TsType}}>,//{{.ColumnComment}}
+  {{- end}}
+  {{- end}}
   }> = this.fb.group({
-  {{range .TableColumn}}    {{.JavaName}}: [{{if eq .TsType `string`}}''{{else}}0{{end}}],
-  {{end}}
+  {{- range .TableColumn}}
+  {{- if isContain .JavaName "create"}}
+  {{- else if isContain .JavaName "update"}}
+  {{- else if isContain .JavaName "id"}}
+  {{- else if isContain .JavaName "sort"}}
+  {{- else if isContain .JavaName "Sort"}}
+  {{- else if isContain .JavaName "remark"}}
+  {{- else}}
+    {{.JavaName}}: [{{if eq .TsType `string`}}''{{else}}0{{end}}],
+  {{- end}}
+  {{- end}}
   });
 
   submitSearchForm(): void {
@@ -108,11 +126,23 @@ export class {{.JavaName}}Component implements OnInit {
 
   // 新增相关参数
   addForm: FormGroup<{
-  {{range .TableColumn}}    {{.JavaName}}: FormControl<{{.TsType}}>,//{{.ColumnComment}}
-  {{end}}
+  {{- range .TableColumn}}
+  {{- if isContain .JavaName "create"}}
+  {{- else if isContain .JavaName "update"}}
+  {{- else if isContain .JavaName "id"}}
+  {{- else}}
+    {{.JavaName}}: FormControl<{{.TsType}}>,//{{.ColumnComment}}
+  {{- end}}
+  {{- end}}
   }> = this.fb.group({
-  {{range .TableColumn}}    {{.JavaName}}: [{{if eq .TsType `string`}}''{{else}}0{{end}}, [Validators.required]],
-  {{end}}
+  {{- range .TableColumn}}
+  {{- if isContain .JavaName "create"}}
+  {{- else if isContain .JavaName "update"}}
+  {{- else if isContain .JavaName "id"}}
+  {{- else}}
+    {{.JavaName}}: [{{if eq .TsType `string`}}''{{else}}0{{end}}, [Validators.required]],
+  {{- end}}
+  {{- end}}
   });
 
   showAddModal(): void {
@@ -124,8 +154,14 @@ export class {{.JavaName}}Component implements OnInit {
     console.log('handleAddOk submit', this.addForm.value);
     const addRecord = this.addForm.value
     this.{{.LowerJavaName}}Service.add{{.JavaName}}({
-      {{range .TableColumn}}    {{.JavaName}}: addRecord.{{.JavaName}} as {{if eq .TsType `string`}}string{{else}}number{{end}},
-      {{end}}
+      {{- range .TableColumn}}
+      {{- if isContain .JavaName "create"}}
+      {{- else if isContain .JavaName "update"}}
+      {{- else if isContain .JavaName "id"}}
+      {{- else}}
+      {{.JavaName}}: addRecord.{{.JavaName}} as {{if eq .TsType `string`}}string{{else}}number{{end}},
+      {{- end}}
+      {{- end}}
     }).subscribe(res => {
       this.message.create(res.code == 0 ? 'success' : 'error', res.message);
       this.isAddOkLoading = false;
@@ -143,11 +179,21 @@ export class {{.JavaName}}Component implements OnInit {
   }
 
   updateForm: FormGroup<{
-  {{range .TableColumn}}    {{.JavaName}}: FormControl<{{.TsType}}>,//{{.ColumnComment}}
-  {{end}}
+  {{- range .TableColumn}}
+  {{- if isContain .JavaName "create"}}
+  {{- else if isContain .JavaName "update"}}
+  {{- else}}
+    {{.JavaName}}: FormControl<{{.TsType}}>,//{{.ColumnComment}}
+  {{- end}}
+  {{- end}}
   }> = this.fb.group({
-  {{range .TableColumn}}    {{.JavaName}}: [{{if eq .TsType `string`}}''{{else}}0{{end}}, [Validators.required]],
-  {{end}}
+  {{- range .TableColumn}}
+  {{- if isContain .JavaName "create"}}
+  {{- else if isContain .JavaName "update"}}
+  {{- else}}
+    {{.JavaName}}: [{{if eq .TsType `string`}}''{{else}}0{{end}}, [Validators.required]],
+  {{- end}}
+  {{- end}}
   });
 
 
@@ -168,8 +214,13 @@ export class {{.JavaName}}Component implements OnInit {
     console.log('handleUpdateOk submit', this.updateForm.value);
     const updateRecord = this.updateForm.value
     this.{{.LowerJavaName}}Service.update{{.JavaName}}({
-      {{range .TableColumn}}    {{.JavaName}}: updateRecord.{{.JavaName}} as {{if eq .TsType `string`}}string{{else}}number{{end}},
-      {{end}}
+      {{- range .TableColumn}}
+      {{- if isContain .JavaName "create"}}
+      {{- else if isContain .JavaName "update"}}
+      {{- else}}
+      {{.JavaName}}: updateRecord.{{.JavaName}} as {{if eq .TsType `string`}}string{{else}}number{{end}},
+      {{- end}}
+      {{- end}}
     }).subscribe(res => {
       this.message.create(res.code == 0 ? 'success' : 'error', res.message);
       this.isUpdateOkLoading = false;
@@ -281,12 +332,29 @@ export class {{.JavaName}}Component implements OnInit {
 
 
   private query{{.JavaName}}List() {
-    const { {{range .TableColumn}}{{.JavaName}},{{end}} } = this.searchForm.value;
+    const { {{- range .TableColumn}}
+    {{- if isContain .JavaName "create"}}
+    {{- else if isContain .JavaName "update"}}
+    {{- else if isContain .JavaName "Sort"}}
+    {{- else if isContain .JavaName "sort"}}
+    {{- else if isContain .JavaName "remark"}}
+    {{- else if isContain .JavaName "id"}}
+    {{- else}}
+    {{.JavaName}},{{- end}}{{- end}} } = this.searchForm.value;
     this.{{.LowerJavaName}}Service.query{{.JavaName}}List({
       current: this.pageIndex,
       pageSize: this.pageSize,
-      {{range .TableColumn}}    {{.JavaName}},
-      {{end}}
+      {{- range .TableColumn}}
+      {{- if isContain .JavaName "create"}}
+      {{- else if isContain .JavaName "update"}}
+      {{- else if isContain .JavaName "Sort"}}
+      {{- else if isContain .JavaName "sort"}}
+      {{- else if isContain .JavaName "remark"}}
+      {{- else if isContain .JavaName "id"}}
+      {{- else}}
+      {{.JavaName}},
+      {{- end}}
+      {{- end}}
     }).subscribe(res => {
       this.listData = res.data
       this.total = res.total

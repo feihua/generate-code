@@ -54,7 +54,13 @@ import {query{{.JavaName}}Detail} from "../service";
 const ruleFormRef = ref<FormInstance>()
 let updateParamVo = ref<Update{{.JavaName}}Param>({
 {{range .TableColumn}}
-  {{if eq .TsType "string"}}{{.JavaName}}: '',{{else}}{{.JavaName}}: 0,{{end}}{{end}}
+  {{- range .TableColumn}}
+  {{- if isContain .JavaName "create"}}
+  {{- else if isContain .JavaName "update"}}
+  {{- else}}
+  {{if eq .TsType "string"}}{{.JavaName}}: '',{{else}}{{.JavaName}}: 0,{{end}}
+  {{- end}}
+  {{- end}}
 
 })
 
@@ -63,12 +69,17 @@ const dialogUpdateFormVisible = ref(false)
 
 const rules = reactive<FormRules>({
     {{range .TableColumn}}
+    {{- if isContain .JavaName "create"}}
+    {{- else if isContain .JavaName "update"}}
+    {{- else if isContain .JavaName "id"}}
+    {{- else if isContain .JavaName "remark"}}
+    {{- else}}
     {{.JavaName}}: [
         {required: true, message: '{{.ColumnComment}}不能为空', trigger: 'blur'},
         // {min: 1, max: 5, message: 'Length should be 3 to 5', trigger: 'blur'},
       ],
      {{end}}
-})
+     {{end}}
 
 const emit = defineEmits(['handleQuery', 'handleEdit'])
 

@@ -77,8 +77,8 @@ const rules = reactive<FormRules>({
         {required: true, message: '{{.ColumnComment}}不能为空', trigger: 'blur'},
         // {min: 1, max: 5, message: 'Length should be 3 to 5', trigger: 'blur'},
       ],
-     {{end}}
-     {{end}}
+     {{- end}}
+     {{- end}}
 })
 
 const handleEdit = async (formEl: FormInstance | undefined) => {

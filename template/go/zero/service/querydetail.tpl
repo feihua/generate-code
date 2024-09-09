@@ -29,7 +29,6 @@ func NewQuery{{.JavaName}}DetailLogic(ctx context.Context, svcCtx *svc.ServiceCo
 
 // Query{{.JavaName}}Detail 查询{{.Comment}}详情
 func (l *Query{{.JavaName}}DetailLogic) Query{{.JavaName}}Detail(in *{{.RpcClient}}.Query{{.JavaName}}DetailReq) (*{{.RpcClient}}.Query{{.JavaName}}DetailResp, error) {
-
 	item, err := query.{{.UpperOriginalName}}.WithContext(l.ctx).Where(query.{{.UpperOriginalName}}.ID.Eq(in.Id)).First()
 
 	if err != nil {
@@ -43,5 +42,6 @@ func (l *Query{{.JavaName}}DetailLogic) Query{{.JavaName}}Detail(in *{{.RpcClien
     {{- end}}
 	}
 
+    logc.Infof(l.ctx, "查询{{.Comment}}详情,参数：%+v,响应：%+v", in, data)
 	return data, nil
 }

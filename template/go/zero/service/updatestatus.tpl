@@ -29,7 +29,6 @@ func NewUpdate{{.JavaName}}StatusLogic(ctx context.Context, svcCtx *svc.ServiceC
 
 // Update{{.JavaName}}Status 更新{{.Comment}}状态
 func (l *Update{{.JavaName}}StatusLogic) Update{{.JavaName}}Status(in *{{.RpcClient}}.Update{{.JavaName}}StatusReq) (*{{.RpcClient}}.Update{{.JavaName}}StatusResp, error) {
-
     q := query.{{.UpperOriginalName}}
 
 	_, err := q.WithContext(l.ctx).Where(q.ID.In(in.Ids...)).Update(q.Status, in.Status)
@@ -39,5 +38,6 @@ func (l *Update{{.JavaName}}StatusLogic) Update{{.JavaName}}Status(in *{{.RpcCli
 		return nil, errors.New("更新{{.Comment}}状态失败")
 	}
 
+    logc.Infof(l.ctx, "更新{{.Comment}}状态成功,参数：%+v", in)
 	return &{{.RpcClient}}.Update{{.JavaName}}StatusResp{}, nil
 }

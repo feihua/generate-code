@@ -41,6 +41,7 @@ func (l *Update{{.JavaName}}StatusLogic) Update{{.JavaName}}Status(req *types.Up
         {{- end}}
         {{- end}}
     })
+
 	if err != nil {
 		logc.Errorf(l.ctx, "更新{{.Comment}}状态失败,参数：%+v,响应：%s", req, err.Error())
 		s, _ := status.FromError(err)

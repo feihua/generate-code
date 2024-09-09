@@ -29,7 +29,6 @@ func NewDelete{{.JavaName}}Logic(ctx context.Context, svcCtx *svc.ServiceContext
 
 // Delete{{.JavaName}} 删除{{.Comment}}
 func (l *Delete{{.JavaName}}Logic) Delete{{.JavaName}}(in *{{.RpcClient}}.Delete{{.JavaName}}Req) (*{{.RpcClient}}.Delete{{.JavaName}}Resp, error) {
-
     q := query.{{.UpperOriginalName}}
 
 	_, err := q.WithContext(l.ctx).Where(q.ID.In(in.Ids...)).Delete()
@@ -39,5 +38,6 @@ func (l *Delete{{.JavaName}}Logic) Delete{{.JavaName}}(in *{{.RpcClient}}.Delete
 		return nil, errors.New("删除{{.Comment}}失败")
 	}
 
+    logc.Infof(l.ctx, "删除{{.Comment}}成功,参数：%+v", in)
 	return &{{.RpcClient}}.Delete{{.JavaName}}Resp{}, nil
 }

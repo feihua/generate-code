@@ -57,6 +57,7 @@ func (l *Query{{.JavaName}}ListLogic) Query{{.JavaName}}List(req *types.Query{{.
         {{end}}
 		})
 	}
+
 	return &types.Query{{.JavaName}}ListResp{
 		Code:    "000000",
 		Message: "查询{{.Comment}}列表成功",

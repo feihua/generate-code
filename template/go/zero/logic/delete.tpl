@@ -33,6 +33,7 @@ func (l *Delete{{.JavaName}}Logic) Delete{{.JavaName}}(req *types.Delete{{.JavaN
 	_, err = l.svcCtx.{{.JavaName}}Service.Delete{{.JavaName}}(l.ctx, &{{.RpcClient}}.Delete{{.JavaName}}Req{
     		Ids: req.Ids,
     	})
+
 	if err != nil {
 		logc.Errorf(l.ctx, "删除{{.Comment}}失败,参数：%+v,响应：%s", req, err.Error())
 		s, _ := status.FromError(err)

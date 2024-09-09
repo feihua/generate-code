@@ -29,7 +29,6 @@ func NewQuery{{.JavaName}}ListLogic(ctx context.Context, svcCtx *svc.ServiceCont
 
 // Query{{.JavaName}}List 查询{{.Comment}}列表
 func (l *Query{{.JavaName}}ListLogic) Query{{.JavaName}}List(in *{{.RpcClient}}.Query{{.JavaName}}ListReq) (*{{.RpcClient}}.Query{{.JavaName}}ListResp, error) {
-
     wh := query.{{.UpperOriginalName}}
     q := wh.WithContext(l.ctx)
 

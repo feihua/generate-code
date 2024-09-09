@@ -44,7 +44,6 @@ func (l *Add{{.JavaName}}Logic) Add{{.JavaName}}(req *types.Add{{.JavaName}}Req)
         {{- end}}
     })
 
-
 	if err != nil {
 		logc.Errorf(l.ctx, "添加{{.Comment}}失败,参数：%+v,响应：%s", req, err.Error())
 		s, _ := status.FromError(err)

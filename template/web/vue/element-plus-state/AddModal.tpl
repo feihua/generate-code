@@ -3,31 +3,46 @@
   <el-dialog v-model="visible" title="新建" style="width: 480px; border-radius: 10px">
     <el-form label-width="100px" :model="addParam" style="max-width: 380px" :rules="rules" status-icon ref="ruleFormRef">
     {{range .TableColumn}}
-
-    <el-form-item label="{{.ColumnComment}}" prop="{{.JavaName}}">{{if isContain .JavaName "Sort"}}
+   {{- if isContain .JavaName "create"}}
+   {{- else if isContain .JavaName "update"}}
+   {{- else if isContain .JavaName "id"}}
+   {{- else if isContain .JavaName "Sort"}}
+    <el-form-item label="{{.ColumnComment}}" prop="{{.JavaName}}">
         <el-input-number v-model="addParam.{{.JavaName}}" placeholder="请输入{{.ColumnComment}}"/>
-    {{else if isContain .JavaName "sort"}}
+    </el-form-item>
+    {{- else if isContain .JavaName "sort"}}
+    <el-form-item label="{{.ColumnComment}}" prop="{{.JavaName}}">
         <el-input-number v-model="addParam.{{.JavaName}}" placeholder="请输入{{.ColumnComment}}"/>
-    {{else if isContain .JavaName "status"}}
+    </el-form-item>
+    {{- else if isContain .JavaName "status"}}
+    <el-form-item label="{{.ColumnComment}}" prop="{{.JavaName}}">
         <el-radio-group v-model="addParam.{{.JavaName}}" placeholder="请选择状态">
           <el-radio :label="1">启用</el-radio>
           <el-radio :label="0">禁用</el-radio>
         </el-radio-group>
-    {{else if isContain .JavaName "Status"}}
+    </el-form-item>
+    {{- else if isContain .JavaName "Status"}}
+    <el-form-item label="{{.ColumnComment}}" prop="{{.JavaName}}">
        <el-radio-group v-model="addParam.{{.JavaName}}" placeholder="请选择状态">
          <el-radio :label="1">启用</el-radio>
          <el-radio :label="0">禁用</el-radio>
        </el-radio-group>
-   {{else if isContain .JavaName "Type"}}
+    </el-form-item>
+   {{- else if isContain .JavaName "Type"}}
+    <el-form-item label="{{.ColumnComment}}" prop="{{.JavaName}}">
         <el-radio-group v-model="addParam.{{.JavaName}}" placeholder="请选择状态">
           <el-radio :label="1">启用</el-radio>
           <el-radio :label="0">禁用</el-radio>
         </el-radio-group>
-     {{else if isContain .JavaName "remark"}}
+    </el-form-item>
+     {{- else if isContain .JavaName "remark"}}
+    <el-form-item label="{{.ColumnComment}}" prop="{{.JavaName}}">
         <el-input v-model="addParam.{{.JavaName}}" :rows="2" type="textarea" 请输入备注/>
-     {{else}}
+    </el-form-item>
+     {{- else}}
+    <el-form-item label="{{.ColumnComment}}" prop="{{.JavaName}}">
         <el-input v-model="addParam.{{.JavaName}}" placeholder="请输入{{.ColumnComment}}"/>
-     {{end}} </el-form-item>{{end}}
+     </el-form-item>{{- end}} {{- end}}
 
       <el-form-item>
         <el-button type="primary" @click="handleAdd(ruleFormRef)">保存</el-button>

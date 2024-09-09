@@ -2,11 +2,11 @@
   <el-divider />
   <el-table :data="{{.LowerJavaName}}List" table-layout="auto" @selection-change="handleSelectionChange" size="large">
     <el-table-column type="selection" width="55" />
-  {{range .TableColumn}}{{if isContain .JavaName "Name"}}
+  {{- range .TableColumn}}{{- if isContain .JavaName "Name"}}
   <el-table-column label="{{.ColumnComment}}" prop="{{.JavaName}}" />
-  {{else if isContain .JavaName "name"}}
+  {{- else if isContain .JavaName "name"}}
   <el-table-column label="{{.ColumnComment}}" prop="{{.JavaName}}" />
-  {{else if isContain .JavaName "Type"}}
+  {{- else if isContain .JavaName "Type"}}
   <el-table-column label="{{.ColumnComment}}" prop="{{.JavaName}}" >
     <template #default="scope">
           <el-tag
@@ -19,7 +19,7 @@
           >
     </template>
   </el-table-column>
-  {{else if isContain .JavaName "status"}}
+  {{- else if isContain .JavaName "status"}}
   <el-table-column label="{{.ColumnComment}}" prop="{{.JavaName}}" >
       <template #default="scope">
             <el-tag
@@ -32,7 +32,7 @@
             >
       </template>
     </el-table-column>
-  {{else if isContain .JavaName "Status"}}
+  {{- else if isContain .JavaName "Status"}}
   <el-table-column label="{{.ColumnComment}}" prop="{{.JavaName}}" >
       <template #default="scope">
             <el-tag
@@ -45,9 +45,9 @@
             >
       </template>
     </el-table-column>
-  {{else}}
+  {{- else}}
   <el-table-column label="{{.ColumnComment}}" prop="{{.JavaName}}" />
-  {{end}}{{end}}
+  {{- end}}{{- end}}
 
     <el-table-column label="操作">
       <template #default="scope">

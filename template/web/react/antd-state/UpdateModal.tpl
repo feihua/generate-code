@@ -51,36 +51,75 @@ const UpdateForm: React.FC<UpdateFormProps> = ({ open, onCancel, id }) => {
             >
               <Input id="update-id"/>
             </FormItem>
-
-            {{range .TableColumn}}
+            {{- range .TableColumn}}
+            {{- if isContain .JavaName "create"}}
+            {{- else if isContain .JavaName "update"}}
+            {{- else if isContain .JavaName "id"}}
+            {{- else if isContain .JavaName "Sort"}}
             <FormItem
               name="{{.JavaName}}"
               label="{{.ColumnComment}}"
               rules={[{required: true, message: '请输入{{.ColumnComment}}!'}]}
-            >{{if isContain .JavaName "Sort"}}
+            >
                 <InputNumber style={ {width: 255} }/>
-            {{else if isContain .JavaName "sort"}}
+             </FormItem>
+            {{- else if isContain .JavaName "sort"}}
+            <FormItem
+              name="{{.JavaName}}"
+              label="{{.ColumnComment}}"
+              rules={[{required: true, message: '请输入{{.ColumnComment}}!'}]}
+            >
                 <InputNumber style={ {width: 255} }/>
-            {{else if isContain .JavaName "status"}}
+             </FormItem>
+            {{- else if isContain .JavaName "status"}}
+            <FormItem
+              name="{{.JavaName}}"
+              label="{{.ColumnComment}}"
+              rules={[{required: true, message: '请输入{{.ColumnComment}}!'}]}
+            >
+              <Radio.Group>
+                <Radio value={0}>禁用</Radio>
+                <Radio value={1}>正常</Radio>
+              </Radio.Group>
+             </FormItem>
+            {{- else if isContain .JavaName "Status"}}
+            <FormItem
+              name="{{.JavaName}}"
+              label="{{.ColumnComment}}"
+              rules={[{required: true, message: '请输入{{.ColumnComment}}!'}]}
+            >
                   <Radio.Group>
                     <Radio value={0}>禁用</Radio>
                     <Radio value={1}>正常</Radio>
                   </Radio.Group>
-            {{else if isContain .JavaName "Status"}}
-                  <Radio.Group>
-                    <Radio value={0}>禁用</Radio>
-                    <Radio value={1}>正常</Radio>
-                  </Radio.Group>
-           {{else if isContain .JavaName "Type"}}
-                    <Radio.Group>
-                      <Radio value={0}>禁用</Radio>
-                      <Radio value={1}>正常</Radio>
-                    </Radio.Group>
-             {{else if isContain .JavaName "remark"}}
+             </FormItem>
+           {{- else if isContain .JavaName "Type"}}
+            <FormItem
+              name="{{.JavaName}}"
+              label="{{.ColumnComment}}"
+              rules={[{required: true, message: '请输入{{.ColumnComment}}!'}]}
+            >
+                <Radio.Group>
+                  <Radio value={0}>禁用</Radio>
+                  <Radio value={1}>正常</Radio>
+                </Radio.Group>
+             </FormItem>
+             {{- else if isContain .JavaName "remark"}}
+            <FormItem
+              name="{{.JavaName}}"
+              label="{{.ColumnComment}}"
+              rules={[{required: true, message: '请输入{{.ColumnComment}}!'}]}
+            >
                 <Input.TextArea rows={2} placeholder={'请输入备注'}/>
-             {{else}}
+             </FormItem>
+             {{- else}}
+            <FormItem
+              name="{{.JavaName}}"
+              label="{{.ColumnComment}}"
+              rules={[{required: true, message: '请输入{{.ColumnComment}}!'}]}
+            >
                 <Input id="create-{{.JavaName}}" placeholder={'请输入{{.ColumnComment}}!'}/>
-             {{end}}</FormItem>{{end}}
+             </FormItem>{{- end}}{{- end}}
           </>
         );
     };

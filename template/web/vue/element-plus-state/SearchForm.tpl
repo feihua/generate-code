@@ -1,31 +1,46 @@
 <template>
   <el-form :inline="true" :model="searchParam" class="demo-form-inline" style="height: 32px; margin-left: 20px" ref="formRef">
     {{range .TableColumn}}
-
-     <el-form-item label="{{.ColumnComment}}">{{if isContain .JavaName "Sort"}}
+    {{- if isContain .JavaName "create"}}
+    {{- else if isContain .JavaName "update"}}
+    {{- else if isContain .JavaName "id"}}
+    {{- else if isContain .JavaName "Sort"}}
+     <el-form-item label="{{.ColumnComment}}">
         <el-input-number v-model="searchParam.{{.JavaName}}" placeholder="请输入{{.ColumnComment}}"/>
-    {{else if isContain .JavaName "sort"}}
+     </el-form-item>
+    {{- else if isContain .JavaName "sort"}}
+     <el-form-item label="{{.ColumnComment}}">
         <el-input-number v-model="searchParam.{{.JavaName}}" placeholder="请输入{{.ColumnComment}}"/>
-    {{else if isContain .JavaName "status"}}
+     </el-form-item>
+    {{- else if isContain .JavaName "status"}}
+     <el-form-item label="{{.ColumnComment}}">
         <el-select v-model="searchParam.{{.JavaName}}" placeholder="请选择状态">
           <el-option label="启用" value="1"/>
           <el-option label="禁用" value="0"/>
         </el-select>
-    {{else if isContain .JavaName "Status"}}
+     </el-form-item>
+    {{- else if isContain .JavaName "Status"}}
+     <el-form-item label="{{.ColumnComment}}">
        <el-select v-model="searchParam.{{.JavaName}}" placeholder="请选择状态">
          <el-option label="启用" value="1"/>
          <el-option label="禁用" value="0"/>
        </el-select>
-   {{else if isContain .JavaName "Type"}}
+     </el-form-item>
+   {{- else if isContain .JavaName "Type"}}
+     <el-form-item label="{{.ColumnComment}}">
         <el-select v-model="searchParam.{{.JavaName}}" placeholder="请选择状态">
           <el-option label="启用" value="1"/>
           <el-option label="禁用" value="0"/>
         </el-select>
-     {{else if isContain .JavaName "remark"}}
+     </el-form-item>
+     {{- else if isContain .JavaName "remark"}}
+     <el-form-item label="{{.ColumnComment}}">
         <el-input v-model="searchParam.{{.JavaName}}" :rows="2" type="textarea" 请输入备注/>
-     {{else}}
+     </el-form-item>
+     {{- else}}
+     <el-form-item label="{{.ColumnComment}}">
         <el-input v-model="searchParam.{{.JavaName}}" placeholder="请输入{{.ColumnComment}}"/>
-     {{end}} </el-form-item>{{end}}
+     </el-form-item>{{- end}}{{- end}}
 
      <el-form-item>
         <el-button type="primary" @click="onFinish" icon="Search" style="width: 120px">查询</el-button>

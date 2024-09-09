@@ -18,98 +18,63 @@ const {{.JavaName}}: React.FC = () => {
   const [isShowEditModal, setShowEditModal] = useState<boolean>(false);
   const [isShowDetailModal, setShowDetailModal] = useState<boolean>(false);
   const [current{{.JavaName}}, setCurrent{{.JavaName}}] = useState<{{.JavaName}}Vo>({
-    channelValue: '',
-    createTime: '',
-    description: '',
-    id: 0,
-    methodValue: '',
-    outTradeNo: '',
-    payDate: '',
-    payStatus: 0,
-    payTime: '',
-    status: 0,
-    totalFee: 0,
-    tradeName: '',
-    updateTime: '',
+  {{range .TableColumn}}{{.JavaName}}: {{if eq .TsType `string`}}''{{else}}0{{end}},
+  {{end}}
+
   });
 
   const columns: ColumnsType<{{.JavaName}}Vo> = [
-    {
-      title: '渠道编码',
-      dataIndex: 'channelValue',
-    },
-    {
-      title: '创建时间',
-      dataIndex: 'createTime',
-    },
-    {
-      title: '订单描述',
-      dataIndex: 'description',
-    },
-    {
-      title: '编号',
-      dataIndex: 'id',
-    },
-    {
-      title: '支付方式编码',
-      dataIndex: 'methodValue',
-    },
-    {
-      title: '(商户)订单流水号',
-      dataIndex: 'outTradeNo',
-    },
-    {
-      title: '支付日期',
-      dataIndex: 'payDate',
-    },
-    {
-      title: '0:待支付，1：支付成功，2：支付失败，3：退款成功，4：正在退款中，5：未知',
-      dataIndex: 'payStatus',
+        {{- range .TableColumn}}{{- if isContain .JavaName "Name"}}
+        {
+          title: '{{.ColumnComment}}',
+          dataIndex: '{{.JavaName}}',
+          render: (text: string) => <a>{text}</a>,
+        },
+        {{- else if isContain .JavaName "name"}}
+        {
+          title: '{{.ColumnComment}}',
+          dataIndex: '{{.JavaName}}',
+          render: (text: string) => <a>{text}</a>,
+        },
+        {{- else if isContain .JavaName "Type"}}
+        {
+          title: '{{.ColumnComment}}',
+          dataIndex: '{{.JavaName}}',
+          render: (_, { {{.JavaName}} }) => (
+              <>
+                  { {{.JavaName}} === 0 ? '禁用' : '启用'}
+              </>
+          ),
+        },
+        {{- else if isContain .JavaName "status"}}
+        {
+          title: '{{.ColumnComment}}',
+          dataIndex: '{{.JavaName}}',
+          render: (dom, entity) => {
+            return (
+              <Switch checked={entity.{{.JavaName}} == 1} onChange={(flag) => {
+                showStatusConfirm( [entity.id], flag ? 1 : 0)
+              }}/>
+            );
+        },
+        },
+        {{- else if isContain .JavaName "Status"}}
+        {
+          title: '{{.ColumnComment}}',
+          dataIndex: '{{.JavaName}}',
 
-      render: (_, entity) => {
-        return (
-          <Switch
-            checked={entity.payStatus == 1}
-            onChange={(flag) => {
-              showStatusConfirm([entity.id], flag ? 1 : 0);
-            } }
-          />
-        );
-      },
-    },
-    {
-      title: '支付时间',
-      dataIndex: 'payTime',
-    },
-    {
-      title: '0：未删除，1：已删除',
-      dataIndex: 'status',
-      render: (_, entity) => {
-        return (
-          <Switch
-            checked={entity.status == 1}
-            onChange={(flag) => {
-              showStatusConfirm([entity.id], flag ? 1 : 0);
-            } }
-          />
-        );
-      },
-    },
-
-    {
-      title: '订单金额(单位：分)',
-      dataIndex: 'totalFee',
-    },
-    {
-      title: '商品名称',
-      dataIndex: 'tradeName',
-      render: (text: string) => <a>{text}</a>,
-    },
-
-    {
-      title: '修改时间',
-      dataIndex: 'updateTime',
-    },
+         render: (dom, entity) => {
+          return (
+            <Switch checked={entity.{{.JavaName}} == 1} onChange={(flag) => {
+              showStatusConfirm( [entity.id], flag ? 1 : 0)
+            }}/>
+          );
+        },
+        },{{- else}}
+        {
+          title: '{{.ColumnComment}}',
+          dataIndex: '{{.JavaName}}',
+        },{{- end}}{{- end}}
 
     {
       title: '操作',
@@ -152,7 +117,7 @@ const {{.JavaName}}: React.FC = () => {
           onClick={() => {
             //handleMoreModalVisible(true);
           } }>
-          分配角色
+          更多操作
         </a>
       ),
       icon: <PlusOutlined />,

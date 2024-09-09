@@ -63,13 +63,13 @@ const {listParam, {{.LowerJavaName}}List,} = storeToRefs(store)
 const {query{{.JavaName}}List} = store
 
 const columns = [
-{{range .TableColumn}}
+{{- range .TableColumn}}
     {
         title: '{{.ColumnComment}}',
         dataIndex: '{{.JavaName}}',
         key: '{{.JavaName}}',
     },
-{{end}}
+{{- end}}
     {
       title: '操作',
       key: 'action',

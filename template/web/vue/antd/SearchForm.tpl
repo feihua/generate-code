@@ -6,34 +6,45 @@
       layout="inline"
       @finish="onFinish"
   >
-    {{range .TableColumn}}
-    <a-form-item
-        name="{{.JavaName}}"
-        label="{{.ColumnComment}}"
-    >{{if isContain .JavaName "Sort"}}
+    {{- range .TableColumn}}
+    {{- if isContain .JavaName "create"}}
+     {{- else if isContain .JavaName "update"}}
+     {{- else if isContain .JavaName "id"}}
+     {{- else if isContain .JavaName "Sort"}}
+    <a-form-item name="{{.JavaName}}"label="{{.ColumnComment}}">
         <a-input-number v-model:value="formState.{{.JavaName}}" style="width: 234px" placeholder="请选择{{.ColumnComment}}"/>
-    {{else if isContain .JavaName "sort"}}
+    </a-form-item>
+    {{- else if isContain .JavaName "sort"}}
+    <a-form-item name="{{.JavaName}}"label="{{.ColumnComment}}">
         <a-input-number v-model:value="formState.{{.JavaName}}" style="width: 234px" placeholder="请选择{{.ColumnComment}}"/>
-    {{else if isContain .JavaName "status"}}
+    </a-form-item>
+    {{- else if isContain .JavaName "status"}}
+    <a-form-item name="{{.JavaName}}"label="{{.ColumnComment}}">
       <a-select v-model:value="formState.{{.JavaName}}" placeholder="请选择{{.ColumnComment}}" style="width: 183px">
         <a-select-option value="1">正常</a-select-option>
         <a-select-option value="0">禁用</a-select-option>
       </a-select>
-    {{else if isContain .JavaName "Status"}}
+    </a-form-item>
+    {{- else if isContain .JavaName "Status"}}
+    <a-form-item name="{{.JavaName}}"label="{{.ColumnComment}}">
       <a-select v-model:value="formState.{{.JavaName}}" placeholder="请选择{{.ColumnComment}}" style="width: 183px">
         <a-select-option value="1">正常</a-select-option>
         <a-select-option value="0">禁用</a-select-option>
       </a-select>
-    {{else if isContain .JavaName "Type"}}
+    </a-form-item>
+    {{- else if isContain .JavaName "Type"}}
+    <a-form-item name="{{.JavaName}}"label="{{.ColumnComment}}">
       <a-select v-model:value="formState.{{.JavaName}}" placeholder="请选择{{.ColumnComment}}" style="width: 183px">
         <a-select-option value="1">正常</a-select-option>
         <a-select-option value="0">禁用</a-select-option>
       </a-select>
-    {{else if isContain .JavaName "remark"}}
+    </a-form-item>
+    {{- else if isContain .JavaName "remark"}}
 
-    {{else}}
+    {{- else}}
+    <a-form-item name="{{.JavaName}}"label="{{.ColumnComment}}">
         <a-input v-model:value="formState.{{.JavaName}}" placeholder="请输入{{.ColumnComment}}"/>
-    {{end}}</a-form-item>{{end}}
+    </a-form-item>{{- end}}{{- end}}
 
     <a-form-item>
       <ASpace>

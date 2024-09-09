@@ -79,7 +79,10 @@
 >
   <form nz-form [formGroup]="addForm" *nzModalContent>
     {{- range .TableColumn}}
-    {{- if isContain .JavaName "Sort"}}
+    {{- if isContain .JavaName "create"}}
+    {{- else if isContain .JavaName "update"}}
+    {{- else if isContain .JavaName "id"}}
+    {{- else if isContain .JavaName "Sort"}}
     <nz-form-item>
       <nz-form-label [nzSpan]="7" nzRequired>{{.ColumnComment}}</nz-form-label>
       <nz-form-control [nzSpan]="12" nzHasFeedback>
@@ -159,7 +162,10 @@
 >
   <form nz-form [formGroup]="updateForm" *nzModalContent>
     {{- range .TableColumn}}
-    {{- if isContain .JavaName "Sort"}}
+    {{- if isContain .JavaName "create"}}
+    {{- else if isContain .JavaName "update"}}
+    {{- else if isContain .JavaName "id"}}
+    {{- else if isContain .JavaName "Sort"}}
     <nz-form-item>
       <nz-form-label [nzSpan]="7" nzRequired>{{.ColumnComment}}</nz-form-label>
       <nz-form-control [nzSpan]="12" nzHasFeedback>

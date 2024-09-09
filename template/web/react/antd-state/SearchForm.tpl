@@ -21,33 +21,67 @@ const AdvancedSearchForm: React.FC = () => {
       return (
           <>
               {{range .TableColumn}}
+              {{- if isContain .JavaName "create"}}
+              {{- else if isContain .JavaName "update"}}
+              {{- else if isContain .JavaName "id"}}
+              {{- else if isContain .JavaName "Sort"}}
               <FormItem
                 name="{{.JavaName}}"
                 label="{{.ColumnComment}}"
-              >{{if isContain .JavaName "Sort"}}
+              >
                   <InputNumber style={ {width: 255} }/>
-              {{else if isContain .JavaName "sort"}}
+               </FormItem>
+              {{- else if isContain .JavaName "sort"}}
+              <FormItem
+                name="{{.JavaName}}"
+                label="{{.ColumnComment}}"
+              >
                   <InputNumber style={ {width: 255} }/>
-              {{else if isContain .JavaName "status"}}
+               </FormItem>
+              {{- else if isContain .JavaName "status"}}
+              <FormItem
+                name="{{.JavaName}}"
+                label="{{.ColumnComment}}"
+              >
                   <Select style={ {width: 200}}>
                       <Select.Option value="1">正常</Select.Option>
                       <Select.Option value="0">禁用</Select.Option>
                   </Select>
-              {{else if isContain .JavaName "Status"}}
+               </FormItem>
+              {{- else if isContain .JavaName "Status"}}
+              <FormItem
+                name="{{.JavaName}}"
+                label="{{.ColumnComment}}"
+              >
                  <Select style={ {width: 200}}>
                     <Select.Option value="1">正常</Select.Option>
                     <Select.Option value="0">禁用</Select.Option>
                  </Select>
-             {{else if isContain .JavaName "Type"}}
+               </FormItem>
+             {{- else if isContain .JavaName "Type"}}
+              <FormItem
+                name="{{.JavaName}}"
+                label="{{.ColumnComment}}"
+              >
                   <Select style={ {width: 200}}>
                       <Select.Option value="1">正常</Select.Option>
                       <Select.Option value="0">禁用</Select.Option>
                   </Select>
-               {{else if isContain .JavaName "remark"}}
+               </FormItem>
+               {{- else if isContain .JavaName "remark"}}
+              <FormItem
+                name="{{.JavaName}}"
+                label="{{.ColumnComment}}"
+              >
                   <Input.TextArea rows={2} placeholder={'请输入备注'}/>
-               {{else}}
+               </FormItem>
+               {{- else}}
+              <FormItem
+                name="{{.JavaName}}"
+                label="{{.ColumnComment}}"
+              >
                   <Input id="search-{{.JavaName}}" placeholder={'请输入{{.ColumnComment}}!'}/>
-               {{end}}</FormItem>{{end}}
+               </FormItem>{{- end}}{{- end}}
               <FormItem>
                   <Space>
                       <Button type="primary" htmlType="submit" icon={<SearchOutlined/>} style={ {width: 120}}>

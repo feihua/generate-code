@@ -24,20 +24,9 @@ const AdvancedSearchForm: React.FC = () => {
               {{- if isContain .JavaName "create"}}
               {{- else if isContain .JavaName "update"}}
               {{- else if isContain .JavaName "id"}}
+              {{- else if isContain .JavaName "remark"}}
               {{- else if isContain .JavaName "Sort"}}
-              <FormItem
-                name="{{.JavaName}}"
-                label="{{.ColumnComment}}"
-              >
-                  <InputNumber style={ {width: 255} }/>
-               </FormItem>
               {{- else if isContain .JavaName "sort"}}
-              <FormItem
-                name="{{.JavaName}}"
-                label="{{.ColumnComment}}"
-              >
-                  <InputNumber style={ {width: 255} }/>
-               </FormItem>
               {{- else if isContain .JavaName "status"}}
               <FormItem
                 name="{{.JavaName}}"

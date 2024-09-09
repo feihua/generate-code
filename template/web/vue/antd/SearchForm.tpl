@@ -10,14 +10,9 @@
     {{- if isContain .JavaName "create"}}
      {{- else if isContain .JavaName "update"}}
      {{- else if isContain .JavaName "id"}}
+     {{- else if isContain .JavaName "remark"}}
      {{- else if isContain .JavaName "Sort"}}
-    <a-form-item name="{{.JavaName}}"label="{{.ColumnComment}}">
-        <a-input-number v-model:value="formState.{{.JavaName}}" style="width: 234px" placeholder="请选择{{.ColumnComment}}"/>
-    </a-form-item>
     {{- else if isContain .JavaName "sort"}}
-    <a-form-item name="{{.JavaName}}"label="{{.ColumnComment}}">
-        <a-input-number v-model:value="formState.{{.JavaName}}" style="width: 234px" placeholder="请选择{{.ColumnComment}}"/>
-    </a-form-item>
     {{- else if isContain .JavaName "status"}}
     <a-form-item name="{{.JavaName}}"label="{{.ColumnComment}}">
       <a-select v-model:value="formState.{{.JavaName}}" placeholder="请选择{{.ColumnComment}}" style="width: 183px">

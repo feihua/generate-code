@@ -4,14 +4,9 @@
     {{- if isContain .JavaName "create"}}
     {{- else if isContain .JavaName "update"}}
     {{- else if isContain .JavaName "id"}}
+    {{- else if isContain .JavaName "remark"}}
     {{- else if isContain .JavaName "Sort"}}
-     <el-form-item label="{{.ColumnComment}}">
-        <el-input-number v-model="searchParam.{{.JavaName}}" placeholder="请输入{{.ColumnComment}}"/>
-     </el-form-item>
     {{- else if isContain .JavaName "sort"}}
-     <el-form-item label="{{.ColumnComment}}">
-        <el-input-number v-model="searchParam.{{.JavaName}}" placeholder="请输入{{.ColumnComment}}"/>
-     </el-form-item>
     {{- else if isContain .JavaName "status"}}
      <el-form-item label="{{.ColumnComment}}">
         <el-select v-model="searchParam.{{.JavaName}}" placeholder="请选择状态">

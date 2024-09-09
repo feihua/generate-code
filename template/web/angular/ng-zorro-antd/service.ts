@@ -65,7 +65,7 @@ export class {{.JavaName}}Service {
    * @param param
    */
   query{{.JavaName}}List(param: QueryList{{.JavaName}}Param): Observable<IResponse<{{.JavaName}}RecordRes[]>> {
-    return this.http.get<IResponse<{{.JavaName}}RecordRes[]>>('/api/demo/{{.LowerJavaName}}/query{{.JavaName}}List', {params: {...params}});
+    return this.http.get<IResponse<{{.JavaName}}RecordRes[]>>('/api/demo/{{.LowerJavaName}}/query{{.JavaName}}List', {params: {...param}});
   }
 
 }

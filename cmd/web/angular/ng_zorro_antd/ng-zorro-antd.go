@@ -28,7 +28,7 @@ to quickly create a Cobra application.`,
 			Generate(t, "template/web/angular/ng-zorro-antd/component.css", path+t.LowerJavaName, t.LowerJavaName+".component.css")
 			Generate(t, "template/web/angular/ng-zorro-antd/service.ts", path+t.LowerJavaName, t.LowerJavaName+".service.ts")
 			Generate(t, "template/web/angular/ng-zorro-antd/component.ts", path+t.LowerJavaName, t.LowerJavaName+".component.ts")
-			//Generate(t, "template/web/angular/ng-zorro-antd/component.html", path+t.JavaName, t.LowerJavaName+".component.html")
+			Generate(t, "template/web/angular/ng-zorro-antd/component.html", path+t.JavaName, t.LowerJavaName+".component.html")
 		}
 	},
 }

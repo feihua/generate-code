@@ -53,7 +53,6 @@ import {query{{.JavaName}}Detail} from "../service";
 
 const ruleFormRef = ref<FormInstance>()
 let updateParamVo = ref<Update{{.JavaName}}Param>({
-{{range .TableColumn}}
   {{- range .TableColumn}}
   {{- if isContain .JavaName "create"}}
   {{- else if isContain .JavaName "update"}}

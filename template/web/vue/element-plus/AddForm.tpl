@@ -96,7 +96,6 @@ const {{.LowerJavaName}}Ids = ref<number[]>([])
 const ruleFormRef = ref<FormInstance>()
 
 const addParam = reactive<Add{{.JavaName}}Param>({
-{{range .TableColumn}}
   {{- range .TableColumn}}
   {{- if isContain .JavaName "create"}}
   {{- else if isContain .JavaName "update"}}

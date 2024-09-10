@@ -46,6 +46,6 @@ export interface List{{.JavaName}}Param {
 }
 
 export interface {{.JavaName}}RecordVo {
-{{range .TableColumn}}    {{.JavaName}}: {{.TsType}}; //{{.ColumnComment}}
+{{range .TableColumn}}  {{.JavaName}}: {{.TsType}}; //{{.ColumnComment}}
 {{end}}
 }

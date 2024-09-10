@@ -110,11 +110,18 @@ const searchParam = reactive<Search{{.JavaName}}Param>({})
 
 const rules = reactive<FormRules>({
     {{range .TableColumn}}
+    {{range .TableColumn}}
+    {{- if isContain .JavaName "create"}}
+    {{- else if isContain .JavaName "update"}}
+    {{- else if isContain .JavaName "id"}}
+    {{- else if isContain .JavaName "remark"}}
+    {{- else}}
     {{.JavaName}}: [
         {required: true, message: '{{.ColumnComment}}不能为空', trigger: 'blur'},
         // {min: 1, max: 5, message: 'Length should be 3 to 5', trigger: 'blur'},
       ],
-     {{end}}
+     {{- end}}
+     {{- end}}
 })
 
 const emit = defineEmits(['handleQuery'])

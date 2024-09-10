@@ -2,13 +2,13 @@ import React from 'react';
 import {Form, Input, InputNumber, message, Modal, Radio} from 'antd';
 import { {{.JavaName}}Vo} from "../data";
 
-interface CreateFormProps {
+interface AddModalProps {
     open: boolean;
     onCreate: (values: {{.JavaName}}Vo) => void;
     onCancel: () => void;
 }
 
-const CreateForm: React.FC<CreateFormProps> = ({open, onCreate, onCancel}) => {
+const AddModal: React.FC<AddModalProps> = ({open, onCreate, onCancel}) => {
     const [form] = Form.useForm();
     const FormItem = Form.Item;
 
@@ -69,4 +69,4 @@ const CreateForm: React.FC<CreateFormProps> = ({open, onCreate, onCancel}) => {
   );
 };
 
-export default CreateForm;
+export default AddModal;

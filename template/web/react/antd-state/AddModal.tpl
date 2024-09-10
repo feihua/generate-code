@@ -4,7 +4,7 @@ import { PlusOutlined } from '@ant-design/icons';
 import { add{{.JavaName}} } from '../service.ts';
 import use{{.JavaName}}Store from '../store/{{.LowerJavaName}}Store.ts';
 
-const CreateForm: React.FC = () => {
+const AddModal: React.FC = () => {
   const [form] = Form.useForm();
   const FormItem = Form.Item;
   const [open, setOpen] = useState<boolean>(false);
@@ -119,4 +119,4 @@ const CreateForm: React.FC = () => {
   );
 };
 
-export default CreateForm;
+export default AddModal;

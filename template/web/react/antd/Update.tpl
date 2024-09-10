@@ -3,14 +3,14 @@ import {Form, Input, InputNumber, Modal, Radio} from 'antd';
 import { {{.JavaName}}Vo} from "../data";
 import {query{{.JavaName}}Detail} from "../service";
 
-interface UpdateFormProps {
+interface UpdateModalProps {
     open: boolean;
     onCreate: (values: {{.JavaName}}Vo) => void;
     onCancel: () => void;
     id: number;
 }
 
-const UpdateForm: React.FC<UpdateFormProps> = ({open, onCreate, onCancel, id}) => {
+const UpdateModal: React.FC<UpdateModalProps> = ({open, onCreate, onCancel, id}) => {
     const [form] = Form.useForm();
     const FormItem = Form.Item;
 
@@ -86,4 +86,4 @@ const UpdateForm: React.FC<UpdateFormProps> = ({open, onCreate, onCancel, id}) =
   );
 };
 
-export default UpdateForm;
+export default UpdateModal;

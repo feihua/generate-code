@@ -1,6 +1,6 @@
-import {axiosInstance, IResponse} from "../../../api/ajax.ts";
-import { {{.JavaName}}Vo, {{.JavaName}}ListParam} from "./data";
-import {message} from "antd";
+import { axiosInstance, IResponse } from '@/api/ajax.ts';
+import { {{.JavaName}}Vo, {{.JavaName}}ListParam } from "./data";
+import { message } from "antd";
 
 /**
  * @description: 添加{{.Comment}}

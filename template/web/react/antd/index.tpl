@@ -4,8 +4,8 @@ import {Button, Divider, message, Modal, Space, Table, Switch, Dropdown} from 'a
 import type {ColumnsType} from 'antd/es/table';
 import {DeleteOutlined, EditOutlined, PlusOutlined, SettingOutlined, ExclamationCircleOutlined, DownOutlined} from '@ant-design/icons';
 import { {{.JavaName}}Vo} from './data';
-import CreateForm from "./components/CreateForm";
-import UpdateForm from "./components/UpdateForm";
+import AddModal from "./components/AddModal";
+import UpdateModal from "./components/UpdateModal";
 import AdvancedSearchForm from "./components/SearchForm";
 import DetailModal from "./components/DetailModal";
 import {add{{.JavaName}}, handleResp, remove{{.JavaName}}, update{{.JavaName}}, query{{.JavaName}}List, update{{.JavaName}}Status} from "./service";
@@ -293,8 +293,8 @@ const {{.JavaName}}: React.FC = () => {
                 // tableLayout={"fixed"}
             />
 
-            <CreateForm onCancel={handleAddCancel} onCreate={handleAddOk} open={isShowAddModal}></CreateForm>
-            <UpdateForm onCancel={handleEditCancel} onCreate={handleEditOk} open={isShowEditModal} {{.LowerJavaName}}Vo={current{{.JavaName}} }></UpdateForm>
+            <AddModal onCancel={handleAddCancel} onCreate={handleAddOk} open={isShowAddModal}></AddModal>
+            <UpdateModal onCancel={handleEditCancel} onCreate={handleEditOk} open={isShowEditModal} id={current{{.JavaName}}.id}></UpdateModal>
             <DetailModal onCancel={handleDetailCancel}  open={isShowDetailModal} id={current{{.JavaName}}.id}></DetailModal>
 
             {selectedRowKeys.length > 0 &&

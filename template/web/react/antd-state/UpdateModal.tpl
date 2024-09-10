@@ -3,13 +3,13 @@ import { Form, Input, message, Modal, Radio } from 'antd';
 import { query{{.JavaName}}Detail, update{{.JavaName}} } from '../service';
 import use{{.JavaName}}Store from '../store/{{.LowerJavaName}}Store.ts';
 
-interface UpdateFormProps {
+interface UpdateModalProps {
   open: boolean;
   onCancel: () => void;
   id: number;
 }
 
-const UpdateForm: React.FC<UpdateFormProps> = ({ open, onCancel, id }) => {
+const UpdateModal: React.FC<UpdateModalProps> = ({ open, onCancel, id }) => {
   const [form] = Form.useForm();
   const FormItem = Form.Item;
   const { query{{.JavaName}}List, listParam } = use{{.JavaName}}Store();
@@ -134,4 +134,4 @@ const UpdateForm: React.FC<UpdateFormProps> = ({ open, onCancel, id }) => {
   );
 };
 
-export default UpdateForm;
+export default UpdateModal;

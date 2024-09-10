@@ -1,6 +1,6 @@
 import React from 'react';
 import {SearchOutlined} from '@ant-design/icons';
-import {Button, Form, Input, Select, Space} from 'antd';
+import {Button, Form, FormProps, Input, Select, Space} from 'antd';
 import { {{.JavaName}}Vo} from "../data";
 
 interface CreateFormProps {

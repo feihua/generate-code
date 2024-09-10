@@ -63,7 +63,7 @@ const formState = ref<{{.JavaName}}RecordVo>({
 
 const handleVisible = async (id: number, open: boolean) => {
   detailVisible.value = open
-  let res: IResponse = await query{{.JavaName}}Detail(id)
+  const res: IResponse = await query{{.JavaName}}Detail(id)
   formState.value = res.data
 }
 

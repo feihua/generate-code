@@ -57,7 +57,7 @@ const detailParam = ref<{{.JavaName}}RecordVo>({
 })
 
 const query{{.JavaName}}Info = async (id: number) => {
-  let res: IResponse = await query{{.JavaName}}Detail(id)
+  const res: IResponse = await query{{.JavaName}}Detail(id)
   detailParam.value = res.data
 
 }

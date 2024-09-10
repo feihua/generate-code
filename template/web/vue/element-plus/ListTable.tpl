@@ -107,13 +107,13 @@ const handleDelete = (index: number, row: {{.JavaName}}RecordVo) => {
       type: 'warning'
     }
   ).then(async () => {
-    let res: IResponse = await remove{{.JavaName}}([row.id])
+    const res: IResponse = await remove{{.JavaName}}([row.id])
     if (res.code == 0) {
       emit('handleQuery', { current: currentPage.value, pageSize: pageSize.value })
     }
     ElMessage({
       type: res.code === 0 ? 'success' : 'error',
-      message: res.msg
+      message: res.message
     })
   })
 

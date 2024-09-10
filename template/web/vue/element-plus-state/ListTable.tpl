@@ -92,7 +92,7 @@ const handleDelete = (index: number, row: {{.JavaName}}RecordVo) => {
     cancelButtonText: '取消',
     type: 'warning',
   }).then(async () => {
-    let res: IResponse = await remove{{.JavaName}}({ids:[row.id]});
+    const res: IResponse = await remove{{.JavaName}}({ids:[row.id]});
     if (res.code === 0) {
       ElMessage.success(res.message);
       queryUserList(listParam.value);

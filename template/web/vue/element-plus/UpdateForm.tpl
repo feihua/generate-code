@@ -104,7 +104,7 @@ const handleEdit = async (formEl: FormInstance | undefined) => {
 }
 
 const query{{.JavaName}}Info = async (id: number) => {
-  let res: IResponse = await query{{.JavaName}}Detail(id)
+  const res: IResponse = await query{{.JavaName}}Detail(id)
   updateParamVo.value = res.data
 
 }

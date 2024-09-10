@@ -42,7 +42,7 @@ const handleQuery = async (data: List{{.JavaName}}Param) => {
   dialogUpdateFormVisible.value = false
   detailFormVisible.value = false
   searchParam.value = {...data}
-  let res: IResponse = await query{{.JavaName}}List({...data, ...searchParam.value, current: currentPage.value, pageSize: pageSize.value})
+  const res: IResponse = await query{{.JavaName}}List({...data, ...searchParam.value, current: currentPage.value, pageSize: pageSize.value})
   tableData.value = {...res}
 }
 

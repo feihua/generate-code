@@ -157,9 +157,9 @@ const {{.JavaName}}: React.FC = () => {
     const handleAddOk = async (param: {{.JavaName}}Vo) => {
         if (handleResp(await add{{.JavaName}}(param))) {
             setShowAddModal(false);
-            let res = await query{{.JavaName}}List({current: currentPage, pageSize})
+            const res = await query{{.JavaName}}List({current: currentPage, pageSize})
             setTotal(res.total)
-            res.code === 0 ? set{{.JavaName}}ListData(res.data) : message.error(res.msg);
+            res.code === 0 ? set{{.JavaName}}ListData(res.data) : message.error(res.message);
         }
     }
 
@@ -176,11 +176,11 @@ const {{.JavaName}}: React.FC = () => {
     const handleEditOk = async (param: {{.JavaName}}Vo) => {
         if (handleResp(await update{{.JavaName}}(param))) {
             setShowEditModal(false);
-            let res = await query{{.JavaName}}List({
+            const res = await query{{.JavaName}}List({
                 current: currentPage, pageSize,
             })
             setTotal(res.total)
-            res.code === 0 ? set{{.JavaName}}ListData(res.data) : message.error(res.msg);
+            res.code === 0 ? set{{.JavaName}}ListData(res.data) : message.error(res.message);
         }
     };
 
@@ -214,23 +214,23 @@ const {{.JavaName}}: React.FC = () => {
     //批量删除
     const handleRemove = async (ids: number[]) => {
         if (handleResp(await remove{{.JavaName}}(ids))) {
-            let res = await query{{.JavaName}}List({current: currentPage, pageSize})
+            const res = await query{{.JavaName}}List({current: currentPage, pageSize})
             setTotal(res.total)
-            res.code === 0 ? set{{.JavaName}}ListData(res.data) : message.error(res.msg);
+            res.code === 0 ? set{{.JavaName}}ListData(res.data) : message.error(res.message);
         }
 
     };
 
     const handleSearchOk = async (param: {{.JavaName}}Vo) => {
-        let res = await query{{.JavaName}}List({current: currentPage, ...param, pageSize})
+        const res = await query{{.JavaName}}List({current: currentPage, ...param, pageSize})
         setTotal(res.total)
-        res.code === 0 ? set{{.JavaName}}ListData(res.data) : message.error(res.msg);
+        res.code === 0 ? set{{.JavaName}}ListData(res.data) : message.error(res.message);
     };
 
     const handleResetOk = async () => {
-        let res = await query{{.JavaName}}List({current: currentPage, pageSize})
+        const res = await query{{.JavaName}}List({current: currentPage, pageSize})
         setTotal(res.total)
-        res.code === 0 ? set{{.JavaName}}ListData(res.data) : message.error(res.msg);
+        res.code === 0 ? set{{.JavaName}}ListData(res.data) : message.error(res.message);
     };
 
     useEffect(() => {
@@ -238,7 +238,7 @@ const {{.JavaName}}: React.FC = () => {
             current: currentPage, pageSize
         }).then(res => {
             setTotal(res.total)
-            res.code === 0 ? set{{.JavaName}}ListData(res.data) : message.error(res.msg);
+            res.code === 0 ? set{{.JavaName}}ListData(res.data) : message.error(res.message);
         });
     }, []);
 
@@ -258,9 +258,9 @@ const {{.JavaName}}: React.FC = () => {
             console.log('onChange', page, pageSize)
             setCurrentPage(page)
             setPageSize(pageSize)
-            let res = await query{{.JavaName}}List({current: page, pageSize})
+            const res = await query{{.JavaName}}List({current: page, pageSize})
             setTotal(res.total)
-            res.code === 0 ? set{{.JavaName}}ListData(res.data) : message.error(res.msg);
+            res.code === 0 ? set{{.JavaName}}ListData(res.data) : message.error(res.message);
 
         }, //改变页码的函数
         onShowSizeChange: (current: number, size: number) => {

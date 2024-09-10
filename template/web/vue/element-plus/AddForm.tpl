@@ -162,13 +162,13 @@ const handleDeleteMore = () => {
         type: 'warning',
       }
   ).then(async () => {
-    let res: IResponse = await remove{{.JavaName}}({{.LowerJavaName}}Ids.value)
+    const res: IResponse = await remove{{.JavaName}}({{.LowerJavaName}}Ids.value)
     if (res.code == 0) {
       emit("handleQuery", {current: 1, pageSize: 10});
     }
     ElMessage({
       type: res.code === 0 ? 'success' : "error",
-      message: res.msg,
+      message: res.message,
     })
   })
 

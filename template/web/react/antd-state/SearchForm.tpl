@@ -1,14 +1,14 @@
 import React from 'react';
 import { SearchOutlined } from '@ant-design/icons';
 import { Button, Form, FormProps, Input, Select, Space } from 'antd';
-import { {{.JavaName}}ListParam } from '../data';
+import { List{{.JavaName}}Param } from '../data';
 import use{{.JavaName}}Store from '../store/{{.LowerJavaName}}Store.ts';
 
 const AdvancedSearchForm: React.FC = () => {
   const FormItem = Form.Item;
   const [form] = Form.useForm();
   const { query{{.JavaName}}List } = use{{.JavaName}}Store();
-  const onFinish: FormProps<{{.JavaName}}ListParam>['onFinish'] = (values) => {
+  const onFinish: FormProps<List{{.JavaName}}Param>['onFinish'] = (values) => {
     query{{.JavaName}}List({ ...values, current: 1, pageSize: 10 });
   };
 

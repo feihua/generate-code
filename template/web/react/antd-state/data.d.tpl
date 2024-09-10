@@ -16,7 +16,7 @@ export interface List{{.JavaName}}Param {
 }
 
 export interface {{.JavaName}}Vo {
-{{range .TableColumn}}    {{.JavaName}}: {{.TsType}}; //{{.ColumnComment}}
+{{range .TableColumn}}  {{.JavaName}}: {{.TsType}}; //{{.ColumnComment}}
 {{end}}
 }
 

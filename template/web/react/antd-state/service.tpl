@@ -1,6 +1,6 @@
 import type { IResponse } from '@/api/ajax'
 import { axiosInstance } from '@/api/ajax'
-import { {{.JavaName}}ListParam, {{.JavaName}}Vo } from './data';
+import { List{{.JavaName}}Param, {{.JavaName}}Vo } from './data';
 
 /**
  * @description: 添加{{.Comment}}
@@ -55,10 +55,10 @@ export const query{{.JavaName}}Detail = async (id: number): Promise<IResponse> =
 
 /**
  * @description: 分页查询{{.Comment}}列表
- * @params {params} {{.JavaName}}ListParam
+ * @params {params} List{{.JavaName}}Param
  * @return {Promise}
  */
-export const query{{.JavaName}}List1 = async (params: {{.JavaName}}ListParam): Promise<IResponse> => {
+export const query{{.JavaName}}List1 = async (params: List{{.JavaName}}Param): Promise<IResponse> => {
   const res = await axiosInstance.get('/api/demo/{{.LowerJavaName}}/query{{.JavaName}}List', { params });
   return res.data;
 };

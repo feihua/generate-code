@@ -1,14 +1,15 @@
 /*
 Copyright © 2023 NAME HERE <EMAIL ADDRESS>
-
 */
 package salvo
 
 import (
 	"bytes"
+	"fmt"
 	"github.com/feihua/generate-code/utils"
 	"io/ioutil"
 	"os"
+	"strings"
 	"text/template"
 
 	"github.com/spf13/cobra"
@@ -23,12 +24,31 @@ and usage of using your command. For example:
 `,
 	Run: func(c *cobra.Command, args []string) {
 		tables := utils.New().QueryTables(Dsn, TableNames, prefix)
-		var path = "generate/rust/salvo"
-		for _, t := range tables {
-			Generate(t, "template/rust/salvo/vo.tpl", path+"/vo", t.RustName+"_vo.rs")
-			Generate(t, "template/rust/salvo/model.tpl", path+"/model", t.RustName+".rs")
-			Generate(t, "template/rust/salvo/handler.tpl", path+"/handler", t.RustName+"_handler.rs")
+		var path = "generate/rust/salvo/" + OrmType
+		if OrmType == "rbatis" {
+
+			for _, t := range tables {
+				Generate(t, "template/rust/salvo/rbatis/vo.tpl", path+"/vo", t.RustName+"_vo.rs")
+				//Generate(t, "template/rust/salvo/rbatis/model.tpl", path+"/model", t.RustName+".rs")
+				//Generate(t, "template/rust/salvo/rbatis/handler.tpl", path+"/handler", t.RustName+"_handler.rs")
+			}
+
+		} else if OrmType == "sea" {
+			for _, t := range tables {
+				Generate(t, "template/rust/salvo/sea/vo.tpl", path+"/vo", t.RustName+"_vo.rs")
+				Generate(t, "template/rust/salvo/sea/model.tpl", path+"/model", t.RustName+".rs")
+				Generate(t, "template/rust/salvo/sea/handler.tpl", path+"/handler", t.RustName+"_handler.rs")
+			}
+
+		} else if OrmType == "diesel" {
+			for _, t := range tables {
+				Generate(t, "template/rust/salvo/diesel/vo.tpl", path+"/vo", t.RustName+"_vo.rs")
+				Generate(t, "template/rust/salvo/diesel/model.tpl", path+"/model", t.RustName+".rs")
+				Generate(t, "template/rust/salvo/diesel/handler.tpl", path+"/handler", t.RustName+"_handler.rs")
+			}
+
 		}
+
 	},
 }
 
@@ -36,19 +56,29 @@ var Dsn string
 var TableNames string
 var prefix string
 var PackageName string
+var OrmType string
 
 func init() {
 
-	//go run main.go rust salvo --dsn "root:ad879037-c7a4-4063-9236-6bfc35d54b7d@tcp(139.159.180.129:3306)/rustdb" --tableNames interview_ --prefix interview_
+	//go run main.go rust salvo --dsn "root:oMbPi5munxCsBSsiLoPV@tcp(110.41.179.89:3306)/better-pay" --tableNames pay_ --prefix pay_  --orm rbatis
 	Cmd.Flags().StringVarP(&Dsn, "dsn", "", "", "请输入数据库的地址")
 	Cmd.Flags().StringVarP(&TableNames, "tableNames", "", "", "请输入表名称")
 	Cmd.Flags().StringVarP(&prefix, "prefix", "", "", "生成表时候去掉前缀")
 
 	Cmd.Flags().StringVarP(&PackageName, "packageName", "", "", "请输入包名称")
+	Cmd.Flags().StringVarP(&OrmType, "orm", "", "", "请输入持久层")
 }
 
 func Generate(t utils.Table, tplName, path, fileName string) error {
-	tpl, err := template.ParseFiles(tplName)
+	htmlByte, err := ioutil.ReadFile(tplName)
+	if err != nil {
+		fmt.Println("read html failed, err:", err)
+		return err
+	}
+
+	fmap := template.FuncMap{"isContain": IsContain}
+	tpl, _ := template.New("abc.html").Funcs(fmap).Parse(string(htmlByte))
+	//tpl, err := template.ParseFiles(tplName)
 
 	err = tpl.Execute(os.Stdout, t)
 	if err != nil {
@@ -66,4 +96,10 @@ func Generate(t utils.Table, tplName, path, fileName string) error {
 	}
 
 	return ioutil.WriteFile(path+string(os.PathSeparator)+fileName, buf.Bytes(), 0755)
+}
+
+// IsContain 判断是否包含
+func IsContain(a, b string) bool {
+
+	return strings.Contains(a, b)
 }

@@ -30,7 +30,7 @@ and usage of using your command. For example:
 
 			for _, t := range tables {
 				Generate(t, "template/rust/salvo/rbatis/vo.tpl", path+"/vo", t.RustName+"_vo.rs")
-				//Generate(t, "template/rust/salvo/rbatis/model.tpl", path+"/model", t.RustName+".rs")
+				Generate(t, "template/rust/salvo/rbatis/model.tpl", path+"/model", t.RustName+".rs")
 				//Generate(t, "template/rust/salvo/rbatis/handler.tpl", path+"/handler", t.RustName+"_handler.rs")
 			}
 

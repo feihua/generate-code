@@ -109,7 +109,7 @@ const addParam = reactive<Add{{.JavaName}}Param>({
 const searchParam = reactive<Search{{.JavaName}}Param>({})
 
 const rules = reactive<FormRules>({
-    {{range .TableColumn}}
+    {{- range .TableColumn}}
     {{- if isContain .JavaName "create"}}
     {{- else if isContain .JavaName "update"}}
     {{- else if isContain .JavaName "id"}}

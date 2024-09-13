@@ -2,13 +2,8 @@ package {{.PackageName}}.service;
 
 import java.util.Map;
 
-import {{.GroupId}}.common.vo.ResultPage;
-import {{.PackageName}}.vo.req.{{.JavaName}}ReqVo;
-import {{.PackageName}}.vo.req.{{.JavaName}}ListReqVo;
-import {{.PackageName}}.vo.req.Add{{.JavaName}}ReqVo;
-import {{.PackageName}}.vo.req.{{.JavaName}}DeleteReqVo;
-import {{.PackageName}}.vo.req.Update{{.JavaName}}ReqVo;
-import {{.PackageName}}.vo.resp.{{.JavaName}}RespVo;
+import {{.PackageName}}.vo.req.*;
+import {{.PackageName}}.vo.resp.*;
 
 /**
  * 描述：{{.Comment}}
@@ -25,7 +20,7 @@ public interface {{.JavaName}}Service {
     * @author {{.Author}}
     * @date: {{.CreateTime}}
     */
-   int save{{.JavaName}}(Add{{.JavaName}}ReqVo {{.LowerJavaName}});
+   int add{{.JavaName}}(Add{{.JavaName}}ReqVo {{.LowerJavaName}});
 
    /**
     * 删除{{.Comment}}
@@ -35,7 +30,7 @@ public interface {{.JavaName}}Service {
     * @author {{.Author}}
     * @date: {{.CreateTime}}
     */
-   int delete{{.JavaName}}({{.JavaName}}DeleteReqVo {{.LowerJavaName}});
+   int delete{{.JavaName}}(Delete{{.JavaName}}ReqVo {{.LowerJavaName}});
 
    /**
     * 更新{{.Comment}}
@@ -48,23 +43,34 @@ public interface {{.JavaName}}Service {
    int update{{.JavaName}}(Update{{.JavaName}}ReqVo {{.LowerJavaName}});
 
    /**
-    * 查询{{.Comment}}
+    * 更新{{.Comment}}状态
     *
     * @param {{.LowerJavaName}} 请求参数
-    * @return {{.JavaName}}Resp
+    * @return int
     * @author {{.Author}}
     * @date: {{.CreateTime}}
     */
-   {{.JavaName}}RespVo query{{.JavaName}}({{.JavaName}}ReqVo {{.LowerJavaName}});
+   int update{{.JavaName}}Status(Update{{.JavaName}}StatusReqVo {{.LowerJavaName}});
+
+
+   /**
+    * 查询{{.Comment}}详情
+    *
+    * @param {{.LowerJavaName}} 请求参数
+    * @return Query{{.JavaName}}DetailResp
+    * @author {{.Author}}
+    * @date: {{.CreateTime}}
+    */
+   Query{{.JavaName}}DetailRespVo query{{.JavaName}}Detail(Query{{.JavaName}}DetailReqVo {{.LowerJavaName}});
 
    /**
     * 查询{{.Comment}}列表
     *
     * @param {{.LowerJavaName}} 请求参数
-    * @return ResultPage<{{.JavaName}}Resp>
+    * @return Query{{.JavaName}}ListResp
     * @author {{.Author}}
     * @date: {{.CreateTime}}
     */
-   ResultPage<{{.JavaName}}RespVo> query{{.JavaName}}List({{.JavaName}}ListReqVo {{.LowerJavaName}});
+   Query{{.JavaName}}ListRespVo query{{.JavaName}}List(Query{{.JavaName}}ListReqVo {{.LowerJavaName}});
 
 }

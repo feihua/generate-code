@@ -21,7 +21,7 @@ public interface {{.JavaName}}Dao {
     * @author {{.Author}}
     * @date: {{.CreateTime}}
     */
-   int save{{.JavaName}}({{.JavaName}}Bean {{.LowerJavaName}});
+   int add{{.JavaName}}({{.JavaName}}Bean {{.LowerJavaName}});
 
    /**
     * 删除{{.Comment}}
@@ -43,15 +43,25 @@ public interface {{.JavaName}}Dao {
     */
    int update{{.JavaName}}({{.JavaName}}Bean {{.LowerJavaName}});
 
+      /**
+       * 更新{{.Comment}}状态
+       *
+       * @param {{.LowerJavaName}} 请求参数
+       * @return int
+       * @author {{.Author}}
+       * @date: {{.CreateTime}}
+       */
+      int update{{.JavaName}}Status({{.JavaName}}Bean {{.LowerJavaName}});
+
    /**
-    * 查询{{.Comment}}
+    * 查询{{.Comment}}详情
     *
     * @param {{.LowerJavaName}} 请求参数
     * @return {{.JavaName}}
     * @author {{.Author}}
     * @date: {{.CreateTime}}
     */
-   {{.JavaName}}Bean query{{.JavaName}}({{.JavaName}}Bean {{.LowerJavaName}});
+   {{.JavaName}}Bean query{{.JavaName}}Detail({{.JavaName}}Bean {{.LowerJavaName}});
 
    /**
     * 查询{{.Comment}}列表

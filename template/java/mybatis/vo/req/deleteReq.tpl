@@ -28,8 +28,8 @@ import lombok.NoArgsConstructor;
 @ApiModel("删除{{.Comment}}请求vo")
 public class Delete{{.JavaName}}ReqVo implements Serializable {
 
-	@ApiModelProperty("主键数组")
-	@NotNull(message = "ids主键不能为空", required = true)
+	@ApiModelProperty(value = "主键", required = true)
+	@NotNull(message = "ids主键不能为空")
 	private List<Integer> ids;
 }
 

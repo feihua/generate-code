@@ -11,7 +11,7 @@
         {{.AllColumns}}
     </sql>
 
-    <insert id="save{{.JavaName}}" parameterType="{{.PackageName}}.entity.{{.JavaName}}Bean">
+    <insert id="add{{.JavaName}}" parameterType="{{.PackageName}}.entity.{{.JavaName}}Bean">
         insert into {{.OriginalName}}
         <trim prefix="(" suffix=")" suffixOverrides=",">{{range .TableColumn}}
             <if test="{{.JavaName}} != null">
@@ -47,7 +47,21 @@
         </where>
     </update>
 
-    <select id="query{{.JavaName}}" parameterType="{{.PackageName}}.entity.{{.JavaName}}Bean" resultMap="BaseResultMap">
+    <update id="update{{.JavaName}}Status" parameterType="{{.PackageName}}.entity.{{.JavaName}}Bean">
+        update {{.OriginalName}}
+        <set>{{range .TableColumn}}
+            <if test="{{.JavaName}} != null">
+                {{.ColumnName}} = #{ {{.JavaName}},jdbcType={{.JdbcType}}},
+            </if>{{end}}
+        </set>
+        <where> {{range .TableColumn}}
+            <if test="{{.JavaName}} != null">
+                and {{.ColumnName}} = #{ {{.JavaName}}}
+            </if>{{end}}
+        </where>
+    </update>
+
+    <select id="query{{.JavaName}}Detail" parameterType="{{.PackageName}}.entity.{{.JavaName}}Bean" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
         from {{.OriginalName}}

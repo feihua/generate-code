@@ -25,8 +25,13 @@ import lombok.NoArgsConstructor;
 @Schema(description = "{{.Comment}}请求vo")
 public class {{.JavaName}}ReqVo implements Serializable {
 
-	@Schema(description = "主键", requiredMode = Schema.RequiredMode.REQUIRED)
-    @NotNull(message = "id不能为空")
-	private Integer id;
+{{range .TableColumn}}
+{{- if eq .ColumnKey "PRI"}}
+	@Schema(description = "{{.ColumnComment}}", requiredMode = Schema.RequiredMode.REQUIRED)
+	@NotNull(message = "{{.JavaName}}{{.ColumnComment}}不能为空")
+	private {{.JavaType}} {{.JavaName}};
+{{- end}}
+{{- end}}
+
 
 }

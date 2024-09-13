@@ -4,7 +4,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.util.List;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -26,12 +26,12 @@ import lombok.NoArgsConstructor;
 @ApiModel("更新{{.Comment}}状态请求Vo")
 public class Update{{.JavaName}}StatusReqVo implements Serializable {
 
-	@ApiModelProperty("主键数组")
-	@NotNull(message = "ids主键不能为空", required = true)
+	@ApiModelProperty(value = "主键数组", required = true)
+	@NotNull(message = "ids主键不能为空")
 	private List<Integer> ids;
 
-    @ApiModelProperty("状态")
-    @NotNull(message = "status状态不能为空", required = true)
+    @ApiModelProperty(value = "状态", required = true)
+    @NotNull(message = "status状态不能为空")
     private Integer status;
 
 }

@@ -3,13 +3,8 @@ package {{.PackageName}}.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import {{.GroupId}}.common.vo.ResultPage;
-import {{.PackageName}}.vo.req.{{.JavaName}}ReqVo;
-import {{.PackageName}}.vo.req.{{.JavaName}}ListReqVo;
-import {{.PackageName}}.vo.req.Add{{.JavaName}}ReqVo;
-import {{.PackageName}}.vo.req.{{.JavaName}}DeleteReqVo;
-import {{.PackageName}}.vo.req.Update{{.JavaName}}ReqVo;
-import {{.PackageName}}.vo.resp.{{.JavaName}}RespVo;
+import {{.PackageName}}.vo.req.*;
+import {{.PackageName}}.vo.resp.*;
 import {{.PackageName}}.biz.{{.JavaName}}Biz;
 import {{.PackageName}}.service.{{.JavaName}}Service;
 
@@ -33,9 +28,9 @@ public class {{.JavaName}}ServiceImpl implements {{.JavaName}}Service {
     * @date: {{.CreateTime}}
     */
    @Override
-   public int save{{.JavaName}}(Add{{.JavaName}}ReqVo {{.LowerJavaName}}){
+   public int add{{.JavaName}}(Add{{.JavaName}}ReqVo {{.LowerJavaName}}){
 
-        return {{.LowerJavaName}}Biz.save{{.JavaName}}({{.LowerJavaName}});
+        return {{.LowerJavaName}}Biz.add{{.JavaName}}({{.LowerJavaName}});
    }
 
    /**
@@ -47,7 +42,7 @@ public class {{.JavaName}}ServiceImpl implements {{.JavaName}}Service {
     * @date: {{.CreateTime}}
     */
    @Override
-   public int delete{{.JavaName}}({{.JavaName}}DeleteReqVo {{.LowerJavaName}}){
+   public int delete{{.JavaName}}(Delete{{.JavaName}}ReqVo {{.LowerJavaName}}){
 		return {{.LowerJavaName}}Biz.delete{{.JavaName}}({{.LowerJavaName}});
    }
 
@@ -66,7 +61,21 @@ public class {{.JavaName}}ServiceImpl implements {{.JavaName}}Service {
    }
 
    /**
-    * 查询{{.Comment}}
+   * 更新{{.Comment}}状态
+   *
+   * @param {{.LowerJavaName}} 请求参数
+   * @return int
+   * @author {{.Author}}
+   * @date: {{.CreateTime}}
+   */
+  @Override
+  public int update{{.JavaName}}Status(Update{{.JavaName}}StatusReqVo {{.LowerJavaName}}){
+
+       return {{.LowerJavaName}}Biz.update{{.JavaName}}Status({{.LowerJavaName}});
+  }
+
+   /**
+    * 查询{{.Comment}}详情
     *
     * @param {{.LowerJavaName}} 请求参数
     * @return {{.JavaName}}Resp
@@ -74,9 +83,9 @@ public class {{.JavaName}}ServiceImpl implements {{.JavaName}}Service {
     * @date: {{.CreateTime}}
     */
    @Override
-   public {{.JavaName}}RespVo query{{.JavaName}}({{.JavaName}}ReqVo {{.LowerJavaName}}){
+   public Query{{.JavaName}}DetailRespVo query{{.JavaName}}Detail(Query{{.JavaName}}DetailReqVo {{.LowerJavaName}}){
 
-       return {{.LowerJavaName}}Biz.query{{.JavaName}}({{.LowerJavaName}});
+       return {{.LowerJavaName}}Biz.query{{.JavaName}}Detail({{.LowerJavaName}});
    }
 
    /**
@@ -88,7 +97,7 @@ public class {{.JavaName}}ServiceImpl implements {{.JavaName}}Service {
     * @date: {{.CreateTime}}
     */
    @Override
-   public ResultPage<{{.JavaName}}RespVo> query{{.JavaName}}List({{.JavaName}}ListReqVo {{.LowerJavaName}}){
+   public Query{{.JavaName}}ListRespVo query{{.JavaName}}List(Query{{.JavaName}}ListReqVo {{.LowerJavaName}}){
 
         return {{.LowerJavaName}}Biz.query{{.JavaName}}List({{.LowerJavaName}});
    }

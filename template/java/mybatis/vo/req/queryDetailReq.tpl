@@ -26,9 +26,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @ApiModel("查询{{.Comment}}详情请求Vo")
 public class Query{{.JavaName}}DetailReqVo implements Serializable {
-
-	@ApiModelProperty("主键")
-	@NotNull(message = "id不能为空", required = true)
-	private Integer id;
-
+{{range .TableColumn}}
+{{- if eq .ColumnKey "PRI"}}
+	@ApiModelProperty(value = "{{.ColumnComment}}", required = true)
+	@NotNull(message = "{{.JavaName}}{{.ColumnComment}}不能为空")
+	private {{.JavaType}} {{.JavaName}};
+{{- end}}
+{{- end}}
 }

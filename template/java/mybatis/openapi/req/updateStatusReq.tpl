@@ -3,7 +3,7 @@ package {{.PackageName}}.vo.req;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.util.List;
 
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;

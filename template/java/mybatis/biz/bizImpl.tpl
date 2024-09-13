@@ -10,13 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import {{.PackageName}}.entity.{{.JavaName}}Bean;
-import {{.GroupId}}.common.vo.ResultPage;
-import {{.PackageName}}.vo.req.{{.JavaName}}ReqVo;
-import {{.PackageName}}.vo.req.{{.JavaName}}ListReqVo;
-import {{.PackageName}}.vo.req.Add{{.JavaName}}ReqVo;
-import {{.PackageName}}.vo.req.{{.JavaName}}DeleteReqVo;
-import {{.PackageName}}.vo.req.Update{{.JavaName}}ReqVo;
-import {{.PackageName}}.vo.resp.{{.JavaName}}RespVo;
+import {{.PackageName}}.vo.req.*;
+
+import {{.PackageName}}.vo.resp.*;
 import {{.PackageName}}.dao.{{.JavaName}}Dao;
 import {{.PackageName}}.biz.{{.JavaName}}Biz;
 import com.github.pagehelper.PageHelper;
@@ -42,11 +38,18 @@ public class {{.JavaName}}BizImpl implements {{.JavaName}}Biz {
     * @date: {{.CreateTime}}
     */
    @Override
-   public int save{{.JavaName}}(Add{{.JavaName}}ReqVo {{.LowerJavaName}}){
-        {{.JavaName}}Bean bean = new {{.JavaName}}Bean();{{range .TableColumn}}
-        bean.set{{.GoNamePublic}}({{.LowerJavaName}}.get{{.GoNamePublic}}());{{end}}
+   public int add{{.JavaName}}(Add{{.JavaName}}ReqVo {{.LowerJavaName}}){
+        {{.JavaName}}Bean bean = new {{.JavaName}}Bean();
+        {{- range .TableColumn}}
+        {{- if isContain .JavaName "create"}}
+        {{- else if isContain .JavaName "update"}}
+        {{- else if eq .ColumnKey "PRI"}}
+        {{- else}}
+        bean.set{{.GoNamePublic}}({{.LowerJavaName}}.get{{.GoNamePublic}}());
+        {{- end}}
+        {{- end}}
 
-        return {{.LowerJavaName}}Dao.save{{.JavaName}}(bean);
+        return {{.LowerJavaName}}Dao.add{{.JavaName}}(bean);
    }
 
    /**
@@ -58,7 +61,7 @@ public class {{.JavaName}}BizImpl implements {{.JavaName}}Biz {
     * @date: {{.CreateTime}}
     */
    @Override
-   public int delete{{.JavaName}}({{.JavaName}}DeleteReqVo {{.LowerJavaName}}){
+   public int delete{{.JavaName}}(Delete{{.JavaName}}ReqVo {{.LowerJavaName}}){
 		return {{.LowerJavaName}}Dao.delete{{.JavaName}}({{.LowerJavaName}}.getIds());
    }
 
@@ -72,14 +75,43 @@ public class {{.JavaName}}BizImpl implements {{.JavaName}}Biz {
     */
    @Override
    public int update{{.JavaName}}(Update{{.JavaName}}ReqVo {{.LowerJavaName}}){
-        {{.JavaName}}Bean bean = new {{.JavaName}}Bean();{{range .TableColumn}}
-        bean.set{{.GoNamePublic}}({{.LowerJavaName}}.get{{.GoNamePublic}}());{{end}}
-
+        {{.JavaName}}Bean bean = new {{.JavaName}}Bean();
+        {{- range .TableColumn}}
+        {{- if isContain .JavaName "create"}}
+        {{- else if isContain .JavaName "update"}}
+        {{- else}}
+        bean.set{{.GoNamePublic}}({{.LowerJavaName}}.get{{.GoNamePublic}}());
+        {{- end}}
+        {{- end}}
         return {{.LowerJavaName}}Dao.update{{.JavaName}}(bean);
    }
 
    /**
-    * 查询{{.Comment}}
+    * 更新{{.Comment}}状态
+    *
+    * @param {{.LowerJavaName}} 请求参数
+    * @return int
+    * @author {{.Author}}
+    * @date: {{.CreateTime}}
+    */
+   @Override
+   public int update{{.JavaName}}Status(Update{{.JavaName}}StatusReqVo {{.LowerJavaName}}){
+        {{.JavaName}}Bean bean = new {{.JavaName}}Bean();
+        {{- range .TableColumn}}
+        {{- if isContain .JavaName "create"}}
+        {{- else if isContain .JavaName "update"}}
+        {{- else if isContain .JavaName "sort"}}
+        {{- else if isContain .JavaName "remark"}}
+        {{- else}}
+        //bean.set{{.GoNamePublic}}({{.LowerJavaName}}.get{{.GoNamePublic}}());
+        {{- end}}
+        {{- end}}
+
+        return {{.LowerJavaName}}Dao.update{{.JavaName}}Status(bean);
+   }
+
+   /**
+    * 查询{{.Comment}}详情
     *
     * @param {{.LowerJavaName}} 请求参数
     * @return {{.JavaName}}Resp
@@ -87,13 +119,23 @@ public class {{.JavaName}}BizImpl implements {{.JavaName}}Biz {
     * @date: {{.CreateTime}}
     */
    @Override
-   public {{.JavaName}}RespVo query{{.JavaName}}({{.JavaName}}ReqVo {{.LowerJavaName}}){
-        {{.JavaName}}Bean bean = new {{.JavaName}}Bean();{{range .TableColumn}}
-        //bean.set{{.GoNamePublic}}({{.LowerJavaName}}.get{{.GoNamePublic}}());{{end}}
+   public Query{{.JavaName}}DetailRespVo query{{.JavaName}}Detail(Query{{.JavaName}}DetailReqVo {{.LowerJavaName}}){
+        {{.JavaName}}Bean bean = new {{.JavaName}}Bean();
+        {{- range .TableColumn}}
+        {{- if isContain .JavaName "create"}}
+        {{- else if isContain .JavaName "update"}}
+        {{- else if isContain .JavaName "sort"}}
+        {{- else if isContain .JavaName "remark"}}
+        {{- else if eq .ColumnKey "PRI"}}
+        bean.set{{.GoNamePublic}}({{.LowerJavaName}}.get{{.GoNamePublic}}());
+        {{- else}}
+        //bean.set{{.GoNamePublic}}({{.LowerJavaName}}.get{{.GoNamePublic}}());
+        {{- end}}
+        {{- end}}
 
-        {{.JavaName}}Bean query = {{.LowerJavaName}}Dao.query{{.JavaName}}(bean);
+        {{.JavaName}}Bean query = {{.LowerJavaName}}Dao.query{{.JavaName}}Detail(bean);
 
-        return {{.JavaName}}RespVo.builder().build();
+        return Query{{.JavaName}}DetailRespVo.builder().build();
    }
 
    /**
@@ -105,21 +147,31 @@ public class {{.JavaName}}BizImpl implements {{.JavaName}}Biz {
     * @date: {{.CreateTime}}
     */
    @Override
-   public ResultPage<{{.JavaName}}RespVo> query{{.JavaName}}List({{.JavaName}}ListReqVo {{.LowerJavaName}}){
-        {{.JavaName}}Bean bean = new {{.JavaName}}Bean();{{range .TableColumn}}
-        //bean.set{{.GoNamePublic}}({{.LowerJavaName}}.get{{.GoNamePublic}}());{{end}}
+   public Query{{.JavaName}}ListRespVo query{{.JavaName}}List(Query{{.JavaName}}ListReqVo {{.LowerJavaName}}){
+        {{.JavaName}}Bean bean = new {{.JavaName}}Bean();
+        {{- range .TableColumn}}
+        {{- if isContain .JavaName "create"}}
+        {{- else if isContain .JavaName "update"}}
+        {{- else if isContain .JavaName "sort"}}
+        {{- else if isContain .JavaName "remark"}}
+        {{- else if eq .ColumnKey "PRI"}}
+        {{- else}}
+        //bean.set{{.GoNamePublic}}({{.LowerJavaName}}.get{{.GoNamePublic}}());
+        {{- end}}
+        {{- end}}
 
         PageHelper.startPage({{.LowerJavaName}}.getPageNum(), {{.LowerJavaName}}.getPageSize());
 	    List<{{.JavaName}}Bean> query = {{.LowerJavaName}}Dao.query{{.JavaName}}List(bean);
         PageInfo<{{.JavaName}}Bean> pageInfo = new PageInfo<>(query);
 
-	    List<{{.JavaName}}RespVo> list = pageInfo.getList().stream().map(x -> {
-            {{.JavaName}}RespVo resp = new {{.JavaName}}RespVo();{{range .TableColumn}}
+	    List<Query{{.JavaName}}ListRespVo> list = pageInfo.getList().stream().map(x -> {
+            Query{{.JavaName}}ListRespVo resp = new Query{{.JavaName}}ListRespVo();{{range .TableColumn}}
             resp.set{{.GoNamePublic}}(x.get{{.GoNamePublic}}());{{end}}
 		   return resp;
 	    }).collect(Collectors.toList());
 
-        return new ResultPage<>(list,pageInfo.getPageNum(),pageInfo.getPageSize(),pageInfo.getTotal());
+        //return new ResultPage<>(list,pageInfo.getPageNum(),pageInfo.getPageSize(),pageInfo.getTotal());
+        return null;
 
    }
 }

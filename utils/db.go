@@ -218,6 +218,7 @@ var ToJavaType = map[string]string{
 	"set":       "String",
 	"varchar":   "String",
 	"char":      "String",
+	"date":      "Date",
 	"datetime":  "Date",
 	"decimal":   "Integer",
 	"timestamp": "Date",

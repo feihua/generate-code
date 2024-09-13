@@ -11,6 +11,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 /**
  * 描述：{{.Comment}}
  * 作者：{{.Author}}
@@ -23,8 +25,15 @@ import lombok.NoArgsConstructor;
 @ApiModel("查询{{.Comment}}详情响应vo")
 public class Query{{.JavaName}}DetailRespVo implements Serializable {
 
-{{- range .TableColumn}}
+{{range .TableColumn}}
+{{- if eq .JavaType "Date" }}
     @ApiModelProperty("{{.ColumnComment}}")
-	private {{.JavaType}} {{.JavaName}};
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    private {{.JavaType}} {{.JavaName}};
+{{- else}}
+    @ApiModelProperty("{{.ColumnComment}}")
+    private {{.JavaType}} {{.JavaName}};
 {{- end}}
+{{end}}
+
 }

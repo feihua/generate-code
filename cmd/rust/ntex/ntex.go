@@ -1,7 +1,4 @@
-/*
-Copyright © 2023 NAME HERE <EMAIL ADDRESS>
-*/
-package auxm
+package ntex
 
 import (
 	"bytes"
@@ -17,7 +14,7 @@ import (
 )
 
 var Cmd = &cobra.Command{
-	Use:   "auxm",
+	Use:   "ntex",
 	Short: "A brief description of your command",
 	Long: `A longer description that spans multiple lines and likely contains examples
 and usage of using your command. For example:
@@ -25,27 +22,27 @@ and usage of using your command. For example:
 `,
 	Run: func(c *cobra.Command, args []string) {
 		tables := utils.New().QueryTables(Dsn, TableNames, prefix)
-		var path = "generate/rust/auxm/" + OrmType + "/" + PackageName
+		var path = "generate/rust/ntex/" + OrmType + "/" + PackageName
 		if OrmType == "rbatis" {
 
 			for _, t := range tables {
-				Generate(t, "template/rust/auxm/rbatis/vo.tpl", path+"/vo", t.RustName+"_vo.rs")
-				Generate(t, "template/rust/auxm/rbatis/model.tpl", path+"/model", t.RustName+".rs")
-				Generate(t, "template/rust/auxm/rbatis/handler.tpl", path+"/handler", t.RustName+"_handler.rs")
+				Generate(t, "template/rust/ntex/rbatis/vo.tpl", path+"/vo", t.RustName+"_vo.rs")
+				Generate(t, "template/rust/ntex/rbatis/model.tpl", path+"/model", t.RustName+".rs")
+				Generate(t, "template/rust/ntex/rbatis/handler.tpl", path+"/handler", t.RustName+"_handler.rs")
 			}
 
 		} else if OrmType == "sea" {
 			for _, t := range tables {
-				Generate(t, "template/rust/auxm/sea/vo.tpl", path+"/vo", t.RustName+"_vo.rs")
-				Generate(t, "template/rust/auxm/sea/model.tpl", path+"/model", t.RustName+".rs")
-				Generate(t, "template/rust/auxm/sea/handler.tpl", path+"/handler", t.RustName+"_handler.rs")
+				Generate(t, "template/rust/ntex/sea/vo.tpl", path+"/vo", t.RustName+"_vo.rs")
+				Generate(t, "template/rust/ntex/sea/model.tpl", path+"/model", t.RustName+".rs")
+				Generate(t, "template/rust/ntex/sea/handler.tpl", path+"/handler", t.RustName+"_handler.rs")
 			}
 
 		} else if OrmType == "diesel" {
 			for _, t := range tables {
-				Generate(t, "template/rust/auxm/diesel/vo.tpl", path+"/vo", t.RustName+"_vo.rs")
-				Generate(t, "template/rust/auxm/diesel/model.tpl", path+"/model", t.RustName+".rs")
-				Generate(t, "template/rust/auxm/diesel/handler.tpl", path+"/handler", t.RustName+"_handler.rs")
+				Generate(t, "template/rust/ntex/diesel/vo.tpl", path+"/vo", t.RustName+"_vo.rs")
+				Generate(t, "template/rust/ntex/diesel/model.tpl", path+"/model", t.RustName+".rs")
+				Generate(t, "template/rust/ntex/diesel/handler.tpl", path+"/handler", t.RustName+"_handler.rs")
 			}
 
 		}
@@ -62,7 +59,7 @@ var Author string
 
 func init() {
 
-	//go run main.go rust auxm --dsn "root:oMbPi5munxCsBSsiLoPV@tcp(110.41.179.89:3306)/better-pay" --tableNames pay_ --prefix pay_  --orm rbatis --author LiuFeiHua --packageName pay
+	//go run main.go rust ntex --dsn "root:oMbPi5munxCsBSsiLoPV@tcp(110.41.179.89:3306)/better-pay" --tableNames pay_ --prefix pay_  --orm rbatis --author LiuFeiHua --packageName pay
 	Cmd.Flags().StringVarP(&Dsn, "dsn", "", "", "请输入数据库的地址")
 	Cmd.Flags().StringVarP(&TableNames, "tableNames", "", "", "请输入表名称")
 	Cmd.Flags().StringVarP(&prefix, "prefix", "", "", "生成表时候去掉前缀")

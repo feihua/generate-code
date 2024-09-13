@@ -7,7 +7,7 @@ use serde::{Deserialize, Serialize};
 /**
 添加{{.Comment}}请求参数
 */
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Deserialize)]
 pub struct Add{{.JavaName}}Req {
 {{- range .TableColumn}}
 {{- if isContain .JavaName "create"}}
@@ -23,15 +23,15 @@ pub struct Add{{.JavaName}}Req {
 /**
 删除{{.Comment}}请求参数
 */
-#[derive(Debug, Serialize, Deserialize)]
-pub struct {{.JavaName}}DeleteReq {
+#[derive(Debug, Deserialize)]
+pub struct Delete{{.JavaName}}Req {
     pub ids: Vec<i32>,
 }
 
 /**
 更新{{.Comment}}请求参数
 */
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Deserialize)]
 pub struct Update{{.JavaName}}Req {
 {{- range .TableColumn}}
 {{- if isContain .JavaName "create"}}
@@ -46,7 +46,7 @@ pub struct Update{{.JavaName}}Req {
 /**
 更新{{.Comment}}状态请求参数
 */
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Deserialize)]
 pub struct Update{{.JavaName}}StatusReq {
     pub ids: Vec<i32>,
     pub status: i32,
@@ -55,7 +55,7 @@ pub struct Update{{.JavaName}}StatusReq {
 /**
 查询{{.Comment}}详情请求参数
 */
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Deserialize)]
 pub struct Query{{.JavaName}}DetailReq {
     pub id: i32,
 }
@@ -74,7 +74,7 @@ pub struct Query{{.JavaName}}DetailResp {
 /**
 查询{{.Comment}}列表请求参数
 */
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Deserialize)]
 pub struct Query{{.JavaName}}ListReq {
     #[serde(rename = "current")]
     pub page_no: u64,

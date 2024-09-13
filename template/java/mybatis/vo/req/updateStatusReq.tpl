@@ -1,7 +1,5 @@
 package {{.PackageName}}.vo.req;
 
-import java.util.List;
-
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
@@ -25,11 +23,15 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@ApiModel("删除{{.Comment}}请求vo")
-public class Delete{{.JavaName}}ReqVo implements Serializable {
+@ApiModel("更新{{.Comment}}状态请求Vo")
+public class Update{{.JavaName}}StatusReqVo implements Serializable {
 
 	@ApiModelProperty("主键数组")
 	@NotNull(message = "ids主键不能为空", required = true)
 	private List<Integer> ids;
-}
 
+    @ApiModelProperty("状态")
+    @NotNull(message = "status状态不能为空", required = true)
+    private Integer status;
+
+}

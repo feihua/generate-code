@@ -6,9 +6,9 @@ import org.springframework.stereotype.Service;
 import {{.GroupId}}.common.vo.ResultPage;
 import {{.PackageName}}.vo.req.{{.JavaName}}ReqVo;
 import {{.PackageName}}.vo.req.{{.JavaName}}ListReqVo;
-import {{.PackageName}}.vo.req.{{.JavaName}}AddReqVo;
+import {{.PackageName}}.vo.req.Add{{.JavaName}}ReqVo;
 import {{.PackageName}}.vo.req.{{.JavaName}}DeleteReqVo;
-import {{.PackageName}}.vo.req.{{.JavaName}}UpdateReqVo;
+import {{.PackageName}}.vo.req.Update{{.JavaName}}ReqVo;
 import {{.PackageName}}.vo.resp.{{.JavaName}}RespVo;
 import {{.PackageName}}.biz.{{.JavaName}}Biz;
 import {{.PackageName}}.service.{{.JavaName}}Service;
@@ -33,7 +33,7 @@ public class {{.JavaName}}ServiceImpl implements {{.JavaName}}Service {
     * @date: {{.CreateTime}}
     */
    @Override
-   public int save{{.JavaName}}({{.JavaName}}AddReqVo {{.LowerJavaName}}){
+   public int save{{.JavaName}}(Add{{.JavaName}}ReqVo {{.LowerJavaName}}){
 
         return {{.LowerJavaName}}Biz.save{{.JavaName}}({{.LowerJavaName}});
    }
@@ -60,7 +60,7 @@ public class {{.JavaName}}ServiceImpl implements {{.JavaName}}Service {
     * @date: {{.CreateTime}}
     */
    @Override
-   public int update{{.JavaName}}({{.JavaName}}UpdateReqVo {{.LowerJavaName}}){
+   public int update{{.JavaName}}(Update{{.JavaName}}ReqVo {{.LowerJavaName}}){
 
         return {{.LowerJavaName}}Biz.update{{.JavaName}}({{.LowerJavaName}});
    }

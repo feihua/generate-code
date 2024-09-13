@@ -5,9 +5,9 @@ import java.util.Map;
 import {{.GroupId}}.common.vo.ResultPage;
 import {{.PackageName}}.vo.req.{{.JavaName}}ReqVo;
 import {{.PackageName}}.vo.req.{{.JavaName}}ListReqVo;
-import {{.PackageName}}.vo.req.{{.JavaName}}AddReqVo;
+import {{.PackageName}}.vo.req.Add{{.JavaName}}ReqVo;
 import {{.PackageName}}.vo.req.{{.JavaName}}DeleteReqVo;
-import {{.PackageName}}.vo.req.{{.JavaName}}UpdateReqVo;
+import {{.PackageName}}.vo.req.Update{{.JavaName}}ReqVo;
 import {{.PackageName}}.vo.resp.{{.JavaName}}RespVo;
 
 /**
@@ -25,7 +25,7 @@ public interface {{.JavaName}}Service {
     * @author {{.Author}}
     * @date: {{.CreateTime}}
     */
-   int save{{.JavaName}}({{.JavaName}}AddReqVo {{.LowerJavaName}});
+   int save{{.JavaName}}(Add{{.JavaName}}ReqVo {{.LowerJavaName}});
 
    /**
     * 删除{{.Comment}}
@@ -45,7 +45,7 @@ public interface {{.JavaName}}Service {
     * @author {{.Author}}
     * @date: {{.CreateTime}}
     */
-   int update{{.JavaName}}({{.JavaName}}UpdateReqVo {{.LowerJavaName}});
+   int update{{.JavaName}}(Update{{.JavaName}}ReqVo {{.LowerJavaName}});
 
    /**
     * 查询{{.Comment}}

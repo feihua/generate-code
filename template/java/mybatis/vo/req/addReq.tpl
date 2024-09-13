@@ -23,11 +23,29 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@ApiModel("{{.Comment}}请求addVo")
-public class {{.JavaName}}AddReqVo implements Serializable {
+@ApiModel("添加{{.Comment}}请求Vo")
+public class Add{{.JavaName}}ReqVo implements Serializable {
+{{range .TableColumn}}
+{{- if isContain .JavaName "create"}}
+{{- else if isContain .JavaName "update"}}
+{{- else if eq .ColumnKey "PRI"}}
+{{- else}}
+    {{- if eq .IsNullable `YES` }}
+    @ApiModelProperty(value = "{{.ColumnComment}}")
+    private {{.JavaType}} {{.JavaName}};
+    {{- else if eq .JavaName `remark` }}
+    @ApiModelProperty(value = "{{.ColumnComment}}")
+    private {{.JavaType}} {{.JavaName}};
+    {{- else}}
+    @ApiModelProperty(value = "{{.ColumnComment}}", required = true)
+    {{- if eq .JavaType `Integer` }}
+    @NotNull(message = "{{.JavaName}}{{.ColumnComment}}不能为空")
+    {{- else}}
+    @NotBlank(message = "{{.JavaName}}{{.ColumnComment}}不能为空")
+    {{- end}}
+    private {{.JavaType}} {{.JavaName}};
+    {{end}}
+{{- end}}
+{{- end}}
 
-{{range .TableColumn}}	@ApiModelProperty(value = "{{.ColumnComment}}", required = true)
-	//@NotBlank(message = "{{.JavaName}}{{.ColumnComment}}不能为空")
-	private {{.JavaType}} {{.JavaName}};
-
-{{end}}}
+}

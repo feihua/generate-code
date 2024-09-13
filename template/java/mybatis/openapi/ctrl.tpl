@@ -20,9 +20,9 @@ import {{.GroupId}}.common.vo.ResultPage;
 import {{.PackageName}}.annotation.OperateLog;
 import {{.PackageName}}.vo.req.{{.JavaName}}ReqVo;
 import {{.PackageName}}.vo.req.{{.JavaName}}ListReqVo;
-import {{.PackageName}}.vo.req.{{.JavaName}}AddReqVo;
+import {{.PackageName}}.vo.req.Add{{.JavaName}}ReqVo;
 import {{.PackageName}}.vo.req.{{.JavaName}}DeleteReqVo;
-import {{.PackageName}}.vo.req.{{.JavaName}}UpdateReqVo;
+import {{.PackageName}}.vo.req.Update{{.JavaName}}ReqVo;
 import {{.PackageName}}.vo.resp.{{.JavaName}}RespVo;
 import {{.PackageName}}.service.{{.JavaName}}Service;
 
@@ -50,7 +50,7 @@ public class {{.JavaName}}Controller {
    @Operation(summary = "添加{{.Comment}}")
    @PostMapping("/save{{.JavaName}}")
    @OperateLog(description = "【{{.Comment}}】添加{{.Comment}}")
-   public Result<Integer> save{{.JavaName}}(@RequestBody @Valid {{.JavaName}}AddReqVo record){
+   public Result<Integer> save{{.JavaName}}(@RequestBody @Valid Add{{.JavaName}}ReqVo record){
         return Result.success({{.LowerJavaName}}Service.save{{.JavaName}}(record));
    }
 
@@ -80,7 +80,7 @@ public class {{.JavaName}}Controller {
    @Operation(summary = "更新{{.Comment}}")
    @PutMapping("/update{{.JavaName}}")
    @OperateLog(description = "【{{.Comment}}】更新{{.Comment}}")
-   public Result<Integer> update{{.JavaName}}(@RequestBody @Valid {{.JavaName}}UpdateReqVo record){
+   public Result<Integer> update{{.JavaName}}(@RequestBody @Valid Update{{.JavaName}}ReqVo record){
         return Result.success({{.LowerJavaName}}Service.update{{.JavaName}}(record));
    }
 

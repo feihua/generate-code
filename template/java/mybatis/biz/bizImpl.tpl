@@ -13,9 +13,9 @@ import {{.PackageName}}.entity.{{.JavaName}}Bean;
 import {{.GroupId}}.common.vo.ResultPage;
 import {{.PackageName}}.vo.req.{{.JavaName}}ReqVo;
 import {{.PackageName}}.vo.req.{{.JavaName}}ListReqVo;
-import {{.PackageName}}.vo.req.{{.JavaName}}AddReqVo;
+import {{.PackageName}}.vo.req.Add{{.JavaName}}ReqVo;
 import {{.PackageName}}.vo.req.{{.JavaName}}DeleteReqVo;
-import {{.PackageName}}.vo.req.{{.JavaName}}UpdateReqVo;
+import {{.PackageName}}.vo.req.Update{{.JavaName}}ReqVo;
 import {{.PackageName}}.vo.resp.{{.JavaName}}RespVo;
 import {{.PackageName}}.dao.{{.JavaName}}Dao;
 import {{.PackageName}}.biz.{{.JavaName}}Biz;
@@ -42,7 +42,7 @@ public class {{.JavaName}}BizImpl implements {{.JavaName}}Biz {
     * @date: {{.CreateTime}}
     */
    @Override
-   public int save{{.JavaName}}({{.JavaName}}AddReqVo {{.LowerJavaName}}){
+   public int save{{.JavaName}}(Add{{.JavaName}}ReqVo {{.LowerJavaName}}){
         {{.JavaName}}Bean bean = new {{.JavaName}}Bean();{{range .TableColumn}}
         bean.set{{.GoNamePublic}}({{.LowerJavaName}}.get{{.GoNamePublic}}());{{end}}
 
@@ -71,7 +71,7 @@ public class {{.JavaName}}BizImpl implements {{.JavaName}}Biz {
     * @date: {{.CreateTime}}
     */
    @Override
-   public int update{{.JavaName}}({{.JavaName}}UpdateReqVo {{.LowerJavaName}}){
+   public int update{{.JavaName}}(Update{{.JavaName}}ReqVo {{.LowerJavaName}}){
         {{.JavaName}}Bean bean = new {{.JavaName}}Bean();{{range .TableColumn}}
         bean.set{{.GoNamePublic}}({{.LowerJavaName}}.get{{.GoNamePublic}}());{{end}}
 

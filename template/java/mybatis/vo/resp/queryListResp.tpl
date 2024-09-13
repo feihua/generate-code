@@ -1,15 +1,10 @@
-package {{.PackageName}}.vo.req;
-
-import java.util.List;
+package {{.PackageName}}.vo.resp;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 import java.io.Serializable;
 import java.util.Date;
-
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -25,11 +20,11 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@ApiModel("删除{{.Comment}}请求vo")
-public class Delete{{.JavaName}}ReqVo implements Serializable {
+@ApiModel("查询{{.Comment}}列表响应vo")
+public class Query{{.JavaName}}ListRespVo implements Serializable {
 
-	@ApiModelProperty("主键数组")
-	@NotNull(message = "ids主键不能为空", required = true)
-	private List<Integer> ids;
+{{- range .TableColumn}}
+    @ApiModelProperty("{{.ColumnComment}}")
+	private {{.JavaType}} {{.JavaName}};
+{{- end}}
 }
-

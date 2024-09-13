@@ -6,6 +6,7 @@ import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
@@ -23,28 +24,28 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@ApiModel("更新{{.Comment}}请求Vo")
-public class Update{{.JavaName}}ReqVo implements Serializable {
+@ApiModel("查询{{.Comment}}列表请求Vo")
+public class Query{{.JavaName}}ListReqVo implements Serializable {
+
+    @ApiModelProperty(value = "当前页", required = true, example = "1")
+    @NotNull(message = "pageNum当前页不能为空")
+    @Min(value=1,message = "pageNum当前页不能小于1")
+    private Integer pageNum;
+
+    @ApiModelProperty(value = "每页的数量", required = true, example = "10")
+    @NotNull(message = "pageSize每页的数量不能为空")
+    private Integer pageSize;
+
 
 {{range .TableColumn}}
-{{- if isContain .JavaName "create"}}
+{{if isContain .JavaName "create"}}
 {{- else if isContain .JavaName "update"}}
+{{- else if eq .ColumnKey "PRI"}}
+{{- else if eq .ColumnKey "remark"}}
+{{- else if eq .ColumnKey "sort"}}
 {{- else}}
-    {{- if eq .IsNullable `YES` }}
-    @ApiModelProperty(value = "{{.ColumnComment}}", required = false)
-    private {{.JavaType}} {{.JavaName}};
-    {{- else if eq .JavaName `remark` }}
     @ApiModelProperty(value = "{{.ColumnComment}}")
     private {{.JavaType}} {{.JavaName}};
-    {{- else}}
-    @ApiModelProperty(value = "{{.ColumnComment}}", required = true)
-    {{- if eq .JavaType `Integer` }}
-    @NotNull(message = "{{.JavaName}}{{.ColumnComment}}不能为空")
-    {{- else}}
-    @NotBlank(message = "{{.JavaName}}{{.ColumnComment}}不能为空")
-    {{- end}}
-    private {{.JavaType}} {{.JavaName}};
-    {{end}}
 {{- end}}
 {{- end}}
 

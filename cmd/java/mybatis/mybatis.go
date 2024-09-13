@@ -1,6 +1,5 @@
 /*
 Copyright © 2023 NAME HERE <EMAIL ADDRESS>
-
 */
 package mybatis
 
@@ -11,6 +10,7 @@ import (
 	"github.com/spf13/cobra"
 	"io/ioutil"
 	"os"
+	"strings"
 	"text/template"
 	"time"
 )
@@ -55,13 +55,15 @@ to quickly create a Cobra application.`,
 			} else {
 				tPath = tPath + "/openapi"
 			}
-			Generate(t, tPath+"/req/addReq.tpl", reqPath, t.JavaName+"AddReqVo.java")
-			Generate(t, tPath+"/req/deleteReq.tpl", reqPath, t.JavaName+"DeleteReqVo.java")
-			Generate(t, tPath+"/req/updateReq.tpl", reqPath, t.JavaName+"UpdateReqVo.java")
-			Generate(t, tPath+"/req/req.tpl", reqPath, t.JavaName+"ReqVo.java")
-			Generate(t, tPath+"/req/listReq.tpl", reqPath, t.JavaName+"ListReqVo.java")
+			Generate(t, tPath+"/req/addReq.tpl", reqPath, "Add"+t.JavaName+"ReqVo.java")
+			Generate(t, tPath+"/req/deleteReq.tpl", reqPath, "Delete"+t.JavaName+"ReqVo.java")
+			Generate(t, tPath+"/req/updateReq.tpl", reqPath, "Update"+t.JavaName+"ReqVo.java")
+			Generate(t, tPath+"/req/updateStatusReq.tpl", reqPath, "Update"+t.JavaName+"StatusReqVo.java")
+			Generate(t, tPath+"/req/queryDetailReq.tpl", reqPath, "Query"+t.JavaName+"DetailReqVo.java")
+			Generate(t, tPath+"/req/queryListReq.tpl", reqPath, "Query"+t.JavaName+"ListReqVo.java")
 
-			Generate(t, tPath+"/resp/resp.tpl", path+"/vo/resp", t.JavaName+"RespVo.java")
+			Generate(t, tPath+"/resp/queryDetailResp.tpl", path+"/vo/resp", "Query"+t.JavaName+"DetailRespVo.java")
+			Generate(t, tPath+"/resp/queryListResp.tpl", path+"/vo/resp", "Query"+t.JavaName+"ListRespVo.java")
 
 		}
 	},
@@ -77,7 +79,7 @@ var swaggerVersion int64
 
 func init() {
 
-	//go run main.go java mybatis --dsn "root:ad879037-c7a4-4063-9236-6bfc35d54b7d@tcp(139.159.180.129:3306)/tpl" --tableNames sys_ --prefix sys_  --groupId com.example.springboottpl --packageName com.example.springboottpl --author 刘飞华
+	//go run main.go java mybatis --dsn "root:oMbPi5munxCsBSsiLoPV@tcp(110.41.179.89:3306)/better-pay" --tableNames pay_ --prefix pay_  --groupId com.example.springboottpl --packageName com.example.springboottpl --author 刘飞华
 	//generate-code.exe java mybatis --dsn "dba_msginfo:UA9655pwd_msg@tcp(10.168.11.61:3309)/msg_db" --tableNames uaf_ --prefix uaf_  --groupId com.demo --packageName com.demo.test --author liufeihua
 	Cmd.Flags().StringVarP(&Dsn, "dsn", "", "", "请输入数据库的地址")
 	Cmd.Flags().StringVarP(&TableNames, "tableNames", "", "", "请输入表名称")
@@ -90,7 +92,15 @@ func init() {
 }
 
 func Generate(t utils.Table, tplName, path, fileName string) {
-	tpl, err := template.ParseFiles(tplName)
+	htmlByte, err := ioutil.ReadFile(tplName)
+	if err != nil {
+		fmt.Println("read html failed, err:", err)
+		return
+	}
+
+	fmap := template.FuncMap{"isContain": IsContain}
+	tpl, _ := template.New("abc.html").Funcs(fmap).Parse(string(htmlByte))
+	//tpl, err := template.ParseFiles(tplName)
 	//tpl := template.Must(template.New("sql2proto").Parse(t.structTpl))
 
 	t.PackageName = PackageName
@@ -114,4 +124,10 @@ func Generate(t utils.Table, tplName, path, fileName string) {
 	}
 
 	ioutil.WriteFile(path+string(os.PathSeparator)+fileName, buf.Bytes(), 0755)
+}
+
+// IsContain 判断是否包含
+func IsContain(a, b string) bool {
+
+	return strings.Contains(a, b)
 }

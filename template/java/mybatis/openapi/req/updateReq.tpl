@@ -23,7 +23,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Schema(description = "{{.Comment}}请求updateVo")
-public class {{.JavaName}}UpdateReqVo implements Serializable {
+public class Update{{.JavaName}}ReqVo implements Serializable {
 
 {{range .TableColumn}}	@Schema(description = "{{.ColumnComment}}", requiredMode = Schema.RequiredMode.REQUIRED)
 	{{if eq .JavaType `int` }}@NotNull{{else}}@NotBlank{{end}}(message = "{{.JavaName}}{{.ColumnComment}}不能为空")

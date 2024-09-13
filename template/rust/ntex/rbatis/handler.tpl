@@ -1,24 +1,24 @@
-use rocket::serde::json::serde_json::json;
-use rocket::serde::json::{Json, Value};
+use log::info;
+use ntex::web;
+use ntex::web::types::Json;
 use rbatis::rbdc::datetime::DateTime;
 use rbatis::plugin::page::PageRequest;
+use rbs::to_value;
 
 use crate::model::{{.RustName}}::{ {{.JavaName}} };
 use crate::RB;
-use crate::utils::auth::Token;
-use rbs::to_value;
 use crate::vo::*;
 use crate::vo::{{.RustName}}_vo::{*};
+
 
 /**
  *添加{{.Comment}}
  *author：{{.Author}}
  *date：{{.CreateTime}}
  */
-#[post("/add{{.JavaName}}", data = "<item>")]
-pub async fn add_{{.RustName}}(item: Json<Add{{.JavaName}}Req>, _auth: Token) -> Value {
-    log::info!("add_{{.RustName}} params: {:?}", &item);
-    let mut rb = RB.to_owned();
+#[web::post("/add{{.JavaName}}")]
+pub async fn add_{{.RustName}}(item: Json<Add{{.JavaName}}Req>) -> Result<impl web::Responder, web::Error> {
+    info!("add_{{.RustName}} params: {:?}", &item);
 
     let req = item.0;
 
@@ -40,24 +40,24 @@ pub async fn add_{{.RustName}}(item: Json<Add{{.JavaName}}Req>, _auth: Token) ->
     {{- end}}
     };
 
-    let result = {{.JavaName}}::insert(&mut rb, &{{.RustName}}).await;
+    let result = {{.JavaName}}::insert(&mut RB.clone(),&{{.RustName}}).await;
 
-    json!(&handle_result(result))
+    Ok(web::HttpResponse::Ok().json(&handle_result(result)))
 }
+
 
 /**
  *删除{{.Comment}}
  *author：{{.Author}}
  *date：{{.CreateTime}}
  */
-#[post("/delete{{.JavaName}}", data = "<item>")]
-pub async fn delete_{{.RustName}}(item: Json<Delete{{.JavaName}}Req>, _auth: Token) -> Value {
-    log::info!("delete_{{.RustName}} params: {:?}", &item);
-    let mut rb = RB.to_owned();
+#[web::post("/delete{{.JavaName}}")]
+pub async fn delete_{{.RustName}}(item: Json<Delete{{.JavaName}}Req>) -> Result<impl web::Responder, web::Error> {
+    info!("delete_{{.RustName}} params: {:?}", &item);
 
-    let result = {{.JavaName}}::delete_in_column(&mut rb, "id", &item.ids).await;
+    let result = {{.JavaName}}::delete_in_column(&mut RB.clone(), "id", &item.ids).await;
 
-    json!(&handle_result(result))
+    Ok(web::HttpResponse::Ok().json(&handle_result(result)))
 }
 
 /**
@@ -65,10 +65,10 @@ pub async fn delete_{{.RustName}}(item: Json<Delete{{.JavaName}}Req>, _auth: Tok
  *author：{{.Author}}
  *date：{{.CreateTime}}
  */
-#[post("/update{{.JavaName}}", data = "<item>")]
-pub async fn update_{{.RustName}}(item: Json<Update{{.JavaName}}Req>, _auth: Token) -> Value {
-    log::info!("update_{{.RustName}} params: {:?}", &item);
-    let mut rb = RB.to_owned();
+#[web::post("/update{{.JavaName}}")]
+pub async fn update_{{.RustName}}(item: Json<Update{{.JavaName}}Req>) -> Result<impl web::Responder, web::Error> {
+    info!("update_{{.RustName}} params: {:?}", &item);
+
     let req = item.0;
 
     let {{.RustName}} = {{.JavaName}} {
@@ -89,9 +89,9 @@ pub async fn update_{{.RustName}}(item: Json<Update{{.JavaName}}Req>, _auth: Tok
     {{- end}}
     };
 
-    let result = {{.JavaName}}::update_by_column(&mut rb, &{{.RustName}}, "id").await;
+    let result = {{.JavaName}}::update_by_column(&mut RB.clone(), &{{.RustName}}, "id").await;
 
-    json!(&handle_result(result))
+    Ok(web::HttpResponse::Ok().json(&handle_result(result)))
 }
 
 /**
@@ -99,16 +99,17 @@ pub async fn update_{{.RustName}}(item: Json<Update{{.JavaName}}Req>, _auth: Tok
  *author：{{.Author}}
  *date：{{.CreateTime}}
  */
-#[post("/update{{.JavaName}}Status", data = "<item>")]
-pub async fn update_{{.RustName}}_status(item: Json<Update{{.JavaName}}StatusReq>, _auth: Token) -> Value {
-    log::info!("update_{{.RustName}}_status params: {:?}", &item);
-    let mut rb = RB.to_owned();
+#[web::post("/update{{.JavaName}}Status")]
+pub async fn update_{{.RustName}}_status(item: Json<Update{{.JavaName}}Req>) -> Result<impl web::Responder, web::Error> {
+    info!("update_{{.RustName}}_status params: {:?}", &item);
+    let rb=&mut RB.clone();
+
     let req = item.0;
 
-    let param = vec![to_value!(1), to_value!(1)];
-    let result = rb.exec("update {{.OriginalName}} set status = ? where id in ?", param).await;
+   let param = vec![to_value!(1), to_value!(1)];
+   let result = rb.exec("update {{.OriginalName}} set status = ? where id in ?", param).await;
 
-    json!(&handle_result(result))
+    Ok(web::HttpResponse::Ok().json(&handle_result(result)))
 }
 
 /**
@@ -116,12 +117,11 @@ pub async fn update_{{.RustName}}_status(item: Json<Update{{.JavaName}}StatusReq
  *author：{{.Author}}
  *date：{{.CreateTime}}
  */
-#[post("/query{{.JavaName}}Detail", data = "<item>")]
-pub async fn query_{{.RustName}}_detail(item: Json<Query{{.JavaName}}DetailReq>, _auth: Token) -> Value {
-    log::info!("query_{{.RustName}}_detail params: {:?}", &item);
-    let mut rb = RB.to_owned();
+#[web::post("/query{{.JavaName}}Detail")]
+pub async fn query_{{.RustName}}_detail(item: Json<Query{{.JavaName}}DetailReq>) -> Result<impl web::Responder, web::Error> {
+    info!("query_{{.RustName}}_detail params: {:?}", &item);
 
-    let result = {{.JavaName}}::select_by_id(&mut rb, &item.id).await;
+   let result = {{.JavaName}}::select_by_id(&mut RB.clone(), &item.id).await;
 
     match result {
         Ok(d) => {
@@ -141,10 +141,10 @@ pub async fn query_{{.RustName}}_detail(item: Json<Query{{.JavaName}}DetailReq>,
             {{- end}}
             };
 
-            json!(ok_result_data({{.RustName}}))
+            Ok(web::HttpResponse::Ok().json(&ok_result_data({{.RustName}})))
         }
         Err(err) => {
-            json!(ok_result_code(1, err.to_string()))
+            Ok(web::HttpResponse::Ok().json(&ok_result_code(1, err.to_string())))
         }
     }
 }
@@ -155,19 +155,18 @@ pub async fn query_{{.RustName}}_detail(item: Json<Query{{.JavaName}}DetailReq>,
  *author：{{.Author}}
  *date：{{.CreateTime}}
  */
-#[post("/query{{.JavaName}}List", data = "<item>")]
-pub async fn query_{{.RustName}}_list(item: Json<Query{{.JavaName}}ListReq>, _auth: Token) -> Value {
-    log::info!("query_{{.RustName}}_list params: {:?}", &item);
-    let mut rb = RB.to_owned();
+#[web::post("/query{{.JavaName}}List")]
+pub async fn query_{{.RustName}}_list(item: Json<Query{{.JavaName}}ListReq>) -> Result<impl web::Responder, web::Error> {
+    info!("query_{{.RustName}}_list params: {:?}", &item);
 
-    let page = &PageRequest::new(item.page_no.clone(), item.page_size.clone());
-    let result = {{.JavaName}}::select_page(&mut rb, page).await;
 
+    let page=&PageRequest::new(item.page_no.clone(), item.page_size.clone());
+    let result = {{.JavaName}}::select_page(&mut RB.clone(), page).await;
+
+    let mut {{.RustName}}_list_data: Vec<{{.JavaName}}ListDataResp> = Vec::new();
     match result {
         Ok(d) => {
             let total = d.total;
-
-            let mut {{.RustName}}_list_data: Vec<{{.JavaName}}ListDataResp> = Vec::new();
 
             for x in d.records {
                 {{.RustName}}_list_data.push({{.JavaName}}ListDataResp {
@@ -185,11 +184,10 @@ pub async fn query_{{.RustName}}_list(item: Json<Query{{.JavaName}}ListReq>, _au
                 })
             }
 
-            json!(ok_result_page({{.RustName}}_list_data, total))
+            Ok(web::HttpResponse::Ok().json(&ok_result_page({{.RustName}}_list_data, total)))
         }
         Err(err) => {
-            json!(err_result_page(err.to_string()))
+            Ok(web::HttpResponse::Ok().json(&err_result_page({{.RustName}}_list_data, err.to_string())))
         }
     }
 }
-

@@ -13,7 +13,7 @@ use crate::vo::{{.RustName}}_vo::{*};
  *author：{{.Author}}
  *date：{{.CreateTime}}
  */
-#[post("/add_{{.RustName}}")]
+#[post("/add{{.JavaName}}")]
 pub async fn add_{{.RustName}}(item: web::Json<Add{{.JavaName}}Req>, data: web::Data<AppState>) -> Result<impl Responder> {
     log::info!("add_{{.RustName}} params: {:?}", &item);
     let mut rb = &data.batis;
@@ -48,7 +48,7 @@ pub async fn add_{{.RustName}}(item: web::Json<Add{{.JavaName}}Req>, data: web::
  *author：{{.Author}}
  *date：{{.CreateTime}}
  */
-#[post("/delete_{{.RustName}}")]
+#[post("/delete{{.JavaName}}")]
 pub async fn delete_{{.RustName}}(item: web::Json<Delete{{.JavaName}}Req>, data: web::Data<AppState>) -> Result<impl Responder> {
     log::info!("delete_{{.RustName}} params: {:?}", &item);
     let mut rb = &data.batis;
@@ -63,7 +63,7 @@ pub async fn delete_{{.RustName}}(item: web::Json<Delete{{.JavaName}}Req>, data:
  *author：{{.Author}}
  *date：{{.CreateTime}}
  */
-#[post("/update_{{.RustName}}")]
+#[post("/update{{.JavaName}}")]
 pub async fn update_{{.RustName}}(item: web::Json<Update{{.JavaName}}Req>, data: web::Data<AppState>) -> Result<impl Responder> {
     log::info!("update_{{.RustName}} params: {:?}", &item);
     let mut rb = &data.batis;
@@ -97,7 +97,7 @@ pub async fn update_{{.RustName}}(item: web::Json<Update{{.JavaName}}Req>, data:
  *author：{{.Author}}
  *date：{{.CreateTime}}
  */
-#[post("/update_{{.RustName}}_status")]
+#[post("/update{{.JavaName}}Status")]
 pub async fn update_{{.RustName}}_status(item: web::Json<Update{{.JavaName}}StatusReq>, data: web::Data<AppState>) -> Result<impl Responder> {
     log::info!("update_{{.RustName}}_status params: {:?}", &item);
     let mut rb = &data.batis;
@@ -114,7 +114,7 @@ pub async fn update_{{.RustName}}_status(item: web::Json<Update{{.JavaName}}Stat
  *author：{{.Author}}
  *date：{{.CreateTime}}
  */
-#[post("/query_{{.RustName}}_detail")]
+#[post("/query{{.JavaName}}Detail")]
 pub async fn query_{{.RustName}}_detail(item: web::Json<Query{{.JavaName}}DetailReq>, data: web::Data<AppState>) -> Result<impl Responder> {
     log::info!("query_{{.RustName}}_detail params: {:?}", &item);
     let mut rb = &data.batis;
@@ -153,7 +153,7 @@ pub async fn query_{{.RustName}}_detail(item: web::Json<Query{{.JavaName}}Detail
  *author：{{.Author}}
  *date：{{.CreateTime}}
  */
-#[post("/query_{{.RustName}}_list")]
+#[post("/query{{.JavaName}}List")]
 pub async fn query_{{.RustName}}_list(item: web::Json<Query{{.JavaName}}ListReq>, data: web::Data<AppState>) -> Result<impl Responder> {
     log::info!("query_{{.RustName}}_list params: {:?}", &item);
     let mut rb = &data.batis;

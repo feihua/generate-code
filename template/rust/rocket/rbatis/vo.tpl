@@ -26,7 +26,7 @@ pub struct Add{{.JavaName}}Req {
 */
 #[derive(Debug, Deserialize)]
 #[serde(crate = "rocket::serde")]
-pub struct {{.JavaName}}DeleteReq {
+pub struct Delete{{.JavaName}}Req {
     pub ids: Vec<i32>,
 }
 

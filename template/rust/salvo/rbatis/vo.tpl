@@ -24,7 +24,7 @@ pub struct Add{{.JavaName}}Req {
 删除{{.Comment}}请求参数
 */
 #[derive(Debug, Serialize, Deserialize)]
-pub struct {{.JavaName}}DeleteReq {
+pub struct Delete{{.JavaName}}Req {
     pub ids: Vec<i32>,
 }
 

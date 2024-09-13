@@ -53,7 +53,7 @@ pub async fn add_{{.RustName}}(req: &mut Request, res: &mut Response) {
  */
 #[handler]
 pub async fn delete_{{.RustName}}(req: &mut Request, res: &mut Response) {
-    let item = req.parse_json::<{{.JavaName}}DeleteReq>().await.unwrap();
+    let item = req.parse_json::<Delete{{.JavaName}}Req>().await.unwrap();
     log::info!("{{.RustName}}_delete params: {:?}", &item);
 
     let result = {{.JavaName}}::delete_in_column(&mut RB.clone(), "id", &item.ids).await;

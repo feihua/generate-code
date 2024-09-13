@@ -1,23 +1,41 @@
 use actix_web::{post, Responder, Result, web};
 use rbatis::rbdc::datetime::DateTime;
-use rbatis::sql::{PageRequest};
+use rbatis::plugin::page::PageRequest;
+use rbs::to_value;
 use crate::AppState;
 
 use crate::model::{{.RustName}}::{ {{.JavaName}} };
-use crate::vo::{err_result_page, handle_result, ok_result_page};
+use crate::vo::*;
 use crate::vo::{{.RustName}}_vo::{*};
 
-// 添加{{.Comment}}
-#[post("/{{.RustName}}_save")]
-pub async fn {{.RustName}}_save(item: web::Json<{{.JavaName}}SaveReq>, data: web::Data<AppState>) -> Result<impl Responder> {
-    log::info!("{{.RustName}}_save params: {:?}", &item);
+/**
+ *添加{{.Comment}}
+ *author：{{.Author}}
+ *date：{{.CreateTime}}
+ */
+#[post("/add_{{.RustName}}")]
+pub async fn add_{{.RustName}}(item: web::Json<Add{{.JavaName}}Req>, data: web::Data<AppState>) -> Result<impl Responder> {
+    log::info!("add_{{.RustName}} params: {:?}", &item);
     let mut rb = &data.batis;
 
     let req = item.0;
 
     let {{.RustName}} = {{.JavaName}} {
-    {{range .TableColumn}}    {{.RustName}}: {{if eq .ColumnKey `PRI`}}None{{else if eq .RustType `DateTime`}}Some(DateTime::now()){{else}}req.{{.RustName}}{{end}},
-    {{end}}
+    {{- range .TableColumn}}
+        {{- if eq .ColumnKey `PRI`}}
+        {{.RustName}}: None
+        {{- else if isContain .JavaName "createTime"}}
+        {{.RustName}}: None
+        {{- else if isContain .JavaName "createBy"}}
+        {{.RustName}}: String::from("")
+        {{- else if isContain .JavaName "updateBy"}}
+        {{.RustName}}: String::from("")
+        {{- else if isContain .JavaName "updateTime"}}
+        {{.RustName}}: None
+        {{- else}}
+        {{.RustName}}: req.{{.RustName}}
+        {{- end}},//{{.ColumnComment}}
+    {{- end}}
     };
 
     let result = {{.JavaName}}::insert(&mut rb, &{{.RustName}}).await;
@@ -25,10 +43,14 @@ pub async fn {{.RustName}}_save(item: web::Json<{{.JavaName}}SaveReq>, data: web
     Ok(web::Json(handle_result(result)))
 }
 
-// 删除{{.Comment}}
-#[post("/{{.RustName}}_delete")]
-pub async fn {{.RustName}}_delete(item: web::Json<{{.JavaName}}DeleteReq>, data: web::Data<AppState>) -> Result<impl Responder> {
-    log::info!("{{.RustName}}_delete params: {:?}", &item);
+/**
+ *删除{{.Comment}}
+ *author：{{.Author}}
+ *date：{{.CreateTime}}
+ */
+#[post("/delete_{{.RustName}}")]
+pub async fn delete_{{.RustName}}(item: web::Json<Delete{{.JavaName}}Req>, data: web::Data<AppState>) -> Result<impl Responder> {
+    log::info!("delete_{{.RustName}} params: {:?}", &item);
     let mut rb = &data.batis;
 
     let result = {{.JavaName}}::delete_in_column(&mut rb, "id", &item.ids).await;
@@ -36,16 +58,33 @@ pub async fn {{.RustName}}_delete(item: web::Json<{{.JavaName}}DeleteReq>, data:
     Ok(web::Json(handle_result(result)))
 }
 
-// 更新{{.Comment}}
-#[post("/{{.RustName}}_update")]
-pub async fn {{.RustName}}_update(item: web::Json<{{.JavaName}}UpdateReq>, data: web::Data<AppState>) -> Result<impl Responder> {
-    log::info!("{{.RustName}}_update params: {:?}", &item);
+/**
+ *更新{{.Comment}}
+ *author：{{.Author}}
+ *date：{{.CreateTime}}
+ */
+#[post("/update_{{.RustName}}")]
+pub async fn update_{{.RustName}}(item: web::Json<Update{{.JavaName}}Req>, data: web::Data<AppState>) -> Result<impl Responder> {
+    log::info!("update_{{.RustName}} params: {:?}", &item);
     let mut rb = &data.batis;
     let req = item.0;
 
     let {{.RustName}} = {{.JavaName}} {
-    {{range .TableColumn}}    {{.RustName}}: {{if eq .RustType `DateTime`}}Some(DateTime::now()){{else}}req.{{.RustName}}{{end}},
-    {{end}}
+    {{- range .TableColumn}}
+        {{- if eq .ColumnKey `PRI`}}
+        {{.RustName}}: Some(item.{{.RustName}})
+        {{- else if isContain .JavaName "createTime"}}
+        {{.RustName}}: None
+        {{- else if isContain .JavaName "createBy"}}
+        {{.RustName}}: String::from("")
+        {{- else if isContain .JavaName "updateBy"}}
+        {{.RustName}}: String::from("")
+        {{- else if isContain .JavaName "updateTime"}}
+        {{.RustName}}: None
+        {{- else}}
+        {{.RustName}}: req.{{.RustName}}
+        {{- end}},//{{.ColumnComment}}
+    {{- end}}
     };
 
     let result = {{.JavaName}}::update_by_column(&mut rb, &{{.RustName}}, "id").await;
@@ -53,27 +92,94 @@ pub async fn {{.RustName}}_update(item: web::Json<{{.JavaName}}UpdateReq>, data:
     Ok(web::Json(handle_result(result)))
 }
 
-// 查询{{.Comment}}
-#[post("/{{.RustName}}_list")]
-pub async fn {{.RustName}}_list(item: web::Json<{{.JavaName}}ListReq>, data: web::Data<AppState>) -> Result<impl Responder> {
-    log::info!("{{.RustName}}_list params: {:?}", &item);
+/**
+ *更新{{.Comment}}状态
+ *author：{{.Author}}
+ *date：{{.CreateTime}}
+ */
+#[post("/update_{{.RustName}}_status")]
+pub async fn update_{{.RustName}}_status(item: web::Json<Update{{.JavaName}}StatusReq>, data: web::Data<AppState>) -> Result<impl Responder> {
+    log::info!("update_{{.RustName}}_status params: {:?}", &item);
+    let mut rb = &data.batis;
+    let req = item.0;
+
+   let param = vec![to_value!(1), to_value!(1)];
+   let result = rb.exec("update {{.OriginalName}} set status = ? where id in ?", param).await;
+
+    Ok(web::Json(handle_result(result)))
+}
+
+/**
+ *查询{{.Comment}}详情
+ *author：{{.Author}}
+ *date：{{.CreateTime}}
+ */
+#[post("/query_{{.RustName}}_detail")]
+pub async fn query_{{.RustName}}_detail(item: web::Json<Query{{.JavaName}}DetailReq>, data: web::Data<AppState>) -> Result<impl Responder> {
+    log::info!("query_{{.RustName}}_detail params: {:?}", &item);
+    let mut rb = &data.batis;
+
+    let result = {{.JavaName}}::select_by_id(&mut rb, &item.id).await;
+
+    match result {
+        Ok(d) => {
+            let x = d.unwrap();
+            
+            let {{.RustName}} = Query{{.JavaName}}DetailResp {
+            {{- range .TableColumn}}
+            {{- if eq .ColumnKey `PRI`}}
+                {{.RustName}}: x.{{.RustName}}.unwrap()
+            {{- else if eq .IsNullable `YES` }}
+                {{.RustName}}: x.{{.RustName}}.unwrap_or_default()
+            {{- else if eq .RustType `DateTime`}}
+                {{.RustName}}: x.{{.RustName}}.unwrap().0.to_string()
+            {{- else}}
+                {{.RustName}}: x.{{.RustName}}
+            {{- end}},
+            {{- end}}
+            };
+
+            Ok(web::Json(ok_result_data({{.RustName}})))
+        }
+        Err(err) => {
+            Ok(web::Json(ok_result_code(1, err.to_string())))
+        }
+    }
+
+}
+
+/**
+ *查询{{.Comment}}列表
+ *author：{{.Author}}
+ *date：{{.CreateTime}}
+ */
+#[post("/query_{{.RustName}}_list")]
+pub async fn query_{{.RustName}}_list(item: web::Json<Query{{.JavaName}}ListReq>, data: web::Data<AppState>) -> Result<impl Responder> {
+    log::info!("query_{{.RustName}}_list params: {:?}", &item);
     let mut rb = &data.batis;
 
     let page=&PageRequest::new(item.page_no.clone(), item.page_size.clone());
     let result = {{.JavaName}}::select_page(&mut rb, page).await;
 
-    let mut {{.RustName}}_list_data: Vec<{{.JavaName}}ListData> = Vec::new();
+    let mut {{.RustName}}_list_data: Vec<{{.JavaName}}ListDataResp> = Vec::new();
 
     match result {
         Ok(d) => {
             let total = d.total;
 
-
-
             for x in d.records {
-                {{.RustName}}_list_data.push({{.JavaName}}ListData {
-                    {{range .TableColumn}}    {{.RustName}}: {{if eq .IsNullable `YES` }}x.{{.RustName}}.unwrap_or_default(){{else if eq .RustType `DateTime`}}x.{{.RustName}}.unwrap().0.to_string(){{else}}x.{{.RustName}}{{end}},
-                    {{end}}
+                {{.RustName}}_list_data.push({{.JavaName}}ListDataResp {
+                {{- range .TableColumn}}
+                {{- if eq .ColumnKey `PRI`}}
+                    {{.RustName}}: x.{{.RustName}}.unwrap()
+                {{- else if eq .IsNullable `YES` }}
+                    {{.RustName}}: x.{{.RustName}}.unwrap_or_default()
+                {{- else if eq .RustType `DateTime`}}
+                    {{.RustName}}: x.{{.RustName}}.unwrap().0.to_string()
+                {{- else}}
+                    {{.RustName}}: x.{{.RustName}}
+                {{- end}},
+                {{- end}}
                 })
             }
 

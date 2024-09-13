@@ -51,7 +51,7 @@ pub async fn add_{{.RustName}}(item: Json<Add{{.JavaName}}Req>, _auth: Token) ->
  *date：{{.CreateTime}}
  */
 #[post("/delete_{{.RustName}}", data = "<item>")]
-pub async fn delete_{{.RustName}}(item: Json<{{.JavaName}}DeleteReq>, _auth: Token) -> Value {
+pub async fn delete_{{.RustName}}(item: Json<Delete{{.JavaName}}Req>, _auth: Token) -> Value {
     log::info!("delete_{{.RustName}} params: {:?}", &item);
     let mut rb = RB.to_owned();
 

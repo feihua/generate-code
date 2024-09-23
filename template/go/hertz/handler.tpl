@@ -5,7 +5,6 @@ package {{.LowerJavaName}}
 import (
 	"context"
 	"github.com/cloudwego/hertz/pkg/common/hlog"
-	"{{.ProjectName}}/biz/dal"
 	"{{.ProjectName}}/biz/model/api"
 	"{{.ProjectName}}/gen/model"
 	"{{.ProjectName}}/gen/query"
@@ -77,7 +76,7 @@ func Delete{{.JavaName}}(ctx context.Context, c *app.RequestContext) {
 
     q := query.{{.UpperOriginalName}}
 
-	_, err := q.WithContext(ctx).Where(q.ID.In(req.Ids...)).Delete()
+	_, err = q.WithContext(ctx).Where(q.ID.In(req.Ids...)).Delete()
 	if err != nil {
 		hlog.CtxErrorf(ctx, "删除{{.Comment}}异常: %v", err)
 		resp.Msg = err.Error()
@@ -109,11 +108,14 @@ func Update{{.JavaName}}(ctx context.Context, c *app.RequestContext) {
 	q := query.{{.UpperOriginalName}}.WithContext(ctx)
 
     // 1.根据{{.Comment}}id查询{{.Comment}}是否已存在
-    _, err := q.Where(query.{{.UpperOriginalName}}.ID.Eq(req.Id)).First()
+    _, err = q.Where(query.{{.UpperOriginalName}}.ID.Eq(req.Id)).First()
 
     if err != nil {
-        logc.Errorf(ctx, "根据{{.Comment}}id：%d,查询{{.Comment}}失败,异常:%s", req.Id, err.Error())
-        return nil, errors.New(fmt.Sprintf("查询{{.Comment}}失败"))
+        hlog.CtxErrorf(ctx, "修改{{.Comment}}异常: %v", err)
+        resp.Code = api.Code_DBErr
+        resp.Msg = err.Error()
+        c.JSON(http.StatusOK, resp)
+        return
     }
 
     item := &model.{{.UpperOriginalName}}{
@@ -130,12 +132,6 @@ func Update{{.JavaName}}(ctx context.Context, c *app.RequestContext) {
 
     // 2.{{.Comment}}存在时,则直接更新{{.Comment}}
     _, err = q.Updates(item)
-
-    if err != nil {
-        logc.Errorf(ctx, "更新{{.Comment}}失败,参数:%+v,异常:%s", item, err.Error())
-        return nil, errors.New("更新{{.Comment}}失败")
-    }
-
 
 	if err != nil {
 		hlog.CtxErrorf(ctx, "修改{{.Comment}}异常: %v", err)
@@ -167,22 +163,17 @@ func Update{{.JavaName}}Status(ctx context.Context, c *app.RequestContext) {
 
 	q := query.{{.UpperOriginalName}}
 
-    _, err := q.WithContext(ctx).Where(q.ID.In(req.Ids...)).Update(q.Status, req.Status)
-
-    if err != nil {
-        logc.Errorf(ctx, "更新{{.Comment}}状态失败,参数:%+v,异常:%s", in, err.Error())
-        return nil, errors.New("更新{{.Comment}}状态失败")
-    }
+    _, err = q.WithContext(ctx).Where(q.ID.In(req.Ids...)).Update(q.Status, req.Status)
 
 	if err != nil {
-		hlog.CtxErrorf(ctx, "修改{{.Comment}}异常: %v", err)
+		hlog.CtxErrorf(ctx, "修改{{.Comment}}状态异常: %v", err)
 		resp.Code = api.Code_DBErr
 		resp.Msg = err.Error()
 		c.JSON(http.StatusOK, resp)
 		return
 	}
 
-	resp.Msg = "修改{{.Comment}}成功"
+	resp.Msg = "修改{{.Comment}}状态成功"
 	resp.Code = api.Code_Success
 
 	c.JSON(http.StatusOK, resp)
@@ -202,26 +193,17 @@ func Query{{.JavaName}}Detail(ctx context.Context, c *app.RequestContext) {
 		return
 	}
 
-	//查询{{.Comment}}
-	//result, count, err := query.{{.UpperOriginalName}}.WithContext(ctx).FindByPage(int(req.PageNo), int(req.PageSize))
-	result, count, err := dal.QueryQuery{{.JavaName}}List(req.RoleName, req.PageNo, req.PageSize)
+	item, err  := query.{{.UpperOriginalName}}.WithContext(ctx).Where(query.{{.UpperOriginalName}}.ID.Eq(req.Id)).First()
 
-	if err != nil {
-		hlog.CtxErrorf(ctx, "查询{{.Comment}}列表异常: %v", err)
+    if err != nil {
+		hlog.CtxErrorf(ctx, "查询{{.Comment}}详情异常: %v", err)
 		resp.Code = api.Code_DBErr
 		resp.Msg = err.Error()
 		c.JSON(http.StatusOK, resp)
 		return
 	}
 
-	item, err := query.{{.UpperOriginalName}}.WithContext(ctx).Where(query.{{.UpperOriginalName}}.ID.Eq(req.Id)).First()
-
-    if err != nil {
-        logc.Errorf(ctx, "查询{{.Comment}}详情失败,参数:%+v,异常:%s", in, err.Error())
-        return nil, errors.New("查询{{.Comment}}详情失败")
-    }
-
-    data := &{{.RpcClient}}.Query{{.JavaName}}DetailResp{
+    data := &{{.LowerJavaName}}.Query{{.JavaName}}DetailData{
     {{- range .TableColumn}}
         {{.GoNamePublic}}: item.{{- if isContain .GoNamePublic "Time"}}{{.GoNamePublic}}.Format("2006-01-02 15:04:05"), //{{.ColumnComment}}{{- else}}{{Replace .GoNamePublic "Id" "ID"}}, //{{.ColumnComment}}{{- end}}
     {{- end}}
@@ -247,19 +229,7 @@ func Query{{.JavaName}}List(ctx context.Context, c *app.RequestContext) {
 		return
 	}
 
-	//查询{{.Comment}}
-	//result, count, err := query.{{.UpperOriginalName}}.WithContext(ctx).FindByPage(int(req.PageNo), int(req.PageSize))
-	result, count, err := dal.QueryQuery{{.JavaName}}List(req.RoleName, req.PageNo, req.PageSize)
-
-	if err != nil {
-		hlog.CtxErrorf(ctx, "查询{{.Comment}}列表异常: %v", err)
-		resp.Code = api.Code_DBErr
-		resp.Msg = err.Error()
-		c.JSON(http.StatusOK, resp)
-		return
-	}
-
-	{{- $lowerJavaName :=.LowerJavaName}}
+	{{- $lowerJavaName :=.OriginalName}}
     {{$lowerJavaName}} := query.{{.UpperOriginalName}}
     q := {{$lowerJavaName}}.WithContext(ctx)
 
@@ -284,17 +254,20 @@ func Query{{.JavaName}}List(ctx context.Context, c *app.RequestContext) {
     result, count, err := q.FindByPage(int((req.PageNum-1)*req.PageSize), int(req.PageSize))
 
     if err != nil {
-        logc.Errorf(ctx, "查询{{.Comment}}列表失败,参数:%+v,异常:%s", in, err.Error())
-        return nil, errors.New("查询{{.Comment}}列表失败")
-    }
+		hlog.CtxErrorf(ctx, "查询{{.Comment}}列表异常: %v", err)
+		resp.Code = api.Code_DBErr
+		resp.Msg = err.Error()
+		c.JSON(http.StatusOK, resp)
+		return
+	}
 
-    var list []*{{.RpcClient}}.{{.JavaName}}ListData
+    var list []*{{.LowerJavaName}}.Query{{.JavaName}}ListData
 
     for _, item := range result {
-        list = append(list, &{{.RpcClient}}.{{.JavaName}}ListData{
-            {{- range .TableColumn}}
-            {{.GoNamePublic}}: item.{{- if isContain .GoNamePublic "Time"}}{{.GoNamePublic}}.Format("2006-01-02 15:04:05"), //{{.ColumnComment}}{{- else}}{{Replace .GoNamePublic "Id" "ID"}}, //{{.ColumnComment}}{{- end}}
-            {{- end}}
+        list = append(list, &{{.LowerJavaName}}.Query{{.JavaName}}ListData{
+        {{- range .TableColumn}}
+        {{.GoNamePublic}}: item.{{- if isContain .GoNamePublic "Time"}}{{.GoNamePublic}}.Format("2006-01-02 15:04:05"), //{{.ColumnComment}}{{- else}}{{Replace .GoNamePublic "Id" "ID"}}, //{{.ColumnComment}}{{- end}}
+        {{- end}}
 
         })
     }

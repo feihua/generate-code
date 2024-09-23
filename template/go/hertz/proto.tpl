@@ -73,7 +73,7 @@ message Update{{.JavaName}}StatusResp {
 message Query{{.JavaName}}DetailReq {
 {{- range .TableColumn}}
 {{- if eq .ColumnKey "PRI"}}
-  {{.ProtoType}} {{.GoName}}s = {{.Sort}}[(api.body) = "{{.JavaName}}s"]; //{{.ColumnComment}}
+  {{.ProtoType}} {{.GoName}} = {{.Sort}}[(api.body) = "{{.JavaName}}"]; //{{.ColumnComment}}
 {{- end}}
 {{- end}}
 }

@@ -158,10 +158,10 @@ var TsType = map[string]string{
 }
 var ToRustType = map[string]string{
 	"int":       "i32",
-	"tinyint":   "i32",
-	"smallint":  "i32",
+	"tinyint":   "i8",
+	"smallint":  "i16",
 	"mediumint": "i32",
-	"bigint":    "i32",
+	"bigint":    "i64",
 	"bool":      "bool",
 	"enum":      "String",
 	"set":       "String",

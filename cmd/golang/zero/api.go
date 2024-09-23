@@ -75,7 +75,7 @@ func Generate(t utils.Table, tplName, path, fileName string) error {
 		return err
 	}
 
-	fmap := template.FuncMap{"isContain": IsContain, "Replace": Replace}
+	fmap := template.FuncMap{"isContain": utils.IsContain, "Replace": utils.Replace}
 	tpl, _ := template.New("abc.html").Funcs(fmap).Parse(string(htmlByte))
 	//tpl, err := template.ParseFiles(tplName)
 
@@ -99,16 +99,4 @@ func Generate(t utils.Table, tplName, path, fileName string) error {
 	}
 
 	return ioutil.WriteFile(path+string(os.PathSeparator)+fileName, buf.Bytes(), 0755)
-}
-
-// IsContain 判断是否包含
-func IsContain(a, b string) bool {
-
-	return strings.Contains(a, b)
-}
-
-// Replace 替换
-func Replace(str, o, n string) string {
-
-	return strings.ReplaceAll(str, o, n)
 }

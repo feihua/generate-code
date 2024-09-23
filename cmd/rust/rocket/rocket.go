@@ -9,7 +9,6 @@ import (
 	"github.com/feihua/generate-code/utils"
 	"io/ioutil"
 	"os"
-	"strings"
 	"text/template"
 	"time"
 
@@ -79,7 +78,7 @@ func Generate(t utils.Table, tplName, path, fileName string) error {
 		return err
 	}
 
-	fmap := template.FuncMap{"isContain": IsContain}
+	fmap := template.FuncMap{"isContain": utils.IsContain}
 	tpl, _ := template.New("abc.html").Funcs(fmap).Parse(string(htmlByte))
 	//tpl, err := template.ParseFiles(tplName)
 
@@ -102,10 +101,4 @@ func Generate(t utils.Table, tplName, path, fileName string) error {
 	}
 
 	return ioutil.WriteFile(path+string(os.PathSeparator)+fileName, buf.Bytes(), 0755)
-}
-
-// IsContain 判断是否包含
-func IsContain(a, b string) bool {
-
-	return strings.Contains(a, b)
 }

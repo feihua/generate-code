@@ -5,6 +5,7 @@ package gf
 
 import (
 	"bytes"
+	"fmt"
 	"github.com/feihua/generate-code/utils"
 	"github.com/spf13/cobra"
 	"io/ioutil"
@@ -35,6 +36,8 @@ to quickly create a Cobra application.`,
 			Generate(t, "template/go/gf/ctrl_add.tpl", pathName)
 			Generate(t, "template/go/gf/ctrl_delete.tpl", pathName)
 			Generate(t, "template/go/gf/ctrl_update.tpl", pathName)
+			Generate(t, "template/go/gf/ctrl_update_status.tpl", pathName)
+			Generate(t, "template/go/gf/ctrl_detail.tpl", pathName)
 			Generate(t, "template/go/gf/ctrl_list.tpl", pathName)
 		}
 	},
@@ -48,6 +51,7 @@ var projectName string
 var author string
 
 func init() {
+	//go run main.go golang gf --dsn "root:oMbPi5munxCsBSsiLoPV@tcp(110.41.179.89:3306)/hertzdb" --tableNames sys_ --prefix sys_ --moduleName system --projectName gf-admin --author koobe
 	//main.exe golang gf --dsn "root:oMbPi5munxCsBSsiLoPV@tcp(110.41.179.89:3306)/hertzdb" --tableNames sys_ --prefix sys_ --moduleName system --projectName gf-admin --author koobe
 	Cmd.Flags().StringVarP(&Dsn, "dsn", "", "", "请输入数据库的地址")
 	Cmd.Flags().StringVarP(&TableNames, "tableNames", "", "", "请输入表名称")
@@ -60,7 +64,15 @@ func init() {
 }
 
 func Generate(t utils.Table, tplName, path string) error {
-	tpl, err := template.ParseFiles(tplName)
+	htmlByte, err := ioutil.ReadFile(tplName)
+	if err != nil {
+		fmt.Println("read html failed, err:", err)
+		return err
+	}
+
+	fmap := template.FuncMap{"isContain": utils.IsContain, "Replace": utils.Replace}
+	tpl, _ := template.New("abc.html").Funcs(fmap).Parse(string(htmlByte))
+	//tpl, err := template.ParseFiles(tplName)
 
 	t.ModuleName = moduleName
 	t.ProjectName = projectName
@@ -97,6 +109,14 @@ func Generate(t utils.Table, tplName, path string) error {
 	}
 	if strings.Contains(tplName, "ctrl_list") {
 		fileName = moduleName + "_v1_query_" + fileName + "_list"
+	}
+
+	if strings.Contains(tplName, "ctrl_detail") {
+		fileName = moduleName + "_v1_query_" + fileName + "_detail"
+	}
+
+	if strings.Contains(tplName, "ctrl_update_status") {
+		fileName = moduleName + "_v1_update_" + fileName + "_status"
 	}
 
 	return ioutil.WriteFile(path+string(os.PathSeparator)+fileName+".go", buf.Bytes(), 0755)

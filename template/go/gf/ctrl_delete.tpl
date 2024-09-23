@@ -1,7 +1,7 @@
 package {{.ModuleName}}
 
 /*
-// 删除{{.Comment}}
+删除{{.Comment}}
 Author: {{.Author}}
 Date: {{.CreateTime}}
 */
@@ -9,10 +9,10 @@ Date: {{.CreateTime}}
 import (
 	"context"
 	"github.com/gogf/gf/v2/util/gconv"
-	"github.com/feihua/{{.ProjectName}}/internal/model"
-	"github.com/feihua/{{.ProjectName}}/internal/service"
+	"{{.ProjectName}}/internal/model"
+	"{{.ProjectName}}/internal/service"
 
-	"github.com/feihua/{{.ProjectName}}/api/{{.ModuleName}}/v1"
+	"{{.ProjectName}}/api/{{.ModuleName}}/v1"
 )
 
 // Delete{{.JavaName}} 删除{{.Comment}}

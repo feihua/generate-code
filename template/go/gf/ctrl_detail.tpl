@@ -15,20 +15,20 @@ import (
 	"{{.ProjectName}}/api/{{.ModuleName}}/v1"
 )
 
- // Query{{.JavaName}}List 查询{{.Comment}}列表
-func (c *ControllerV1) Query{{.JavaName}}List(ctx context.Context, req *v1.Query{{.JavaName}}ListReq) (res *v1.Query{{.JavaName}}ListRes, err error) {
-	var input = model.Query{{.JavaName}}ListInput{}
+ // Query{{.JavaName}}List 查询{{.Comment}}详情
+func (c *ControllerV1) Query{{.JavaName}}Detail(ctx context.Context, req *v1.Query{{.JavaName}}DetailReq) (res *v1.Query{{.JavaName}}DetailRes, err error) {
+	var input = model.Query{{.JavaName}}DetailInput{}
 
 	err = gconv.Struct(req, &input)
 	if err != nil {
 		return nil, err
 	}
-	output, err := service.{{.JavaName}}().Query{{.JavaName}}List(ctx, input)
+	output, err := service.{{.JavaName}}().Query{{.JavaName}}Detail(ctx, input)
 	if err != nil {
 		return nil, err
 	}
 
-	res = &v1.Query{{.JavaName}}ListRes{}
+	res = &v1.Query{{.JavaName}}DetailRes{}
 
 	err = gconv.Struct(output, res)
 	if err != nil {

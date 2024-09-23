@@ -256,3 +256,15 @@ func UnderScoreToLowerCamelCase(s string) string {
 	s = UnderScoreToUpperCamelCase(s)
 	return string(unicode.ToLower(rune(s[0]))) + s[1:]
 }
+
+// IsContain 判断是否包含
+func IsContain(a, b string) bool {
+
+	return strings.Contains(a, b)
+}
+
+// Replace 替换
+func Replace(str, o, n string) string {
+
+	return strings.ReplaceAll(str, o, n)
+}

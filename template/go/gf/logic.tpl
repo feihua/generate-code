@@ -9,9 +9,9 @@ Date: {{.CreateTime}}
 import (
 	"context"
 	"github.com/gogf/gf/v2/util/gconv"
-	"github.com/feihua/{{.ProjectName}}/internal/dao"
-	"github.com/feihua/{{.ProjectName}}/internal/model"
-	"github.com/feihua/{{.ProjectName}}/internal/service"
+	"{{.ProjectName}}/internal/dao"
+	"{{.ProjectName}}/internal/model"
+	"{{.ProjectName}}/internal/service"
 )
 
 type s{{.JavaName}} struct {
@@ -56,7 +56,7 @@ func (s *s{{.JavaName}}) Update{{.JavaName}}(ctx context.Context, in model.Updat
 
 	out := &model.Update{{.JavaName}}Output{}
 
-	_, err := dao.{{.UpperOriginalName}}.Ctx(ctx).Data(in).Where("id", in.{{.JavaName}}Id).Update()
+	_, err := dao.{{.UpperOriginalName}}.Ctx(ctx).Data(in).Where("id", in.Id).Update()
 	if err != nil {
 		return nil, err
 	}
@@ -64,10 +64,23 @@ func (s *s{{.JavaName}}) Update{{.JavaName}}(ctx context.Context, in model.Updat
 	return out, nil
 }
 
-// Record{{.JavaName}} 查询单条{{.Comment}}
-func (s *s{{.JavaName}}) Record{{.JavaName}}(ctx context.Context, in model.{{.JavaName}}Input) (*model.{{.JavaName}}Output, error) {
+// Update{{.JavaName}}Status 更新{{.Comment}}状态
+func (s *s{{.JavaName}}) Update{{.JavaName}}Status(ctx context.Context, in model.Update{{.JavaName}}StatusInput) (*model.Update{{.JavaName}}StatusOutput, error) {
 
-	out := &model.{{.JavaName}}Output{}
+	out := &model.Update{{.JavaName}}StatusOutput{}
+
+	_, err := dao.{{.UpperOriginalName}}.Ctx(ctx).Data(in).Where("id", in.Ids).Update()
+	if err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+// Record{{.JavaName}}Detail 查询{{.Comment}}详情
+func (s *s{{.JavaName}}) Query{{.JavaName}}Detail(ctx context.Context, in model.Query{{.JavaName}}DetailInput) (*model.Query{{.JavaName}}DetailOutput, error) {
+
+	out := &model.Query{{.JavaName}}DetailOutput{}
 
 	record, err := dao.{{.UpperOriginalName}}.Ctx(ctx).Where("id", in.Id).One()
 	if err != nil {

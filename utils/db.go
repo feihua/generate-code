@@ -168,11 +168,10 @@ var ToRustType = map[string]string{
 	"Unsigned":      "u32",
 	"BigInteger":    "i64",
 	"BigUnsigned":   "u64",
-	"datetime":      "DateTime",
+	"DateTime":      "DateTime",
 	"Float":         "f32",
 	"Double":        "f64",
-	"timestamp":     "DateTime",
-	"decimal":       "i32",
+	"Decimal":       "Decimal",
 	"Boolean":       "bool",
 }
 var ToGoType = map[string]string{

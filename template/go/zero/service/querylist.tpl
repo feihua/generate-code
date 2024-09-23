@@ -29,20 +29,24 @@ func NewQuery{{.JavaName}}ListLogic(ctx context.Context, svcCtx *svc.ServiceCont
 
 // Query{{.JavaName}}List 查询{{.Comment}}列表
 func (l *Query{{.JavaName}}ListLogic) Query{{.JavaName}}List(in *{{.RpcClient}}.Query{{.JavaName}}ListReq) (*{{.RpcClient}}.Query{{.JavaName}}ListResp, error) {
-    wh := query.{{.UpperOriginalName}}
-    q := wh.WithContext(l.ctx)
+    {{- $lowerJavaName :=.LowerJavaName}}
+    {{$lowerJavaName}} := query.{{.UpperOriginalName}}
+    q := {{$lowerJavaName}}.WithContext(l.ctx)
 
 	{{- range .TableColumn}}
 	{{- if isContain .GoNamePublic "Create"}}
     {{- else if isContain .GoNamePublic "Update"}}
     {{- else if eq .ColumnKey "PRI"}}
+    {{- else if isContain .JavaName "remark"}}
+    {{- else if isContain .JavaName "sort"}}
+    {{- else if isContain .JavaName "Sort"}}
 	{{- else if eq .GoType "string"}}
 	if len(in.{{.GoNamePublic}}) > 0 {
-        q = q.Where(wh.{{.GoNamePublic}}.Like("%" + in.{{.GoNamePublic}} + "%"))
+        q = q.Where({{$lowerJavaName}}.{{.GoNamePublic}}.Like("%" + in.{{.GoNamePublic}} + "%"))
     }
     {{- else}}
 	if in.{{.GoNamePublic}} != 2 {
-        q = q.Where(wh.{{.GoNamePublic}}.Eq(in.{{.GoNamePublic}}))
+        q = q.Where({{$lowerJavaName}}.{{.GoNamePublic}}.Eq(in.{{.GoNamePublic}}))
     }
 	{{- end}}
 	{{- end}}

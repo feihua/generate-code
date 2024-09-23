@@ -6,8 +6,13 @@ option go_package = "./proto";
 
 // 添加{{.Comment}}
 message Add{{.JavaName}}Req {
-{{range .TableColumn}}  {{.ProtoType}} {{.GoName}} = {{.Sort}}; //{{.ColumnComment}}
-{{end}}
+{{- range .TableColumn}}
+{{- if isContain .JavaName "createTime"}}
+{{- else if isContain .JavaName "update"}}
+{{- else}}
+  {{.ProtoType}} {{.GoName}} = {{.Sort}}; //{{.ColumnComment}}
+{{- end}}
+{{- end}}
 }
 
 message Add{{.JavaName}}Resp {
@@ -25,8 +30,13 @@ message Delete{{.JavaName}}Resp {
 
 // 更新{{.Comment}}
 message Update{{.JavaName}}Req {
-{{range .TableColumn}}  {{.ProtoType}} {{.GoName}} = {{.Sort}}; //{{.ColumnComment}}
-{{end}}
+{{- range .TableColumn}}
+{{- if isContain .JavaName "create"}}
+{{- else if isContain .JavaName "updateTime"}}
+{{- else}}
+  {{.ProtoType}} {{.GoName}} = {{.Sort}}; //{{.ColumnComment}}
+{{- end}}
+{{- end}}
 }
 
 message Update{{.JavaName}}Resp {
@@ -35,8 +45,19 @@ message Update{{.JavaName}}Resp {
 
 // 更新{{.Comment}}状态
 message Update{{.JavaName}}StatusReq {
-{{range .TableColumn}}  {{.ProtoType}} {{.GoName}} = {{.Sort}}; //{{.ColumnComment}}
-{{end}}
+{{- range .TableColumn}}
+{{- if eq .ColumnKey "PRI"}}
+  repeated {{.ProtoType}} {{.GoName}}s = {{.Sort}}; //{{.ColumnComment}}
+{{- else if isContain .JavaName "status"}}
+  {{.ProtoType}} {{.GoName}} = {{.Sort}}; //{{.ColumnComment}}
+{{- else if isContain .JavaName "Status"}}
+  {{.ProtoType}} {{.GoName}} = {{.Sort}}; //{{.ColumnComment}}
+{{- else if isContain .JavaName "updateBy"}}
+  {{.ProtoType}} {{.GoName}} = {{.Sort}}; //{{.ColumnComment}}
+{{- else}}
+{{- end}}
+
+{{- end}}
 }
 
 message Update{{.JavaName}}StatusResp {
@@ -55,9 +76,20 @@ message Query{{.JavaName}}DetailResp {
 
 // 分页查询{{.Comment}}列表
 message Query{{.JavaName}}ListReq {
-{{range .TableColumn}}  {{.ProtoType}} {{.GoName}} = {{.Sort}}; //{{.ColumnComment}}
-{{end}} int64 page_num = 1; //第几页
-  int64 page_size = 2; //每页的数量
+{{- $how_long :=(len .TableColumn)}}
+{{- range .TableColumn}}
+{{- if isContain .JavaName "create"}}
+{{- else if isContain .JavaName "update"}}
+{{- else if isContain .JavaName "remark"}}
+{{- else if isContain .JavaName "sort"}}
+{{- else if isContain .JavaName "Sort"}}
+{{- else if eq .ColumnKey "PRI"}}
+{{- else}}
+  {{.ProtoType}} {{.GoName}} = {{.Sort}}; //{{.ColumnComment}}
+{{- end}}
+{{- end}}
+  int64 page_num = 1; //第几页
+  int64 page_size = {{$how_long}}; //每页的数量
 }
 
 message {{.JavaName}}ListData {

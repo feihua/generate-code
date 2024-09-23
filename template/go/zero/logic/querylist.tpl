@@ -37,6 +37,9 @@ func (l *Query{{.JavaName}}ListLogic) Query{{.JavaName}}List(req *types.Query{{.
         {{- if eq .ColumnKey "PRI"}}
         {{- else if isContain .GoNamePublic "Update"}}
         {{- else if isContain .GoNamePublic "Create"}}
+        {{- else if isContain .JavaName "remark"}}
+        {{- else if isContain .JavaName "sort"}}
+        {{- else if isContain .JavaName "Sort"}}
         {{- else}}
         {{.GoNamePublic}}: req.{{.GoNamePublic}}, //{{.ColumnComment}}
         {{- end}}

@@ -139,7 +139,7 @@ pub async fn query_{{.RustName}}_detail(State(state): State<Arc<AppState>>, Json
             {{- end}}
             };
 
-            Json(ok_result_data(alipay_info))
+            Json(ok_result_data({{.RustName}}))
         }
         Err(err) => {
             Json(err_result_msg(err.to_string()))

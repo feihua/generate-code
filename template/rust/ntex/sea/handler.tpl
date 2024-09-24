@@ -154,7 +154,7 @@ pub async fn query_{{.RustName}}_detail(item: Json<Query{{.JavaName}}DetailReq>,
            {{- end}}
            };
 
-           Ok(HttpResponse::Ok().json(&ok_result_data(alipay_info)))
+           Ok(HttpResponse::Ok().json(&ok_result_data({{.RustName}})))
        }
        Err(err) => {
            Ok(HttpResponse::Ok().json(&ok_result_code(1,err.to_string())))

@@ -88,7 +88,7 @@ pub struct Query{{.JavaName}}ListReq {
 {{- else if eq .ColumnKey "PRI"}}
 {{- else}}
     #[serde(rename = "{{.JavaName}}")]
-    {{if eq .IsNullable `YES` }}pub {{.RustName}}: Option<{{.RustType}}>{{else}}pub {{.RustName}}: {{.RustType}}{{end}}, //{{.ColumnComment}}
+    pub {{.RustName}}: Option<{{.RustType}}>, //{{.ColumnComment}}
 {{- end}}
 {{- end}}
 }

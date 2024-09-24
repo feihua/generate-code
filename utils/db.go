@@ -120,7 +120,7 @@ func QueryTableColumns(dsn, TableName, lowerJavaName string) ([]TableColumn, str
 	var tt []TableColumn
 	for i, column := range t {
 		column.TsType = TsType[column.DataType]
-		column.RustType = ToRustType[column.ColumnType]
+		column.RustType = ToRustType[column.DataType]
 		column.GoType = ToGoType[column.DataType]
 		column.ProtoType = ToProtoType[column.DataType]
 		column.JavaType = ToJavaType[column.DataType]
@@ -158,21 +158,23 @@ var TsType = map[string]string{
 }
 
 var ToRustType = map[string]string{
-	"Char":          "String",
-	"String":        "String",
-	"TinyInteger":   "i8",
-	"TinyUnsigned":  "u8",
-	"SmallInteger":  "i16",
-	"SmallUnsigned": "u16",
-	"Integer":       "i32",
-	"Unsigned":      "u32",
-	"BigInteger":    "i64",
-	"BigUnsigned":   "u64",
-	"DateTime":      "DateTime",
-	"Float":         "f32",
-	"Double":        "f64",
-	"Decimal":       "Decimal",
-	"Boolean":       "bool",
+	"char":              "String",
+	"varchar":           "String",
+	"text":              "String",
+	"tinyint":           "i8",
+	"tinyint unsigned":  "u8",
+	"smallint":          "i16",
+	"smallint unsigned": "u16",
+	"int":               "i32",
+	"int unsigned":      "u32",
+	"bigint":            "i64",
+	"bigint unsigned":   "u64",
+	"datetime":          "DateTime",
+	"timestamp":         "DateTime",
+	"float":             "f32",
+	"double":            "f64",
+	"decimal":           "Decimal",
+	"boolean":           "bool",
 }
 var ToGoType = map[string]string{
 	"int":       "int32",

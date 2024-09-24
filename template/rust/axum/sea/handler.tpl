@@ -2,80 +2,197 @@ use std::sync::Arc;
 use axum::extract::State;
 use axum::Json;
 use axum::response::IntoResponse;
-use rbatis::rbdc::datetime::DateTime;
-use rbatis::sql::{PageRequest};
+use sea_orm::{ColumnTrait, EntityTrait, NotSet, PaginatorTrait, QueryFilter, QueryOrder};
+use sea_orm::ActiveValue::Set;
 use crate::{AppState};
 
-use crate::model::{{.RustName}}::{ {{.JavaName}} };
-use crate::vo::{err_result_page, handle_result, ok_result_page};
-use crate::vo::{{.RustName}}_vo::{*};
+use crate::model::{ {{.OriginalName}} };
+use crate::model::prelude::{ {{.UpperOriginalName}} };
+use crate::vo::*;
+use crate::vo::{{.RustName}}_vo::*;
+use crate::vo::{err_result_msg, ok_result_msg, ok_result_page};
 
-// 添加{{.Comment}}
-pub async fn {{.RustName}}_save(State(state): State<Arc<AppState>>, Json(item): Json<{{.JavaName}}SaveReq>) -> impl IntoResponse {
-    log::info!("{{.RustName}}_save params: {:?}", &item);
-    let mut rb = &state.batis;
+/**
+ *添加{{.Comment}}
+ *author：{{.Author}}
+ *date：{{.CreateTime}}
+ */
+pub async fn add_{{.RustName}}(State(state): State<Arc<AppState>>, Json(item): Json<Add{{.JavaName}}Req>) -> impl IntoResponse {
+    log::info!("add_{{.RustName}} params: {:?}", &item);
+    let conn = &state.conn;
 
-    let {{.RustName}} = {{.JavaName}} {
-    {{range .TableColumn}}    {{.RustName}}: {{if eq .ColumnKey `PRI`}}None{{else if eq .RustType `DateTime`}}Some(DateTime::now()){{else}}item.{{.RustName}}{{end}},
-    {{end}}
+    let {{.RustName}} = {{.OriginalName}}::ActiveModel {
+    {{- range .TableColumn}}
+        {{- if eq .ColumnKey `PRI`}}
+        {{.RustName}}: NotSet
+        {{- else if isContain .JavaName "createTime"}}
+        {{.RustName}}: NotSet
+        {{- else if isContain .JavaName "createBy"}}
+        {{.RustName}}: Set(String::from(""))
+        {{- else if isContain .JavaName "updateBy"}}
+        {{.RustName}}: NotSet
+        {{- else if isContain .JavaName "updateTime"}}
+        {{.RustName}}: NotSet
+        {{- else}}
+        {{.RustName}}: Set(item.{{.RustName}})
+        {{- end}},//{{.ColumnComment}}
+    {{- end}}
     };
 
-    let result = {{.JavaName}}::insert(&mut rb, &{{.RustName}}).await;
+    {{.UpperOriginalName}}::insert({{.RustName}}).exec(conn).await.unwrap();
 
-    Json(handle_result(result))
+    Json(ok_result_msg("添加{{.Comment}}成功!"))
 }
 
-// 删除{{.Comment}}
-pub async fn {{.RustName}}_delete(State(state): State<Arc<AppState>>, Json(item): Json<{{.JavaName}}DeleteReq>) -> impl IntoResponse {
-    log::info!("{{.RustName}}_delete params: {:?}", &item);
-    let mut rb = &state.batis;
+/**
+ *删除{{.Comment}}
+ *author：{{.Author}}
+ *date：{{.CreateTime}}
+ */
+pub async fn delete_{{.RustName}}(State(state): State<Arc<AppState>>, Json(item): Json<Delete{{.JavaName}}Req>) -> impl IntoResponse {
+    log::info!("delete_{{.RustName}} params: {:?}", &item);
+    let conn = &state.conn;
 
-    let result = {{.JavaName}}::delete_in_column(&mut rb, "id", &item.ids).await;
+   {{.UpperOriginalName}}::delete_many().filter({{.UpperOriginalName}}::Column::Id.is_in(item.ids)).exec(conn).await.unwrap();
 
-    Json(handle_result(result))
+    Json(ok_result_msg("删除{{.Comment}}成功!"))
 }
 
-// 更新{{.Comment}}
-pub async fn {{.RustName}}_update(State(state): State<Arc<AppState>>, Json(item): Json<{{.JavaName}}UpdateReq>) -> impl IntoResponse {
-    log::info!("{{.RustName}}_update params: {:?}", &item);
-    let mut rb = &state.batis;
+/**
+ *更新{{.Comment}}
+ *author：{{.Author}}
+ *date：{{.CreateTime}}
+ */
+pub async fn update_{{.RustName}}(State(state): State<Arc<AppState>>, Json(item): Json<Update{{.JavaName}}Req>) -> impl IntoResponse {
+    log::info!("update_{{.RustName}} params: {:?}", &item);
+    let conn = &state.conn;
 
-    let {{.RustName}} = {{.JavaName}} {
-    {{range .TableColumn}}    {{.RustName}}: {{if eq .RustType `DateTime`}}Some(DateTime::now()){{else}}item.{{.RustName}}{{end}},
-    {{end}}
+    if {{.UpperOriginalName}}::find_by_id(item.id.clone()).one(conn).await.unwrap_or_default().is_none() {
+        return Json(err_result_msg("{{.Comment}}不存在,不能更新!"))
+    }
+
+    let {{.RustName}} = {{.OriginalName}}::ActiveModel {
+    {{- range .TableColumn}}
+        {{- if eq .ColumnKey `PRI`}}
+        {{.RustName}}: Set(item.{{.RustName}})
+        {{- else if isContain .JavaName "createTime"}}
+        {{.RustName}}: NotSet
+        {{- else if isContain .JavaName "createBy"}}
+        {{.RustName}}: NotSet
+        {{- else if isContain .JavaName "updateBy"}}
+        {{.RustName}}: Set(String::from(""))
+        {{- else if isContain .JavaName "updateTime"}}
+        {{.RustName}}: NotSet
+        {{- else}}
+        {{.RustName}}: Set(item.{{.RustName}})
+        {{- end}},//{{.ColumnComment}}
+    {{- end}}
     };
 
-    let result = {{.JavaName}}::update_by_column(&mut rb, &{{.RustName}}, "id").await;
-
-    Json(handle_result(result))
+    {{.UpperOriginalName}}::update({{.RustName}}).exec(conn).await.unwrap();
+    Json(ok_result_msg("更新{{.Comment}}成功!"))
 }
 
-// 查询{{.Comment}}
-pub async fn {{.RustName}}_list(State(state): State<Arc<AppState>>, Json(item): Json<{{.JavaName}}ListReq>) -> impl IntoResponse {
-    log::info!("{{.RustName}}_list params: {:?}", &item);
-    let mut rb = &state.batis;
+/**
+ *更新{{.Comment}}状态
+ *author：{{.Author}}
+ *date：{{.CreateTime}}
+ */
+pub async fn update_{{.RustName}}_status(State(state): State<Arc<AppState>>, Json(item): Json<Update{{.JavaName}}StatusReq>) -> impl IntoResponse {
+    log::info!("update_{{.RustName}}_status params: {:?}", &item);
+    //let conn = &state.conn;
 
-    let page=&PageRequest::new(item.page_no, item.page_size);
-    let result = {{.JavaName}}::select_page(&mut rb, page).await;
+    //{{.UpperOriginalName}}::update_many()
+    //    .col_expr({{.UpperOriginalName}}::Column::Status, Expr::value(item.status))
+    //    .filter({{.UpperOriginalName}}::Column::Id.is_in(item.ids))
+    //    .exec(&conn)
+    //    .await.unwrap();
+    Json(ok_result_msg("更新{{.Comment}}状态成功!"))
+}
 
-    let mut {{.RustName}}_list_data: Vec<{{.JavaName}}ListData> = Vec::new();
+/**
+ *查询{{.Comment}}详情
+ *author：{{.Author}}
+ *date：{{.CreateTime}}
+ */
+pub async fn query_{{.RustName}}_detail(State(state): State<Arc<AppState>>, Json(item): Json<Query{{.JavaName}}DetailReq>) -> impl IntoResponse {
+    log::info!("query_{{.RustName}}_detail params: {:?}", &item);
+    let conn = &state.conn;
+
+    let result = {{.UpperOriginalName}}::find_by_id(item.id.clone()).one(conn).await.unwrap_or_default();
+
     match result {
         Ok(d) => {
-            let total = d.total;
+            let x = d.unwrap();
 
-            for x in d.records {
-                {{.RustName}}_list_data.push({{.JavaName}}ListData {
-                    {{range .TableColumn}}    {{.RustName}}: {{if eq .IsNullable `YES` }}x.{{.RustName}}.unwrap_or_default(){{else if eq .RustType `DateTime`}}x.{{.RustName}}.unwrap().0.to_string(){{else}}x.{{.RustName}}{{end}},
-                    {{end}}
-                })
-            }
+            let {{.RustName}} = Query{{.JavaName}}DetailResp {
+            {{- range .TableColumn}}
+            {{- if eq .ColumnKey `PRI`}}
+                {{.RustName}}: x.{{.RustName}}.unwrap()
+            {{- else if eq .IsNullable `YES` }}
+                {{.RustName}}: x.{{.RustName}}.unwrap_or_default()
+            {{- else if eq .RustType `DateTime`}}
+                {{.RustName}}: x.{{.RustName}}.unwrap().0.to_string()
+            {{- else}}
+                {{.RustName}}: x.{{.RustName}}
+            {{- end}},
+            {{- end}}
+            };
 
-            Json(ok_result_page({{.RustName}}_list_data, total))
+            Json(ok_result_data(alipay_info))
         }
         Err(err) => {
-            Json(err_result_page({{.RustName}}_list_data, err.to_string()))
+            Json(err_result_msg(err.to_string()))
         }
     }
+
+}
+
+
+/**
+ *查询{{.Comment}}列表
+ *author：{{.Author}}
+ *date：{{.CreateTime}}
+ */
+pub async fn query_{{.RustName}}_list(State(state): State<Arc<AppState>>, Json(item): Json<Query{{.JavaName}}ListReq>) -> impl IntoResponse {
+    log::info!("query_{{.RustName}}_list params: {:?}", &item);
+    let conn = &state.conn;
+
+    {{- $lowerJavaName :=.UpperOriginalName}}
+    let paginator = {{.UpperOriginalName}}::find()
+        {{- range .TableColumn}}
+        {{- if isContain .JavaName "create"}}
+        {{- else if isContain .JavaName "update"}}
+        {{- else if isContain .JavaName "remark"}}
+        {{- else if isContain .JavaName "sort"}}
+        {{- else if eq .ColumnKey "PRI"}}
+        {{- else}}
+        //.apply_if(item.{{.RustName}}.clone(), |query, v| { query.filter( {{$lowerJavaName}}::Column::{{.RustName}}.eq(v))})
+        {{- end}}
+        {{- end}}
+        .paginate(conn, item.page_size.clone());
+
+    let total = paginator.num_items().await.unwrap_or_default();
+
+    let mut {{.RustName}}_list_data: Vec<{{.JavaName}}ListDataResp> = Vec::new();
+
+    for x in paginator.fetch_page(item.page_no.clone() - 1).await.unwrap_or_default() {
+        {{.RustName}}_list_data.push({{.JavaName}}ListDataResp {
+        {{- range .TableColumn}}
+        {{- if eq .ColumnKey `PRI`}}
+            {{.RustName}}: x.{{.RustName}}.unwrap()
+        {{- else if eq .IsNullable `YES` }}
+            {{.RustName}}: x.{{.RustName}}.unwrap_or_default()
+        {{- else if eq .RustType `DateTime`}}
+            {{.RustName}}: x.{{.RustName}}.unwrap().0.to_string()
+        {{- else}}
+            {{.RustName}}: x.{{.RustName}}
+        {{- end}},
+        {{- end}}
+        })
+    }
+
+    Json(ok_result_page({{.RustName}}_list_data, total))
 
 }
 

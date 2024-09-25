@@ -1,9 +1,11 @@
-> 基础代码生成  https://github.com/feihua/generate-code
+> 基础代码生成工具
 
+## 安装
 ```shell
-go run main.go golang zero --dsn "root:123456@tcp(127.0.0.1:3306)/zero-sys" --tableNames sys_ --prefix sys_  --rpcClient sysclient --author liufeihua
-```
+go install github.com/feihua/generate-code@latest
 
+generate-code golang zero --dsn "root:oMbPi5munxCsBSsiLoPV@tcp(110.41.179.89:3306)/better-pay" --tableNames sys_ --prefix sys_  --rpcClient sysclient --author liufeihua
+```
 ## 参数解释：
 ```
 dsn: 请输入数据库的地址

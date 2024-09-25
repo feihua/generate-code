@@ -4,7 +4,7 @@
 ```shell
 go install github.com/feihua/generate-code@latest
 
-generate-code golang zero --dsn "root:oMbPi5munxCsBSsiLoPV@tcp(110.41.179.89:3306)/better-pay" --tableNames sys_ --prefix sys_  --rpcClient sysclient --author liufeihua
+generate-code golang zero --dsn "root:123456@tcp(127.0.0.1:3306)/demo" --tableNames sys_ --prefix sys_  --rpcClient sysclient --author liufeihua
 ```
 ## 参数解释：
 ```

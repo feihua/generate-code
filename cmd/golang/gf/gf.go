@@ -64,7 +64,8 @@ func init() {
 }
 
 func Generate(t utils.Table, tplName, path string) error {
-	htmlByte, err := ioutil.ReadFile(tplName)
+	htmlByte, err := utils.TemplateFileData.ReadFile(tplName)
+	//htmlByte, err := ioutil.ReadFile(tplName)
 	if err != nil {
 		fmt.Println("read html failed, err:", err)
 		return err

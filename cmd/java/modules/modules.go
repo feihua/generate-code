@@ -1,6 +1,5 @@
 /*
 Copyright © 2023 NAME HERE <EMAIL ADDRESS>
-
 */
 package modules
 
@@ -76,7 +75,16 @@ func init() {
 }
 
 func Generate(t utils.Modules, tplName, path, fileName string) {
-	tpl, err := template.ParseFiles(tplName)
+	htmlByte, err := utils.TemplateFileData.ReadFile(tplName)
+	//htmlByte, err := ioutil.ReadFile(tplName)
+	if err != nil {
+		fmt.Println("read html failed, err:", err)
+		return
+	}
+
+	fmap := template.FuncMap{"isContain": utils.IsContain, "Replace": utils.Replace}
+	tpl, _ := template.New("abc.html").Funcs(fmap).Parse(string(htmlByte))
+	//tpl, err := template.ParseFiles(tplName)
 
 	t.CreateTime = time.Now().Format("2006/01/02 15:04:05")
 	err = tpl.Execute(os.Stdout, t)

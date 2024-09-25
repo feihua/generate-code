@@ -1,6 +1,7 @@
 package utils
 
 import (
+	"embed"
 	"fmt"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
@@ -272,3 +273,5 @@ func Replace(str, o, n string) string {
 
 	return strings.ReplaceAll(str, o, n)
 }
+
+var TemplateFileData embed.FS

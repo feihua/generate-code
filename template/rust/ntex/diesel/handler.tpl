@@ -2,15 +2,19 @@ use log::info;
 use ntex::web;
 use ntex::web::{Error, HttpResponse, Responder};
 use ntex::web::types::{Json, State};
-use crate::AppState;
 
-use sea_orm::{ColumnTrait, DatabaseConnection, EntityTrait, NotSet, PaginatorTrait, QueryFilter, QueryTrait};
-use sea_orm::ActiveValue::Set;
-use crate::model::{ {{.OriginalName}} };
-use crate::model::prelude::{ {{.UpperOriginalName}} };
+use diesel::{ExpressionMethods, QueryDsl, RunQueryDsl};
+use diesel::associations::HasTable;
+use diesel::sql_types::Integer;
+use log::{debug, error};
+
+use crate::{RB, schema};
+
+use crate::model::{{.RustName}}::{{.UpperOriginalName}};
+use crate::schema::{{.OriginalName}}::*;
+use crate::schema::{{.OriginalName}}::dsl::{{.OriginalName}};
 use crate::vo::*;
-use crate::vo::{{.RustName}}_vo::*;
-use crate::vo::{err_result_msg, ok_result_msg, ok_result_page};
+use crate::vo::{{.RustName}}_vo::{*};
 
 
 /**
@@ -19,32 +23,41 @@ use crate::vo::{err_result_msg, ok_result_msg, ok_result_page};
  *date：{{.CreateTime}}
  */
 #[web::post("/add{{.JavaName}}")]
-pub async fn add_{{.RustName}}(item: Json<Add{{.JavaName}}Req>, data: State<AppState>) -> Result<impl web::Responder, web::Error> {
+pub async fn add_{{.RustName}}(item: Json<Add{{.JavaName}}Req>) -> Result<impl web::Responder, web::Error> {
     info!("add_{{.RustName}} params: {:?}", &item);
-    let conn = &data.conn;
 
     let req = item.0;
 
-    let {{.RustName}} = {{.OriginalName}}::ActiveModel {
+    let add_{{.OriginalName}} = {{.UpperOriginalName}} {
     {{- range .TableColumn}}
         {{- if eq .ColumnKey `PRI`}}
-        {{.RustName}}: NotSet
+        {{.RustName}}: 0
         {{- else if isContain .JavaName "createTime"}}
-        {{.RustName}}: NotSet
+        {{.RustName}}: Default::default()
         {{- else if isContain .JavaName "createBy"}}
-        {{.RustName}}: Set(String::from(""))
+        {{.RustName}}: Default::default()
         {{- else if isContain .JavaName "updateBy"}}
-        {{.RustName}}: NotSet
+        {{.RustName}}: Default::default()
         {{- else if isContain .JavaName "updateTime"}}
-        {{.RustName}}: NotSet
+        {{.RustName}}: Default::default()
         {{- else}}
-        {{.RustName}}: Set(req.{{.RustName}})
+        {{.RustName}}: req.{{.RustName}}
         {{- end}},//{{.ColumnComment}}
     {{- end}}
     };
 
-    {{.UpperOriginalName}}::insert({{.RustName}}).exec(conn).await.unwrap();
-    Ok(HttpResponse::Ok().json(&ok_result_msg("添加{{.Comment}}成功!")))
+
+    let resp = match &mut RB.clone().get() {
+        Ok(conn) => {
+            handle_result(diesel::insert_into({{.OriginalName}}::table()).values(add_{{.OriginalName}}).execute(conn))
+        }
+        Err(err) => {
+            error!("err:{}", err.to_string());
+            err_result_msg(err.to_string())
+        }
+    };
+
+    Ok(web::HttpResponse::Ok().json(&resp))
 }
 
 
@@ -54,14 +67,22 @@ pub async fn add_{{.RustName}}(item: Json<Add{{.JavaName}}Req>, data: State<AppS
  *date：{{.CreateTime}}
  */
 #[web::post("/delete{{.JavaName}}")]
-pub async fn delete_{{.RustName}}(item: Json<Delete{{.JavaName}}Req>, data: State<AppState>) -> Result<impl web::Responder, web::Error> {
+pub async fn delete_{{.RustName}}(item: Json<Delete{{.JavaName}}Req>) -> Result<impl web::Responder, web::Error> {
     info!("delete_{{.RustName}} params: {:?}", &item);
-    let conn = &data.conn;
     let req = item.0;
 
-   {{.UpperOriginalName}}::delete_many().filter({{.UpperOriginalName}}::Column::Id.is_in(req.ids)).exec(conn).await.unwrap();
 
-    Ok(HttpResponse::Ok().json(&ok_result_msg("删除{{.Comment}}成功!")))
+    let resp = match &mut RB.clone().get() {
+        Ok(conn) => {
+            handle_result(diesel::delete({{.OriginalName}}.filter(id.eq_any(&req.ids))).execute(conn))
+        }
+        Err(err) => {
+            error!("err:{}", err.to_string());
+            err_result_msg(err.to_string())
+        }
+    };
+
+    Ok(web::HttpResponse::Ok().json(&resp))
 }
 
 /**
@@ -70,37 +91,41 @@ pub async fn delete_{{.RustName}}(item: Json<Delete{{.JavaName}}Req>, data: Stat
  *date：{{.CreateTime}}
  */
 #[web::post("/update{{.JavaName}}")]
-pub async fn update_{{.RustName}}(item: Json<Update{{.JavaName}}Req>, data: State<AppState>) -> Result<impl web::Responder, web::Error> {
+pub async fn update_{{.RustName}}(item: Json<Update{{.JavaName}}Req>) -> Result<impl web::Responder, web::Error> {
     info!("update_{{.RustName}} params: {:?}", &item);
-
-    let conn = &data.conn;
 
     let req = item.0;
 
-    if {{.UpperOriginalName}}::find_by_id(item.id.clone()).one(conn).await.unwrap_or_default().is_none() {
-        return Ok(HttpResponse::Ok().json(&err_result_msg("{{.Comment}}不存在,不能更新!")))
-    }
-
-    let {{.RustName}} = {{.OriginalName}}::ActiveModel {
+    let update_{{.OriginalName}} = {{.UpperOriginalName}} {
     {{- range .TableColumn}}
         {{- if eq .ColumnKey `PRI`}}
-        {{.RustName}}: Set(item.{{.RustName}})
+        {{.RustName}}: 0
         {{- else if isContain .JavaName "createTime"}}
-        {{.RustName}}: NotSet
+        {{.RustName}}: Default::default()
         {{- else if isContain .JavaName "createBy"}}
-        {{.RustName}}: NotSet
+        {{.RustName}}: Default::default()
         {{- else if isContain .JavaName "updateBy"}}
-        {{.RustName}}: Set(String::from(""))
+        {{.RustName}}: Default::default()
         {{- else if isContain .JavaName "updateTime"}}
-        {{.RustName}}: NotSet
+        {{.RustName}}: Default::default()
         {{- else}}
-        {{.RustName}}: Set(req.{{.RustName}})
+        {{.RustName}}: req.{{.RustName}}
         {{- end}},//{{.ColumnComment}}
     {{- end}}
     };
 
-    {{.UpperOriginalName}}::update({{.RustName}}).exec(conn).await.unwrap();
-     Ok(HttpResponse::Ok().json(&ok_result_msg("更新{{.Comment}}成功!")))
+
+    let resp = match &mut RB.clone().get() {
+        Ok(conn) => {
+            handle_result(diesel::update({{.OriginalName}}).filter(id.eq(&req.id)).set(update_{{.OriginalName}}).execute(conn))
+        }
+        Err(err) => {
+            error!("err:{}", err.to_string());
+            err_result_msg(err.to_string())
+        }
+    };
+
+    Ok(web::HttpResponse::Ok().json(&resp))
 }
 
 /**
@@ -109,19 +134,22 @@ pub async fn update_{{.RustName}}(item: Json<Update{{.JavaName}}Req>, data: Stat
  *date：{{.CreateTime}}
  */
 #[web::post("/update{{.JavaName}}Status")]
-pub async fn update_{{.RustName}}_status(item: Json<Update{{.JavaName}}Req>, data: State<AppState>) -> Result<impl web::Responder, web::Error> {
+pub async fn update_{{.RustName}}_status(item: Json<Update{{.JavaName}}StatusReq>) -> Result<impl web::Responder, web::Error> {
     info!("update_{{.RustName}}_status params: {:?}", &item);
-    let conn = &data.conn;
-
     let req = item.0;
 
-    //{{.UpperOriginalName}}::update_many()
-    //    .col_expr({{.UpperOriginalName}}::Column::Status, Expr::value(item.status))
-    //    .filter({{.UpperOriginalName}}::Column::Id.is_in(item.ids))
-    //    .exec(&conn)
-    //    .await.unwrap();
 
-     Ok(HttpResponse::Ok().json(&ok_result_msg("更新{{.Comment}}状态成功!")))
+    let resp = match &mut RB.clone().get() {
+        Ok(conn) => {
+            handle_result(diesel::update({{.OriginalName}}).filter(id.eq_any(&req.ids)).set(status.eq(req.status)).execute(conn))
+        }
+        Err(err) => {
+            error!("err:{}", err.to_string());
+            err_result_msg(err.to_string())
+        }
+    };
+
+    Ok(web::HttpResponse::Ok().json(&resp))
 }
 
 /**
@@ -130,36 +158,36 @@ pub async fn update_{{.RustName}}_status(item: Json<Update{{.JavaName}}Req>, dat
  *date：{{.CreateTime}}
  */
 #[web::post("/query{{.JavaName}}Detail")]
-pub async fn query_{{.RustName}}_detail(item: Json<Query{{.JavaName}}DetailReq>, data: State<AppState>) -> Result<impl web::Responder, web::Error> {
+pub async fn query_{{.RustName}}_detail(item: Json<Query{{.JavaName}}DetailReq>) -> Result<impl web::Responder, web::Error> {
     info!("query_{{.RustName}}_detail params: {:?}", &item);
-    let conn = &data.conn;
 
-   let result = {{.UpperOriginalName}}::find_by_id(item.id.clone()).one(conn).await.unwrap_or_default();
 
-   match result {
-       Ok(d) => {
-           let x = d.unwrap();
+    match &mut RB.clone().get() {
+        Ok(conn) => {
+            let result = {{.OriginalName}}.bind::<Integer, _>(req.id).get_result(conn);
+            if let Ok(x) = result {
+              let data  =Query{{.JavaName}}DetailResp {
+                    {{- range .TableColumn}}
+                    {{- if eq .ColumnKey `PRI`}}
+                        {{.RustName}}: x.{{.RustName}}.unwrap()
+                    {{- else if eq .IsNullable `YES` }}
+                        {{.RustName}}: x.{{.RustName}}.unwrap_or_default()
+                    {{- else if eq .RustType `DateTime`}}
+                        {{.RustName}}: x.{{.RustName}}.unwrap().0.to_string()
+                    {{- else}}
+                        {{.RustName}}: x.{{.RustName}}
+                    {{- end}},
+                    {{- end}}
+                };
+                Ok(web::HttpResponse::Ok().json(&ok_result_data(data)))
+                }
+            }
 
-           let {{.RustName}} = Query{{.JavaName}}DetailResp {
-           {{- range .TableColumn}}
-           {{- if eq .ColumnKey `PRI`}}
-               {{.RustName}}: x.{{.RustName}}.unwrap()
-           {{- else if eq .IsNullable `YES` }}
-               {{.RustName}}: x.{{.RustName}}.unwrap_or_default()
-           {{- else if eq .RustType `DateTime`}}
-               {{.RustName}}: x.{{.RustName}}.unwrap().0.to_string()
-           {{- else}}
-               {{.RustName}}: x.{{.RustName}}
-           {{- end}},
-           {{- end}}
-           };
+        Err(err) => {
+            error!("err:{}", err.to_string());
+            Ok(web::HttpResponse::Ok().json(&err_result_msg(err.to_string())))
+        }
 
-           Ok(HttpResponse::Ok().json(&ok_result_data({{.RustName}})))
-       }
-       Err(err) => {
-           Ok(HttpResponse::Ok().json(&ok_result_code(1,err.to_string())))
-       }
-   }
 }
 
 
@@ -169,43 +197,42 @@ pub async fn query_{{.RustName}}_detail(item: Json<Query{{.JavaName}}DetailReq>,
  *date：{{.CreateTime}}
  */
 #[web::post("/query{{.JavaName}}List")]
-pub async fn query_{{.RustName}}_list(item: Json<Query{{.JavaName}}ListReq>, data: State<AppState>) -> Result<impl web::Responder, web::Error> {
+pub async fn query_{{.RustName}}_list(item: Json<Query{{.JavaName}}ListReq>) -> Result<impl web::Responder, web::Error> {
     info!("query_{{.RustName}}_list params: {:?}", &item);
-    let conn = &data.conn;
 
-    {{- $lowerJavaName :=.UpperOriginalName}}
-    let paginator = {{.UpperOriginalName}}::find()
-        {{- range .TableColumn}}
-        {{- if isContain .JavaName "create"}}
-        {{- else if isContain .JavaName "update"}}
-        {{- else if isContain .JavaName "remark"}}
-        {{- else if isContain .JavaName "sort"}}
-        {{- else if eq .ColumnKey "PRI"}}
-        {{- else}}
-        //.apply_if(item.{{.RustName}}.clone(), |query, v| { query.filter( {{$lowerJavaName}}::Column::{{.RustName}}.eq(v))})
-        {{- end}}
-        {{- end}}
-        .paginate(conn, item.page_size.clone());
+    let mut query = {{.OriginalName}}::table().into_boxed();
 
-    let total = paginator.num_items().await.unwrap_or_default();
+    //if let Some(i) = &req.status {
+    //    query = query.filter(status_id.eq(i));
+    //}
 
-    let mut {{.RustName}}_list_data: Vec<{{.JavaName}}ListDataResp> = Vec::new();
+    debug!("SQL:{}", diesel::debug_query::<diesel::mysql::Mysql, _>(&query).to_string());
 
-    for x in paginator.fetch_page(item.page_no.clone() - 1).await.unwrap_or_default() {
-        {{.RustName}}_list_data.push({{.JavaName}}ListDataResp {
-        {{- range .TableColumn}}
-        {{- if eq .ColumnKey `PRI`}}
-            {{.RustName}}: x.{{.RustName}}.unwrap()
-        {{- else if eq .IsNullable `YES` }}
-            {{.RustName}}: x.{{.RustName}}.unwrap_or_default()
-        {{- else if eq .RustType `DateTime`}}
-            {{.RustName}}: x.{{.RustName}}.unwrap().0.to_string()
-        {{- else}}
-            {{.RustName}}: x.{{.RustName}}
-        {{- end}},
-        {{- end}}
-        })
+    match &mut RB.clone().get() {
+        Ok(conn) => {
+            let mut {{.RustName}}_list_data: Vec<Query{{.JavaName}}ListDataResp> = Vec::new();
+            if let Ok(list) = query.load::<{{.UpperOriginalName}}>(conn) {
+                for x in list {
+                    {{.RustName}}_list_data.push(Query{{.JavaName}}ListDataResp {
+                    {{- range .TableColumn}}
+                    {{- if eq .ColumnKey `PRI`}}
+                        {{.RustName}}: x.{{.RustName}}.unwrap()
+                    {{- else if eq .IsNullable `YES` }}
+                        {{.RustName}}: x.{{.RustName}}.unwrap_or_default()
+                    {{- else if eq .RustType `DateTime`}}
+                        {{.RustName}}: x.{{.RustName}}.unwrap().0.to_string()
+                    {{- else}}
+                        {{.RustName}}: x.{{.RustName}}
+                    {{- end}},
+                    {{- end}}
+                    })
+                }
+            }
+            Ok(web::HttpResponse::Ok().json(&ok_result_page({{.RustName}}_list_data, 10)))
+        }
+        Err(err) => {
+            error!("err:{}", err.to_string());
+            Ok(web::HttpResponse::Ok().json(&err_result_msg(err.to_string())))
+        }
     }
-
-    Ok(HttpResponse::Ok().json(&ok_result_page({{.RustName}}_list_data, total)))
 }

@@ -58,7 +58,7 @@ var Author string
 
 func init() {
 
-	//go run main.go rust ntex --dsn "root:oMbPi5munxCsBSsiLoPV@tcp(110.41.179.89:3306)/better-pay" --tableNames pay_ --prefix pay_  --orm sea --author LiuFeiHua --packageName pay
+	//go run main.go rust ntex --dsn "root:oMbPi5munxCsBSsiLoPV@tcp(110.41.179.89:3306)/salvodb" --tableNames sys_ --prefix sys_  --orm diesel --author LiuFeiHua --packageName sys
 	Cmd.Flags().StringVarP(&Dsn, "dsn", "", "", "请输入数据库的地址")
 	Cmd.Flags().StringVarP(&TableNames, "tableNames", "", "", "请输入表名称")
 	Cmd.Flags().StringVarP(&prefix, "prefix", "", "", "生成表时候去掉前缀")

@@ -25,7 +25,7 @@ pub struct Add{{.JavaName}}Req {
 */
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Delete{{.JavaName}}Req {
-    pub ids: Vec<i32>,
+    pub ids: Vec<i64>,
 }
 
 /**
@@ -97,7 +97,7 @@ pub struct Query{{.JavaName}}ListReq {
 查询{{.Comment}}列表响应参数
 */
 #[derive(Debug, Serialize, Deserialize)]
-pub struct {{.JavaName}}ListDataResp {
+pub struct Query{{.JavaName}}ListDataResp {
 {{- range .TableColumn}}
     #[serde(rename = "{{.JavaName}}")]
     pub {{.RustName}}: {{if eq .RustType "DateTime" }}String{{else}}{{.RustType}}{{end}}, //{{.ColumnComment}}

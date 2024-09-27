@@ -166,7 +166,7 @@ pub async fn query_{{.RustName}}_detail(Json(req): Json<Query{{.JavaName}}Detail
  */
 pub async fn query_{{.RustName}}_list(Json(req): Json<Query{{.JavaName}}ListReq>) -> Result<impl IntoResponse, impl IntoResponse> {
     log::info!("query_{{.RustName}}_list params: {:?}", &req);
-    let mut query = sys_role::table().into_boxed();
+    let mut query = {{.OriginalName}}::table().into_boxed();
 
     //if let Some(i) = &req.status {
     //    query = query.filter(status_id.eq(i));

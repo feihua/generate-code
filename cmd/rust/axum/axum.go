@@ -36,14 +36,14 @@ and usage of using your command. For example:
 		} else if OrmType == "sea" {
 			for _, t := range tables {
 				Generate(t, "template/rust/axum/sea/vo.tpl", path+"/vo", t.RustName+"_vo.rs")
-				Generate(t, "template/rust/axum/sea/model.tpl", path+"/model", t.RustName+".rs")
+				//Generate(t, "template/rust/axum/sea/model.tpl", path+"/model", t.RustName+".rs")
 				Generate(t, "template/rust/axum/sea/handler.tpl", path+"/handler", t.RustName+"_handler.rs")
 			}
 
 		} else if OrmType == "diesel" {
 			for _, t := range tables {
 				Generate(t, "template/rust/axum/diesel/vo.tpl", path+"/vo", t.RustName+"_vo.rs")
-				Generate(t, "template/rust/axum/diesel/model.tpl", path+"/model", t.RustName+".rs")
+				//Generate(t, "template/rust/axum/diesel/model.tpl", path+"/model", t.RustName+".rs")
 				Generate(t, "template/rust/axum/diesel/handler.tpl", path+"/handler", t.RustName+"_handler.rs")
 			}
 
@@ -61,7 +61,7 @@ var Author string
 
 func init() {
 
-	//go run main.go rust axum --dsn "root:oMbPi5munxCsBSsiLoPV@tcp(110.41.179.89:3306)/better-pay" --tableNames pay_ --prefix pay_  --orm sea --author LiuFeiHua --packageName pay
+	//go run main.go rust axum --dsn "root:oMbPi5munxCsBSsiLoPV@tcp(110.41.179.89:3306)/salvodb" --tableNames sys_ --prefix sys_  --orm diesel --author LiuFeiHua --packageName sys
 	Cmd.Flags().StringVarP(&Dsn, "dsn", "", "", "请输入数据库的地址")
 	Cmd.Flags().StringVarP(&TableNames, "tableNames", "", "", "请输入表名称")
 	Cmd.Flags().StringVarP(&prefix, "prefix", "", "", "生成表时候去掉前缀")

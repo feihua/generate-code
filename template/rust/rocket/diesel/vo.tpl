@@ -52,8 +52,8 @@ pub struct Update{{.JavaName}}Req {
 #[derive(Debug, Deserialize)]
 #[serde(crate = "rocket::serde")]
 pub struct Update{{.JavaName}}StatusReq {
-    pub ids: Vec<i32>,
-    pub status: i32,
+    pub ids: Vec<i64>,
+    pub status: i8,
 }
 
 /**
@@ -62,7 +62,7 @@ pub struct Update{{.JavaName}}StatusReq {
 #[derive(Debug, Deserialize)]
 #[serde(crate = "rocket::serde")]
 pub struct Query{{.JavaName}}DetailReq {
-    pub id: i32,
+    pub id: i64,
 }
 
 /**

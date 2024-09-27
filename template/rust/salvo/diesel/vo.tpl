@@ -48,8 +48,8 @@ pub struct Update{{.JavaName}}Req {
 */
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Update{{.JavaName}}StatusReq {
-    pub ids: Vec<i32>,
-    pub status: i32,
+    pub ids: Vec<i64>,
+    pub status: i8,
 }
 
 /**
@@ -57,7 +57,7 @@ pub struct Update{{.JavaName}}StatusReq {
 */
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Query{{.JavaName}}DetailReq {
-    pub id: i32,
+    pub id: i64,
 }
 
 /**

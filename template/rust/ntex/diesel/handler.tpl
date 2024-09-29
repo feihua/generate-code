@@ -179,9 +179,10 @@ pub async fn query_{{.RustName}}_detail(item: Json<Query{{.JavaName}}DetailReq>)
                     {{- end}},
                     {{- end}}
                 };
+
                 Ok(web::HttpResponse::Ok().json(&ok_result_data(data)))
-                }
             }
+        }
 
         Err(err) => {
             error!("err:{}", err.to_string());

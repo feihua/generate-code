@@ -160,7 +160,7 @@ pub async fn update_{{.RustName}}_status(item: Json<Update{{.JavaName}}StatusReq
 #[web::post("/query{{.JavaName}}Detail")]
 pub async fn query_{{.RustName}}_detail(item: Json<Query{{.JavaName}}DetailReq>) -> Result<impl web::Responder, web::Error> {
     info!("query_{{.RustName}}_detail params: {:?}", &item);
-
+    let req = item.0;
 
     match &mut RB.clone().get() {
         Ok(conn) => {
@@ -187,7 +187,7 @@ pub async fn query_{{.RustName}}_detail(item: Json<Query{{.JavaName}}DetailReq>)
             error!("err:{}", err.to_string());
             Ok(web::HttpResponse::Ok().json(&err_result_msg(err.to_string())))
         }
-
+    }
 }
 
 

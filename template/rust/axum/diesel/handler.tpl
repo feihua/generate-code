@@ -1,8 +1,8 @@
 use axum::Json;
 use axum::response::IntoResponse;
-use diesel::{ExpressionMethods, QueryDsl, RunQueryDsl};
+use diesel::{ExpressionMethods, QueryDsl, RunQueryDsl, sql_query};
 use diesel::associations::HasTable;
-use diesel::sql_types::Integer;
+use diesel::sql_types::*;
 use log::{debug, error};
 
 use crate::{RB, schema};
@@ -133,7 +133,8 @@ pub async fn query_{{.RustName}}_detail(Json(req): Json<Query{{.JavaName}}Detail
 
     match &mut RB.clone().get() {
         Ok(conn) => {
-            let result = {{.OriginalName}}.bind::<Integer, _>(req.id).get_result(conn);
+            let {{.OriginalName}}_sql = sql_query("SELECT * FROM {{.OriginalName}} WHERE id = ?");
+            let result = {{.OriginalName}}_sql.bind::<Bigint, _>(&req.id).get_result(conn);
             if let Ok(x) = result {
               let data  =Query{{.JavaName}}DetailResp {
                     {{- range .TableColumn}}

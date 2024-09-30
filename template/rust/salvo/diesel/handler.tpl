@@ -1,6 +1,6 @@
-use diesel::{ExpressionMethods, QueryDsl, RunQueryDsl};
+use diesel::{ExpressionMethods, QueryDsl, RunQueryDsl, sql_query};
 use diesel::associations::HasTable;
-use diesel::sql_types::Integer;
+use diesel::sql_types::*;
 use log::{debug, error};
 use salvo::{Request, Response};
 use salvo::prelude::*;
@@ -149,11 +149,13 @@ pub async fn update_{{.RustName}}_status(req: &mut Request, res: &mut Response) 
 #[handler]
 pub async fn query_{{.RustName}}_detail(req: &mut Request, res: &mut Response) {
     let item = req.parse_json::<Query{{.JavaName}}DetailReq>().await.unwrap();
+
     log::info!("query_{{.RustName}}_detail params: {:?}", &item);
 
     match &mut RB.clone().get() {
         Ok(conn) => {
-            let result = {{.OriginalName}}.bind::<Integer, _>(item.id).get_result(conn);
+            let {{.OriginalName}}_sql = sql_query("SELECT * FROM {{.OriginalName}} WHERE id = ?");
+            let result = {{.OriginalName}}_sql.bind::<Bigint, _>(&item.id).get_result(conn);
             if let Ok(x) = result {
               let data  =Query{{.JavaName}}DetailResp {
                     {{- range .TableColumn}}

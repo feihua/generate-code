@@ -27,7 +27,7 @@ pub struct Add{{.JavaName}}Req {
 #[derive(Debug, Deserialize)]
 #[serde(crate = "rocket::serde")]
 pub struct Delete{{.JavaName}}Req {
-    pub ids: Vec<i32>,
+    pub ids: Vec<i64>,
 }
 
 /**
@@ -105,7 +105,7 @@ pub struct Query{{.JavaName}}ListReq {
 */
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(crate = "rocket::serde")]
-pub struct {{.JavaName}}ListDataResp {
+pub struct Query{{.JavaName}}ListDataResp {
 {{- range .TableColumn}}
     #[serde(rename = "{{.JavaName}}")]
     pub {{.RustName}}: {{if eq .RustType "DateTime" }}String{{else}}{{.RustType}}{{end}}, //{{.ColumnComment}}

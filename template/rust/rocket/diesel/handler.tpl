@@ -148,7 +148,7 @@ pub async fn query_{{.RustName}}_detail(item: Json<Query{{.JavaName}}DetailReq>,
               let data  =Query{{.JavaName}}DetailResp {
                     {{- range .TableColumn}}
                     {{- if eq .ColumnKey `PRI`}}
-                        {{.RustName}}: x.{{.RustName}}.unwrap()
+                        {{.RustName}}: x.{{.RustName}}
                     {{- else if eq .IsNullable `YES` }}
                         {{.RustName}}: x.{{.RustName}}.unwrap_or_default()
                     {{- else if eq .RustType `DateTime`}}
@@ -195,7 +195,7 @@ pub async fn query_{{.RustName}}_list(item: Json<Query{{.JavaName}}ListReq>, _au
                     {{.RustName}}_list_data.push(Query{{.JavaName}}ListDataResp {
                     {{- range .TableColumn}}
                     {{- if eq .ColumnKey `PRI`}}
-                        {{.RustName}}: x.{{.RustName}}.unwrap()
+                        {{.RustName}}: x.{{.RustName}}
                     {{- else if eq .IsNullable `YES` }}
                         {{.RustName}}: x.{{.RustName}}.unwrap_or_default()
                     {{- else if eq .RustType `DateTime`}}

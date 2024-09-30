@@ -160,7 +160,7 @@ pub async fn query_{{.RustName}}_detail(req: &mut Request, res: &mut Response) {
               let data  =Query{{.JavaName}}DetailResp {
                     {{- range .TableColumn}}
                     {{- if eq .ColumnKey `PRI`}}
-                        {{.RustName}}: x.{{.RustName}}.unwrap()
+                        {{.RustName}}: x.{{.RustName}}
                     {{- else if eq .IsNullable `YES` }}
                         {{.RustName}}: x.{{.RustName}}.unwrap_or_default()
                     {{- else if eq .RustType `DateTime`}}
@@ -208,7 +208,7 @@ pub async fn query_{{.RustName}}_list(req: &mut Request, res: &mut Response) {
                     {{.RustName}}_list_data.push(Query{{.JavaName}}ListDataResp {
                     {{- range .TableColumn}}
                     {{- if eq .ColumnKey `PRI`}}
-                        {{.RustName}}: x.{{.RustName}}.unwrap()
+                        {{.RustName}}: x.{{.RustName}}
                     {{- else if eq .IsNullable `YES` }}
                         {{.RustName}}: x.{{.RustName}}.unwrap_or_default()
                     {{- else if eq .RustType `DateTime`}}

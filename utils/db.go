@@ -217,7 +217,7 @@ var ToJavaType = map[string]string{
 	"tinyint":   "Integer",
 	"smallint":  "Integer",
 	"mediumint": "Integer",
-	"bigint":    "Integer",
+	"bigint":    "Long",
 	"bool":      "bool",
 	"enum":      "String",
 	"set":       "String",

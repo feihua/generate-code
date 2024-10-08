@@ -30,6 +30,6 @@ public class Delete{{.JavaName}}ReqVo implements Serializable {
 
 	@ApiModelProperty(value = "主键", required = true)
 	@NotNull(message = "ids主键不能为空")
-	private List<Integer> ids;
+	private List<Long> ids;
 }
 

@@ -14,6 +14,7 @@ type Table struct {
 	UpperOriginalName string        ` gorm:"-"`                                        //表名(大写开头) SysUser
 	Comment           string        `json:"table_comment" gorm:"column:TABLE_COMMENT"` //表注释 用户表
 	TableColumn       []TableColumn ` gorm:"-"`                                        //表的列
+	ListColumn        []TableColumn ` gorm:"-"`                                        //查询条件
 	RustName          string        ` gorm:"-"`                                        //rust文件名 user
 	GoName            string        ` gorm:"-"`                                        //go的文件名 user
 	JavaName          string        ` gorm:"-"`                                        //java文件名 User
@@ -90,8 +91,9 @@ func (DbUtils) QueryTables(dsn string, TableNames string, prefix string) []Table
 		table.JavaName = UnderScoreToUpperCamelCase(trimPrefix)
 		table.LowerJavaName = UnderScoreToLowerCamelCase(trimPrefix)
 		table.UpperOriginalName = UnderScoreToUpperCamelCase(table.OriginalName)
-		tableColumns, allColumns := QueryTableColumns(dsn, table.OriginalName, UnderScoreToLowerCamelCase(trimPrefix))
+		tableColumns, listColumns, allColumns := QueryTableColumns(dsn, table.OriginalName, UnderScoreToLowerCamelCase(trimPrefix))
 		table.TableColumn = tableColumns
+		table.ListColumn = listColumns
 		table.AllColumns = allColumns
 		tt = append(tt, table)
 	}
@@ -101,7 +103,7 @@ func (DbUtils) QueryTables(dsn string, TableNames string, prefix string) []Table
 }
 
 // QueryTableColumns 查询表列
-func QueryTableColumns(dsn, TableName, lowerJavaName string) ([]TableColumn, string) {
+func QueryTableColumns(dsn, TableName, lowerJavaName string) ([]TableColumn, []TableColumn, string) {
 	split := strings.Split(dsn, "/")
 	s := split[0] + "/information_schema"
 	db, err := gorm.Open(mysql.Open(s))
@@ -114,7 +116,7 @@ func QueryTableColumns(dsn, TableName, lowerJavaName string) ([]TableColumn, str
 
 	if len(t) == 0 {
 		fmt.Println("查询不到表的列")
-		return nil, "nil"
+		return nil, nil, "nil"
 	}
 
 	var allColumns string
@@ -137,7 +139,41 @@ func QueryTableColumns(dsn, TableName, lowerJavaName string) ([]TableColumn, str
 	}
 
 	lastIndex := strings.LastIndex(allColumns, ",")
-	return tt, allColumns[0:lastIndex]
+	return tt, buildListParams(tt), allColumns[0:lastIndex]
+}
+
+func buildListParams(tt []TableColumn) []TableColumn {
+	var listParams []TableColumn
+
+	sort := 1
+	for _, item := range tt {
+		a := !strings.Contains(item.JavaName, "create")
+		b := !strings.Contains(item.JavaName, "update")
+		c := !strings.Contains(item.JavaName, "sort")
+		d := !strings.Contains(item.JavaName, "Sort")
+		e := !strings.Contains(item.JavaName, "remark")
+		f := !(item.ColumnKey == "PRI")
+
+		if a && b && c && d && e && f {
+			item.Sort = sort
+			listParams = append(listParams, item)
+			sort = sort + 1
+		}
+	}
+
+	listParams = append(listParams, TableColumn{
+		GoName:        "page_num",
+		ProtoType:     "int32",
+		Sort:          sort,
+		ColumnComment: "第几页",
+	})
+	listParams = append(listParams, TableColumn{
+		GoName:        "page_size",
+		ProtoType:     "int32",
+		Sort:          sort + 1,
+		ColumnComment: "每页的数量",
+	})
+	return listParams
 }
 
 var TsType = map[string]string{

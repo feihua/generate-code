@@ -76,20 +76,9 @@ message Query{{.JavaName}}DetailResp {
 
 // 分页查询{{.Comment}}列表
 message Query{{.JavaName}}ListReq {
-{{- $how_long :=(len .TableColumn)}}
-{{- range .TableColumn}}
-{{- if isContain .JavaName "create"}}
-{{- else if isContain .JavaName "update"}}
-{{- else if isContain .JavaName "remark"}}
-{{- else if isContain .JavaName "sort"}}
-{{- else if isContain .JavaName "Sort"}}
-{{- else if eq .ColumnKey "PRI"}}
-{{- else}}
+{{- range .ListColumn}}
   {{.ProtoType}} {{.GoName}} = {{.Sort}}; //{{.ColumnComment}}
 {{- end}}
-{{- end}}
-  int64 page_num = 1; //第几页
-  int64 page_size = {{$how_long}}; //每页的数量
 }
 
 message {{.JavaName}}ListData {

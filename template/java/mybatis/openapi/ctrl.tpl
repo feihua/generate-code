@@ -18,12 +18,8 @@ import jakarta.validation.Valid;
 import {{.GroupId}}.common.vo.Result;
 import {{.GroupId}}.common.vo.ResultPage;
 import {{.PackageName}}.annotation.OperateLog;
-import {{.PackageName}}.vo.req.{{.JavaName}}ReqVo;
-import {{.PackageName}}.vo.req.{{.JavaName}}ListReqVo;
-import {{.PackageName}}.vo.req.Add{{.JavaName}}ReqVo;
-import {{.PackageName}}.vo.req.{{.JavaName}}DeleteReqVo;
-import {{.PackageName}}.vo.req.Update{{.JavaName}}ReqVo;
-import {{.PackageName}}.vo.resp.{{.JavaName}}RespVo;
+import {{.PackageName}}.vo.req.*;
+import {{.PackageName}}.vo.resp.*;
 import {{.PackageName}}.service.{{.JavaName}}Service;
 
 /**
@@ -42,22 +38,22 @@ public class {{.JavaName}}Controller {
    /**
     * 添加{{.Comment}}
     *
-    * @param record 请求参数
+    * @param {{.LowerJavaName}} 请求参数
     * @return Result<Integer>
     * @author {{.Author}}
     * @date: {{.CreateTime}}
     */
    @Operation(summary = "添加{{.Comment}}")
-   @PostMapping("/save{{.JavaName}}")
+   @PostMapping("/add{{.JavaName}}")
    @OperateLog(description = "【{{.Comment}}】添加{{.Comment}}")
-   public Result<Integer> save{{.JavaName}}(@RequestBody @Valid Add{{.JavaName}}ReqVo record){
-        return Result.success({{.LowerJavaName}}Service.save{{.JavaName}}(record));
+   public Result<Integer> add{{.JavaName}}(@RequestBody @Valid Add{{.JavaName}}ReqVo {{.LowerJavaName}}){
+        return Result.success({{.LowerJavaName}}Service.add{{.JavaName}}({{.LowerJavaName}}));
    }
 
    /**
     * 删除{{.Comment}}
     *
-    * @param record 请求参数
+    * @param {{.LowerJavaName}} 请求参数
     * @return Result<Integer>
     * @author {{.Author}}
     * @date: {{.CreateTime}}
@@ -65,14 +61,14 @@ public class {{.JavaName}}Controller {
    @Operation(summary = "删除{{.Comment}}")
    @DeleteMapping("/delete{{.JavaName}}")
    @OperateLog(description = "【{{.Comment}}】删除{{.Comment}}")
-   public Result<Integer> delete{{.JavaName}}(@RequestBody @Valid {{.JavaName}}DeleteReqVo record){
-        return Result.success({{.LowerJavaName}}Service.delete{{.JavaName}}(record));
+   public Result<Integer> delete{{.JavaName}}(@RequestBody @Valid Delete{{.JavaName}}ReqVo {{.LowerJavaName}}){
+        return Result.success({{.LowerJavaName}}Service.delete{{.JavaName}}({{.LowerJavaName}}));
    }
 
    /**
     * 更新{{.Comment}}
     *
-    * @param record 请求参数
+    * @param {{.LowerJavaName}} 请求参数
     * @return Result<Integer>
     * @author {{.Author}}
     * @date: {{.CreateTime}}
@@ -80,14 +76,29 @@ public class {{.JavaName}}Controller {
    @Operation(summary = "更新{{.Comment}}")
    @PutMapping("/update{{.JavaName}}")
    @OperateLog(description = "【{{.Comment}}】更新{{.Comment}}")
-   public Result<Integer> update{{.JavaName}}(@RequestBody @Valid Update{{.JavaName}}ReqVo record){
-        return Result.success({{.LowerJavaName}}Service.update{{.JavaName}}(record));
+   public Result<Integer> update{{.JavaName}}(@RequestBody @Valid Update{{.JavaName}}ReqVo {{.LowerJavaName}}){
+        return Result.success({{.LowerJavaName}}Service.update{{.JavaName}}({{.LowerJavaName}}));
    }
+
+   /**
+   * 更新{{.Comment}}状态
+   *
+   * @param {{.LowerJavaName}} 请求参数
+   * @return Result<Integer>
+   * @author {{.Author}}
+   * @date: {{.CreateTime}}
+   */
+   @Operation(summary = "更新{{.Comment}}状态")
+   @PutMapping("/update{{.JavaName}}Status")
+   @OperateLog(description = "【{{.Comment}}】更新{{.Comment}}状态")
+  public Integer update{{.JavaName}}Status(@RequestBody @Valid Update{{.JavaName}}StatusReqVo {{.LowerJavaName}}){
+       return {{.LowerJavaName}}Service.update{{.JavaName}}Status({{.LowerJavaName}});
+  }
 
    /**
     * 查询{{.Comment}}
     *
-    * @param record 请求参数
+    * @param {{.LowerJavaName}} 请求参数
     * @return {{.JavaName}}Resp
     * @author {{.Author}}
     * @date: {{.CreateTime}}
@@ -95,14 +106,14 @@ public class {{.JavaName}}Controller {
    @Operation(summary = "查询{{.Comment}}")
    @PostMapping("/query{{.JavaName}}")
    @OperateLog(description = "【{{.Comment}}】查询{{.Comment}}")
-   public {{.JavaName}}RespVo query(@RequestBody @Valid {{.JavaName}}ReqVo record){
-       return {{.LowerJavaName}}Service.query{{.JavaName}}(record);
+   public Query{{.JavaName}}DetailRespVo query{{.JavaName}}Detail(@RequestBody @Valid Query{{.JavaName}}DetailReqVo {{.LowerJavaName}}){
+       return {{.LowerJavaName}}Service.query{{.JavaName}}Detail({{.LowerJavaName}});
    }
 
    /**
     * 查询{{.Comment}}列表
     *
-    * @param record 请求参数
+    * @param {{.LowerJavaName}} 请求参数
     * @return {{.JavaName}}Resp
     * @author {{.Author}}
     * @date: {{.CreateTime}}
@@ -110,8 +121,8 @@ public class {{.JavaName}}Controller {
    @Operation(summary = "查询{{.Comment}}列表")
    @PostMapping("/query{{.JavaName}}List")
    @OperateLog(description = "【{{.Comment}}】查询{{.Comment}}列表")
-   public Result<ResultPage<{{.JavaName}}RespVo>> query{{.JavaName}}List(@RequestBody @Valid {{.JavaName}}ListReqVo record){
-        return Result.success({{.LowerJavaName}}Service.query{{.JavaName}}List(record));
+   public Result<ResultPage<Query{{.JavaName}}ListRespVo>> query{{.JavaName}}List(@RequestBody @Valid Query{{.JavaName}}ListReqVo {{.LowerJavaName}}){
+        return Result.success({{.LowerJavaName}}Service.query{{.JavaName}}List({{.LowerJavaName}}));
    }
 
 }

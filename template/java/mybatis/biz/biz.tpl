@@ -2,6 +2,7 @@ package {{.PackageName}}.biz;
 
 import java.util.Map;
 
+import {{.GroupId}}.common.vo.ResultPage;
 import {{.PackageName}}.vo.req.*;
 import {{.PackageName}}.vo.resp.*;
 
@@ -70,6 +71,6 @@ public interface {{.JavaName}}Biz {
     * @author {{.Author}}
     * @date: {{.CreateTime}}
     */
-   Query{{.JavaName}}ListRespVo query{{.JavaName}}List(Query{{.JavaName}}ListReqVo {{.LowerJavaName}});
+   ResultPage<Query{{.JavaName}}ListRespVo> query{{.JavaName}}List(Query{{.JavaName}}ListReqVo {{.LowerJavaName}});
 
 }

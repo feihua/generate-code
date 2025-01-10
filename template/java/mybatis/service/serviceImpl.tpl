@@ -3,6 +3,7 @@ package {{.PackageName}}.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import {{.GroupId}}.common.vo.ResultPage;
 import {{.PackageName}}.vo.req.*;
 import {{.PackageName}}.vo.resp.*;
 import {{.PackageName}}.biz.{{.JavaName}}Biz;
@@ -97,7 +98,7 @@ public class {{.JavaName}}ServiceImpl implements {{.JavaName}}Service {
     * @date: {{.CreateTime}}
     */
    @Override
-   public Query{{.JavaName}}ListRespVo query{{.JavaName}}List(Query{{.JavaName}}ListReqVo {{.LowerJavaName}}){
+   public ResultPage<Query{{.JavaName}}ListRespVo> query{{.JavaName}}List(Query{{.JavaName}}ListReqVo {{.LowerJavaName}}){
 
         return {{.LowerJavaName}}Biz.query{{.JavaName}}List({{.LowerJavaName}});
    }

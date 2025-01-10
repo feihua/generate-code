@@ -112,7 +112,7 @@ func QueryTableColumns(dsn, TableName, lowerJavaName string) ([]TableColumn, []T
 	}
 
 	var t []TableColumn
-	db.Where("table_schema = ? and table_name = ?", split[1], TableName).Find(&t)
+	db.Where("table_schema = ? and table_name = ? order by ORDINAL_POSITION", split[1], TableName).Find(&t)
 
 	if len(t) == 0 {
 		fmt.Println("查询不到表的列")

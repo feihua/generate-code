@@ -23,7 +23,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Schema(description = "{{.Comment}}请求listVo")
-public class {{.JavaName}}ListReqVo implements Serializable {
+public class Query{{.JavaName}}ListReqVo implements Serializable {
 
     @Schema(description = "当前页", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
     @NotNull(message = "pageNum当前页不能为空")

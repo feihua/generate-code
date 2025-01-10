@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import {{.GroupId}}.common.vo.ResultPage;
 import {{.PackageName}}.entity.{{.JavaName}}Bean;
 import {{.PackageName}}.vo.req.*;
 
@@ -45,7 +46,7 @@ public class {{.JavaName}}BizImpl implements {{.JavaName}}Biz {
         {{- else if isContain .JavaName "update"}}
         {{- else if eq .ColumnKey "PRI"}}
         {{- else}}
-        bean.set{{.GoNamePublic}}({{.LowerJavaName}}.get{{.GoNamePublic}}());
+        bean.set{{.GoNamePublic}}({{.LowerJavaName}}.get{{.GoNamePublic}}()); //{{.ColumnComment}}
         {{- end}}
         {{- end}}
 
@@ -80,7 +81,7 @@ public class {{.JavaName}}BizImpl implements {{.JavaName}}Biz {
         {{- if isContain .JavaName "create"}}
         {{- else if isContain .JavaName "update"}}
         {{- else}}
-        bean.set{{.GoNamePublic}}({{.LowerJavaName}}.get{{.GoNamePublic}}());
+        bean.set{{.GoNamePublic}}({{.LowerJavaName}}.get{{.GoNamePublic}}());//{{.ColumnComment}}
         {{- end}}
         {{- end}}
         return {{.LowerJavaName}}Dao.update{{.JavaName}}(bean);
@@ -103,7 +104,7 @@ public class {{.JavaName}}BizImpl implements {{.JavaName}}Biz {
         {{- else if isContain .JavaName "sort"}}
         {{- else if isContain .JavaName "remark"}}
         {{- else}}
-        //bean.set{{.GoNamePublic}}({{.LowerJavaName}}.get{{.GoNamePublic}}());
+        //bean.set{{.GoNamePublic}}({{.LowerJavaName}}.get{{.GoNamePublic}}());//{{.ColumnComment}}
         {{- end}}
         {{- end}}
 
@@ -127,9 +128,9 @@ public class {{.JavaName}}BizImpl implements {{.JavaName}}Biz {
         {{- else if isContain .JavaName "sort"}}
         {{- else if isContain .JavaName "remark"}}
         {{- else if eq .ColumnKey "PRI"}}
-        bean.set{{.GoNamePublic}}({{.LowerJavaName}}.get{{.GoNamePublic}}());
+        bean.set{{.GoNamePublic}}({{.LowerJavaName}}.get{{.GoNamePublic}}());//{{.ColumnComment}}
         {{- else}}
-        //bean.set{{.GoNamePublic}}({{.LowerJavaName}}.get{{.GoNamePublic}}());
+        //bean.set{{.GoNamePublic}}({{.LowerJavaName}}.get{{.GoNamePublic}}());//{{.ColumnComment}}
         {{- end}}
         {{- end}}
 
@@ -147,7 +148,7 @@ public class {{.JavaName}}BizImpl implements {{.JavaName}}Biz {
     * @date: {{.CreateTime}}
     */
    @Override
-   public Query{{.JavaName}}ListRespVo query{{.JavaName}}List(Query{{.JavaName}}ListReqVo {{.LowerJavaName}}){
+   public ResultPage<Query{{.JavaName}}ListRespVo> query{{.JavaName}}List(Query{{.JavaName}}ListReqVo {{.LowerJavaName}}){
         {{.JavaName}}Bean bean = new {{.JavaName}}Bean();
         {{- range .TableColumn}}
         {{- if isContain .JavaName "create"}}
@@ -156,7 +157,7 @@ public class {{.JavaName}}BizImpl implements {{.JavaName}}Biz {
         {{- else if isContain .JavaName "remark"}}
         {{- else if eq .ColumnKey "PRI"}}
         {{- else}}
-        //bean.set{{.GoNamePublic}}({{.LowerJavaName}}.get{{.GoNamePublic}}());
+        //bean.set{{.GoNamePublic}}({{.LowerJavaName}}.get{{.GoNamePublic}}());//{{.ColumnComment}}
         {{- end}}
         {{- end}}
 

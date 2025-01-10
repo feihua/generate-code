@@ -24,7 +24,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Schema(description = "{{.Comment}}请求vo")
-public class {{.JavaName}}DeleteReqVo implements Serializable {
+public class Delete{{.JavaName}}ReqVo implements Serializable {
 
 	@Schema(description = "主键数组", requiredMode = Schema.RequiredMode.REQUIRED)
 	@NotNull(message = "ids不能为空")

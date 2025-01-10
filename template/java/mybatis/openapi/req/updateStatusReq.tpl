@@ -23,7 +23,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Schema(description = "{{.Comment}}请求updateVo")
-public class Update{{.JavaName}}ReqVo implements Serializable {
+public class Update{{.JavaName}}StatusReqVo implements Serializable {
 
 	@Schema(description = "主键数组", requiredMode = Schema.RequiredMode.REQUIRED)
     @NotNull(message = "ids不能为空")

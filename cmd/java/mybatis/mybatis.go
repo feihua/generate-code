@@ -78,7 +78,7 @@ var swaggerVersion int64
 
 func init() {
 
-	//go run main.go java mybatis --dsn "root:oMbPi5munxCsBSsiLoPV@tcp(110.41.179.89:3306)/better-pay" --tableNames pay_ --prefix pay_  --groupId com.example.springboottpl --packageName com.example.springboottpl --author 刘飞华
+	//go run main.go java mybatis --dsn "root:123456@tcp(127.0.0.1:3306)/tpl" --tableNames sys_ --prefix sys_  --groupId com.example.tpl.system --packageName com.example.tpl.system swaggerVersion 3 --author 刘飞华
 	//generate-code.exe java mybatis --dsn "dba_msginfo:UA9655pwd_msg@tcp(10.168.11.61:3309)/msg_db" --tableNames uaf_ --prefix uaf_  --groupId com.demo --packageName com.demo.test --author liufeihua
 	Cmd.Flags().StringVarP(&Dsn, "dsn", "", "", "请输入数据库的地址")
 	Cmd.Flags().StringVarP(&TableNames, "tableNames", "", "", "请输入表名称")

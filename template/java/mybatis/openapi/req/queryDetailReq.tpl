@@ -23,7 +23,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Schema(description = "{{.Comment}}请求vo")
-public class {{.JavaName}}ReqVo implements Serializable {
+public class Query{{.JavaName}}DetailReqVo implements Serializable {
 
 {{range .TableColumn}}
 {{- if eq .ColumnKey "PRI"}}

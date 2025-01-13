@@ -39,7 +39,7 @@ public class {{.JavaName}}BizImpl implements {{.JavaName}}Biz {
     * @date: {{.CreateTime}}
     */
    @Override
-   public int add{{.JavaName}}(Add{{.JavaName}}ReqVo {{.LowerJavaName}}){
+   public Result<Integer> add{{.JavaName}}(Add{{.JavaName}}ReqVo {{.LowerJavaName}}){
         {{.JavaName}}Bean bean = new {{.JavaName}}Bean();
         {{- range .TableColumn}}
         {{- if isContain .JavaName "create"}}
@@ -62,7 +62,7 @@ public class {{.JavaName}}BizImpl implements {{.JavaName}}Biz {
     * @date: {{.CreateTime}}
     */
    @Override
-   public int delete{{.JavaName}}(Delete{{.JavaName}}ReqVo {{.LowerJavaName}}){
+   public Result<Integer> delete{{.JavaName}}(Delete{{.JavaName}}ReqVo {{.LowerJavaName}}){
 		return {{.LowerJavaName}}Dao.delete{{.JavaName}}({{.LowerJavaName}}.getIds());
    }
 
@@ -75,7 +75,7 @@ public class {{.JavaName}}BizImpl implements {{.JavaName}}Biz {
     * @date: {{.CreateTime}}
     */
    @Override
-   public int update{{.JavaName}}(Update{{.JavaName}}ReqVo {{.LowerJavaName}}){
+   public Result<Integer> update{{.JavaName}}(Update{{.JavaName}}ReqVo {{.LowerJavaName}}){
         {{.JavaName}}Bean bean = new {{.JavaName}}Bean();
         {{- range .TableColumn}}
         {{- if isContain .JavaName "create"}}
@@ -96,7 +96,7 @@ public class {{.JavaName}}BizImpl implements {{.JavaName}}Biz {
     * @date: {{.CreateTime}}
     */
    @Override
-   public int update{{.JavaName}}Status(Update{{.JavaName}}StatusReqVo {{.LowerJavaName}}){
+   public Result<Integer> update{{.JavaName}}Status(Update{{.JavaName}}StatusReqVo {{.LowerJavaName}}){
         {{.JavaName}}Bean bean = new {{.JavaName}}Bean();
         {{- range .TableColumn}}
         {{- if isContain .JavaName "create"}}
@@ -120,7 +120,7 @@ public class {{.JavaName}}BizImpl implements {{.JavaName}}Biz {
     * @date: {{.CreateTime}}
     */
    @Override
-   public Query{{.JavaName}}DetailRespVo query{{.JavaName}}Detail(Query{{.JavaName}}DetailReqVo {{.LowerJavaName}}){
+   public Result<Query{{.JavaName}}DetailRespVo> query{{.JavaName}}Detail(Query{{.JavaName}}DetailReqVo {{.LowerJavaName}}){
         {{.JavaName}}Bean bean = new {{.JavaName}}Bean();
         {{- range .TableColumn}}
         {{- if isContain .JavaName "create"}}
@@ -148,7 +148,7 @@ public class {{.JavaName}}BizImpl implements {{.JavaName}}Biz {
     * @date: {{.CreateTime}}
     */
    @Override
-   public ResultPage<Query{{.JavaName}}ListRespVo> query{{.JavaName}}List(Query{{.JavaName}}ListReqVo {{.LowerJavaName}}){
+   public Result<ResultPage<Query{{.JavaName}}ListRespVo>> query{{.JavaName}}List(Query{{.JavaName}}ListReqVo {{.LowerJavaName}}){
         {{.JavaName}}Bean bean = new {{.JavaName}}Bean();
         {{- range .TableColumn}}
         {{- if isContain .JavaName "create"}}
@@ -167,7 +167,7 @@ public class {{.JavaName}}BizImpl implements {{.JavaName}}Biz {
 
 	    List<Query{{.JavaName}}ListRespVo> list = pageInfo.getList().stream().map(x -> {
             Query{{.JavaName}}ListRespVo resp = new Query{{.JavaName}}ListRespVo();{{range .TableColumn}}
-            resp.set{{.GoNamePublic}}(x.get{{.GoNamePublic}}());{{end}}
+            resp.set{{.GoNamePublic}}(x.get{{.GoNamePublic}}());//{{.ColumnComment}}{{end}}
 		   return resp;
 	    }).collect(Collectors.toList());
 

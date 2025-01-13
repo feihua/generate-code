@@ -44,7 +44,7 @@ public class {{.JavaName}}Controller {
    @ApiOperation("添加{{.Comment}}")
    @PostMapping("/add{{.JavaName}}")
    @OperateLog(description = "【{{.Comment}}】添加{{.Comment}}")
-   public Integer add{{.JavaName}}(@RequestBody @Valid Add{{.JavaName}}ReqVo {{.LowerJavaName}}){
+   public Result<Integer> add{{.JavaName}}(@RequestBody @Valid Add{{.JavaName}}ReqVo {{.LowerJavaName}}){
         return {{.LowerJavaName}}Service.add{{.JavaName}}({{.LowerJavaName}});
    }
 
@@ -59,7 +59,7 @@ public class {{.JavaName}}Controller {
    @ApiOperation("删除{{.Comment}}")
    @PostMapping("/delete{{.JavaName}}")
    @OperateLog(description = "【{{.Comment}}】删除{{.Comment}}")
-   public Integer delete{{.JavaName}}(@RequestBody @Valid Delete{{.JavaName}}ReqVo {{.LowerJavaName}}){
+   public Result<Integer> delete{{.JavaName}}(@RequestBody @Valid Delete{{.JavaName}}ReqVo {{.LowerJavaName}}){
         return {{.LowerJavaName}}Service.delete{{.JavaName}}({{.LowerJavaName}});
    }
 
@@ -74,7 +74,7 @@ public class {{.JavaName}}Controller {
    @ApiOperation("更新{{.Comment}}")
    @PostMapping("/update{{.JavaName}}")
    @OperateLog(description = "【{{.Comment}}】更新{{.Comment}}")
-   public Integer update{{.JavaName}}(@RequestBody @Valid Update{{.JavaName}}ReqVo {{.LowerJavaName}}){
+   public Result<Integer> update{{.JavaName}}(@RequestBody @Valid Update{{.JavaName}}ReqVo {{.LowerJavaName}}){
         return {{.LowerJavaName}}Service.update{{.JavaName}}({{.LowerJavaName}});
    }
 
@@ -89,7 +89,7 @@ public class {{.JavaName}}Controller {
   @ApiOperation("更新{{.Comment}}状态")
   @PostMapping("/update{{.JavaName}}Status")
   @OperateLog(description = "【{{.Comment}}】更新{{.Comment}}状态")
-  public Integer update{{.JavaName}}Status(@RequestBody @Valid Update{{.JavaName}}StatusReqVo {{.LowerJavaName}}){
+  public Result<Integer> update{{.JavaName}}Status(@RequestBody @Valid Update{{.JavaName}}StatusReqVo {{.LowerJavaName}}){
        return {{.LowerJavaName}}Service.update{{.JavaName}}Status({{.LowerJavaName}});
   }
 
@@ -104,7 +104,7 @@ public class {{.JavaName}}Controller {
    @ApiOperation("查询{{.Comment}}详情")
    @PostMapping("/query{{.JavaName}}Detail")
    @OperateLog(description = "【{{.Comment}}】查询{{.Comment}}详情")
-   public Query{{.JavaName}}DetailRespVo query{{.JavaName}}Detail(@RequestBody @Valid Query{{.JavaName}}DetailReqVo {{.LowerJavaName}}){
+   public Result<Query{{.JavaName}}DetailRespVo> query{{.JavaName}}Detail(@RequestBody @Valid Query{{.JavaName}}DetailReqVo {{.LowerJavaName}}){
        return {{.LowerJavaName}}Service.query{{.JavaName}}Detail({{.LowerJavaName}});
    }
 
@@ -119,7 +119,7 @@ public class {{.JavaName}}Controller {
    @ApiOperation("查询{{.Comment}}列表")
    @PostMapping("/query{{.JavaName}}List")
    @OperateLog(description = "【{{.Comment}}】查询{{.Comment}}列表")
-   public ResultPage<Query{{.JavaName}}ListRespVo> query{{.JavaName}}List(@RequestBody @Valid Query{{.JavaName}}ListReqVo {{.LowerJavaName}}){
+   public Result<ResultPage<Query{{.JavaName}}ListRespVo>> query{{.JavaName}}List(@RequestBody @Valid Query{{.JavaName}}ListReqVo {{.LowerJavaName}}){
         return {{.LowerJavaName}}Service.query{{.JavaName}}List({{.LowerJavaName}});
    }
 

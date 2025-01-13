@@ -21,7 +21,7 @@ public interface {{.JavaName}}Service {
     * @author {{.Author}}
     * @date: {{.CreateTime}}
     */
-   int add{{.JavaName}}(Add{{.JavaName}}ReqVo {{.LowerJavaName}});
+   Result<Integer> add{{.JavaName}}(Add{{.JavaName}}ReqVo {{.LowerJavaName}});
 
    /**
     * 删除{{.Comment}}
@@ -31,7 +31,7 @@ public interface {{.JavaName}}Service {
     * @author {{.Author}}
     * @date: {{.CreateTime}}
     */
-   int delete{{.JavaName}}(Delete{{.JavaName}}ReqVo {{.LowerJavaName}});
+   Result<Integer> delete{{.JavaName}}(Delete{{.JavaName}}ReqVo {{.LowerJavaName}});
 
    /**
     * 更新{{.Comment}}
@@ -41,7 +41,7 @@ public interface {{.JavaName}}Service {
     * @author {{.Author}}
     * @date: {{.CreateTime}}
     */
-   int update{{.JavaName}}(Update{{.JavaName}}ReqVo {{.LowerJavaName}});
+   Result<Integer> update{{.JavaName}}(Update{{.JavaName}}ReqVo {{.LowerJavaName}});
 
    /**
     * 更新{{.Comment}}状态
@@ -51,7 +51,7 @@ public interface {{.JavaName}}Service {
     * @author {{.Author}}
     * @date: {{.CreateTime}}
     */
-   int update{{.JavaName}}Status(Update{{.JavaName}}StatusReqVo {{.LowerJavaName}});
+   Result<Integer> update{{.JavaName}}Status(Update{{.JavaName}}StatusReqVo {{.LowerJavaName}});
 
 
    /**
@@ -62,7 +62,7 @@ public interface {{.JavaName}}Service {
     * @author {{.Author}}
     * @date: {{.CreateTime}}
     */
-   Query{{.JavaName}}DetailRespVo query{{.JavaName}}Detail(Query{{.JavaName}}DetailReqVo {{.LowerJavaName}});
+   Result<Query{{.JavaName}}DetailRespVo> query{{.JavaName}}Detail(Query{{.JavaName}}DetailReqVo {{.LowerJavaName}});
 
    /**
     * 查询{{.Comment}}列表
@@ -72,6 +72,6 @@ public interface {{.JavaName}}Service {
     * @author {{.Author}}
     * @date: {{.CreateTime}}
     */
-   ResultPage<Query{{.JavaName}}ListRespVo> query{{.JavaName}}List(Query{{.JavaName}}ListReqVo {{.LowerJavaName}});
+   Result<ResultPage<Query{{.JavaName}}ListRespVo>> query{{.JavaName}}List(Query{{.JavaName}}ListReqVo {{.LowerJavaName}});
 
 }

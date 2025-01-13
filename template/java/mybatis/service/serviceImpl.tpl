@@ -29,7 +29,7 @@ public class {{.JavaName}}ServiceImpl implements {{.JavaName}}Service {
     * @date: {{.CreateTime}}
     */
    @Override
-   public int add{{.JavaName}}(Add{{.JavaName}}ReqVo {{.LowerJavaName}}){
+   public Result<Integer> add{{.JavaName}}(Add{{.JavaName}}ReqVo {{.LowerJavaName}}){
 
         return {{.LowerJavaName}}Biz.add{{.JavaName}}({{.LowerJavaName}});
    }
@@ -43,7 +43,7 @@ public class {{.JavaName}}ServiceImpl implements {{.JavaName}}Service {
     * @date: {{.CreateTime}}
     */
    @Override
-   public int delete{{.JavaName}}(Delete{{.JavaName}}ReqVo {{.LowerJavaName}}){
+   public Result<Integer> delete{{.JavaName}}(Delete{{.JavaName}}ReqVo {{.LowerJavaName}}){
 		return {{.LowerJavaName}}Biz.delete{{.JavaName}}({{.LowerJavaName}});
    }
 
@@ -56,7 +56,7 @@ public class {{.JavaName}}ServiceImpl implements {{.JavaName}}Service {
     * @date: {{.CreateTime}}
     */
    @Override
-   public int update{{.JavaName}}(Update{{.JavaName}}ReqVo {{.LowerJavaName}}){
+   public Result<Integer> update{{.JavaName}}(Update{{.JavaName}}ReqVo {{.LowerJavaName}}){
 
         return {{.LowerJavaName}}Biz.update{{.JavaName}}({{.LowerJavaName}});
    }
@@ -70,7 +70,7 @@ public class {{.JavaName}}ServiceImpl implements {{.JavaName}}Service {
    * @date: {{.CreateTime}}
    */
   @Override
-  public int update{{.JavaName}}Status(Update{{.JavaName}}StatusReqVo {{.LowerJavaName}}){
+  public Result<Integer> update{{.JavaName}}Status(Update{{.JavaName}}StatusReqVo {{.LowerJavaName}}){
 
        return {{.LowerJavaName}}Biz.update{{.JavaName}}Status({{.LowerJavaName}});
   }
@@ -84,7 +84,7 @@ public class {{.JavaName}}ServiceImpl implements {{.JavaName}}Service {
     * @date: {{.CreateTime}}
     */
    @Override
-   public Query{{.JavaName}}DetailRespVo query{{.JavaName}}Detail(Query{{.JavaName}}DetailReqVo {{.LowerJavaName}}){
+   public Result<Query{{.JavaName}}DetailRespVo> query{{.JavaName}}Detail(Query{{.JavaName}}DetailReqVo {{.LowerJavaName}}){
 
        return {{.LowerJavaName}}Biz.query{{.JavaName}}Detail({{.LowerJavaName}});
    }
@@ -98,7 +98,7 @@ public class {{.JavaName}}ServiceImpl implements {{.JavaName}}Service {
     * @date: {{.CreateTime}}
     */
    @Override
-   public ResultPage<Query{{.JavaName}}ListRespVo> query{{.JavaName}}List(Query{{.JavaName}}ListReqVo {{.LowerJavaName}}){
+   public Result<ResultPage<Query{{.JavaName}}ListRespVo>> query{{.JavaName}}List(Query{{.JavaName}}ListReqVo {{.LowerJavaName}}){
 
         return {{.LowerJavaName}}Biz.query{{.JavaName}}List({{.LowerJavaName}});
    }

@@ -47,7 +47,7 @@ public class {{.JavaName}}Controller {
    @PostMapping("/add{{.JavaName}}")
    @OperateLog(description = "【{{.Comment}}】添加{{.Comment}}")
    public Result<Integer> add{{.JavaName}}(@RequestBody @Valid Add{{.JavaName}}ReqVo {{.LowerJavaName}}){
-        return Result.success({{.LowerJavaName}}Service.add{{.JavaName}}({{.LowerJavaName}}));
+        return {{.LowerJavaName}}Service.add{{.JavaName}}({{.LowerJavaName}});
    }
 
    /**
@@ -62,7 +62,7 @@ public class {{.JavaName}}Controller {
    @DeleteMapping("/delete{{.JavaName}}")
    @OperateLog(description = "【{{.Comment}}】删除{{.Comment}}")
    public Result<Integer> delete{{.JavaName}}(@RequestBody @Valid Delete{{.JavaName}}ReqVo {{.LowerJavaName}}){
-        return Result.success({{.LowerJavaName}}Service.delete{{.JavaName}}({{.LowerJavaName}}));
+        return {{.LowerJavaName}}Service.delete{{.JavaName}}({{.LowerJavaName}});
    }
 
    /**
@@ -77,7 +77,7 @@ public class {{.JavaName}}Controller {
    @PutMapping("/update{{.JavaName}}")
    @OperateLog(description = "【{{.Comment}}】更新{{.Comment}}")
    public Result<Integer> update{{.JavaName}}(@RequestBody @Valid Update{{.JavaName}}ReqVo {{.LowerJavaName}}){
-        return Result.success({{.LowerJavaName}}Service.update{{.JavaName}}({{.LowerJavaName}}));
+        return {{.LowerJavaName}}Service.update{{.JavaName}}({{.LowerJavaName}});
    }
 
    /**
@@ -91,7 +91,7 @@ public class {{.JavaName}}Controller {
    @Operation(summary = "更新{{.Comment}}状态")
    @PutMapping("/update{{.JavaName}}Status")
    @OperateLog(description = "【{{.Comment}}】更新{{.Comment}}状态")
-  public Integer update{{.JavaName}}Status(@RequestBody @Valid Update{{.JavaName}}StatusReqVo {{.LowerJavaName}}){
+  public Result<Integer> update{{.JavaName}}Status(@RequestBody @Valid Update{{.JavaName}}StatusReqVo {{.LowerJavaName}}){
        return {{.LowerJavaName}}Service.update{{.JavaName}}Status({{.LowerJavaName}});
   }
 
@@ -106,7 +106,7 @@ public class {{.JavaName}}Controller {
    @Operation(summary = "查询{{.Comment}}")
    @PostMapping("/query{{.JavaName}}")
    @OperateLog(description = "【{{.Comment}}】查询{{.Comment}}")
-   public Query{{.JavaName}}DetailRespVo query{{.JavaName}}Detail(@RequestBody @Valid Query{{.JavaName}}DetailReqVo {{.LowerJavaName}}){
+   public Result<Query{{.JavaName}}DetailRespVo> query{{.JavaName}}Detail(@RequestBody @Valid Query{{.JavaName}}DetailReqVo {{.LowerJavaName}}){
        return {{.LowerJavaName}}Service.query{{.JavaName}}Detail({{.LowerJavaName}});
    }
 
@@ -121,8 +121,8 @@ public class {{.JavaName}}Controller {
    @Operation(summary = "查询{{.Comment}}列表")
    @PostMapping("/query{{.JavaName}}List")
    @OperateLog(description = "【{{.Comment}}】查询{{.Comment}}列表")
-   public Result<ResultPage<Query{{.JavaName}}ListRespVo>> query{{.JavaName}}List(@RequestBody @Valid Query{{.JavaName}}ListReqVo {{.LowerJavaName}}){
-        return Result.success({{.LowerJavaName}}Service.query{{.JavaName}}List({{.LowerJavaName}}));
+   public Result<Result<ResultPage<Query{{.JavaName}}ListRespVo>>> query{{.JavaName}}List(@RequestBody @Valid Query{{.JavaName}}ListReqVo {{.LowerJavaName}}){
+        return {{.LowerJavaName}}Service.query{{.JavaName}}List({{.LowerJavaName}});
    }
 
 }

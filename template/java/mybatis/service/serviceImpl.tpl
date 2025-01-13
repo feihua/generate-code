@@ -3,6 +3,7 @@ package {{.PackageName}}.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import {{.GroupId}}.common.vo.Result;
 import {{.GroupId}}.common.vo.ResultPage;
 import {{.PackageName}}.vo.req.*;
 import {{.PackageName}}.vo.resp.*;

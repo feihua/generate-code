@@ -2,6 +2,7 @@ package {{.PackageName}}.biz;
 
 import java.util.Map;
 
+import {{.GroupId}}.common.vo.Result;
 import {{.GroupId}}.common.vo.ResultPage;
 import {{.PackageName}}.vo.req.*;
 import {{.PackageName}}.vo.resp.*;

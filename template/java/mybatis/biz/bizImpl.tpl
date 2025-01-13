@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import {{.GroupId}}.common.vo.Result;
 import {{.GroupId}}.common.vo.ResultPage;
 import {{.PackageName}}.entity.{{.JavaName}}Bean;
 import {{.PackageName}}.vo.req.*;

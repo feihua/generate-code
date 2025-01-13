@@ -11,6 +11,7 @@
         {{.AllColumns}}
     </sql>
 
+    <!--添加{{.Comment}}-->
     <insert id="add{{.JavaName}}" parameterType="{{.PackageName}}.entity.{{.JavaName}}Bean">
         insert into {{.OriginalName}}
         <trim prefix="(" suffix=")" suffixOverrides=",">{{range .TableColumn}}
@@ -25,6 +26,7 @@
         </trim>
     </insert>
 
+    <!--删除{{.Comment}}-->
     <delete id="delete{{.JavaName}}">
         delete from {{.OriginalName}} where id in
         <foreach collection="list" item="id" index="index"
@@ -33,6 +35,7 @@
         </foreach>
     </delete>
 
+    <!--更新{{.Comment}}-->
     <update id="update{{.JavaName}}" parameterType="{{.PackageName}}.entity.{{.JavaName}}Bean">
         update {{.OriginalName}}
         <set>{{range .TableColumn}}
@@ -47,6 +50,7 @@
         </where>
     </update>
 
+    <!--更新{{.Comment}}状态-->
     <update id="update{{.JavaName}}Status" parameterType="{{.PackageName}}.entity.{{.JavaName}}Bean">
         update {{.OriginalName}}
         <set>{{range .TableColumn}}
@@ -61,6 +65,7 @@
         </where>
     </update>
 
+    <!--查询{{.Comment}}详情-->
     <select id="query{{.JavaName}}Detail" parameterType="{{.PackageName}}.entity.{{.JavaName}}Bean" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
@@ -72,6 +77,14 @@
         </where>
     </select>
 
+    <!--根据id查询{{.Comment}}详情-->
+    <select id="query{{.JavaName}}ById" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from {{.OriginalName}} where id = #{id}
+    </select>
+
+    <!--查询{{.Comment}}列表-->
     <select id="query{{.JavaName}}List" parameterType="{{.PackageName}}.entity.{{.JavaName}}Bean" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>

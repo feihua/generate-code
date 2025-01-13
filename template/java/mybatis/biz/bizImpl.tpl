@@ -50,7 +50,8 @@ public class {{.JavaName}}BizImpl implements {{.JavaName}}Biz {
         {{- end}}
         {{- end}}
 
-        return {{.LowerJavaName}}Dao.add{{.JavaName}}(bean);
+        int i = {{.LowerJavaName}}Dao.add{{.JavaName}}(bean);
+        return Result.success(i);
    }
 
    /**
@@ -63,7 +64,9 @@ public class {{.JavaName}}BizImpl implements {{.JavaName}}Biz {
     */
    @Override
    public Result<Integer> delete{{.JavaName}}(Delete{{.JavaName}}ReqVo {{.LowerJavaName}}){
-		return {{.LowerJavaName}}Dao.delete{{.JavaName}}({{.LowerJavaName}}.getIds());
+
+		int i = {{.LowerJavaName}}Dao.delete{{.JavaName}}({{.LowerJavaName}}.getIds());
+		return Result.success(i);
    }
 
    /**
@@ -76,6 +79,11 @@ public class {{.JavaName}}BizImpl implements {{.JavaName}}Biz {
     */
    @Override
    public Result<Integer> update{{.JavaName}}(Update{{.JavaName}}ReqVo {{.LowerJavaName}}){
+        {{.JavaName}}Bean res = {{.LowerJavaName}}Dao.query{{.JavaName}}ById({{.LowerJavaName}}.getId());
+        if (res == null) {
+           return Result.error("更新{{.Comment}}失败", "{{.Comment}}不存在");
+        }
+
         {{.JavaName}}Bean bean = new {{.JavaName}}Bean();
         {{- range .TableColumn}}
         {{- if isContain .JavaName "create"}}
@@ -84,7 +92,9 @@ public class {{.JavaName}}BizImpl implements {{.JavaName}}Biz {
         bean.set{{.GoNamePublic}}({{.LowerJavaName}}.get{{.GoNamePublic}}());//{{.ColumnComment}}
         {{- end}}
         {{- end}}
-        return {{.LowerJavaName}}Dao.update{{.JavaName}}(bean);
+
+        int i = {{.LowerJavaName}}Dao.update{{.JavaName}}(bean);
+        return Result.success(i);
    }
 
    /**
@@ -108,7 +118,8 @@ public class {{.JavaName}}BizImpl implements {{.JavaName}}Biz {
         {{- end}}
         {{- end}}
 
-        return {{.LowerJavaName}}Dao.update{{.JavaName}}Status(bean);
+        int i = {{.LowerJavaName}}Dao.update{{.JavaName}}Status(bean);
+        return Result.success(i);
    }
 
    /**
@@ -134,9 +145,12 @@ public class {{.JavaName}}BizImpl implements {{.JavaName}}Biz {
         {{- end}}
         {{- end}}
 
-        {{.JavaName}}Bean query = {{.LowerJavaName}}Dao.query{{.JavaName}}Detail(bean);
+        {{.JavaName}}Bean {{.LowerJavaName}}Bean = {{.LowerJavaName}}Dao.query{{.JavaName}}Detail(bean);
 
-        return Query{{.JavaName}}DetailRespVo.builder().build();
+        Query{{.JavaName}}DetailRespVo resp = new Query{{.JavaName}}DetailRespVo();{{range .TableColumn}}
+        resp.set{{.GoNamePublic}}({{.LowerJavaName}}Bean.get{{.GoNamePublic}}());//{{.ColumnComment}}{{end}}
+
+        return Result.success(resp);
    }
 
    /**
@@ -171,8 +185,7 @@ public class {{.JavaName}}BizImpl implements {{.JavaName}}Biz {
 		   return resp;
 	    }).collect(Collectors.toList());
 
-        //return new ResultPage<>(list,pageInfo.getPageNum(),pageInfo.getPageSize(),pageInfo.getTotal());
-        return null;
+        return Result.success(new ResultPage<>(list,pageInfo.getPageNum(),pageInfo.getPageSize(),pageInfo.getTotal()));
 
    }
 }

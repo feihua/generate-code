@@ -133,6 +133,11 @@ public class {{.JavaName}}BizImpl implements {{.JavaName}}Biz {
     */
    @Override
    public Result<Query{{.JavaName}}DetailRespVo> query{{.JavaName}}Detail(Query{{.JavaName}}DetailReqVo {{.LowerJavaName}}){
+       {{.JavaName}}Bean res = {{.LowerJavaName}}Dao.query{{.JavaName}}ById({{.LowerJavaName}}.getId());
+       if (res == null) {
+          return Result.error("查询{{.Comment}}详情", "{{.Comment}}不存在");
+       }
+
         {{.JavaName}}Bean bean = new {{.JavaName}}Bean();
         {{- range .TableColumn}}
         {{- if isContain .JavaName "create"}}

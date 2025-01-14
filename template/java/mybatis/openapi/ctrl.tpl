@@ -96,16 +96,16 @@ public class {{.JavaName}}Controller {
   }
 
    /**
-    * 查询{{.Comment}}
+    * 查询{{.Comment}}详情
     *
     * @param {{.LowerJavaName}} 请求参数
     * @return {{.JavaName}}Resp
     * @author {{.Author}}
     * @date: {{.CreateTime}}
     */
-   @Operation(summary = "查询{{.Comment}}")
+   @Operation(summary = "查询{{.Comment}}详情")
    @PostMapping("/query{{.JavaName}}")
-   @OperateLog(description = "【{{.Comment}}】查询{{.Comment}}")
+   @OperateLog(description = "【{{.Comment}}】查询{{.Comment}}详情")
    public Result<Query{{.JavaName}}DetailRespVo> query{{.JavaName}}Detail(@RequestBody @Valid Query{{.JavaName}}DetailReqVo {{.LowerJavaName}}){
        return {{.LowerJavaName}}Service.query{{.JavaName}}Detail({{.LowerJavaName}});
    }
@@ -121,7 +121,7 @@ public class {{.JavaName}}Controller {
    @Operation(summary = "查询{{.Comment}}列表")
    @PostMapping("/query{{.JavaName}}List")
    @OperateLog(description = "【{{.Comment}}】查询{{.Comment}}列表")
-   public Result<Result<ResultPage<Query{{.JavaName}}ListRespVo>>> query{{.JavaName}}List(@RequestBody @Valid Query{{.JavaName}}ListReqVo {{.LowerJavaName}}){
+   public Result<ResultPage<Query{{.JavaName}}ListRespVo>> query{{.JavaName}}List(@RequestBody @Valid Query{{.JavaName}}ListReqVo {{.LowerJavaName}}){
         return {{.LowerJavaName}}Service.query{{.JavaName}}List({{.LowerJavaName}});
    }
 

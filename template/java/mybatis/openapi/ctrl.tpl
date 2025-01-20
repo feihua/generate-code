@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 
 import jakarta.validation.Valid;
 
@@ -43,7 +44,8 @@ public class {{.JavaName}}Controller {
     * @author {{.Author}}
     * @date: {{.CreateTime}}
     */
-   @Operation(summary = "添加{{.Comment}}")
+   @ApiOperationSupport(order = 1)
+   @Operation(summary = "1.1 添加{{.Comment}}")
    @PostMapping("/add{{.JavaName}}")
    @OperateLog(description = "【{{.Comment}}】添加{{.Comment}}")
    public Result<Integer> add{{.JavaName}}(@RequestBody @Valid Add{{.JavaName}}ReqVo {{.LowerJavaName}}){
@@ -58,7 +60,8 @@ public class {{.JavaName}}Controller {
     * @author {{.Author}}
     * @date: {{.CreateTime}}
     */
-   @Operation(summary = "删除{{.Comment}}")
+   @ApiOperationSupport(order = 2)
+   @Operation(summary = "1.2 删除{{.Comment}}")
    @DeleteMapping("/delete{{.JavaName}}")
    @OperateLog(description = "【{{.Comment}}】删除{{.Comment}}")
    public Result<Integer> delete{{.JavaName}}(@RequestBody @Valid Delete{{.JavaName}}ReqVo {{.LowerJavaName}}){
@@ -73,7 +76,8 @@ public class {{.JavaName}}Controller {
     * @author {{.Author}}
     * @date: {{.CreateTime}}
     */
-   @Operation(summary = "更新{{.Comment}}")
+   @ApiOperationSupport(order = 3)
+   @Operation(summary = "1.3 更新{{.Comment}}")
    @PutMapping("/update{{.JavaName}}")
    @OperateLog(description = "【{{.Comment}}】更新{{.Comment}}")
    public Result<Integer> update{{.JavaName}}(@RequestBody @Valid Update{{.JavaName}}ReqVo {{.LowerJavaName}}){
@@ -87,8 +91,9 @@ public class {{.JavaName}}Controller {
    * @return Result<Integer>
    * @author {{.Author}}
    * @date: {{.CreateTime}}
-   */
-   @Operation(summary = "更新{{.Comment}}状态")
+    */
+   @ApiOperationSupport(order = 4)
+   @Operation(summary = "1.4 更新{{.Comment}}状态")
    @PutMapping("/update{{.JavaName}}Status")
    @OperateLog(description = "【{{.Comment}}】更新{{.Comment}}状态")
   public Result<Integer> update{{.JavaName}}Status(@RequestBody @Valid Update{{.JavaName}}StatusReqVo {{.LowerJavaName}}){
@@ -103,7 +108,8 @@ public class {{.JavaName}}Controller {
     * @author {{.Author}}
     * @date: {{.CreateTime}}
     */
-   @Operation(summary = "查询{{.Comment}}详情")
+   @ApiOperationSupport(order = 5)
+   @Operation(summary = "1.5 查询{{.Comment}}详情")
    @PostMapping("/query{{.JavaName}}")
    @OperateLog(description = "【{{.Comment}}】查询{{.Comment}}详情")
    public Result<Query{{.JavaName}}DetailRespVo> query{{.JavaName}}Detail(@RequestBody @Valid Query{{.JavaName}}DetailReqVo {{.LowerJavaName}}){
@@ -118,7 +124,8 @@ public class {{.JavaName}}Controller {
     * @author {{.Author}}
     * @date: {{.CreateTime}}
     */
-   @Operation(summary = "查询{{.Comment}}列表")
+   @ApiOperationSupport(order = 6)
+   @Operation(summary = "1.6 查询{{.Comment}}列表")
    @PostMapping("/query{{.JavaName}}List")
    @OperateLog(description = "【{{.Comment}}】查询{{.Comment}}列表")
    public Result<ResultPage<Query{{.JavaName}}ListRespVo>> query{{.JavaName}}List(@RequestBody @Valid Query{{.JavaName}}ListReqVo {{.LowerJavaName}}){

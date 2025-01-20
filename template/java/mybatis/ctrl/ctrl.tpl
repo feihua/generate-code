@@ -41,7 +41,7 @@ public class {{.JavaName}}Controller {
     * @author {{.Author}}
     * @date: {{.CreateTime}}
     */
-   @ApiOperation("添加{{.Comment}}")
+   @ApiOperation("1.1 添加{{.Comment}}")
    @PostMapping("/add{{.JavaName}}")
    @OperateLog(description = "【{{.Comment}}】添加{{.Comment}}")
    public Result<Integer> add{{.JavaName}}(@RequestBody @Valid Add{{.JavaName}}ReqVo {{.LowerJavaName}}){
@@ -56,7 +56,7 @@ public class {{.JavaName}}Controller {
     * @author {{.Author}}
     * @date: {{.CreateTime}}
     */
-   @ApiOperation("删除{{.Comment}}")
+   @ApiOperation("1.2 删除{{.Comment}}")
    @PostMapping("/delete{{.JavaName}}")
    @OperateLog(description = "【{{.Comment}}】删除{{.Comment}}")
    public Result<Integer> delete{{.JavaName}}(@RequestBody @Valid Delete{{.JavaName}}ReqVo {{.LowerJavaName}}){
@@ -71,7 +71,7 @@ public class {{.JavaName}}Controller {
     * @author {{.Author}}
     * @date: {{.CreateTime}}
     */
-   @ApiOperation("更新{{.Comment}}")
+   @ApiOperation("1.3 更新{{.Comment}}")
    @PostMapping("/update{{.JavaName}}")
    @OperateLog(description = "【{{.Comment}}】更新{{.Comment}}")
    public Result<Integer> update{{.JavaName}}(@RequestBody @Valid Update{{.JavaName}}ReqVo {{.LowerJavaName}}){
@@ -86,7 +86,7 @@ public class {{.JavaName}}Controller {
    * @author {{.Author}}
    * @date: {{.CreateTime}}
    */
-  @ApiOperation("更新{{.Comment}}状态")
+  @ApiOperation("1.4 更新{{.Comment}}状态")
   @PostMapping("/update{{.JavaName}}Status")
   @OperateLog(description = "【{{.Comment}}】更新{{.Comment}}状态")
   public Result<Integer> update{{.JavaName}}Status(@RequestBody @Valid Update{{.JavaName}}StatusReqVo {{.LowerJavaName}}){
@@ -101,7 +101,7 @@ public class {{.JavaName}}Controller {
     * @author {{.Author}}
     * @date: {{.CreateTime}}
     */
-   @ApiOperation("查询{{.Comment}}详情")
+   @ApiOperation("1.5 查询{{.Comment}}详情")
    @PostMapping("/query{{.JavaName}}Detail")
    @OperateLog(description = "【{{.Comment}}】查询{{.Comment}}详情")
    public Result<Query{{.JavaName}}DetailRespVo> query{{.JavaName}}Detail(@RequestBody @Valid Query{{.JavaName}}DetailReqVo {{.LowerJavaName}}){
@@ -116,7 +116,7 @@ public class {{.JavaName}}Controller {
     * @author {{.Author}}
     * @date: {{.CreateTime}}
     */
-   @ApiOperation("查询{{.Comment}}列表")
+   @ApiOperation("1.6 查询{{.Comment}}列表")
    @PostMapping("/query{{.JavaName}}List")
    @OperateLog(description = "【{{.Comment}}】查询{{.Comment}}列表")
    public Result<ResultPage<Query{{.JavaName}}ListRespVo>> query{{.JavaName}}List(@RequestBody @Valid Query{{.JavaName}}ListReqVo {{.LowerJavaName}}){

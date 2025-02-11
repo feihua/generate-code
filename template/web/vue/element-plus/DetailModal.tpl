@@ -1,5 +1,5 @@
 <template>
-  <el-dialog :model-value="detailFormVisible" title="详情" style="width: 880px;border-radius: 10px" destroy-on-close :close="handleViewClose">
+  <el-dialog :model-value="detailFormVisible" title="详情" style="width: 880px;border-radius: 10px" destroy-on-close @close="handleViewClose">
       <el-descriptions title="{{.Comment}}详情">
       {{range .TableColumn}}<el-descriptions-item label="{{.ColumnComment}}">{ {detailParam.{{.JavaName}} } }</el-descriptions-item>
       {{end}}
@@ -57,15 +57,14 @@ const detailParam = ref<{{.JavaName}}RecordVo>({
 })
 
 const query{{.JavaName}}Info = async (id: number) => {
+  detailFormVisible.value = true
   const res: IResponse = await query{{.JavaName}}Detail(id)
   detailParam.value = res.data
 
 }
 
-const emit = defineEmits(['handleEdit'])
-
 const handleViewClose = () => {
-  emit("handleEdit");
+    detailFormVisible.value = false
 }
 
 defineExpose({

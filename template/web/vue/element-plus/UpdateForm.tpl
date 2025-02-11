@@ -1,5 +1,5 @@
 <template>
-  <el-dialog :model-value="dialogUpdateFormVisible" title="更新" style="width: 480px;border-radius: 10px">
+  <el-dialog :model-value="dialogUpdateFormVisible" title="更新" style="width: 480px;border-radius: 10px" destroy-on-close @close="handleEditViewClose">
     <el-form
         label-width="100px"
         :model="updateParamVo"
@@ -80,10 +80,17 @@ const rules = reactive<FormRules>({
      {{end}}
      {{end}}
 
-const emit = defineEmits(['handleQuery', 'handleEdit'])
+const emit = defineEmits(['handleQuery'])
 
 const handleEditViewClose = () => {
-  emit("handleEdit");
+    dialogUpdateFormVisible.value = false
+}
+
+const query{{.JavaName}}Info = async (id: number) => {
+  dialogUpdateFormVisible.value = true
+  const res: IResponse = await query{{.JavaName}}Detail(id)
+  updateParamVo.value = res.data
+
 }
 
 const handleEdit = async (formEl: FormInstance | undefined) => {
@@ -101,12 +108,6 @@ const handleEdit = async (formEl: FormInstance | undefined) => {
       ElMessage.error("数据不能为空")
     }
   })
-}
-
-const query{{.JavaName}}Info = async (id: number) => {
-  const res: IResponse = await query{{.JavaName}}Detail(id)
-  updateParamVo.value = res.data
-
 }
 
 defineExpose({

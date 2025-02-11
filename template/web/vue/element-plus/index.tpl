@@ -4,9 +4,8 @@
     <AddForm @handleQuery="handleQueryWithPageParam" ref="addChildrenRef"/>
     <ListTable :tableData="tableData" @handleEditView="handleEditView" @handleDetailView="handleDetailView" @handleQuery="handleQueryWithPageParam"
                @handleSelectMore="handleSelectMore"/>
-    <UpdateForm v-model="dialogUpdateFormVisible" @handleQuery="handleQuery" @handleEdit="dialogUpdateFormVisible = false"
-               ref="updateChildrenRef"/>
-    <DetailModal v-model="detailFormVisible" ref="childrenRef" @handleEdit="detailFormVisible = false"/>
+    <UpdateForm @handleQuery="handleQuery" ref="updateChildrenRef"/>
+    <DetailModal ref="childrenRef"/>
   </div>
 
 </template>
@@ -21,8 +20,6 @@ import UpdateForm from "./components/UpdateForm.vue";
 import ListTable from "./components/ListTable.vue";
 import DetailModal from "./components/DetailModal.vue";
 
-const dialogUpdateFormVisible = ref(false)
-const detailFormVisible = ref(false)
 const childrenRef = ref();
 const addChildrenRef = ref();
 const updateChildrenRef = ref();
@@ -39,8 +36,6 @@ const recordVo = ref<{{.JavaName}}RecordVo>({
 })
 
 const handleQuery = async (data: List{{.JavaName}}Param) => {
-  dialogUpdateFormVisible.value = false
-  detailFormVisible.value = false
   searchParam.value = {...data}
   const res: IResponse = await query{{.JavaName}}List({...data, ...searchParam.value, current: currentPage.value, pageSize: pageSize.value})
   tableData.value = {...res}
@@ -54,13 +49,11 @@ const handleQueryWithPageParam = async (data: List{{.JavaName}}Param) => {
 
 const handleEditView = (row: {{.JavaName}}RecordVo) => {
   recordVo.value = row
-  dialogUpdateFormVisible.value = true
   updateChildrenRef.value.query{{.JavaName}}Info(row.id)
 }
 
 const handleDetailView = (row: {{.JavaName}}RecordVo) => {
   recordVo.value = row
-  detailFormVisible.value = true
   childrenRef.value.query{{.JavaName}}Info(row.id)
 }
 

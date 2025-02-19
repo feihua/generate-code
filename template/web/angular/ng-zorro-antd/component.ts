@@ -140,7 +140,11 @@ export class {{.JavaName}}Component implements OnInit {
   {{- else if isContain .JavaName "update"}}
   {{- else if isContain .JavaName "id"}}
   {{- else}}
-    {{.JavaName}}: [{{if eq .TsType `string`}}''{{else}}0{{end}}, [Validators.required]],
+    [{{if eq .TsType `string`}}
+        {{.JavaName}}: ['', [Validators.required]],//{{.ColumnComment}}
+      {{else}}
+        {{.JavaName}}: [0, [Validators.required]],//{{.ColumnComment}}
+    {{end}}
   {{- end}}
   {{- end}}
   });
@@ -191,7 +195,11 @@ export class {{.JavaName}}Component implements OnInit {
   {{- if isContain .JavaName "create"}}
   {{- else if isContain .JavaName "update"}}
   {{- else}}
-    {{.JavaName}}: [{{if eq .TsType `string`}}''{{else}}0{{end}}, [Validators.required]],
+    [{{if eq .TsType `string`}}
+    {{.JavaName}}: ['', [Validators.required]],//{{.ColumnComment}}
+        {{else}}
+    {{.JavaName}}: [0, [Validators.required]],//{{.ColumnComment}}
+      {{end}}
   {{- end}}
   {{- end}}
   });

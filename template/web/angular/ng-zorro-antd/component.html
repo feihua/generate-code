@@ -17,8 +17,8 @@
     {{- else if isContain .JavaName "remark"}}
     {{- else if isContain .JavaName "status"}}
     <nz-form-item>
-      <nz-form-label [nzSpan]="7" nzRequired>{{.ColumnComment}}</nz-form-label>
-      <nz-form-control [nzSpan]="12" nzHasFeedback>
+      <nz-form-label [nzSpan]="7">{{.ColumnComment}}</nz-form-label>
+      <nz-form-control [nzSpan]="12">
         <nz-select formControlName="{{.JavaName}}" style="width: 183px" nzPlaceHolder="请选择{{.ColumnComment}}">
           <nz-option nzValue="1" nzLabel="正常"></nz-option>
           <nz-option nzValue="0" nzLabel="禁用"></nz-option>
@@ -27,8 +27,8 @@
     </nz-form-item>
     {{- else if isContain .JavaName "Status"}}
     <nz-form-item>
-      <nz-form-label [nzSpan]="7" nzRequired>{{.ColumnComment}}</nz-form-label>
-      <nz-form-control [nzSpan]="12" nzHasFeedback>
+      <nz-form-label [nzSpan]="7">{{.ColumnComment}}</nz-form-label>
+      <nz-form-control [nzSpan]="12">
         <nz-select formControlName="{{.JavaName}}" style="width: 183px" nzPlaceHolder="请选择{{.ColumnComment}}">
           <nz-option nzValue="1" nzLabel="正常"></nz-option>
           <nz-option nzValue="0" nzLabel="禁用"></nz-option>
@@ -37,8 +37,8 @@
     </nz-form-item>
     {{- else if isContain .JavaName "Type"}}
     <nz-form-item>
-      <nz-form-label [nzSpan]="7" nzRequired>{{.ColumnComment}}</nz-form-label>
-      <nz-form-control [nzSpan]="12" nzHasFeedback>
+      <nz-form-label [nzSpan]="7">{{.ColumnComment}}</nz-form-label>
+      <nz-form-control [nzSpan]="12">
         <nz-select formControlName="{{.JavaName}}" style="width: 183px" nzPlaceHolder="请选择{{.ColumnComment}}">
           <nz-option nzValue="1" nzLabel="正常"></nz-option>
           <nz-option nzValue="0" nzLabel="禁用"></nz-option>

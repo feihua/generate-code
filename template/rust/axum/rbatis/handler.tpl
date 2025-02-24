@@ -38,9 +38,9 @@ pub async fn add_{{.RustName}}(State(state): State<Arc<AppState>>, Json(item): J
     {{- end}}
     };
 
-    let result = {{.JavaName}}::insert(&mut rb, &{{.RustName}}).await;
+    {{.JavaName}}::insert(&mut rb, &{{.RustName}}).await?;
 
-    Json(handle_result(result))
+    BaseResponse::<String>::ok_result()
 }
 
 /**
@@ -52,9 +52,9 @@ pub async fn delete_{{.RustName}}(State(state): State<Arc<AppState>>, Json(item)
     log::info!("delete_{{.RustName}} params: {:?}", &item);
     let mut rb = &state.batis;
 
-    let result = {{.JavaName}}::delete_in_column(&mut rb, "id", &item.ids).await;
+    {{.JavaName}}::delete_in_column(&mut rb, "id", &item.ids).await?;
 
-    Json(handle_result(result))
+    BaseResponse::<String>::ok_result()
 }
 
 /**
@@ -84,9 +84,9 @@ pub async fn update_{{.RustName}}(State(state): State<Arc<AppState>>, Json(item)
     {{- end}}
     };
 
-    let result = {{.JavaName}}::update_by_column(&mut rb, &{{.RustName}}, "id").await;
+    {{.JavaName}}::update_by_column(&mut rb, &{{.RustName}}, "id").await?;
 
-    Json(handle_result(result))
+    BaseResponse::<String>::ok_result()
 }
 
 /**
@@ -99,9 +99,9 @@ pub async fn update_{{.RustName}}_status(State(state): State<Arc<AppState>>, Jso
     let mut rb = &state.batis;
 
    let param = vec![to_value!(1), to_value!(1)];
-   let result = rb.exec("update {{.OriginalName}} set status = ? where id in ?", param).await;
+   rb.exec("update {{.OriginalName}} set status = ? where id in ?", param).await?;
 
-    Json(handle_result(result))
+    BaseResponse::<String>::ok_result()
 }
 
 /**
@@ -113,12 +113,16 @@ pub async fn query_{{.RustName}}_detail(State(state): State<Arc<AppState>>, Json
     log::info!("query_{{.RustName}}_detail params: {:?}", &item);
     let mut rb = &state.batis;
 
-     let result = {{.JavaName}}::select_by_id(&mut rb, &item.id).await;
+     let result = {{.JavaName}}::select_by_id(&mut rb, &item.id).await?;
 
     match result {
-        Ok(d) => {
-            let x = d.unwrap();
-
+        None => {
+            return BaseResponse::<Query{{.JavaName}}DetailResp>::err_result_data(
+                QueryMenuDetailResp::new(),
+                "{{.Comment}}不存在",
+            );
+        }
+        Some(x) => {
             let {{.RustName}} = Query{{.JavaName}}DetailResp {
             {{- range .TableColumn}}
             {{- if eq .ColumnKey `PRI`}}
@@ -133,10 +137,8 @@ pub async fn query_{{.RustName}}_detail(State(state): State<Arc<AppState>>, Json
             {{- end}}
             };
 
-            Json(ok_result_data({{.RustName}}))
-        }
-        Err(err) => {
-            Json(ok_result_code(1, err.to_string()))
+
+            BaseResponse::<Query{{.JavaName}}DetailResp>::ok_result_data({{.RustName}})
         }
     }
 
@@ -153,35 +155,28 @@ pub async fn query_{{.RustName}}_list(State(state): State<Arc<AppState>>, Json(i
     let mut rb = &state.batis;
 
     let page=&PageRequest::new(item.page_no, item.page_size);
-    let result = {{.JavaName}}::select_page(&mut rb, page).await;
+    let d = {{.JavaName}}::select_page(&mut rb, page).await?;
 
-    let mut {{.RustName}}_list_data: Vec<{{.JavaName}}ListDataResp> = Vec::new();
-    match result {
-        Ok(d) => {
-            let total = d.total;
+    let mut data: Vec<{{.JavaName}}ListDataResp> = Vec::new();
+    let total = d.total;
 
-            for x in d.records {
-                {{.RustName}}_list_data.push({{.JavaName}}ListDataResp {
-                {{- range .TableColumn}}
-                {{- if eq .ColumnKey `PRI`}}
-                    {{.RustName}}: x.{{.RustName}}.unwrap()
-                {{- else if eq .IsNullable `YES` }}
-                    {{.RustName}}: x.{{.RustName}}.unwrap_or_default()
-                {{- else if eq .RustType `DateTime`}}
-                    {{.RustName}}: x.{{.RustName}}.unwrap().0.to_string()
-                {{- else}}
-                    {{.RustName}}: x.{{.RustName}}
-                {{- end}},
-                {{- end}}
-                })
-            }
-
-            Json(ok_result_page({{.RustName}}_list_data, total))
-        }
-        Err(err) => {
-            Json(err_result_page({{.RustName}}_list_data, err.to_string()))
-        }
+    for x in d.records {
+        {{.RustName}}_list_data.push({{.JavaName}}ListDataResp {
+        {{- range .TableColumn}}
+        {{- if eq .ColumnKey `PRI`}}
+            {{.RustName}}: x.{{.RustName}}.unwrap()
+        {{- else if eq .IsNullable `YES` }}
+            {{.RustName}}: x.{{.RustName}}.unwrap_or_default()
+        {{- else if eq .RustType `DateTime`}}
+            {{.RustName}}: x.{{.RustName}}.unwrap().0.to_string()
+        {{- else}}
+            {{.RustName}}: x.{{.RustName}}
+        {{- end}},
+        {{- end}}
+        })
     }
+
+    BaseResponse::ok_result_page(data, total)
 
 }
 

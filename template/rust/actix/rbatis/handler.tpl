@@ -144,7 +144,7 @@ pub async fn query_{{.RustName}}_detail(item: web::Json<Query{{.JavaName}}Detail
             {{- end}}
             };
 
-            Ok(web::Json(ok_result_data({{.RustName}})))
+            BaseResponse::<Query{{.JavaName}}DetailResp>::ok_result_data({{.RustName}})
         }
 
     }
@@ -164,7 +164,7 @@ pub async fn query_{{.RustName}}_list(item: web::Json<Query{{.JavaName}}ListReq>
     let page=&PageRequest::new(item.page_no.clone(), item.page_size.clone());
     let d = {{.JavaName}}::select_page(&mut rb, page).await?;
 
-    let mut {{.RustName}}_list_data: Vec<{{.JavaName}}ListDataResp> = Vec::new();
+    let mut data: Vec<{{.JavaName}}ListDataResp> = Vec::new();
 
     let total = d.total;
 
@@ -184,7 +184,6 @@ pub async fn query_{{.RustName}}_list(item: web::Json<Query{{.JavaName}}ListReq>
         })
     }
 
-    Ok(web::Json(ok_result_page({{.RustName}}_list_data, total)))
-
+    BaseResponse::ok_result_page(data, total)
 
 }

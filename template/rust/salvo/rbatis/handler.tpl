@@ -8,6 +8,8 @@ use rbs::to_value;
 use salvo::{Request, Response};
 use salvo::prelude::*;
 
+use crate::common::error::AppResult;
+use crate::common::result::BaseResponse;
 use crate::model::{{.RustName}}::{ {{.JavaName}} };
 use crate::RB;
 use crate::vo::*;
@@ -20,7 +22,7 @@ use crate::vo::{{.RustName}}_vo::*;
  */
 #[handler]
 pub async fn add_{{.RustName}}(req: &mut Request, res: &mut Response) {
-    let item = req.parse_json::<Add{{.JavaName}}Req>().await.unwrap();
+    let item = req.parse_json::<Add{{.JavaName}}Req>().await?;
     log::info!("{{.RustName}}_save params: {:?}", &item);
 
     let {{.RustName}} = {{.JavaName}} {
@@ -41,9 +43,9 @@ pub async fn add_{{.RustName}}(req: &mut Request, res: &mut Response) {
     {{- end}}
     };
 
-    let result = {{.JavaName}}::insert(&mut RB.clone(), &{{.RustName}}).await;
+    {{.JavaName}}::insert(&mut RB.clone(), &{{.RustName}}).await?;
 
-    res.render(Json(handle_result(result)))
+    BaseResponse::<String>::ok_result(res)
 }
 
 /**
@@ -53,10 +55,10 @@ pub async fn add_{{.RustName}}(req: &mut Request, res: &mut Response) {
  */
 #[handler]
 pub async fn delete_{{.RustName}}(req: &mut Request, res: &mut Response) {
-    let item = req.parse_json::<Delete{{.JavaName}}Req>().await.unwrap();
+    let item = req.parse_json::<Delete{{.JavaName}}Req>().await?;
     log::info!("{{.RustName}}_delete params: {:?}", &item);
 
-    let result = {{.JavaName}}::delete_in_column(&mut RB.clone(), "id", &item.ids).await;
+    {{.JavaName}}::delete_in_column(&mut RB.clone(), "id", &item.ids).await?;
 
     res.render(Json(handle_result(result)))
 }
@@ -68,7 +70,7 @@ pub async fn delete_{{.RustName}}(req: &mut Request, res: &mut Response) {
  */
 #[handler]
 pub async fn update_{{.RustName}}(req: &mut Request, res: &mut Response) {
-    let item = req.parse_json::<Update{{.JavaName}}Req>().await.unwrap();
+    let item = req.parse_json::<Update{{.JavaName}}Req>().await?;
     log::info!("{{.RustName}}_update params: {:?}", &item);
 
     let {{.RustName}} = {{.JavaName}} {
@@ -89,9 +91,9 @@ pub async fn update_{{.RustName}}(req: &mut Request, res: &mut Response) {
     {{- end}}
     };
 
-    let result = {{.JavaName}}::update_by_column(&mut RB.clone(), &{{.RustName}}, "id").await;
+    {{.JavaName}}::update_by_column(&mut RB.clone(), &{{.RustName}}, "id").await?;
 
-    res.render(Json(handle_result(result)))
+    BaseResponse::<String>::ok_result(res)
 }
 
 /**
@@ -101,14 +103,14 @@ pub async fn update_{{.RustName}}(req: &mut Request, res: &mut Response) {
  */
 #[handler]
 pub async fn update_{{.RustName}}_status(req: &mut Request, res: &mut Response) {
-    let item = req.parse_json::<Update{{.JavaName}}Req>().await.unwrap();
+    let item = req.parse_json::<Update{{.JavaName}}Req>().await?;
     log::info!("update_{{.RustName}}_status params: {:?}", &item);
 
     let rb = &mut RB.clone();
     let param = vec![to_value!(1), to_value!(1)];
-    let result = rb.exec("update {{.OriginalName}} set status = ? where id in ?", param).await;
+    rb.exec("update {{.OriginalName}} set status = ? where id in ?", param).await?;
 
-    res.render(Json(handle_result(result)))
+    BaseResponse::<String>::ok_result(res)
 }
 
 /**
@@ -118,16 +120,20 @@ pub async fn update_{{.RustName}}_status(req: &mut Request, res: &mut Response) 
  */
 #[handler]
 pub async fn query_{{.RustName}}_detail(req: &mut Request, res: &mut Response) {
-    let item = req.parse_json::<Query{{.JavaName}}DetailReq>().await.unwrap();
+    let item = req.parse_json::<Query{{.JavaName}}DetailReq>().await?;
     log::info!("query_{{.RustName}}_detail params: {:?}", &item);
 
-    let result = {{.JavaName}}::select_by_id(&mut RB.clone(), &item.id).await;
+    let result = {{.JavaName}}::select_by_id(&mut RB.clone(), &item.id).await?;
 
     match result {
-        Ok(d) => {
-            let x = d.unwrap();
+        None => BaseResponse::<QueryNoticeDetailResp>::err_result_data(
+            res,
+            QueryNoticeDetailResp::new(),
+            "通知公告表不存在",
+        ),
+        Some(x) => {
 
-            let {{.RustName}} = Query{{.JavaName}}DetailResp {
+            let data = Query{{.JavaName}}DetailResp {
             {{- range .TableColumn}}
             {{- if eq .ColumnKey `PRI`}}
                 {{.RustName}}: x.{{.RustName}}.unwrap()
@@ -141,10 +147,7 @@ pub async fn query_{{.RustName}}_detail(req: &mut Request, res: &mut Response) {
             {{- end}}
             };
 
-            res.render(Json(ok_result_data({{.RustName}})))
-        }
-        Err(err) => {
-            res.render(Json(ok_result_code(1,err.to_string())))
+            BaseResponse::<Query{{.JavaName}}DetailResp>::ok_result_data(res, data)
         }
     }
 
@@ -157,39 +160,32 @@ pub async fn query_{{.RustName}}_detail(req: &mut Request, res: &mut Response) {
  */
 #[handler]
 pub async fn query_{{.RustName}}_list(req: &mut Request, res: &mut Response) {
-    let item = req.parse_json::<Query{{.JavaName}}ListReq>().await.unwrap();
+    let item = req.parse_json::<Query{{.JavaName}}ListReq>().await?;
     log::info!("query_{{.RustName}}_list params: {:?}", &item);
 
     let page=&PageRequest::new(item.page_no, item.page_size);
-    let result = {{.JavaName}}::select_page(&mut RB.clone(), page).await;
+    let d = {{.JavaName}}::select_page(&mut RB.clone(), page).await?;
 
-    match result {
-        Ok(d) => {
-            let total = d.total;
+    let total = d.total;
 
-            let mut {{.RustName}}_list_data: Vec<{{.JavaName}}ListDataResp> = Vec::new();
+    let mut {{.RustName}}_list_data: Vec<{{.JavaName}}ListDataResp> = Vec::new();
 
-            for x in d.records {
-                {{.RustName}}_list_data.push({{.JavaName}}ListDataResp {
-                {{- range .TableColumn}}
-                {{- if eq .ColumnKey `PRI`}}
-                    {{.RustName}}: x.{{.RustName}}.unwrap()
-                {{- else if eq .IsNullable `YES` }}
-                    {{.RustName}}: x.{{.RustName}}.unwrap_or_default()
-                {{- else if eq .RustType `DateTime`}}
-                    {{.RustName}}: x.{{.RustName}}.unwrap().0.to_string()
-                {{- else}}
-                    {{.RustName}}: x.{{.RustName}}
-                {{- end}},
-                {{- end}}
-                })
-            }
-
-            res.render(Json(ok_result_page({{.RustName}}_list_data, total)))
-        }
-        Err(err) => {
-            res.render(Json(err_result_page(err.to_string())))
-        }
+    for x in d.records {
+        {{.RustName}}_list_data.push({{.JavaName}}ListDataResp {
+        {{- range .TableColumn}}
+        {{- if eq .ColumnKey `PRI`}}
+            {{.RustName}}: x.{{.RustName}}.unwrap()
+        {{- else if eq .IsNullable `YES` }}
+            {{.RustName}}: x.{{.RustName}}.unwrap_or_default()
+        {{- else if eq .RustType `DateTime`}}
+            {{.RustName}}: x.{{.RustName}}.unwrap().0.to_string()
+        {{- else}}
+            {{.RustName}}: x.{{.RustName}}
+        {{- end}},
+        {{- end}}
+        })
     }
+
+BaseResponse::<Vec<{{.JavaName}}ListDataResp>>::ok_result_page(res, data, total)
 
 }

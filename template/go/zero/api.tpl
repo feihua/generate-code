@@ -16,10 +16,6 @@ type (
         {{.GoNamePublic}} {{.GoType}} `json:"{{.JavaName}},optional"` //{{.ColumnComment}}
         {{- else if eq .JavaName `remark` }}
         {{.GoNamePublic}} {{.GoType}} `json:"{{.JavaName}},optional"` //{{.ColumnComment}}
-        {{- else if isContain .JavaName "status"}}
-        {{.GoNamePublic}} {{.GoType}} `json:"{{.JavaName}},default=2"` //{{.ColumnComment}}
-        {{- else if isContain .JavaName "Status"}}
-        {{.GoNamePublic}} {{.GoType}} `json:"{{.JavaName}},default=2"` //{{.ColumnComment}}
         {{- else}}
         {{.GoNamePublic}} {{.GoType}} `json:"{{.JavaName}}"` //{{.ColumnComment}}
         {{- end}}
@@ -51,10 +47,6 @@ type (
         {{.GoNamePublic}} {{.GoType}} `json:"{{.JavaName}},optional"` //{{.ColumnComment}}
         {{- else if eq .JavaName `remark` }}
         {{.GoNamePublic}} {{.GoType}} `json:"{{.JavaName}},optional"` //{{.ColumnComment}}
-        {{- else if isContain .JavaName "status"}}
-        {{.GoNamePublic}} {{.GoType}} `json:"{{.JavaName}},default=2"` //{{.ColumnComment}}
-        {{- else if isContain .JavaName "Status"}}
-        {{.GoNamePublic}} {{.GoType}} `json:"{{.JavaName}},default=2"` //{{.ColumnComment}}
         {{- else}}
         {{.GoNamePublic}} {{.GoType}} `json:"{{.JavaName}}"` //{{.ColumnComment}}
         {{- end}}
@@ -71,10 +63,6 @@ type (
     {{- range .TableColumn}}
     {{- if eq .ColumnKey "PRI"}}
         {{.GoNamePublic}}s []{{.GoType}} `json:"{{.JavaName}}s"` //{{.ColumnComment}}
-    {{- else if isContain .JavaName "status"}}
-        {{.GoNamePublic}} {{.GoType}} `json:"{{.JavaName}},default=2"` //{{.ColumnComment}}
-    {{- else if isContain .JavaName "Status"}}
-        {{.GoNamePublic}} {{.GoType}} `json:"{{.JavaName}},default=2"` //{{.ColumnComment}}
     {{- else}}
     {{- end}}
     {{- end}}

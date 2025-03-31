@@ -63,6 +63,10 @@ type (
     {{- range .TableColumn}}
     {{- if eq .ColumnKey "PRI"}}
         {{.GoNamePublic}}s []{{.GoType}} `json:"{{.JavaName}}s"` //{{.ColumnComment}}
+    {{- else if isContain .JavaName "status"}}
+        {{.GoNamePublic}} {{.GoType}} `json:"{{.JavaName}}"` //{{.ColumnComment}}
+    {{- else if isContain .JavaName "Status"}}
+        {{.GoNamePublic}} {{.GoType}} `json:"{{.JavaName}}"` //{{.ColumnComment}}
     {{- else}}
     {{- end}}
     {{- end}}

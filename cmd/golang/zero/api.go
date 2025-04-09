@@ -58,7 +58,7 @@ var RpcClient string
 
 func init() {
 
-	// go run main.go golang zero --dsn "root:123456@tcp(127.0.0.1:3306)/gozero" --tableNames oms_ --prefix oms_  --rpcClient omsclient --author LiuFeiHua
+	// go run main.go golang zero --dsn "root:123456@tcp(127.0.0.1:3306)/gozero" --tableNames sys_ --prefix sys_  --rpcClient sysclient --author LiuFeiHua
 	Cmd.Flags().StringVarP(&Dsn, "dsn", "", "", "请输入数据库的地址")
 	Cmd.Flags().StringVarP(&TableNames, "tableNames", "", "", "请输入表名称")
 	Cmd.Flags().StringVarP(&prefix, "prefix", "", "", "生成表时候去掉前缀")

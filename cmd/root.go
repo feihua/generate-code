@@ -6,6 +6,7 @@ package cmd
 import (
 	"github.com/feihua/generate-code/cmd/golang"
 	"github.com/feihua/generate-code/cmd/golang/gf"
+	"github.com/feihua/generate-code/cmd/golang/gin"
 	"github.com/feihua/generate-code/cmd/golang/gorm"
 	"github.com/feihua/generate-code/cmd/golang/hertz"
 	"github.com/feihua/generate-code/cmd/golang/zero"
@@ -65,6 +66,7 @@ func init() {
 	golang.GoCmd.AddCommand(gf.Cmd)
 	golang.GoCmd.AddCommand(zero.Cmd)
 	golang.GoCmd.AddCommand(hertz.Cmd)
+	golang.GoCmd.AddCommand(gin.Cmd)
 
 	RootCmd.AddCommand(rust.RustCmd)
 	rust.RustCmd.AddCommand(axum.Cmd)

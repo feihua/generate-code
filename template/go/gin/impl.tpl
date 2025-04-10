@@ -2,9 +2,11 @@ package {{.GoName}}
 
 
 import (
+	"errors"
 	"{{.ProjectName}}/internal/dao/{{.ModuleName}}"
+	"{{.ProjectName}}/pkg/utils"
     d "{{.ProjectName}}/internal/dto/{{.ModuleName}}"
-    m "{{.ProjectName}}/internal/model/{{.ModuleName}}"
+    "time"
 )
 
 // {{.JavaName}}ServiceImpl {{.Comment}}操作实现
@@ -30,20 +32,18 @@ func (s *{{.JavaName}}ServiceImpl) Delete{{.JavaName}}ByIds(ids []int64) error {
 
 // Update{{.JavaName}} 更新{{.Comment}}
 func (s *{{.JavaName}}ServiceImpl) Update{{.JavaName}}(dto d.Update{{.JavaName}}Dto) error {
-    res, err := s.dao.Query{{.JavaName}}ById(dto.Id)
+    item, err := s.Dao.Query{{.JavaName}}ById(dto.Id)
     
-	switch {
-	case errors.Is(err, gorm.ErrRecordNotFound):
-		utils.Logger.Debugf("更新{{.Comment}}失败,{{.Comment}}不存在, 请求参数：%+v, 异常信息: %s", dto, err.Error())
-		return errors.New("更新{{.Comment}}失败,{{.Comment}}不存在")
-	case err != nil:
-		utils.Logger.Debugf("查询{{.Comment}}异常, 请求参数：%+v, 异常信息: %s", dto, err.Error())
-		return errors.New("查询{{.Comment}}异常")
+	if err != nil {
+		return err
 	}
 
-	dto.DelFlag = res.DelFlag
-	dto.CreateBy = res.CreateBy
-	dto.CreateTime = res.CreateTime
+	if item == nil {
+		return errors.New("{{.Comment}}不存在")
+	}
+
+	dto.CreateBy = item.CreateBy
+	dto.CreateTime = item.CreateTime
 	dto.UpdateTime = time.Now()
 	return s.Dao.Update{{.JavaName}}(dto)
 }
@@ -54,7 +54,7 @@ func (s *{{.JavaName}}ServiceImpl) Update{{.JavaName}}Status(dto d.Update{{.Java
 }
 
 // Query{{.JavaName}}Detail 查询{{.Comment}}详情
-func (s *{{.JavaName}}ServiceImpl) Query{{.JavaName}}Detail(dto d.Query{{.JavaName}}DetailDto) (*b.Query{{.JavaName}}ListDtoResp, error) {
+func (s *{{.JavaName}}ServiceImpl) Query{{.JavaName}}Detail(dto d.Query{{.JavaName}}DetailDto) (*d.Query{{.JavaName}}ListDtoResp, error) {
 	item, err := s.Dao.Query{{.JavaName}}Detail(dto)
 
 	if err != nil {
@@ -65,7 +65,7 @@ func (s *{{.JavaName}}ServiceImpl) Query{{.JavaName}}Detail(dto d.Query{{.JavaNa
 		return nil, errors.New("{{.Comment}}不存在")
 	}
 
-	return &b.Query{{.JavaName}}ListDtoResp{
+	return &d.Query{{.JavaName}}ListDtoResp{
         {{- range .TableColumn}}
         {{- if isContain .GoNamePublic "CreateTime"}}
         CreateTime:    utils.TimeToStr(item.CreateTime), //{{.ColumnComment}}
@@ -80,7 +80,7 @@ func (s *{{.JavaName}}ServiceImpl) Query{{.JavaName}}Detail(dto d.Query{{.JavaNa
 }
 
 // Query{{.JavaName}}ById 根据id查询{{.Comment}}详情
-func (s *{{.JavaName}}ServiceImpl) Query{{.JavaName}}Detail(id int64) (*b.Query{{.JavaName}}ListDtoResp, error) {
+func (s *{{.JavaName}}ServiceImpl) Query{{.JavaName}}ById(id int64) (*d.Query{{.JavaName}}ListDtoResp, error) {
 	item, err := s.Dao.Query{{.JavaName}}ById(id)
 
 	if err != nil {
@@ -91,7 +91,7 @@ func (s *{{.JavaName}}ServiceImpl) Query{{.JavaName}}Detail(id int64) (*b.Query{
 		return nil, errors.New("{{.Comment}}不存在")
 	}
 
-	return &b.Query{{.JavaName}}ListDtoResp{
+	return &d.Query{{.JavaName}}ListDtoResp{
         {{- range .TableColumn}}
         {{- if isContain .GoNamePublic "CreateTime"}}
         CreateTime:    utils.TimeToStr(item.CreateTime), //{{.ColumnComment}}
@@ -105,17 +105,17 @@ func (s *{{.JavaName}}ServiceImpl) Query{{.JavaName}}Detail(id int64) (*b.Query{
 
 }
 // Query{{.JavaName}}List 查询{{.Comment}}列表
-func (s *{{.JavaName}}ServiceImpl) Query{{.JavaName}}List(dto d.Query{{.JavaName}}ListDto) ([]*b.Query{{.JavaName}}ListDtoResp, int64, error) {
+func (s *{{.JavaName}}ServiceImpl) Query{{.JavaName}}List(dto d.Query{{.JavaName}}ListDto) ([]*d.Query{{.JavaName}}ListDtoResp, int64, error) {
 	result, i, err := s.Dao.Query{{.JavaName}}List(dto)
 
 	if err != nil {
 		return nil, 0, err
 	}
 
-	var list []*b.QueryNoticeListDtoResp
+	var list []*d.Query{{.JavaName}}ListDtoResp
 
 	for _, item := range result {
-		resp := &b.Query{{.JavaName}}ListDtoResp{
+		resp := &d.Query{{.JavaName}}ListDtoResp{
         {{- range .TableColumn}}
         {{- if isContain .GoNamePublic "CreateTime"}}
         CreateTime:    utils.TimeToStr(item.CreateTime), //{{.ColumnComment}}

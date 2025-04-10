@@ -19,9 +19,15 @@ func New{{.JavaName}}Dao(DB *gorm.DB) *{{.JavaName}}Dao {
 // Create{{.JavaName}} 添加{{.Comment}}
 func (b {{.JavaName}}Dao) Create{{.JavaName}}(dto {{.ModuleName}}.Add{{.JavaName}}Dto) error {
 	item := a.{{.JavaName}}{
-	{{- range .TableColumn}}
-        {{.GoNamePublic}}: dto.{{.GoNamePublic}}, //{{.ColumnComment}}
+    {{- range .TableColumn}}
+    {{- if isContain .GoNamePublic "CreateTime"}}
+    {{- else if eq .ColumnKey "PRI"}}
+    {{- else if isContain .GoNamePublic "Update"}}
+    {{- else }}
+        {{.GoNamePublic}}:dto.{{.GoNamePublic}}, //{{.ColumnComment}}
     {{- end}}
+    {{- end}}
+
 	}
 
 	return b.db.Create(&item).Error
@@ -36,9 +42,14 @@ func (b {{.JavaName}}Dao) Delete{{.JavaName}}ByIds(ids []int64) error {
 func (b {{.JavaName}}Dao) Update{{.JavaName}}(dto {{.ModuleName}}.Update{{.JavaName}}Dto) error {
 
 	item := a.{{.JavaName}}{
-	{{- range .TableColumn}}
+    {{- range .TableColumn}}
+    {{- if isContain .GoNamePublic "UpdateTime"}}
+        {{.GoNamePublic}}: &dto.{{.GoNamePublic}}, //{{.ColumnComment}}
+    {{- else }}
         {{.GoNamePublic}}: dto.{{.GoNamePublic}}, //{{.ColumnComment}}
     {{- end}}
+    {{- end}}
+
 	}
 
 	return b.db.Updates(&item).Error
@@ -54,7 +65,14 @@ func (b {{.JavaName}}Dao) Update{{.JavaName}}Status(dto {{.ModuleName}}.Update{{
 // Query{{.JavaName}}Detail 查询{{.Comment}}详情
 func (b {{.JavaName}}Dao) Query{{.JavaName}}Detail(dto {{.ModuleName}}.Query{{.JavaName}}DetailDto) (a.{{.JavaName}}, error) {
 	var item a.{{.JavaName}}
-	err := b.db.Where("id", dto.Id).First(&item).Error
+	err := b.db.Where("id = ?", dto.Id).First(&item).Error
+	return item, err
+}
+
+// Query{{.JavaName}}ById 根据id查询{{.Comment}}详情
+func (b {{.JavaName}}Dao) Query{{.JavaName}}ById(id int64) (a.{{.JavaName}}, error) {
+	var item a.{{.JavaName}}
+	err := b.db.Where("id = ?", id).First(&item).Error
 	return item, err
 }
 

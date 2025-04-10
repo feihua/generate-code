@@ -5,8 +5,14 @@ import "time"
 // Add{{.JavaName}}Dto 添加{{.Comment}}请求参数
 type Add{{.JavaName}}Dto struct {
 {{- range .TableColumn}}
+{{- if isContain .GoNamePublic "Create"}}
+{{- else if isContain .GoNamePublic "Update"}}
+{{- else if eq .ColumnKey "PRI"}}
+{{- else }}
     {{.GoNamePublic}} {{.GoType}} `json:"{{.JavaName}}"` //{{.ColumnComment}}
 {{- end}}
+{{- end}}
+
 }
 
 // Delete{{.JavaName}}Dto 删除{{.Comment}}请求参数
@@ -17,8 +23,13 @@ type Delete{{.JavaName}}Dto struct {
 // Update{{.JavaName}}Dto 修改{{.Comment}}请求参数
 type Update{{.JavaName}}Dto struct {
 {{- range .TableColumn}}
+{{- if isContain .GoNamePublic "Create"}}
+{{- else if isContain .GoNamePublic "Update"}}
+{{- else }}
     {{.GoNamePublic}} {{.GoType}} `json:"{{.JavaName}}"` //{{.ColumnComment}}
 {{- end}}
+{{- end}}
+
 }
 
 // Update{{.JavaName}}StatusDto 修改{{.Comment}}状态请求参数

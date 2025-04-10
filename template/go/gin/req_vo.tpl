@@ -5,8 +5,14 @@ import "time"
 // Add{{.JavaName}}ReqVo 添加{{.Comment}}请求参数
 type Add{{.JavaName}}ReqVo struct {
 {{- range .TableColumn}}
+{{- if isContain .GoNamePublic "Create"}}
+{{- else if isContain .GoNamePublic "Update"}}
+{{- else if eq .ColumnKey "PRI"}}
+{{- else }}
     {{.GoNamePublic}} {{.GoType}} `json:"{{.JavaName}}" binding:"required"` //{{.ColumnComment}}
 {{- end}}
+{{- end}}
+
 }
 
 // Delete{{.JavaName}}ReqVo 删除{{.Comment}}请求参数
@@ -17,8 +23,13 @@ type Delete{{.JavaName}}ReqVo struct {
 // Update{{.JavaName}}ReqVo 修改{{.Comment}}请求参数
 type Update{{.JavaName}}ReqVo struct {
 {{- range .TableColumn}}
+{{- if isContain .GoNamePublic "Create"}}
+{{- else if isContain .GoNamePublic "Update"}}
+{{- else }}
     {{.GoNamePublic}} {{.GoType}} `json:"{{.JavaName}}" binding:"required"` //{{.ColumnComment}}
 {{- end}}
+{{- end}}
+
 }
 
 // Update{{.JavaName}}StatusReqVo 修改{{.Comment}}状态请求参数

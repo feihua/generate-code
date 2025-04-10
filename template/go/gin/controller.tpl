@@ -29,8 +29,16 @@ func (r {{.JavaName}}Controller) Create{{.JavaName}}(c *gin.Context) {
 
 	item := a.Add{{.JavaName}}Dto{
     {{- range .TableColumn}}
+    {{- if isContain .GoNamePublic "CreateBy"}}
+        {{.GoNamePublic}}:c.MustGet("userName").(string), //{{.ColumnComment}}
+    {{- else if isContain .GoNamePublic "CreateTime"}}
+    {{- else if isContain .GoNamePublic "Update"}}
+    {{- else if eq .ColumnKey "PRI"}}
+    {{- else }}
         {{.GoNamePublic}}:req.{{.GoNamePublic}}, //{{.ColumnComment}}
     {{- end}}
+    {{- end}}
+
 	}
 
 	err = r.Service.Create{{.JavaName}}(item)
@@ -71,7 +79,13 @@ func (r {{.JavaName}}Controller) Update{{.JavaName}}(c *gin.Context) {
 
 	item := a.Update{{.JavaName}}Dto{
     {{- range .TableColumn}}
+    {{- if isContain .GoNamePublic "UpdateBy"}}
+        {{.GoNamePublic}}:c.MustGet("userName").(string), //{{.ColumnComment}}
+    {{- else if isContain .GoNamePublic "Create"}}
+    {{- else if isContain .GoNamePublic "UpdateTime"}}
+    {{- else }}
         {{.GoNamePublic}}:req.{{.GoNamePublic}}, //{{.ColumnComment}}
+    {{- end}}
     {{- end}}
 	}
 	err = r.Service.Update{{.JavaName}}(item)
@@ -95,6 +109,7 @@ func (r {{.JavaName}}Controller) Update{{.JavaName}}Status(c *gin.Context) {
 	item := a.Update{{.JavaName}}StatusDto{
 		Ids:       req.Ids,
 		Status: req.Status,
+		UpdateBy:  c.MustGet("userName").(string),
 	}
 	err = r.Service.Update{{.JavaName}}Status(item)
 	if err != nil {

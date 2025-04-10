@@ -16,10 +16,10 @@ type {{.JavaName}}Service interface {
  	// Update{{.JavaName}}Status 更新{{.Comment}}状态
  	Update{{.JavaName}}Status(dto b.Update{{.JavaName}}StatusDto) error
 	// Query{{.JavaName}}Detail 查询{{.Comment}}详情
-	Query{{.JavaName}}Detail(dto b.Query{{.JavaName}}DetailDto) (a.{{.JavaName}}, error)
+	Query{{.JavaName}}Detail(dto b.Query{{.JavaName}}DetailDto) (*b.Query{{.JavaName}}ListDtoResp, error)
 	// Query{{.JavaName}}ById 根据id查询{{.Comment}}详情
-    Query{{.JavaName}}ById(id int64) (a.{{.JavaName}}, error)
+    Query{{.JavaName}}ById(id int64) (*b.Query{{.JavaName}}ListDtoResp, error)
 	// Query{{.JavaName}}List 查询{{.Comment}}列表
-	Query{{.JavaName}}List(dto b.Query{{.JavaName}}ListDto) ([]a.{{.JavaName}}, int64)
+	Query{{.JavaName}}List(dto b.Query{{.JavaName}}ListDto) ([]*b.Query{{.JavaName}}ListDtoResp, int64, error)
 
 }

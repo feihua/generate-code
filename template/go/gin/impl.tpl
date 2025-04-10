@@ -54,17 +54,83 @@ func (s *{{.JavaName}}ServiceImpl) Update{{.JavaName}}Status(dto d.Update{{.Java
 }
 
 // Query{{.JavaName}}Detail 查询{{.Comment}}详情
-func (s *{{.JavaName}}ServiceImpl) Query{{.JavaName}}Detail(dto d.Query{{.JavaName}}DetailDto) (m.{{.JavaName}}, error) {
-	return s.Dao.Query{{.JavaName}}Detail(dto)
+func (s *{{.JavaName}}ServiceImpl) Query{{.JavaName}}Detail(dto d.Query{{.JavaName}}DetailDto) (*b.Query{{.JavaName}}ListDtoResp, error) {
+	item, err := s.Dao.Query{{.JavaName}}Detail(dto)
+
+	if err != nil {
+		return nil, err
+	}
+
+	if item == nil {
+		return nil, errors.New("{{.Comment}}不存在")
+	}
+
+	return &b.Query{{.JavaName}}ListDtoResp{
+        {{- range .TableColumn}}
+        {{- if isContain .GoNamePublic "CreateTime"}}
+        CreateTime:    utils.TimeToStr(item.CreateTime), //{{.ColumnComment}}
+        {{- else if isContain .GoNamePublic "UpdateTime"}}
+        UpdateTime:    utils.TimeToString(item.UpdateTime), //{{.ColumnComment}}
+        {{- else }}
+        {{.GoNamePublic}}:item.{{.GoNamePublic}}, //{{.ColumnComment}}
+        {{- end}}
+        {{- end}}
+	}, nil
+
 }
 
 // Query{{.JavaName}}ById 根据id查询{{.Comment}}详情
-func (s *{{.JavaName}}ServiceImpl) Query{{.JavaName}}Detail(id int64) (m.{{.JavaName}}, error) {
-	return s.Dao.Query{{.JavaName}}ById(id)
+func (s *{{.JavaName}}ServiceImpl) Query{{.JavaName}}Detail(id int64) (*b.Query{{.JavaName}}ListDtoResp, error) {
+	item, err := s.Dao.Query{{.JavaName}}ById(id)
+
+	if err != nil {
+		return nil, err
+	}
+
+	if item == nil {
+		return nil, errors.New("{{.Comment}}不存在")
+	}
+
+	return &b.Query{{.JavaName}}ListDtoResp{
+        {{- range .TableColumn}}
+        {{- if isContain .GoNamePublic "CreateTime"}}
+        CreateTime:    utils.TimeToStr(item.CreateTime), //{{.ColumnComment}}
+        {{- else if isContain .GoNamePublic "UpdateTime"}}
+        UpdateTime:    utils.TimeToString(item.UpdateTime), //{{.ColumnComment}}
+        {{- else }}
+        {{.GoNamePublic}}:item.{{.GoNamePublic}}, //{{.ColumnComment}}
+        {{- end}}
+        {{- end}}
+	}, nil
+
 }
 // Query{{.JavaName}}List 查询{{.Comment}}列表
-func (s *{{.JavaName}}ServiceImpl) Query{{.JavaName}}List(dto d.Query{{.JavaName}}ListDto) ([]m.{{.JavaName}}, int64) {
-	return s.Dao.Query{{.JavaName}}List(dto)
+func (s *{{.JavaName}}ServiceImpl) Query{{.JavaName}}List(dto d.Query{{.JavaName}}ListDto) ([]*b.Query{{.JavaName}}ListDtoResp, int64, error) {
+	result, i, err := s.Dao.Query{{.JavaName}}List(dto)
+
+	if err != nil {
+		return nil, 0, err
+	}
+
+	var list []*b.QueryNoticeListDtoResp
+
+	for _, item := range result {
+		resp := &b.Query{{.JavaName}}ListDtoResp{
+        {{- range .TableColumn}}
+        {{- if isContain .GoNamePublic "CreateTime"}}
+        CreateTime:    utils.TimeToStr(item.CreateTime), //{{.ColumnComment}}
+        {{- else if isContain .GoNamePublic "UpdateTime"}}
+        UpdateTime:    utils.TimeToString(item.UpdateTime), //{{.ColumnComment}}
+        {{- else }}
+        {{.GoNamePublic}}:item.{{.GoNamePublic}}, //{{.ColumnComment}}
+        {{- end}}
+        {{- end}}
+    }
+
+		list = append(list, resp)
+	}
+
+	return list, i, nil
 }
 
 

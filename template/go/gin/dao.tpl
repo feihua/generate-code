@@ -63,26 +63,40 @@ func (b {{.JavaName}}Dao) Update{{.JavaName}}Status(dto {{.ModuleName}}.Update{{
 
 
 // Query{{.JavaName}}Detail 查询{{.Comment}}详情
-func (b {{.JavaName}}Dao) Query{{.JavaName}}Detail(dto {{.ModuleName}}.Query{{.JavaName}}DetailDto) (m.{{.JavaName}}, error) {
+func (b {{.JavaName}}Dao) Query{{.JavaName}}Detail(dto {{.ModuleName}}.Query{{.JavaName}}DetailDto) (*m.{{.JavaName}}, error) {
 	var item m.{{.JavaName}}
 	err := b.db.Where("id = ?", dto.Id).First(&item).Error
-	return item, err
+	switch {
+	case err == nil:
+		return &item, nil
+	case errors.Is(err, gorm.ErrRecordNotFound):
+		return nil, nil
+	default:
+		return nil, err
+	}
 }
 
 // Query{{.JavaName}}ById 根据id查询{{.Comment}}详情
-func (b {{.JavaName}}Dao) Query{{.JavaName}}ById(id int64) (m.{{.JavaName}}, error) {
+func (b {{.JavaName}}Dao) Query{{.JavaName}}ById(id int64) (*m.{{.JavaName}}, error) {
 	var item m.{{.JavaName}}
 	err := b.db.Where("id = ?", id).First(&item).Error
-	return item, err
+	switch {
+	case err == nil:
+		return &item, nil
+	case errors.Is(err, gorm.ErrRecordNotFound):
+		return nil, nil
+	default:
+		return nil, err
+	}
 }
 
 // Query{{.JavaName}}List 查询{{.Comment}}列表
-func (b {{.JavaName}}Dao) Query{{.JavaName}}List(dto {{.ModuleName}}.Query{{.JavaName}}ListDto) ([]m.{{.JavaName}}, int64) {
+func (b {{.JavaName}}Dao) Query{{.JavaName}}List(dto {{.ModuleName}}.Query{{.JavaName}}ListDto) ([]*m.{{.JavaName}}, int64, error) {
 	pageNo := dto.PageNo
 	pageSize := dto.PageSize
 
 	var total int64 = 0
-	var list []m.{{.JavaName}}
+	var list []*m.{{.JavaName}}
 	tx := b.db.Model(&m.{{.JavaName}}{})
 
 	{{- range .TableColumn}}
@@ -105,8 +119,8 @@ func (b {{.JavaName}}Dao) Query{{.JavaName}}List(dto {{.ModuleName}}.Query{{.Jav
 	{{- end}}
 	tx.Limit(pageSize).Offset((pageNo - 1) * pageSize).Find(&list)
 
-	tx.Count(&total)
-	return list, total
+	err := tx.Count(&total).Error
+	return list, total, err
 }
 
 

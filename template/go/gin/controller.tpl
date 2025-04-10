@@ -136,7 +136,7 @@ func (c {{.JavaName}}Controller) Query{{.JavaName}}Detail(ctx *gin.Context) {
 	if err != nil {
 		result.FailWithMsg(ctx, result.{{.JavaName}}Error, err.Error())
 	} else {
-		result.OkWithData(ctx, gin.H{"data": data})
+		result.OkWithData(ctx, data)
 	}
 }
 

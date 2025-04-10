@@ -2,7 +2,7 @@ package {{.ModuleName}}
 
 import (
 	"{{.ProjectName}}/internal/dto/{{.ModuleName}}"
-	a "{{.ProjectName}}/internal/model/{{.ModuleName}}"
+	m "{{.ProjectName}}/internal/model/{{.ModuleName}}"
 	"gorm.io/gorm"
 )
 
@@ -18,7 +18,7 @@ func New{{.JavaName}}Dao(DB *gorm.DB) *{{.JavaName}}Dao {
 
 // Create{{.JavaName}} 添加{{.Comment}}
 func (b {{.JavaName}}Dao) Create{{.JavaName}}(dto {{.ModuleName}}.Add{{.JavaName}}Dto) error {
-	item := a.{{.JavaName}}{
+	item := m.{{.JavaName}}{
     {{- range .TableColumn}}
     {{- if isContain .GoNamePublic "CreateTime"}}
     {{- else if eq .ColumnKey "PRI"}}
@@ -35,13 +35,13 @@ func (b {{.JavaName}}Dao) Create{{.JavaName}}(dto {{.ModuleName}}.Add{{.JavaName
 
 // Delete{{.JavaName}}ByIds 根据id删除{{.Comment}}
 func (b {{.JavaName}}Dao) Delete{{.JavaName}}ByIds(ids []int64) error {
-	return b.db.Where("id in (?)", ids).Delete(&a.{{.JavaName}}{}).Error
+	return b.db.Where("id in (?)", ids).Delete(&m.{{.JavaName}}{}).Error
 }
 
 // Update{{.JavaName}} 更新{{.Comment}}
 func (b {{.JavaName}}Dao) Update{{.JavaName}}(dto {{.ModuleName}}.Update{{.JavaName}}Dto) error {
 
-	item := a.{{.JavaName}}{
+	item := m.{{.JavaName}}{
     {{- range .TableColumn}}
     {{- if isContain .GoNamePublic "UpdateTime"}}
         {{.GoNamePublic}}: &dto.{{.GoNamePublic}}, //{{.ColumnComment}}
@@ -58,32 +58,32 @@ func (b {{.JavaName}}Dao) Update{{.JavaName}}(dto {{.ModuleName}}.Update{{.JavaN
 // Update{{.JavaName}}Status 更新{{.Comment}}状态
 func (b {{.JavaName}}Dao) Update{{.JavaName}}Status(dto {{.ModuleName}}.Update{{.JavaName}}StatusDto) error {
 
-	return b.db.Model(&a.Dept{}).Where("id in (?)", dto.Ids).Update("status", dto.Status).Error
+	return b.db.Model(&m.Dept{}).Where("id in (?)", dto.Ids).Update("status", dto.Status).Error
 }
 
 
 // Query{{.JavaName}}Detail 查询{{.Comment}}详情
-func (b {{.JavaName}}Dao) Query{{.JavaName}}Detail(dto {{.ModuleName}}.Query{{.JavaName}}DetailDto) (a.{{.JavaName}}, error) {
-	var item a.{{.JavaName}}
+func (b {{.JavaName}}Dao) Query{{.JavaName}}Detail(dto {{.ModuleName}}.Query{{.JavaName}}DetailDto) (m.{{.JavaName}}, error) {
+	var item m.{{.JavaName}}
 	err := b.db.Where("id = ?", dto.Id).First(&item).Error
 	return item, err
 }
 
 // Query{{.JavaName}}ById 根据id查询{{.Comment}}详情
-func (b {{.JavaName}}Dao) Query{{.JavaName}}ById(id int64) (a.{{.JavaName}}, error) {
-	var item a.{{.JavaName}}
+func (b {{.JavaName}}Dao) Query{{.JavaName}}ById(id int64) (m.{{.JavaName}}, error) {
+	var item m.{{.JavaName}}
 	err := b.db.Where("id = ?", id).First(&item).Error
 	return item, err
 }
 
 // Query{{.JavaName}}List 查询{{.Comment}}列表
-func (b {{.JavaName}}Dao) Query{{.JavaName}}List(dto {{.ModuleName}}.Query{{.JavaName}}ListDto) ([]a.{{.JavaName}}, int64) {
+func (b {{.JavaName}}Dao) Query{{.JavaName}}List(dto {{.ModuleName}}.Query{{.JavaName}}ListDto) ([]m.{{.JavaName}}, int64) {
 	pageNo := dto.PageNo
 	pageSize := dto.PageSize
 
 	var total int64 = 0
-	var list []a.{{.JavaName}}
-	tx := b.db.Model(&a.{{.JavaName}}{})
+	var list []m.{{.JavaName}}
+	tx := b.db.Model(&m.{{.JavaName}}{})
 
 	{{- range .TableColumn}}
 	{{- if isContain .GoNamePublic "Create"}}

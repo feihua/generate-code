@@ -1,9 +1,9 @@
 package {{.ModuleName}}
 
 import (
-	a "{{.ProjectName}}/internal/dto/{{.ModuleName}}"
+	d "{{.ProjectName}}/internal/dto/{{.ModuleName}}"
 	"{{.ProjectName}}/internal/service/{{.ModuleName}}/{{.GoName}}"
-	b "{{.ProjectName}}/internal/vo/{{.ModuleName}}/req"
+	rq "{{.ProjectName}}/internal/vo/{{.ModuleName}}/req"
 	"{{.ProjectName}}/pkg/result"
 	"github.com/gin-gonic/gin"
 )
@@ -18,19 +18,19 @@ func New{{.JavaName}}Controller(Service {{.GoName}}.{{.JavaName}}Service) *{{.Ja
 }
 
 // Create{{.JavaName}} 添加{{.Comment}}
-func (r {{.JavaName}}Controller) Create{{.JavaName}}(c *gin.Context) {
+func (c {{.JavaName}}Controller) Create{{.JavaName}}(ctx *gin.Context) {
 
-	req := b.Add{{.JavaName}}ReqVo{}
-	err := c.ShouldBindJSON(&req)
+	req := rq.Add{{.JavaName}}ReqVo{}
+	err := ctx.ShouldBindJSON(&req)
 	if err != nil {
-		result.FailWithMsg(c, result.ParamsError, err.Error())
+		result.FailWithMsg(ctx, result.ParamsError, err.Error())
 		return
 	}
 
-	item := a.Add{{.JavaName}}Dto{
+	item := d.Add{{.JavaName}}Dto{
     {{- range .TableColumn}}
     {{- if isContain .GoNamePublic "CreateBy"}}
-        {{.GoNamePublic}}:c.MustGet("userName").(string), //{{.ColumnComment}}
+        {{.GoNamePublic}}:ctx.MustGet("userName").(string), //{{.ColumnComment}}
     {{- else if isContain .GoNamePublic "CreateTime"}}
     {{- else if isContain .GoNamePublic "Update"}}
     {{- else if eq .ColumnKey "PRI"}}
@@ -41,46 +41,46 @@ func (r {{.JavaName}}Controller) Create{{.JavaName}}(c *gin.Context) {
 
 	}
 
-	err = r.Service.Create{{.JavaName}}(item)
+	err = c.Service.Create{{.JavaName}}(item)
 	if err != nil {
-		result.FailWithMsg(c, result.{{.JavaName}}Error, err.Error())
+		result.FailWithMsg(ctx, result.{{.JavaName}}Error, err.Error())
 	} else {
-		result.Ok(c)
+		result.Ok(ctx)
 	}
 }
 
 // Delete{{.JavaName}}ByIds 删除{{.Comment}}
-func (r {{.JavaName}}Controller) Delete{{.JavaName}}ByIds(c *gin.Context) {
+func (c {{.JavaName}}Controller) Delete{{.JavaName}}ByIds(ctx *gin.Context) {
 
-	req := b.Delete{{.JavaName}}ReqVo{}
-	err := c.ShouldBind(&req)
+	req := rq.Delete{{.JavaName}}ReqVo{}
+	err := ctx.ShouldBind(&req)
 	if err != nil {
-		result.FailWithMsg(c, result.ParamsError, err.Error())
+		result.FailWithMsg(ctx, result.ParamsError, err.Error())
 		return
 	}
 
-	err = r.Service.Delete{{.JavaName}}ByIds(req.Ids)
+	err = c.Service.Delete{{.JavaName}}ByIds(req.Ids)
 	if err != nil {
-		result.FailWithMsg(c, result.{{.JavaName}}Error, err.Error())
+		result.FailWithMsg(ctx, result.{{.JavaName}}Error, err.Error())
 	} else {
-		result.Ok(c)
+		result.Ok(ctx)
 	}
 }
 
 // Update{{.JavaName}} 更新{{.Comment}}
-func (r {{.JavaName}}Controller) Update{{.JavaName}}(c *gin.Context) {
+func (c {{.JavaName}}Controller) Update{{.JavaName}}(ctx *gin.Context) {
 
-	req := b.Update{{.JavaName}}ReqVo{}
-	err := c.ShouldBind(&req)
+	req := rq.Update{{.JavaName}}ReqVo{}
+	err := ctx.ShouldBind(&req)
 	if err != nil {
-		result.FailWithMsg(c, result.ParamsError, err.Error())
+		result.FailWithMsg(ctx, result.ParamsError, err.Error())
 		return
 	}
 
-	item := a.Update{{.JavaName}}Dto{
+	item := d.Update{{.JavaName}}Dto{
     {{- range .TableColumn}}
     {{- if isContain .GoNamePublic "UpdateBy"}}
-        {{.GoNamePublic}}:c.MustGet("userName").(string), //{{.ColumnComment}}
+        {{.GoNamePublic}}:ctx.MustGet("userName").(string), //{{.ColumnComment}}
     {{- else if isContain .GoNamePublic "Create"}}
     {{- else if isContain .GoNamePublic "UpdateTime"}}
     {{- else }}
@@ -88,68 +88,68 @@ func (r {{.JavaName}}Controller) Update{{.JavaName}}(c *gin.Context) {
     {{- end}}
     {{- end}}
 	}
-	err = r.Service.Update{{.JavaName}}(item)
+	err = c.Service.Update{{.JavaName}}(item)
 	if err != nil {
-		result.FailWithMsg(c, result.{{.JavaName}}Error, err.Error())
+		result.FailWithMsg(ctx, result.{{.JavaName}}Error, err.Error())
 	} else {
-		result.Ok(c)
+		result.Ok(ctx)
 	}
 }
 
 // Update{{.JavaName}}Status 更新{{.Comment}}状态
-func (r {{.JavaName}}Controller) Update{{.JavaName}}Status(c *gin.Context) {
+func (c {{.JavaName}}Controller) Update{{.JavaName}}Status(ctx *gin.Context) {
 
-	req := b.Update{{.JavaName}}StatusReqVo{}
-	err := c.ShouldBind(&req)
+	req := rq.Update{{.JavaName}}StatusReqVo{}
+	err := ctx.ShouldBind(&req)
 	if err != nil {
-		result.FailWithMsg(c, result.ParamsError, err.Error())
+		result.FailWithMsg(ctx, result.ParamsError, err.Error())
 		return
 	}
 
-	item := a.Update{{.JavaName}}StatusDto{
+	item := d.Update{{.JavaName}}StatusDto{
 		Ids:       req.Ids,
 		Status: req.Status,
-		UpdateBy:  c.MustGet("userName").(string),
+		UpdateBy:  ctx.MustGet("userName").(string),
 	}
-	err = r.Service.Update{{.JavaName}}Status(item)
+	err = c.Service.Update{{.JavaName}}Status(item)
 	if err != nil {
-		result.FailWithMsg(c, result.{{.JavaName}}Error, err.Error())
+		result.FailWithMsg(ctx, result.{{.JavaName}}Error, err.Error())
 	} else {
-		result.Ok(c)
+		result.Ok(ctx)
 	}
 }
 
 
 // Query{{.JavaName}}Detail 查询{{.Comment}}详情
-func (r {{.JavaName}}Controller) Query{{.JavaName}}Detail(c *gin.Context) {
-	req := b.Query{{.JavaName}}DetailReqVo{}
-	err := c.ShouldBind(&req)
+func (c {{.JavaName}}Controller) Query{{.JavaName}}Detail(ctx *gin.Context) {
+	req := rq.Query{{.JavaName}}DetailReqVo{}
+	err := ctx.ShouldBind(&req)
 	if err != nil {
-		result.FailWithMsg(c, result.ParamsError, err.Error())
+		result.FailWithMsg(ctx, result.ParamsError, err.Error())
 		return
 	}
 
-	item := a.Query{{.JavaName}}DetailDto{
+	item := d.Query{{.JavaName}}DetailDto{
 		Id: req.Id,
 	}
-	data, err := r.Service.Query{{.JavaName}}Detail(item)
+	data, err := c.Service.Query{{.JavaName}}Detail(item)
 	if err != nil {
-		result.FailWithMsg(c, result.{{.JavaName}}Error, err.Error())
+		result.FailWithMsg(ctx, result.{{.JavaName}}Error, err.Error())
 	} else {
-		result.OkWithData(c, gin.H{"data": data})
+		result.OkWithData(ctx, gin.H{"data": data})
 	}
 }
 
 // Query{{.JavaName}}List 查询{{.Comment}}列表
-func (r {{.JavaName}}Controller) Query{{.JavaName}}List(c *gin.Context) {
-	req := b.Query{{.JavaName}}ListReqVo{}
-	err := c.ShouldBind(&req)
+func (c {{.JavaName}}Controller) Query{{.JavaName}}List(ctx *gin.Context) {
+	req := rq.Query{{.JavaName}}ListReqVo{}
+	err := ctx.ShouldBind(&req)
 	if err != nil {
-		result.FailWithMsg(c, result.ParamsError, err.Error())
+		result.FailWithMsg(ctx, result.ParamsError, err.Error())
 		return
 	}
 
-	item := a.Query{{.JavaName}}ListDto{
+	item := d.Query{{.JavaName}}ListDto{
 		PageNo:   req.PageNo,
 		PageSize: req.PageSize,
         {{- range .TableColumn}}
@@ -165,6 +165,6 @@ func (r {{.JavaName}}Controller) Query{{.JavaName}}List(c *gin.Context) {
         {{- end}}
         {{- end}}
 	}
-	list, total := r.Service.Query{{.JavaName}}List(item)
-	result.OkWithData(c, gin.H{"list": list, "success": true, "current": req.PageNo, "total": total, "pageSize": req.PageSize})
+	list, total := c.Service.Query{{.JavaName}}List(item)
+	result.OkWithData(ctx, gin.H{"list": list, "success": true, "current": req.PageNo, "total": total, "pageSize": req.PageSize})
 }

@@ -16,6 +16,8 @@ import (
 	"github.com/feihua/generate-code/cmd/java/modules"
 	"github.com/feihua/generate-code/cmd/java/mybatis"
 	"github.com/feihua/generate-code/cmd/java/project"
+	"github.com/feihua/generate-code/cmd/php"
+	"github.com/feihua/generate-code/cmd/php/webman"
 	"github.com/feihua/generate-code/cmd/rust"
 	"github.com/feihua/generate-code/cmd/rust/actix"
 	"github.com/feihua/generate-code/cmd/rust/axum"
@@ -90,4 +92,7 @@ func init() {
 	web.WebCmd.AddCommand(antdv.Cmd)
 	web.WebCmd.AddCommand(element_plus_state.Cmd)
 	web.WebCmd.AddCommand(ng_zorro_antd.Cmd)
+
+	RootCmd.AddCommand(php.PhpCmd)
+	php.PhpCmd.AddCommand(webman.Cmd)
 }

@@ -10,7 +10,7 @@ use think\Model;
  */
 class {{.JavaName}}Model extends Model {
 
-    protected $name = '{{.OriginalName}}';
+    Customize Toolbar… = '{{.OriginalName}}';
 
     // 设置字段信息
     protected array $schema = [

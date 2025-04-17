@@ -1,7 +1,7 @@
 /*
 Copyright © 2023 NAME HERE <EMAIL ADDRESS>
 */
-package webman
+package think
 
 import (
 	"bytes"
@@ -15,7 +15,7 @@ import (
 )
 
 var Cmd = &cobra.Command{
-	Use:   "webman",
+	Use:   "think",
 	Short: "A brief description of your command",
 	Long: `A longer description that spans multiple lines and likely contains examples
 and usage of using your command. For example:
@@ -25,21 +25,22 @@ This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		tables := utils.New().QueryTables(Dsn, TableNames, prefix)
-		var path = "generate/php/webman"
+		var path = "generate/php/think"
 		for _, t := range tables {
-			Generate(t, "template/php/webman/controller.tpl", path+"/controller/"+moduleName, "Controller", "")
-			Generate(t, "template/php/webman/service.tpl", path+"/service/"+moduleName, "Service", "")
-			Generate(t, "template/php/webman/dao.tpl", path+"/dao/"+moduleName, "Dao", "")
-			Generate(t, "template/php/webman/dto/add_dto.tpl", path+"/dto/"+moduleName+"/"+t.GoName, "Dto", "Add")
-			Generate(t, "template/php/webman/dto/delete_dto.tpl", path+"/dto/"+moduleName+"/"+t.GoName, "Dto", "Delete")
-			Generate(t, "template/php/webman/dto/update_dto.tpl", path+"/dto/"+moduleName+"/"+t.GoName, "Dto", "Update")
-			Generate(t, "template/php/webman/dto/update_status_dto.tpl", path+"/dto/"+moduleName+"/"+t.GoName, "StatusDto", "Update")
-			Generate(t, "template/php/webman/dto/query_dto.tpl", path+"/dto/"+moduleName+"/"+t.GoName, "DetailDto", "Query")
-			Generate(t, "template/php/webman/dto/query_list_dto.tpl", path+"/dto/"+moduleName+"/"+t.GoName, "ListDto", "Query")
+			Generate(t, "template/php/think/model.tpl", path+"/model/"+moduleName, "Model", "")
+			Generate(t, "template/php/think/controller.tpl", path+"/controller/"+moduleName, "Controller", "")
+			Generate(t, "template/php/think/service.tpl", path+"/service/"+moduleName, "Service", "")
+			Generate(t, "template/php/think/dao.tpl", path+"/dao/"+moduleName, "Dao", "")
+			Generate(t, "template/php/think/dto/add_dto.tpl", path+"/dto/"+moduleName+"/"+t.GoName, "Dto", "Add")
+			Generate(t, "template/php/think/dto/delete_dto.tpl", path+"/dto/"+moduleName+"/"+t.GoName, "Dto", "Delete")
+			Generate(t, "template/php/think/dto/update_dto.tpl", path+"/dto/"+moduleName+"/"+t.GoName, "Dto", "Update")
+			Generate(t, "template/php/think/dto/update_status_dto.tpl", path+"/dto/"+moduleName+"/"+t.GoName, "StatusDto", "Update")
+			Generate(t, "template/php/think/dto/query_dto.tpl", path+"/dto/"+moduleName+"/"+t.GoName, "DetailDto", "Query")
+			Generate(t, "template/php/think/dto/query_list_dto.tpl", path+"/dto/"+moduleName+"/"+t.GoName, "ListDto", "Query")
 
 		}
 
-		GenerateRoute(tables, "template/php/webman/route.tpl", path+"/route/"+moduleName, "", "")
+		GenerateRoute(tables, "template/php/think/route.tpl", path+"/route/"+moduleName, "", "")
 	},
 }
 
@@ -53,7 +54,7 @@ var moduleName string
 
 func init() {
 
-	// go run main.go php webman --dsn "root:123456@tcp(127.0.0.1:3306)/gin" --tableNames sys_ --prefix sys_  --author liufeihua --projectName github.com/feihua/simple-go --moduleName system
+	// go run main.go php think --dsn "root:123456@tcp(127.0.0.1:3306)/gin" --tableNames sys_ --prefix sys_  --author liufeihua --projectName github.com/feihua/simple-go --moduleName system
 	Cmd.Flags().StringVarP(&Dsn, "dsn", "", "", "请输入数据库的地址")
 	Cmd.Flags().StringVarP(&TableNames, "tableNames", "", "", "请输入表名称")
 	Cmd.Flags().StringVarP(&prefix, "prefix", "", "", "生成表时候去掉前缀")

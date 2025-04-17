@@ -17,6 +17,7 @@ import (
 	"github.com/feihua/generate-code/cmd/java/mybatis"
 	"github.com/feihua/generate-code/cmd/java/project"
 	"github.com/feihua/generate-code/cmd/php"
+	"github.com/feihua/generate-code/cmd/php/think"
 	"github.com/feihua/generate-code/cmd/php/webman"
 	"github.com/feihua/generate-code/cmd/rust"
 	"github.com/feihua/generate-code/cmd/rust/actix"
@@ -95,4 +96,5 @@ func init() {
 
 	RootCmd.AddCommand(php.PhpCmd)
 	php.PhpCmd.AddCommand(webman.Cmd)
+	php.PhpCmd.AddCommand(think.Cmd)
 }

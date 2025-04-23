@@ -8,6 +8,6 @@ public class {{.JavaName}}Vo {
     /// <summary>
     /// {{.ColumnComment}}
     /// </summary>
-    public {{.NetType}} {{.NetName}} { get; set; }
+    public {{.NetType}}? {{.NetName}} { get; set; }
 {{- end}}
 }

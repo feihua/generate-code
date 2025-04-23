@@ -12,5 +12,5 @@ public class Update{{.JavaName}}StatusDto {
     /// <summary>
     /// 状态（0:关闭,1:正常 ）
     /// </summary>
-    public sbyte Status { get; set; }
+    public required sbyte Status { get; set; }
 }

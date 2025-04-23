@@ -40,8 +40,9 @@ public class {{.JavaName}}Repository : I{{.JavaName}}Repository {
             var {{.LowerJavaName}} = await _context.{{.UpperOriginalName}}s.FindAsync(id);
             if ({{.LowerJavaName}} == null) continue;
             _context.{{.UpperOriginalName}}s.Remove({{.LowerJavaName}});
-            await _context.SaveChangesAsync();
         }
+
+        await _context.SaveChangesAsync();
     }
 
     /// <summary>

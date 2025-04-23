@@ -11,7 +11,7 @@ public class Update{{.JavaName}}Dto {
     /// <summary>
     /// {{.ColumnComment}}
     /// </summary>
-    public {{.NetType}} {{.NetName}} { get; set; }
+    public required {{.NetType}} {{.NetName}} { get; set; }
 {{- end}}
 {{- end}}
 }

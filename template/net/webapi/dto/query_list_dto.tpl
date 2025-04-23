@@ -18,7 +18,7 @@ public class Query{{.JavaName}}ListDto : PageRequestDto {
     /// <summary>
     /// {{.ColumnComment}}
     /// </summary>
-    public {{.NetType}}? {{.NetName}} { get; set; }
+    public required {{.NetType}}? {{.NetName}} { get; set; }
 	{{- end}}
 	{{- end}}
 }

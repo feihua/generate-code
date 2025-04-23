@@ -10,23 +10,23 @@ import (
 )
 
 type Table struct {
-	OriginalName      string        `json:"table_name" gorm:"column:TABLE_NAME"`       //表名 sys_user
-	UpperOriginalName string        ` gorm:"-"`                                        //表名(大写开头) SysUser
-	Comment           string        `json:"table_comment" gorm:"column:TABLE_COMMENT"` //表注释 用户表
-	TableColumn       []TableColumn ` gorm:"-"`                                        //表的列
-	ListColumn        []TableColumn ` gorm:"-"`                                        //查询条件
-	RustName          string        ` gorm:"-"`                                        //rust文件名 user
-	GoName            string        ` gorm:"-"`                                        //go的文件名 user
-	JavaName          string        ` gorm:"-"`                                        //java文件名 User
-	LowerJavaName     string        ` gorm:"-"`                                        //java变量(小写开头) user
-	ModuleName        string        ` gorm:"-"`                                        //生成gf的时候,模块的名称
-	ProjectName       string        ` gorm:"-"`                                        //生成gf的时候,项目的名称
-	PackageName       string        ` gorm:"-"`                                        //生成java的时候,包的名称
-	Author            string        ` gorm:"-"`                                        //生成java的时候,作者的名称
-	CreateTime        string        ` gorm:"-"`                                        //生成java代码的时间
-	GroupId           string        ` gorm:"-"`                                        //生成java代码的common包目录
-	AllColumns        string        ` gorm:"-"`                                        //生成xml的时候用
-	RpcClient         string        ` gorm:"-"`                                        //生成grpc的时候用
+	OriginalName      string        `json:"table_name" gorm:"column:TABLE_NAME"`       // 表名 sys_user
+	UpperOriginalName string        ` gorm:"-"`                                        // 表名(大写开头) SysUser
+	Comment           string        `json:"table_comment" gorm:"column:TABLE_COMMENT"` // 表注释 用户表
+	TableColumn       []TableColumn ` gorm:"-"`                                        // 表的列
+	ListColumn        []TableColumn ` gorm:"-"`                                        // 查询条件
+	RustName          string        ` gorm:"-"`                                        // rust文件名 user
+	GoName            string        ` gorm:"-"`                                        // go的文件名 user
+	JavaName          string        ` gorm:"-"`                                        // java文件名 User
+	LowerJavaName     string        ` gorm:"-"`                                        // java变量(小写开头) user
+	ModuleName        string        ` gorm:"-"`                                        // 生成gf的时候,模块的名称
+	ProjectName       string        ` gorm:"-"`                                        // 生成gf的时候,项目的名称
+	PackageName       string        ` gorm:"-"`                                        // 生成java的时候,包的名称
+	Author            string        ` gorm:"-"`                                        // 生成java的时候,作者的名称
+	CreateTime        string        ` gorm:"-"`                                        // 生成java代码的时间
+	GroupId           string        ` gorm:"-"`                                        // 生成java代码的common包目录
+	AllColumns        string        ` gorm:"-"`                                        // 生成xml的时候用
+	RpcClient         string        ` gorm:"-"`                                        // 生成grpc的时候用
 }
 
 func (model Table) TableName() string {
@@ -34,24 +34,26 @@ func (model Table) TableName() string {
 }
 
 type TableColumn struct {
-	ColumnName    string `json:"ColumnName" gorm:"column:COLUMN_NAME"`       //列名 nick_name
-	DataType      string `json:"DataType" gorm:"column:DATA_TYPE"`           //列的数据类型 varchar
-	IsNullable    string `json:"IsNullable" gorm:"column:IS_NULLABLE"`       //是否为空  NO
+	ColumnName    string `json:"ColumnName" gorm:"column:COLUMN_NAME"`       // 列名 nick_name
+	DataType      string `json:"DataType" gorm:"column:DATA_TYPE"`           // 列的数据类型 varchar
+	IsNullable    string `json:"IsNullable" gorm:"column:IS_NULLABLE"`       // 是否为空  NO
 	ColumnKey     string `json:"ColumnKey" gorm:"column:COLUMN_KEY"`         // 索引类型 PRI
-	ColumnType    string `json:"ColumnType" gorm:"column:COLUMN_TYPE"`       //列的类型  varchar
-	ColumnComment string `json:"ColumnComment" gorm:"column:COLUMN_COMMENT"` //列注释
-	RustType      string ` gorm:"-"`                                         //rust字段的类型  String
-	GoType        string ` gorm:"-"`                                         //go字段的类型   string
-	ProtoType     string ` gorm:"-"`                                         //生成proto的时候用  string
-	JavaType      string ` gorm:"-"`                                         //java字段的类型 String
-	JdbcType      string ` gorm:"-"`                                         //jdbc字段的类型 String
-	TsType        string ` gorm:"-"`                                         //ts字段的类型 string
-	RustName      string ` gorm:"-"`                                         //rust字段的名称 nick_name
-	GoName        string ` gorm:"-"`                                         //go字段的名称 nick_name
-	GoNamePublic  string ` gorm:"-"`                                         //go公开字段的名称 NickName
-	JavaName      string ` gorm:"-"`                                         //java字段的名称 nickName
-	Sort          int    ` gorm:"-"`                                         //生成proto的时候用
-	LowerJavaName string ` gorm:"-"`                                         //java变量(小写开头) user
+	ColumnType    string `json:"ColumnType" gorm:"column:COLUMN_TYPE"`       // 列的类型  varchar
+	ColumnComment string `json:"ColumnComment" gorm:"column:COLUMN_COMMENT"` // 列注释
+	RustType      string ` gorm:"-"`                                         // rust字段的类型  String
+	GoType        string ` gorm:"-"`                                         // go字段的类型   string
+	ProtoType     string ` gorm:"-"`                                         // 生成proto的时候用  string
+	JavaType      string ` gorm:"-"`                                         // java字段的类型 String
+	JdbcType      string ` gorm:"-"`                                         // jdbc字段的类型 String
+	TsType        string ` gorm:"-"`                                         // ts字段的类型 string
+	RustName      string ` gorm:"-"`                                         // rust字段的名称 nick_name
+	GoName        string ` gorm:"-"`                                         // go字段的名称 nick_name
+	GoNamePublic  string ` gorm:"-"`                                         // go公开字段的名称 NickName
+	JavaName      string ` gorm:"-"`                                         // java字段的名称 nickName
+	Sort          int    ` gorm:"-"`                                         // 生成proto的时候用
+	LowerJavaName string ` gorm:"-"`                                         // java变量(小写开头) user
+	NetType       string ` gorm:"-"`                                         // C#字段的类型 string
+	NetName       string ` gorm:"-"`                                         // C#字段的名称 NickName
 
 }
 
@@ -133,6 +135,8 @@ func QueryTableColumns(dsn, TableName, lowerJavaName string) ([]TableColumn, []T
 		column.GoNamePublic = UnderScoreToUpperCamelCase(column.ColumnName)
 		column.JavaName = UnderScoreToLowerCamelCase(column.ColumnName)
 		column.LowerJavaName = lowerJavaName
+		column.NetType = ToNetType[column.DataType]
+		column.NetName = UnderScoreToUpperCamelCase(column.ColumnName)
 		column.Sort = i + 1
 		allColumns = allColumns + column.ColumnName + ", "
 		tt = append(tt, column)
@@ -283,6 +287,26 @@ var ToJdbcType = map[string]string{
 	"longtext":  "VARCHAR",
 	"date":      "DATE",
 	"time":      "TIME",
+}
+
+var ToNetType = map[string]string{
+	"int":       "int",
+	"tinyint":   "sbyte",
+	"smallint":  "short",
+	"bigint":    "long",
+	"float":     "float",
+	"double":    "double",
+	"bool":      "bool",
+	"enum":      "string",
+	"set":       "string",
+	"varchar":   "string",
+	"char":      "string",
+	"text":      "string",
+	"datetime":  "DateTime",
+	"date":      "DateTime",
+	"timestamp": "DateTime",
+	"time":      "TimeSpan",
+	"decimal":   "decimal",
 }
 
 // UnderScoreToUpperCamelCase 下划线单词转为大写驼峰单词

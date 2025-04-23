@@ -167,7 +167,7 @@ func (c {{.JavaName}}Controller) Query{{.JavaName}}List(ctx *gin.Context) {
 	}
 	list, total, err := c.Service.Query{{.JavaName}}List(item)
     if err != nil {
-        result.FailWithMsg(c, result.NoticeError, err.Error())
+        result.FailWithMsg(c, result.{{.JavaName}}Error, err.Error())
     } else {
         result.OkWithData(c, gin.H{"list": list, "success": true, "current": req.PageNo, "total": total, "pageSize": req.PageSize})
     }

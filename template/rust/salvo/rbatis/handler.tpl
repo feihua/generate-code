@@ -126,9 +126,9 @@ pub async fn query_{{.RustName}}_detail(req: &mut Request, res: &mut Response) {
     let result = {{.JavaName}}::select_by_id(&mut RB.clone(), &item.id).await?;
 
     match result {
-        None => BaseResponse::<QueryNoticeDetailResp>::err_result_data(
+        None => BaseResponse::<Query{{.JavaName}}DetailResp>::err_result_data(
             res,
-            QueryNoticeDetailResp::new(),
+            Query{{.JavaName}}DetailResp::new(),
             "通知公告表不存在",
         ),
         Some(x) => {

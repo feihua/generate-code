@@ -71,7 +71,7 @@ class {{.JavaName}}Dao {
      * @throws DbException
      */
     public function query{{.JavaName}}List (Query{{.JavaName}}ListDto $dto): array {
-        $query = {{.JavaName}}Model::where('1=1');
+        $query = $this->{{.LowerJavaName}}Model->where('1=1');
 
 {{- range .TableColumn}}
 	{{- if isContain .GoNamePublic "Create"}}

@@ -54,7 +54,7 @@ public class {{.JavaName}}Repository : I{{.JavaName}}Repository {
         // _context.Entry({{.LowerJavaName}}).State = EntityState.Modified;
         var entity = await _context.{{.UpperOriginalName}}s.FindAsync({{.LowerJavaName}}.Id);
         if (entity == null) {
-            return;
+            throw new Exception("{{.Comment}}不存在");
         }
 
         // 保留原有的创建信息

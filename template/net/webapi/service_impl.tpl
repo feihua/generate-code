@@ -73,7 +73,7 @@ public class {{.JavaName}}Service : I{{.JavaName}}Service {
     public async Task<{{.JavaName}}DetailVo> Query{{.JavaName}}ByIdAsync(long id) {
         var queryByIdAsync = await _repository.QueryByIdAsync(id);
         if (queryByIdAsync == null) {
-            throw new Exception("记录不存在");
+            throw new Exception("{{.Comment}}不存在");
         }
 
         var {{.LowerJavaName}}DetailVo = _mapper.Map<{{.JavaName}}DetailVo>(queryByIdAsync);

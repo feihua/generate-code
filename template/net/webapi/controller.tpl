@@ -10,7 +10,7 @@ namespace core_admin.Controller.{{.ModuleName}};
 /// {{.Comment}}Api
 /// </summary>
 [ApiController]
-[Route("api/system/{{.LowerJavaName}}")]
+[Route("api/ModuleName/{{.LowerJavaName}}")]
 public class {{.JavaName}}Controller : ControllerBase {
     private readonly I{{.JavaName}}Service _service;
     private readonly ILogger<{{.JavaName}}Controller> _logger;
@@ -25,6 +25,7 @@ public class {{.JavaName}}Controller : ControllerBase {
     /// </summary>
     /// <param name="dto"></param>
     /// <returns></returns>
+    [HasPermission("ModuleName:{{.LowerJavaName}}:add")]
     [HttpPost("add")]
     public async Task<ApiResponse<bool>> Add{{.JavaName}}(Add{{.JavaName}}Dto dto) {
         _logger.LogInformation("添加{{.Comment}}，请求参数：{@Add{{.JavaName}}Dto}", dto);
@@ -41,6 +42,7 @@ public class {{.JavaName}}Controller : ControllerBase {
     /// </summary>
     /// <param name="dto"></param>
     /// <returns></returns>
+    [HasPermission("ModuleName:{{.LowerJavaName}}:delete")]
     [HttpPost("delete")]
     public async Task<ApiResponse<bool>> Delete{{.JavaName}}(Delete{{.JavaName}}Dto dto) {
         _logger.LogInformation("删除{{.Comment}}，请求参数：{@Delete{{.JavaName}}Dto}", dto);
@@ -57,6 +59,7 @@ public class {{.JavaName}}Controller : ControllerBase {
     /// </summary>
     /// <param name="dto"></param>
     /// <returns></returns>
+    [HasPermission("ModuleName:{{.LowerJavaName}}:update")]
     [HttpPost("update")]
     public async Task<ApiResponse<bool>> Update{{.JavaName}}(Update{{.JavaName}}Dto dto) {
         _logger.LogInformation("更新{{.Comment}}，请求参数：{@Update{{.JavaName}}Dto}", dto);
@@ -73,6 +76,7 @@ public class {{.JavaName}}Controller : ControllerBase {
     /// </summary>
     /// <param name="dto"></param>
     /// <returns></returns>
+    [HasPermission("ModuleName:{{.LowerJavaName}}:updateStatus")]
     [HttpPost("updateStatus")]
     public async Task<ApiResponse<bool>> Update{{.JavaName}}Status(Update{{.JavaName}}StatusDto dto) {
         _logger.LogInformation("更新{{.Comment}}状态，请求参数：{@Update{{.JavaName}}StatusDto}", dto);
@@ -89,6 +93,7 @@ public class {{.JavaName}}Controller : ControllerBase {
     /// </summary>
     /// <param name="id"></param>
     /// <returns></returns>
+    [HasPermission("ModuleName:{{.LowerJavaName}}:query")]
     [HttpGet("query/{id}")]
     public async Task<ApiResponse<{{.JavaName}}DetailVo>> Get{{.JavaName}}(long id) {
         _logger.LogInformation("根据id获取{{.Comment}}，请求参数：{@id}", id);
@@ -105,6 +110,7 @@ public class {{.JavaName}}Controller : ControllerBase {
     /// </summary>
     /// <param name="dto"></param>
     /// <returns></returns>
+    [HasPermission("ModuleName:{{.LowerJavaName}}:queryList")]
     [HttpGet("queryList")]
     public async Task<ApiResponse<PageResponseDto<{{.JavaName}}ListVo>>> Get{{.JavaName}}s([FromQuery] Query{{.JavaName}}ListDto dto) {
         _logger.LogInformation("查询{{.Comment}}列表，请求参数：{@Query{{.JavaName}}ListDtoto}", dto);

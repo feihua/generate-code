@@ -30,8 +30,8 @@ to quickly create a Cobra application.`,
 			Generate(t, "template/web/react/pro/service.tpl", path+t.JavaName, "service.ts")
 			Generate(t, "template/web/react/pro/index.tpl", path+t.JavaName, "index.tsx")
 
-			Generate(t, "template/web/react/pro/CreateForm.tpl", path+t.JavaName+"/components", "CreateForm.tsx")
-			Generate(t, "template/web/react/pro/UpdateForm.tpl", path+t.JavaName+"/components", "UpdateForm.tsx")
+			Generate(t, "template/web/react/pro/CreateForm.tpl", path+t.JavaName+"/components", "AddModal.tsx")
+			Generate(t, "template/web/react/pro/UpdateForm.tpl", path+t.JavaName+"/components", "UpdateModal.tsx")
 		}
 	},
 }
@@ -44,7 +44,7 @@ var Author string
 
 func init() {
 
-	//go run main.go web react_pro --dsn "root:oMbPi5munxCsBSsiLoPV@tcp(110.41.179.89:3306)/zero-sys" --tableNames sys_ --prefix sys_ --author liufeihua
+	// go run main.go web react_pro --dsn "root:123456@tcp(127.0.0.1:3306)/gozero" --tableNames ums_ --prefix ums_ --author liufeihua
 	Cmd.Flags().StringVarP(&Dsn, "dsn", "", "", "请输入数据库的地址")
 	Cmd.Flags().StringVarP(&TableNames, "tableNames", "", "", "请输入表名称")
 	Cmd.Flags().StringVarP(&prefix, "prefix", "", "", "生成表时候去掉前缀")
@@ -55,7 +55,7 @@ func init() {
 
 func Generate(t utils.Table, tplName, path, fileName string) error {
 	htmlByte, err := utils.TemplateFileData.ReadFile(tplName)
-	//htmlByte, err := ioutil.ReadFile(tplName)
+	// htmlByte, err := ioutil.ReadFile(tplName)
 	if err != nil {
 		fmt.Println("read html failed, err:", err)
 		return err
@@ -63,7 +63,7 @@ func Generate(t utils.Table, tplName, path, fileName string) error {
 
 	fmap := template.FuncMap{"isContain": utils.IsContain}
 	tpl, _ := template.New("abc.html").Funcs(fmap).Parse(string(htmlByte))
-	//tpl, err := tpl.ParseFiles(tplName)
+	// tpl, err := tpl.ParseFiles(tplName)
 
 	t.Author = Author
 	err = tpl.Execute(os.Stdout, t)

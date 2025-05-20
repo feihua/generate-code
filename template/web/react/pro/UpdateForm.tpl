@@ -2,10 +2,10 @@ import React, {useEffect} from 'react';
 import {Form, Input, InputNumber, Modal, Radio} from 'antd';
 import type { {{.JavaName}}ListItem} from '../data.d';
 
-export interface UpdateFormProps {
+export interface UpdateModalProps {
   onCancel: () => void;
   onSubmit: (values: {{.JavaName}}ListItem) => void;
-  updateModalVisible: boolean;
+  updateVisible: boolean;
   currentData: Partial<{{.JavaName}}ListItem>;
 }
 
@@ -16,21 +16,21 @@ const formLayout = {
   wrapperCol: {span: 13},
 };
 
-const UpdateForm: React.FC<UpdateFormProps> = (props) => {
+const UpdateModal: React.FC<UpdateModalProps> = (props) => {
   const [form] = Form.useForm();
 
   const {
     onSubmit,
     onCancel,
-    updateModalVisible,
+    updateVisible,
     currentData,
   } = props;
 
   useEffect(() => {
-    if (form && !updateModalVisible) {
+    if (form && !updateVisible) {
       form.resetFields();
     }
-  }, [props.updateModalVisible]);
+  }, [props.updateVisible]);
 
   useEffect(() => {
     if (currentData) {
@@ -89,7 +89,7 @@ const UpdateForm: React.FC<UpdateFormProps> = (props) => {
          {{else if isContain .JavaName "remark"}}
             <Input.TextArea rows={2} placeholder={'请输入备注'}/>
          {{else}}
-            <Input id="create-{{.JavaName}}" placeholder={'请输入{{.ColumnComment}}!'}/>
+            <Input id="update-{{.JavaName}}" placeholder={'请输入{{.ColumnComment}}!'}/>
          {{end}}</FormItem>{{end}}
       </>
     );
@@ -103,7 +103,7 @@ const UpdateForm: React.FC<UpdateFormProps> = (props) => {
       forceRender
       destroyOnClose
       title="编辑"
-      open={updateModalVisible}
+      open={updateVisible}
       {...modalFooter}
     >
       <Form
@@ -117,4 +117,4 @@ const UpdateForm: React.FC<UpdateFormProps> = (props) => {
   );
 };
 
-export default UpdateForm;
+export default UpdateModal;

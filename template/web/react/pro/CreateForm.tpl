@@ -2,10 +2,10 @@ import React, {useEffect} from 'react';
 import {Form, Input, InputNumber, Modal, Radio} from 'antd';
 import type { {{.JavaName}}ListItem} from '../data.d';
 
-export interface CreateFormProps {
+export interface AddModalProps {
   onCancel: () => void;
   onSubmit: (values: {{.JavaName}}ListItem) => void;
-  createModalVisible: boolean;
+  addVisible: boolean;
 }
 
 const FormItem = Form.Item;
@@ -15,20 +15,20 @@ const formLayout = {
   wrapperCol: {span: 13},
 };
 
-const CreateForm: React.FC<CreateFormProps> = (props) => {
+const AddModal: React.FC<AddModalProps> = (props) => {
   const [form] = Form.useForm();
 
   const {
     onSubmit,
     onCancel,
-    createModalVisible,
+    addVisible,
   } = props;
 
   useEffect(() => {
-    if (form && !createModalVisible) {
+    if (form && !addVisible) {
       form.resetFields();
     }
-  }, [props.createModalVisible]);
+  }, [props.addVisible]);
 
 
   const handleSubmit = () => {
@@ -86,7 +86,7 @@ const CreateForm: React.FC<CreateFormProps> = (props) => {
       forceRender
       destroyOnClose
       title="新增"
-      open={createModalVisible}
+      open={addVisible}
       {...modalFooter}
     >
       <Form
@@ -100,4 +100,4 @@ const CreateForm: React.FC<CreateFormProps> = (props) => {
   );
 };
 
-export default CreateForm;
+export default AddModal;

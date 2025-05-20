@@ -6,8 +6,8 @@ import type {ActionType, ProColumns} from '@ant-design/pro-table';
 import ProTable from '@ant-design/pro-table';
 import type {ProDescriptionsItemProps} from '@ant-design/pro-descriptions';
 import ProDescriptions from '@ant-design/pro-descriptions';
-import CreateForm from './components/CreateForm';
-import UpdateForm from './components/UpdateForm';
+import AddModal from './components/AddModal';
+import UpdateModal from './components/UpdateModal';
 import type { {{.JavaName}}ListItem} from './data.d';
 import {add{{.JavaName}}, query{{.JavaName}}List, remove{{.JavaName}}, update{{.JavaName}}, update{{.JavaName}}Status} from './service';
 
@@ -89,8 +89,8 @@ const handleStatus = async (ids: number[], status: number) => {
 };
 
 const {{.JavaName}}List: React.FC = () => {
-  const [createModalVisible, handleModalVisible] = useState<boolean>(false);
-  const [updateModalVisible, handleUpdateModalVisible] = useState<boolean>(false);
+  const [addVisible, handleAddVisible] = useState<boolean>(false);
+  const [updateVisible, handleUpdateVisible] = useState<boolean>(false);
   const [showDetail, setShowDetail] = useState<boolean>(false);
   const actionRef = useRef<ActionType>();
   const [currentRow, setCurrentRow] = useState<{{.JavaName}}ListItem>();
@@ -232,7 +232,7 @@ const {{.JavaName}}List: React.FC = () => {
           <a
             key="sort"
             onClick={() => {
-              handleUpdateModalVisible(true);
+              handleUpdateVisible(true);
               setCurrentRow(record);
               }
             }
@@ -264,7 +264,7 @@ return (
           labelWidth: 120,
         } }
         toolBarRender={() => [
-          <Button type="primary" key="primary" onClick={() => handleModalVisible(true)}>
+          <Button type="primary" key="primary" onClick={() => handleAddVisible(true)}>
             <PlusOutlined/> 新增
           </Button>,
         ]}
@@ -308,12 +308,12 @@ return (
       />
 
 
-      <CreateForm
-        key={'CreateForm'}
+      <AddModal
+        key={'AddModal'}
         onSubmit={async (value) => {
           const success = await handleAdd(value);
           if (success) {
-            handleModalVisible(false);
+            handleAddVisible(false);
             setCurrentRow(undefined);
             if (actionRef.current) {
               actionRef.current.reload();
@@ -321,20 +321,20 @@ return (
           }
         }}
         onCancel={() => {
-          handleModalVisible(false);
+          handleAddVisible(false);
           if (!showDetail) {
             setCurrentRow(undefined);
           }
         }}
-        createModalVisible={createModalVisible}
+        addVisible={addVisible}
       />
 
-      <UpdateForm
-        key={'UpdateForm'}
+      <UpdateModal
+        key={'UpdateModal'}
         onSubmit={async (value) => {
           const success = await handleUpdate(value);
           if (success) {
-            handleUpdateModalVisible(false);
+            handleUpdateVisible(false);
             setCurrentRow(undefined);
             if (actionRef.current) {
               actionRef.current.reload();
@@ -342,12 +342,12 @@ return (
           }
         }}
         onCancel={() => {
-          handleUpdateModalVisible(false);
+          handleUpdateVisible(false);
           if (!showDetail) {
             setCurrentRow(undefined);
           }
         }}
-        updateModalVisible={updateModalVisible}
+        updateVisible={updateVisible}
         currentData={currentRow || {} }
       />
 

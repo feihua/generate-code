@@ -36,7 +36,7 @@ func (l *Update{{.JavaName}}Logic) Update{{.JavaName}}(req *types.Update{{.JavaN
         {{- if isContain .GoNamePublic "UpdateTime"}}
         {{- else if isContain .GoNamePublic "Create"}}
         {{- else if eq .GoNamePublic "UpdateBy"}}
-        UpdateBy: l.ctx.Value("userName").(string),
+        UpdateBy: l.ctx.Value("userName").(string), //{{.ColumnComment}}
         {{- else}}
         {{.GoNamePublic}}: req.{{.GoNamePublic}}, //{{.ColumnComment}}
         {{- end}}

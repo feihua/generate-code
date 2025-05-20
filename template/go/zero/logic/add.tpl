@@ -37,7 +37,7 @@ func (l *Add{{.JavaName}}Logic) Add{{.JavaName}}(req *types.Add{{.JavaName}}Req)
         {{- else if isContain .GoNamePublic "Update"}}
         {{- else if eq .ColumnKey "PRI"}}
         {{- else if eq .GoNamePublic "CreateBy"}}
-        CreateBy: l.ctx.Value("userName").(string),
+        CreateBy: l.ctx.Value("userName").(string), //{{.ColumnComment}}
         {{- else}}
         {{.GoNamePublic}}: req.{{.GoNamePublic}}, //{{.ColumnComment}}
         {{- end}}

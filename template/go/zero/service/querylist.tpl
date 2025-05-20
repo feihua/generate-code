@@ -69,7 +69,6 @@ func (l *Query{{.JavaName}}ListLogic) Query{{.JavaName}}List(in *{{.RpcClient}}.
 		})
 	}
 
-	logc.Infof(l.ctx, "查询{{.Comment}}列表信息,参数：%+v,响应：%+v", in, list)
 
 	return &{{.RpcClient}}.Query{{.JavaName}}ListResp{
 	    Total: count,

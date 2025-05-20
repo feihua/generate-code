@@ -42,6 +42,5 @@ func (l *Query{{.JavaName}}DetailLogic) Query{{.JavaName}}Detail(in *{{.RpcClien
     {{- end}}
 	}
 
-    logc.Infof(l.ctx, "查询{{.Comment}}详情,参数：%+v,响应：%+v", in, data)
 	return data, nil
 }

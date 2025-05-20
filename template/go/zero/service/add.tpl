@@ -48,6 +48,5 @@ func (l *Add{{.JavaName}}Logic) Add{{.JavaName}}(in *{{.RpcClient}}.Add{{.JavaNa
 		return nil, errors.New("添加{{.Comment}}失败")
 	}
 
-    logc.Infof(l.ctx, "添加{{.Comment}}成功,参数：%+v", in)
 	return &{{.RpcClient}}.Add{{.JavaName}}Resp{}, nil
 }

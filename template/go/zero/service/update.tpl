@@ -59,6 +59,5 @@ func (l *Update{{.JavaName}}Logic) Update{{.JavaName}}(in *{{.RpcClient}}.Update
 		return nil, errors.New("更新{{.Comment}}失败")
 	}
 
-    logc.Infof(l.ctx, "更新{{.Comment}}成功,参数：%+v", in)
 	return &{{.RpcClient}}.Update{{.JavaName}}Resp{}, nil
 }

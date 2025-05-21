@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"github.com/zeromicro/go-zero/core/logc"
 	"github.com/zeromicro/go-zero/core/logx"
+	"gorm.io/gorm"
 )
 
 // Update{{.JavaName}}Logic 更新{{.Comment}}
@@ -34,10 +35,14 @@ func (l *Update{{.JavaName}}Logic) Update{{.JavaName}}(in *{{.RpcClient}}.Update
     // 1.根据{{.Comment}}id查询{{.Comment}}是否已存在
 	_, err := q.Where(query.{{.UpperOriginalName}}.ID.Eq(in.Id)).First()
 
-	if err != nil {
-		logc.Errorf(l.ctx, "根据{{.Comment}}id：%d,查询{{.Comment}}失败,异常:%s", in.Id, err.Error())
-		return nil, errors.New(fmt.Sprintf("查询{{.Comment}}失败"))
-	}
+    switch {
+    case errors.Is(err, gorm.ErrRecordNotFound):
+        logc.Errorf(l.ctx, "{{.Comment}}不存在, 请求参数：%+v, 异常信息: %s", in, err.Error())
+        return nil, errors.New("{{.Comment}}不存在")
+    case err != nil:
+        logc.Errorf(l.ctx, "查询{{.Comment}}异常, 请求参数：%+v, 异常信息: %s", in, err.Error())
+        return nil, errors.New("查询{{.Comment}}异常")
+    }
 
 	item := &model.{{.UpperOriginalName}}{
 	{{- range .TableColumn}}

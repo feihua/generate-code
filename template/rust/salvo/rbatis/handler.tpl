@@ -4,7 +4,7 @@
 
 use rbatis::rbdc::datetime::DateTime;
 use rbatis::plugin::page::PageRequest;
-use rbs::to_value;
+use rbs::value;
 use salvo::{Request, Response};
 use salvo::prelude::*;
 
@@ -58,7 +58,7 @@ pub async fn delete_{{.RustName}}(req: &mut Request, res: &mut Response) {
     let item = req.parse_json::<Delete{{.JavaName}}Req>().await?;
     log::info!("{{.RustName}}_delete params: {:?}", &item);
 
-    {{.JavaName}}::delete_in_column(&mut RB.clone(), "id", &item.ids).await?;
+    {{.JavaName}}::delete_by_map(&mut RB.clone(), value!{"id": &item.ids}).await?;
 
     res.render(Json(handle_result(result)))
 }
@@ -91,7 +91,7 @@ pub async fn update_{{.RustName}}(req: &mut Request, res: &mut Response) {
     {{- end}}
     };
 
-    {{.JavaName}}::update_by_column(&mut RB.clone(), &{{.RustName}}, "id").await?;
+    {{.JavaName}}::update_by_map(&mut RB.clone(), &{{.RustName}}, value!{"id": &item.id}).await?;
 
     BaseResponse::<String>::ok_result(res)
 }
@@ -107,7 +107,7 @@ pub async fn update_{{.RustName}}_status(req: &mut Request, res: &mut Response) 
     log::info!("update_{{.RustName}}_status params: {:?}", &item);
 
     let rb = &mut RB.clone();
-    let param = vec![to_value!(1), to_value!(1)];
+    let param = vec![value!(1), value!(1)];
     rb.exec("update {{.OriginalName}} set status = ? where id in ?", param).await?;
 
     BaseResponse::<String>::ok_result(res)

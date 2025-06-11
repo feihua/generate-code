@@ -39,12 +39,13 @@ to quickly create a Cobra application.`,
 			Generate(t, "template/go/zero/logic/querydetail.tpl", path+"/api/logic/"+name, "query"+name+"detaillogic.go")
 			Generate(t, "template/go/zero/logic/querylist.tpl", path+"/api/logic/"+name, "query"+name+"listlogic.go")
 
-			Generate(t, "template/go/zero/service/add.tpl", path+"/proto/service/"+name+"service", "add"+name+"logic.go")
-			Generate(t, "template/go/zero/service/delete.tpl", path+"/proto/service/"+name+"service", "delete"+name+"logic.go")
-			Generate(t, "template/go/zero/service/update.tpl", path+"/proto/service/"+name+"service", "update"+name+"logic.go")
-			Generate(t, "template/go/zero/service/updatestatus.tpl", path+"/proto/service/"+name+"service", "update"+name+"statuslogic.go")
-			Generate(t, "template/go/zero/service/querydetail.tpl", path+"/proto/service/"+name+"service", "query"+name+"detaillogic.go")
-			Generate(t, "template/go/zero/service/querylist.tpl", path+"/proto/service/"+name+"service", "query"+name+"listlogic.go")
+			Generate(t, "template/go/zero/service/add.tpl", path+"/proto/service/"+name+"service", "add_"+t.GoName+"_logic.go")
+			Generate(t, "template/go/zero/service/delete.tpl", path+"/proto/service/"+name+"service", "delete_"+t.GoName+"_logic.go")
+			Generate(t, "template/go/zero/service/update.tpl", path+"/proto/service/"+name+"service", "update_"+t.GoName+"_logic.go")
+			Generate(t, "template/go/zero/service/updatestatus.tpl", path+"/proto/service/"+name+"service", "update_"+t.GoName+"_status_logic.go")
+			Generate(t, "template/go/zero/service/querydetail.tpl", path+"/proto/service/"+name+"service", "query_"+t.GoName+"_detail_logic.go")
+			Generate(t, "template/go/zero/service/querylist.tpl", path+"/proto/service/"+name+"service", "query_"+t.GoName+"_list_logic.go")
+			Generate(t, "template/go/zero/service/mongotypes.tpl", path+"/proto/model", t.GoName+"_types.go")
 		}
 	},
 }

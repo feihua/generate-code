@@ -1,4 +1,4 @@
-package {{.GoName}}servicelogic
+package {{.GoName}}service
 
 import (
 	"context"

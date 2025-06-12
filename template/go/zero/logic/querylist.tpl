@@ -64,10 +64,10 @@ func (l *Query{{.JavaName}}ListLogic) Query{{.JavaName}}List(req *types.Query{{.
 	return &types.Query{{.JavaName}}ListResp{
 		Code:    "000000",
 		Message: "查询{{.Comment}}列表成功",
-		Current:  req.Current,
         Data:     list,
+        Current:  req.Current,
         PageSize: req.PageSize,
-        Success:  true,
         Total:    result.Total,
+        Success:  true,
 	}, nil
 }

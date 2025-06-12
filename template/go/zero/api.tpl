@@ -118,11 +118,12 @@ type (
 	Query{{.JavaName}}ListResp {
 		Code     string              `json:"code"`
 		Message  string              `json:"message"`
-		Current  int64               `json:"current,default=1"`
 		Data     []*Query{{.JavaName}}ListData `json:"data"`
+		Current  int64               `json:"current,default=1"`
 		PageSize int64               `json:"pageSize,default=20"`
-		Success  bool                `json:"success"`
 		Total    int64               `json:"total"`
+		Success  bool                `json:"success"`
+
 	}
 )
 

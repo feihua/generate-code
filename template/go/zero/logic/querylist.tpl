@@ -31,8 +31,8 @@ func NewQuery{{.JavaName}}ListLogic(ctx context.Context, svcCtx *svc.ServiceCont
 // Query{{.JavaName}}List 查询{{.Comment}}列表
 func (l *Query{{.JavaName}}ListLogic) Query{{.JavaName}}List(req *types.Query{{.JavaName}}ListReq) (resp *types.Query{{.JavaName}}ListResp, err error) {
     result, err := l.svcCtx.{{.JavaName}}Service.Query{{.JavaName}}List(l.ctx, &{{.RpcClient}}.Query{{.JavaName}}ListReq{
-		PageNum:    req.Current,
-		PageSize:   req.PageSize,
+		PageNum:    req.Current, //当前页
+		PageSize:   req.PageSize, //每页条数
         {{- range .TableColumn}}
         {{- if eq .ColumnKey "PRI"}}
         {{- else if isContain .GoNamePublic "Update"}}

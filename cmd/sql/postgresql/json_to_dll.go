@@ -79,7 +79,7 @@ func (j *JSONToPostgreSQLDDL) analyzeObject(obj map[string]interface{}) {
 				Name:      utils.CamelToSnake(columnName),
 				DataType:  dataType,
 				NotNull:   notNull,
-				Comment:   fmt.Sprintf("字段: %s", utils.CamelToSnake(columnName)),
+				Comment:   fmt.Sprintf("字段: %s", key),
 			}
 		}
 	}

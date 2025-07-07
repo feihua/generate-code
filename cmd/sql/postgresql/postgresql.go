@@ -1,18 +1,13 @@
-/*
-Copyright © 2023 NAME HERE <EMAIL ADDRESS>
-*/
 package postgresql
 
 import (
 	"bytes"
 	"fmt"
 	"github.com/feihua/generate-code/utils"
+	"github.com/spf13/cobra"
 	"io/ioutil"
 	"os"
 	"text/template"
-	"time"
-
-	"github.com/spf13/cobra"
 )
 
 var Cmd = &cobra.Command{
@@ -23,55 +18,45 @@ and usage of using your command. For example:
 
 `,
 	Run: func(c *cobra.Command, args []string) {
-		tables := utils.New().QueryTables(Dsn, TableNames, prefix)
-		var path = "generate/rust/salvo/" + OrmType + "/" + PackageName
-		if OrmType == "rbatis" {
+		jsonStr, err := readJSONFile(JsonFile)
+		if err != nil {
+			fmt.Printf("读取JSON文件失败: %v", err)
+			return
+		}
+		fmt.Printf("正在分析文件: %s\n", JsonFile)
+		fmt.Printf("表名: %s\n\n", TableName)
 
-			for _, t := range tables {
-				Generate(t, "template/rust/salvo/rbatis/vo.tpl", path+"/vo", t.RustName+"_vo.rs")
-				Generate(t, "template/rust/salvo/rbatis/model.tpl", path+"/model", t.RustName+".rs")
-				Generate(t, "template/rust/salvo/rbatis/handler.tpl", path+"/handler", t.RustName+"_handler.rs")
-			}
+		converter := NewJSONToPostgreSQLDDL(TableName)
 
-		} else if OrmType == "sea" {
-			for _, t := range tables {
-				Generate(t, "template/rust/salvo/sea/vo.tpl", path+"/vo", t.RustName+"_vo.rs")
-				// Generate(t, "template/rust/salvo/sea/model.tpl", path+"/model", t.RustName+".rs")
-				Generate(t, "template/rust/salvo/sea/handler.tpl", path+"/handler", t.RustName+"_handler.rs")
-			}
-
-		} else if OrmType == "diesel" {
-			for _, t := range tables {
-				Generate(t, "template/rust/salvo/diesel/vo.tpl", path+"/vo", t.RustName+"_vo.rs")
-				// Generate(t, "template/rust/salvo/diesel/model.tpl", path+"/model", t.RustName+".rs")
-				Generate(t, "template/rust/salvo/diesel/handler.tpl", path+"/handler", t.RustName+"_handler.rs")
-			}
-
+		err = converter.AnalyzeJSON(jsonStr)
+		if err != nil {
+			fmt.Printf("分析JSON失败: %v", err)
+			return
 		}
 
+		var path = "generate/sql/postgresql"
+		var params map[string]interface{}
+		params = map[string]interface{}{
+			"TableName": converter.TableName,
+			"Indexes":   converter.GeneratePostgreSQLIndexes(),
+			"Columns":   converter.GeneratePostgreSQLDDL(),
+		}
+		Generate(params, "template/sql/postgresql_dll.tpl", path)
 	},
 }
 
-var Dsn string
-var TableNames string
-var prefix string
-var PackageName string
-var OrmType string
-var Author string
+var TableName string
+var JsonFile string
 
 func init() {
 
-	// go run main.go rust salvo --dsn "root:oMbPi5munxCsBSsiLoPV@tcp(110.41.179.89:3306)/salvodb" --tableNames sys_ --prefix sys_  --orm diesel --author LiuFeiHua --packageName sys
-	Cmd.Flags().StringVarP(&Dsn, "dsn", "", "", "请输入数据库的地址")
-	Cmd.Flags().StringVarP(&TableNames, "tableNames", "", "", "请输入表名称")
-	Cmd.Flags().StringVarP(&prefix, "prefix", "", "", "生成表时候去掉前缀")
+	// go run main.go sql postgresql --tableName test --jsonFile test.json
+	Cmd.Flags().StringVarP(&TableName, "tableName", "", "", "请输入表名称")
+	Cmd.Flags().StringVarP(&JsonFile, "jsonFile", "", "", "请输入JSON文件路径")
 
-	Cmd.Flags().StringVarP(&PackageName, "packageName", "", "", "请输入包名称")
-	Cmd.Flags().StringVarP(&OrmType, "orm", "", "", "请输入持久层")
-	Cmd.Flags().StringVarP(&Author, "author", "", "", "请输入作者名称")
 }
 
-func Generate(t utils.Table, tplName, path, fileName string) error {
+func Generate(t map[string]interface{}, tplName, path string) error {
 	htmlByte, err := utils.TemplateFileData.ReadFile(tplName)
 	// htmlByte, err := ioutil.ReadFile(tplName)
 	if err != nil {
@@ -83,9 +68,6 @@ func Generate(t utils.Table, tplName, path, fileName string) error {
 	tpl, _ := template.New("abc.html").Funcs(fmap).Parse(string(htmlByte))
 	// tpl, err := template.ParseFiles(tplName)
 
-	t.Author = Author
-	t.PackageName = PackageName
-	t.CreateTime = time.Now().Format("2006/01/02 15:04:05")
 	err = tpl.Execute(os.Stdout, t)
 	if err != nil {
 		return err
@@ -101,5 +83,5 @@ func Generate(t utils.Table, tplName, path, fileName string) error {
 		return err
 	}
 
-	return ioutil.WriteFile(path+string(os.PathSeparator)+fileName, buf.Bytes(), 0755)
+	return ioutil.WriteFile(path+string(os.PathSeparator)+TableName+".sql", buf.Bytes(), 0755)
 }

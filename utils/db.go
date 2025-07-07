@@ -334,4 +334,17 @@ func Replace(str, o, n string) string {
 	return strings.ReplaceAll(str, o, n)
 }
 
+func CamelToSnake(s string) string {
+	var result strings.Builder
+	for i, c := range s {
+		if i > 0 && c >= 'A' && c <= 'Z' {
+			result.WriteRune('_')
+			result.WriteRune(c - 'A' + 'a')
+		} else {
+			result.WriteRune(c)
+		}
+	}
+	return result.String()
+}
+
 var TemplateFileData embed.FS

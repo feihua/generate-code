@@ -27,6 +27,10 @@ import (
 	"github.com/feihua/generate-code/cmd/rust/ntex"
 	"github.com/feihua/generate-code/cmd/rust/rocket"
 	"github.com/feihua/generate-code/cmd/rust/salvo"
+	"github.com/feihua/generate-code/cmd/sql"
+	"github.com/feihua/generate-code/cmd/sql/mysql"
+	"github.com/feihua/generate-code/cmd/sql/oracle"
+	"github.com/feihua/generate-code/cmd/sql/postgresql"
 	"github.com/feihua/generate-code/cmd/web"
 	"github.com/feihua/generate-code/cmd/web/angular/ng_zorro_antd"
 	"github.com/feihua/generate-code/cmd/web/react/antd"
@@ -102,4 +106,9 @@ func init() {
 
 	RootCmd.AddCommand(net.NetCmd)
 	net.NetCmd.AddCommand(web_api.Cmd)
+
+	RootCmd.AddCommand(sql.SqlCmd)
+	sql.SqlCmd.AddCommand(mysql.Cmd)
+	sql.SqlCmd.AddCommand(oracle.Cmd)
+	sql.SqlCmd.AddCommand(postgresql.Cmd)
 }

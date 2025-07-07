@@ -25,6 +25,7 @@ COMMENT ON COLUMN {{.TableName}}.create_time IS '创建时间';
 COMMENT ON COLUMN {{.TableName}}.update_by IS '更新人';
 COMMENT ON COLUMN {{.TableName}}.update_time IS '更新时间';
 COMMENT ON COLUMN {{.TableName}}.is_deleted IS '是否删除';
+
 -- 索引建议
 {{- range .Indexes}}
 {{.}}

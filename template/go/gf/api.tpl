@@ -89,13 +89,6 @@ type Query{{.JavaName}}DetailReq struct {
 }
 type Query{{.JavaName}}DetailRes struct {
 	g.Meta   `mime:"application/json" example:"string"`
-	Data     {{.JavaName}}Detail    `json:"data"`
-	PageNum  int              `json:"pageNum"`
-	PageSize int              `json:"pageSize"`
-	Total    int              `json:"total"`
-}
-
-type {{.JavaName}}Detail struct {
 {{range .TableColumn}}  {{$typeLen :=len .GoType}}{{if gt $typeLen 0}}{{.GoNamePublic}} {{if eq .GoType `time.Time`}}gtime.Time{{else}}{{.GoType}}{{end}} `json:"{{.JavaName}}"{{else}}{{.GoNamePublic}}{{end}} description:"{{.ColumnComment}}"`
 {{end}}
 }

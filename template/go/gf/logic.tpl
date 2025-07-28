@@ -110,7 +110,7 @@ func (s *{{.JavaName}}Service) Query{{.JavaName}}Detail(ctx context.Context, req
 		return nil, err
 	}
 
-	err = gconv.Struct(record, out.Data)
+	err = gconv.Struct(record, &out)
 	if err != nil {
 		return nil, err
 	}

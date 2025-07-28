@@ -8,26 +8,16 @@ Date: {{.CreateTime}}
 
 import (
 	"context"
-	"github.com/gogf/gf/v2/util/gconv"
-	"{{.ProjectName}}/internal/model"
-	"{{.ProjectName}}/internal/service"
-
 	"{{.ProjectName}}/api/{{.ModuleName}}/v1"
+	"{{.ProjectName}}/internal/service/{{.ModuleName}}"
 )
 
 // Update{{.JavaName}} 更新{{.Comment}}
 func (c *ControllerV1) Update{{.JavaName}}(ctx context.Context, req *v1.Update{{.JavaName}}Req) (res *v1.Update{{.JavaName}}Res, err error) {
-	var input = model.Update{{.JavaName}}Input{}
-	err = gconv.Struct(req, &input)
-	if err != nil {
-		return nil, err
-	}
-	_, err = service.{{.JavaName}}().Update{{.JavaName}}(ctx, input)
+	_, err = system.New{{.JavaName}}Service().Update{{.JavaName}}(ctx, req)
 	if err != nil {
 		return nil, err
 	}
 
-	res = &v1.Update{{.JavaName}}Res{}
-
-	return
+	return res, nil
 }

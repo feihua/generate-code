@@ -8,26 +8,16 @@ Date: {{.CreateTime}}
 
 import (
 	"context"
-	"github.com/gogf/gf/v2/util/gconv"
-	"{{.ProjectName}}/internal/model"
-	"{{.ProjectName}}/internal/service"
-
 	"{{.ProjectName}}/api/{{.ModuleName}}/v1"
+	"{{.ProjectName}}/internal/service/{{.ModuleName}}"
 )
 
 // Add{{.JavaName}} 添加{{.Comment}}
 func (c *ControllerV1) Add{{.JavaName}}(ctx context.Context, req *v1.Add{{.JavaName}}Req) (res *v1.Add{{.JavaName}}Res, err error) {
-	var input = model.Add{{.JavaName}}Input{}
-	err = gconv.Struct(req, &input)
-	if err != nil {
-		return nil, err
-	}
-	_, err = service.{{.JavaName}}().Add{{.JavaName}}(ctx, input)
+	res, err = system.New{{.JavaName}}Service().Add{{.JavaName}}(ctx, req)
 	if err != nil {
 		return nil, err
 	}
 
-	res = &v1.Add{{.JavaName}}Res{}
-
-	return
+	return res, nil
 }

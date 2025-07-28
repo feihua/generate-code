@@ -8,32 +8,16 @@ Date: {{.CreateTime}}
 
 import (
 	"context"
-	"github.com/gogf/gf/v2/util/gconv"
-	"{{.ProjectName}}/internal/model"
-	"{{.ProjectName}}/internal/service"
+	"{{.ProjectName}}/internal/service/{{.ModuleName}}"
 
-	"{{.ProjectName}}/api/{{.ModuleName}}/v1"
 )
 
  // Query{{.JavaName}}List 查询{{.Comment}}详情
 func (c *ControllerV1) Query{{.JavaName}}Detail(ctx context.Context, req *v1.Query{{.JavaName}}DetailReq) (res *v1.Query{{.JavaName}}DetailRes, err error) {
-	var input = model.Query{{.JavaName}}DetailInput{}
-
-	err = gconv.Struct(req, &input)
-	if err != nil {
-		return nil, err
-	}
-	output, err := service.{{.JavaName}}().Query{{.JavaName}}Detail(ctx, input)
+	output, err := system.New{{.JavaName}}Service().Query{{.JavaName}}Detail(ctx, req)
 	if err != nil {
 		return nil, err
 	}
 
-	res = &v1.Query{{.JavaName}}DetailRes{}
-
-	err = gconv.Struct(output, res)
-	if err != nil {
-		return nil, err
-	}
-
-	return
+	return res, nil
 }

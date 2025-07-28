@@ -30,6 +30,7 @@ type Add{{.JavaName}}Req struct {
 
 }
 type Add{{.JavaName}}Res struct {
+    Id int64 `json:"id" description:"主键"`
 }
 
 // Delete{{.JavaName}}Req 删除{{.Comment}}
@@ -80,6 +81,11 @@ type Update{{.JavaName}}StatusRes struct {
 // Query{{.JavaName}}DetailReq 查询{{.Comment}}详情
 type Query{{.JavaName}}DetailReq struct {
 	g.Meta   `path:"/{{.LowerJavaName}}/query{{.JavaName}}Detail" tags:"{{.Comment}}操作" method:"post" summary:"查询{{.Comment}}详情"`
+    {{- range .TableColumn}}
+    {{- if eq .ColumnKey "PRI"}}
+    {{.GoNamePublic}} {{.GoType}} `json:"{{.JavaName}}" v:"required#请输入{{.JavaName}}{{.ColumnComment}}" dc:"{{.ColumnComment}}"`
+    {{- end}}
+    {{- end}}
 }
 type Query{{.JavaName}}DetailRes struct {
 	g.Meta   `mime:"application/json" example:"string"`

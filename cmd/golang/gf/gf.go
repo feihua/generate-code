@@ -29,7 +29,7 @@ to quickly create a Cobra application.`,
 		var path = "generate/go/gf"
 		for _, t := range tables {
 			Generate(t, "template/go/gf/api.tpl", path+"/api/"+moduleName+"/v1")
-			Generate(t, "template/go/gf/logic.tpl", path+"/logic/"+moduleName+"_"+t.GoName)
+			Generate(t, "template/go/gf/logic.tpl", path+"/service/"+moduleName)
 			Generate(t, "template/go/gf/model.tpl", path+"/model")
 
 			pathName := path + "/controller/" + moduleName
@@ -51,8 +51,8 @@ var projectName string
 var author string
 
 func init() {
-	//go run main.go golang gf --dsn "root:oMbPi5munxCsBSsiLoPV@tcp(110.41.179.89:3306)/hertzdb" --tableNames sys_ --prefix sys_ --moduleName system --projectName gf-admin --author koobe
-	//main.exe golang gf --dsn "root:oMbPi5munxCsBSsiLoPV@tcp(110.41.179.89:3306)/hertzdb" --tableNames sys_ --prefix sys_ --moduleName system --projectName gf-admin --author koobe
+	// go run main.go golang gf --dsn "root:123456@tcp(127.0.0.1:3306)/hertz-admin" --tableNames sys_ --prefix sys_ --moduleName system --projectName github.com/feihua/gf-admin --author koobe
+	// main.exe golang gf --dsn "root:123456@tcp(127.0.0.1:3306)/hertz-admin" --tableNames sys_ --prefix sys_ --moduleName system --projectName github.com/feihua/gf-admin --author koobe
 	Cmd.Flags().StringVarP(&Dsn, "dsn", "", "", "请输入数据库的地址")
 	Cmd.Flags().StringVarP(&TableNames, "tableNames", "", "", "请输入表名称")
 	Cmd.Flags().StringVarP(&prefix, "prefix", "", "", "生成表时候去掉前缀")
@@ -65,7 +65,7 @@ func init() {
 
 func Generate(t utils.Table, tplName, path string) error {
 	htmlByte, err := utils.TemplateFileData.ReadFile(tplName)
-	//htmlByte, err := ioutil.ReadFile(tplName)
+	// htmlByte, err := ioutil.ReadFile(tplName)
 	if err != nil {
 		fmt.Println("read html failed, err:", err)
 		return err
@@ -73,7 +73,7 @@ func Generate(t utils.Table, tplName, path string) error {
 
 	fmap := template.FuncMap{"isContain": utils.IsContain, "Replace": utils.Replace}
 	tpl, _ := template.New("abc.html").Funcs(fmap).Parse(string(htmlByte))
-	//tpl, err := template.ParseFiles(tplName)
+	// tpl, err := template.ParseFiles(tplName)
 
 	t.ModuleName = moduleName
 	t.ProjectName = projectName

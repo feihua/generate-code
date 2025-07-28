@@ -1,4 +1,4 @@
-package assetmanager_approval_record
+package {{.ModuleName}}
 
 /*
 {{.Comment}}相关逻辑
@@ -10,40 +10,46 @@ import (
 	"context"
 	"github.com/gogf/gf/v2/util/gconv"
 	"{{.ProjectName}}/internal/dao"
-	"{{.ProjectName}}/internal/model"
-	"{{.ProjectName}}/internal/service"
+    "{{.ProjectName}}/internal/model/do"
 )
 
-type s{{.JavaName}} struct {
+type {{.JavaName}}Service struct {
 }
 
-func init() {
-	service.Register{{.JavaName}}(New())
-}
-
-func New() *s{{.JavaName}} {
-	return &s{{.JavaName}}{}
+func New{{.JavaName}}Service() *{{.JavaName}}Service {
+	return &{{.JavaName}}Service{}
 }
 
 // Add{{.JavaName}} 添加{{.Comment}}
-func (s *s{{.JavaName}}) Add{{.JavaName}}(ctx context.Context, in model.Add{{.JavaName}}Input) (*model.Add{{.JavaName}}Output, error) {
+func (s *{{.JavaName}}Service) Add{{.JavaName}}(ctx context.Context, req *v1.Add{{.JavaName}}Req) (*v1.Add{{.JavaName}}Res, error) {
 
-	out := &model.Add{{.JavaName}}Output{}
+    in := &do.{{.JavaName}}{
+    {{- range .TableColumn}}
+        {{- if isContain .GoNamePublic "CreateTime"}}
+        {{- else if isContain .GoNamePublic "Update"}}
+        {{- else if eq .ColumnKey "PRI"}}
+        {{- else}}
+        {{.GoNamePublic}}: req.{{.GoNamePublic}}, //{{.ColumnComment}}
+        {{- end}}
+        {{- end}}
+    }
 
-	_, err := dao.{{.UpperOriginalName}}.Ctx(ctx).Data(in).Insert()
+	insertId, err := dao.{{.JavaName}}.Ctx(ctx).Data(in).InsertAndGetId()
 	if err != nil {
 		return nil, err
 	}
 
-	return out, nil
+	return &v1.Add{{.JavaName}}Res{
+		Id: insertId,
+	}, nil
 }
 
 // Delete{{.JavaName}} 删除{{.Comment}}
-func (s *s{{.JavaName}}) Delete{{.JavaName}}(ctx context.Context, in model.Delete{{.JavaName}}Input) (*model.Delete{{.JavaName}}Output, error) {
+func (s *{{.JavaName}}Service) Delete{{.JavaName}}(ctx context.Context, req *v1.Delete{{.JavaName}}Req) (*v1.Delete{{.JavaName}}Res, error) {
 
-	out := &model.Delete{{.JavaName}}Output{}
+	out := &v1.Delete{{.JavaName}}Res{}
 
-	_, err := dao.{{.UpperOriginalName}}.Ctx(ctx).WhereIn("id", in.Ids).Delete()
+	_, err := dao.{{.JavaName}}.Ctx(ctx).WhereIn("id", req.Ids).Delete()
 	if err != nil {
 		return nil, err
 	}
@@ -52,11 +58,21 @@ func (s *s{{.JavaName}}) Delete{{.JavaName}}(ctx context.Context, in model.Delet
 }
 
 // Update{{.JavaName}} 更新{{.Comment}}
-func (s *s{{.JavaName}}) Update{{.JavaName}}(ctx context.Context, in model.Update{{.JavaName}}Input) (*model.Update{{.JavaName}}Output, error) {
+func (s *{{.JavaName}}Service) Update{{.JavaName}}(ctx context.Context, req *v1.Update{{.JavaName}}Req) (*v1.Update{{.JavaName}}Res, error) {
 
-	out := &model.Update{{.JavaName}}Output{}
+	out := &v1.Update{{.JavaName}}Res{}
 
-	_, err := dao.{{.UpperOriginalName}}.Ctx(ctx).Data(in).Where("id", in.Id).Update()
+    in := &do.{{.JavaName}}{
+    {{- range .TableColumn}}
+        {{- if isContain .GoNamePublic "UpdateTime"}}
+        {{- else if isContain .GoNamePublic "Create"}}
+        {{- else}}
+        {{.GoNamePublic}}: req.{{.GoNamePublic}}, //{{.ColumnComment}}
+        {{- end}}
+        {{- end}}
+    }
+
+	_, err := dao.{{.JavaName}}.Ctx(ctx).Data(in).WherePri(req.Id).Update()
 	if err != nil {
 		return nil, err
 	}
@@ -65,11 +81,18 @@ func (s *s{{.JavaName}}) Update{{.JavaName}}(ctx context.Context, in model.Updat
 }
 
 // Update{{.JavaName}}Status 更新{{.Comment}}状态
-func (s *s{{.JavaName}}) Update{{.JavaName}}Status(ctx context.Context, in model.Update{{.JavaName}}StatusInput) (*model.Update{{.JavaName}}StatusOutput, error) {
+func (s *{{.JavaName}}Service) Update{{.JavaName}}Status(ctx context.Context, req *v1.Update{{.JavaName}}StatusReq) (*v1.Update{{.JavaName}}StatusRes, error) {
 
-	out := &model.Update{{.JavaName}}StatusOutput{}
+	out := &v1.Update{{.JavaName}}StatusRes{}
 
-	_, err := dao.{{.UpperOriginalName}}.Ctx(ctx).Data(in).Where("id", in.Ids).Update()
+    in := &do.{{.JavaName}}{
+    {{- range .TableColumn}}
+        {{- if isContain .GoNamePublic "Status"}}
+        {{.GoNamePublic}}: req.{{.GoNamePublic}}, //{{.ColumnComment}}
+        {{- end}}
+        {{- end}}
+    }
+	_, err := dao.{{.JavaName}}.Ctx(ctx).Data(in).Where("id", req.Ids).Update()
 	if err != nil {
 		return nil, err
 	}
@@ -77,17 +100,17 @@ func (s *s{{.JavaName}}) Update{{.JavaName}}Status(ctx context.Context, in model
 	return out, nil
 }
 
-// Record{{.JavaName}}Detail 查询{{.Comment}}详情
-func (s *s{{.JavaName}}) Query{{.JavaName}}Detail(ctx context.Context, in model.Query{{.JavaName}}DetailInput) (*model.Query{{.JavaName}}DetailOutput, error) {
+// Query{{.JavaName}}Detail 查询{{.Comment}}详情
+func (s *{{.JavaName}}Service) Query{{.JavaName}}Detail(ctx context.Context, req *v1.Query{{.JavaName}}DetailReq) (*v1.Query{{.JavaName}}DetailRes, error) {
 
-	out := &model.Query{{.JavaName}}DetailOutput{}
+	out := &v1.Query{{.JavaName}}DetailRes{}
 
-	record, err := dao.{{.UpperOriginalName}}.Ctx(ctx).Where("id", in.Id).One()
+	record, err := dao.{{.JavaName}}.Ctx(ctx).Where("id", req.Id).One()
 	if err != nil {
 		return nil, err
 	}
 
-	err = gconv.Struct(record, out.Record)
+	err = gconv.Struct(record, out.Data)
 	if err != nil {
 		return nil, err
 	}
@@ -96,15 +119,15 @@ func (s *s{{.JavaName}}) Query{{.JavaName}}Detail(ctx context.Context, in model.
 }
 
 // Query{{.JavaName}}List 查询{{.Comment}}
-func (s *s{{.JavaName}}) Query{{.JavaName}}List(ctx context.Context, in model.Query{{.JavaName}}ListInput) (*model.Query{{.JavaName}}ListOutput, error) {
+func (s *{{.JavaName}}Service) Query{{.JavaName}}List(ctx context.Context, req *v1.Query{{.JavaName}}ListReq) (*v1.Query{{.JavaName}}ListRes, error) {
 
-	out := &model.Query{{.JavaName}}ListOutput{
-		PageNum:  in.PageNum,
-		PageSize: in.PageSize,
+	out := &v1.Query{{.JavaName}}ListRes{
+		PageNum:  req.PageNum,
+		PageSize: req.PageSize,
 	}
-	m := dao.{{.UpperOriginalName}}.Ctx(ctx)
+	m := dao.{{.JavaName}}.Ctx(ctx)
 
-	if err := m.Page(in.PageNum, in.PageSize).Scan(&out.List); err != nil {
+	if err := m.Page(req.PageNum, req.PageSize).Scan(&out.List); err != nil {
 		return nil, err
 	}
 

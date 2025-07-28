@@ -36,7 +36,7 @@ to quickly create a Cobra application.`,
 			Generate(t, "template/go/gf/ctrl_add.tpl", pathName)
 			Generate(t, "template/go/gf/ctrl_delete.tpl", pathName)
 			Generate(t, "template/go/gf/ctrl_update.tpl", pathName)
-			Generate(t, "template/go/gf/ctrl_update_status.tpl", pathName)
+			Generate(t, "template/go/gf/ctrl_status.tpl", pathName)
 			Generate(t, "template/go/gf/ctrl_detail.tpl", pathName)
 			Generate(t, "template/go/gf/ctrl_list.tpl", pathName)
 		}

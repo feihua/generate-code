@@ -116,7 +116,7 @@ func Generate(t utils.Table, tplName, path string) error {
 		fileName = moduleName + "_v1_query_" + fileName + "_detail"
 	}
 
-	if strings.Contains(tplName, "ctrl_update_status") {
+	if strings.Contains(tplName, "ctrl_status") {
 		fileName = moduleName + "_v1_update_" + fileName + "_status"
 	}
 

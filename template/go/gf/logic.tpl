@@ -8,6 +8,7 @@ Date: {{.CreateTime}}
 
 import (
 	"context"
+	"github.com/gogf/gf/v2/errors/gerror"
 	"github.com/gogf/gf/v2/util/gconv"
 	"{{.ProjectName}}/internal/dao"
     "{{.ProjectName}}/internal/model/do"
@@ -111,7 +112,7 @@ func (s *{{.JavaName}}Service) Query{{.JavaName}}Detail(ctx context.Context, req
 	}
 
 	if record == nil {
-		return nil, errors.New("{{.Comment}}不存在")
+		return nil, gerror.New("{{.Comment}}不存在")
 	}
 
 	err = gconv.Struct(record, &out)

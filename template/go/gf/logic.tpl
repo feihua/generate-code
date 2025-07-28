@@ -110,6 +110,10 @@ func (s *{{.JavaName}}Service) Query{{.JavaName}}Detail(ctx context.Context, req
 		return nil, err
 	}
 
+	if record == nil {
+		return nil, errors.New("{{.Comment}}不存在")
+	}
+
 	err = gconv.Struct(record, &out)
 	if err != nil {
 		return nil, err

@@ -92,7 +92,7 @@ func (s *{{.JavaName}}Service) Update{{.JavaName}}Status(ctx context.Context, re
         {{- end}}
         {{- end}}
     }
-	_, err := dao.{{.JavaName}}.Ctx(ctx).Data(in).Where("id", req.Ids).Update()
+	_, err := dao.{{.JavaName}}.Ctx(ctx).Data(in).WhereIn"id", req.Ids).Update()
 	if err != nil {
 		return nil, err
 	}

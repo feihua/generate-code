@@ -15,7 +15,7 @@ import (
 
  // Query{{.JavaName}}List 查询{{.Comment}}列表
 func (c *ControllerV1) Query{{.JavaName}}List(ctx context.Context, req *v1.Query{{.JavaName}}ListReq) (res *v1.Query{{.JavaName}}ListRes, err error) {
-	output, err := system.New{{.JavaName}}Service().Query{{.JavaName}}List(ctx, input)
+	res, err := system.New{{.JavaName}}Service().Query{{.JavaName}}List(ctx, input)
 	if err != nil {
 		return nil, err
 	}

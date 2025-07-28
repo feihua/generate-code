@@ -14,7 +14,7 @@ import (
 
 // Update{{.JavaName}} 更新{{.Comment}}
 func (c *ControllerV1) Update{{.JavaName}}(ctx context.Context, req *v1.Update{{.JavaName}}Req) (res *v1.Update{{.JavaName}}Res, err error) {
-	_, err = system.New{{.JavaName}}Service().Update{{.JavaName}}(ctx, req)
+	res, err = system.New{{.JavaName}}Service().Update{{.JavaName}}(ctx, req)
 	if err != nil {
 		return nil, err
 	}

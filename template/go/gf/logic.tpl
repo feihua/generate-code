@@ -129,8 +129,9 @@ func (s *{{.JavaName}}Service) Query{{.JavaName}}List(ctx context.Context, req *
 	out := &v1.Query{{.JavaName}}ListRes{
 		PageNum:  req.PageNum,
 		PageSize: req.PageSize,
+		List:     make([]v1.{{.JavaName}}List, 0),
 	}
-	m := dao.{{.JavaName}}.Ctx(ctx)
+	m := dao.{{.JavaName}}.Ctx(ctx).OrderDesc(dao.{{.JavaName}}.Columns().CreateTime)
 
 	if err := m.Page(req.PageNum, req.PageSize).Scan(&out.List); err != nil {
 		return nil, err

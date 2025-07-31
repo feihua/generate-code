@@ -82,12 +82,12 @@ class {{.JavaName}}Dao {
     {{- else if isContain .JavaName "Sort"}}
 	{{- else if eq .GoType "time.Time"}}
 	{{- else if eq .GoType "string"}}
-        if (!empty($dto->{{.JavaName}})) {
-            $query = $query->where('{{.ColumnName}}', 'like', '%' . $dto->{{.JavaName}} . '%');
+        if (!empty($dto->{{.GoName}})) {
+            $query = $query->where('{{.ColumnName}}', 'like', '%' . $dto->{{.GoName}} . '%');
         }
     {{- else}}
-        if ($dto->{{.JavaName}} != 2) {
-            $query = $query->where('{{.ColumnName}}', $dto->{{.JavaName}});
+        if ($dto->{{.GoName}} != 2) {
+            $query = $query->where('{{.ColumnName}}', $dto->{{.GoName}});
         }
 	{{- end}}
 	{{- end}}

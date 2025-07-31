@@ -1,5 +1,5 @@
 <?php
-use Webman\Route;
+use think\facade\Route;
 
 Route::group('/api', function () {
 

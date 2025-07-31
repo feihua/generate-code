@@ -18,9 +18,9 @@ class Query{{.JavaName}}ListDto extends BaseDto {
 {{- else if isContain .GoNamePublic "Update"}}
 {{- else if eq .ColumnKey "PRI"}}
 {{- else if eq .GoType "string"}}
-    public string ${{.JavaName}}; //{{.ColumnComment}}
+    public string ${{.GoName}}; //{{.ColumnComment}}
 {{- else }}
-    public int ${{.JavaName}} =2 ; //{{.ColumnComment}}
+    public int ${{.GoName}} =2 ; //{{.ColumnComment}}
 {{- end}}
 {{- end}}
 

@@ -26,6 +26,7 @@ class {{.JavaName}}Service {
 
     /**
      * 添加{{.Comment}}
+     * @throws Exception
      */
     public function add{{.JavaName}} (Add{{.JavaName}}Dto $dto): bool {
         $dto->validate();
@@ -35,6 +36,7 @@ class {{.JavaName}}Service {
 
     /**
      * 删除{{.Comment}}
+     * @throws Exception
      */
     public function delete{{.JavaName}} (Delete{{.JavaName}}Dto $dto): bool {
         $dto->validate();
@@ -44,6 +46,7 @@ class {{.JavaName}}Service {
 
     /**
      * 修改{{.Comment}}
+     * @throws Exception
      */
     public function update{{.JavaName}} (Update{{.JavaName}}Dto $dto): bool {
         $dto->validate();
@@ -58,6 +61,7 @@ class {{.JavaName}}Service {
 
     /**
      * 修改{{.Comment}}状态
+     * @throws Exception
      */
     public function update{{.JavaName}}Status (Update{{.JavaName}}StatusDto $dto): Modelable {
         $dto->validate();
@@ -68,6 +72,7 @@ class {{.JavaName}}Service {
     /**
      * 查询{{.Comment}}详情
      * @throws DbException
+     * @throws Exception
      */
     public function query{{.JavaName}}Detail (Query{{.JavaName}}DetailDto $dto): array {
         $dto->validate();
@@ -83,6 +88,7 @@ class {{.JavaName}}Service {
     /**
      * 查询{{.Comment}}列表
      * @throws DbException
+     * @throws Exception
      */
     public function query{{.JavaName}}List (Query{{.JavaName}}ListDto $dto): array {
         $dto->validate();

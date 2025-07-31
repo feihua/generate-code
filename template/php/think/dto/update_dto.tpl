@@ -3,7 +3,7 @@
 namespace app\dto\{{.ModuleName}}\{{.GoName}};
 
 use app\dto\BaseDto;
-use think\Exception;
+use Exception;
 
 
 /**
@@ -14,18 +14,21 @@ class Update{{.JavaName}}Dto extends BaseDto {
 {{- if isContain .GoNamePublic "Create"}}
 {{- else if isContain .GoNamePublic "Update"}}
 {{- else if eq .GoType "string"}}
-    public string ${{.JavaName}}; //{{.ColumnComment}}
+    public string ${{.GoName}}; //{{.ColumnComment}}
 {{- else }}
-    public int ${{.JavaName}}; //{{.ColumnComment}}
+    public int ${{.GoName}}; //{{.ColumnComment}}
 {{- end}}
 {{- end}}
 
+    /**
+     * @throws Exception
+     */
     public function validate (): void {
     {{- range .TableColumn}}
     {{- if isContain .GoNamePublic "Create"}}
     {{- else if isContain .GoNamePublic "Update"}}
     {{- else if eq .GoType "string"}}
-        if (empty($this->{{.JavaName}})) {
+        if (empty($this->{{.GoName}})) {
             throw new Exception('{{.ColumnComment}}不能为空');
         }
     {{- else }}

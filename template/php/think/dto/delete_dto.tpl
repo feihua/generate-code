@@ -3,7 +3,7 @@
 namespace app\dto\{{.ModuleName}}\{{.GoName}};
 
 use app\dto\BaseDto;
-use think\Exception;
+use Exception;
 
 
 /**
@@ -12,9 +12,12 @@ use think\Exception;
 class Delete{{.JavaName}}Dto extends BaseDto {
     public array $ids;
 
+    /**
+     * @throws Exception
+     */
     public function validate (): void {
-        if (empty($this->ids)) {
-            throw new Exception('id不能为空');
+        if (count($this->ids)) {
+            throw new Exception('id集合不能为空');
         }
     }
 }

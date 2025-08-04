@@ -15,6 +15,8 @@ type Table struct {
 	Comment           string        `json:"table_comment" gorm:"column:TABLE_COMMENT"` // 表注释 用户表
 	TableColumn       []TableColumn ` gorm:"-"`                                        // 表的列
 	ListColumn        []TableColumn ` gorm:"-"`                                        // 查询条件
+	AddColumn         []TableColumn ` gorm:"-"`                                        // 添加参数
+	UpdateColumn      []TableColumn ` gorm:"-"`                                        // 更新参数
 	RustName          string        ` gorm:"-"`                                        // rust文件名 user
 	GoName            string        ` gorm:"-"`                                        // go的文件名 user
 	JavaName          string        ` gorm:"-"`                                        // java文件名 User
@@ -54,6 +56,7 @@ type TableColumn struct {
 	LowerJavaName string ` gorm:"-"`                                         // java变量(小写开头) user
 	NetType       string ` gorm:"-"`                                         // C#字段的类型 string
 	NetName       string ` gorm:"-"`                                         // C#字段的名称 NickName
+	ThriftType    string ` gorm:"-"`                                         // thrift字段的类型 string
 
 }
 
@@ -93,9 +96,11 @@ func (DbUtils) QueryTables(dsn string, TableNames string, prefix string) []Table
 		table.JavaName = UnderScoreToUpperCamelCase(trimPrefix)
 		table.LowerJavaName = UnderScoreToLowerCamelCase(trimPrefix)
 		table.UpperOriginalName = UnderScoreToUpperCamelCase(table.OriginalName)
-		tableColumns, listColumns, allColumns := QueryTableColumns(dsn, table.OriginalName, UnderScoreToLowerCamelCase(trimPrefix))
+		tableColumns, listColumns, addColumns, updateColumns, allColumns := QueryTableColumns(dsn, table.OriginalName, UnderScoreToLowerCamelCase(trimPrefix))
 		table.TableColumn = tableColumns
 		table.ListColumn = listColumns
+		table.AddColumn = addColumns
+		table.UpdateColumn = updateColumns
 		table.AllColumns = allColumns
 		tt = append(tt, table)
 	}
@@ -105,7 +110,7 @@ func (DbUtils) QueryTables(dsn string, TableNames string, prefix string) []Table
 }
 
 // QueryTableColumns 查询表列
-func QueryTableColumns(dsn, TableName, lowerJavaName string) ([]TableColumn, []TableColumn, string) {
+func QueryTableColumns(dsn, TableName, lowerJavaName string) ([]TableColumn, []TableColumn, []TableColumn, []TableColumn, string) {
 	split := strings.Split(dsn, "/")
 	s := split[0] + "/information_schema"
 	db, err := gorm.Open(mysql.Open(s))
@@ -118,7 +123,7 @@ func QueryTableColumns(dsn, TableName, lowerJavaName string) ([]TableColumn, []T
 
 	if len(t) == 0 {
 		fmt.Println("查询不到表的列")
-		return nil, nil, "nil"
+		return nil, nil, nil, nil, "nil"
 	}
 
 	var allColumns string
@@ -137,13 +142,14 @@ func QueryTableColumns(dsn, TableName, lowerJavaName string) ([]TableColumn, []T
 		column.LowerJavaName = lowerJavaName
 		column.NetType = ToNetType[column.DataType]
 		column.NetName = UnderScoreToUpperCamelCase(column.ColumnName)
+		column.ThriftType = ToThriftType[column.DataType]
 		column.Sort = i + 1
 		allColumns = allColumns + column.ColumnName + ", "
 		tt = append(tt, column)
 	}
 
 	lastIndex := strings.LastIndex(allColumns, ",")
-	return tt, buildListParams(tt), allColumns[0:lastIndex]
+	return tt, buildListParams(tt), buildAddParams(tt), buildUpdateParams(tt), allColumns[0:lastIndex]
 }
 
 func buildListParams(tt []TableColumn) []TableColumn {
@@ -177,6 +183,43 @@ func buildListParams(tt []TableColumn) []TableColumn {
 		Sort:          sort + 1,
 		ColumnComment: "每页的数量",
 	})
+	return listParams
+}
+
+func buildAddParams(tt []TableColumn) []TableColumn {
+	var listParams []TableColumn
+
+	sort := 1
+	for _, item := range tt {
+		a := !strings.Contains(item.JavaName, "create")
+		b := !strings.Contains(item.JavaName, "update")
+		f := !(item.ColumnKey == "PRI")
+
+		if a && b && f {
+			item.Sort = sort
+			listParams = append(listParams, item)
+			sort = sort + 1
+		}
+	}
+
+	return listParams
+}
+
+func buildUpdateParams(tt []TableColumn) []TableColumn {
+	var listParams []TableColumn
+
+	sort := 1
+	for _, item := range tt {
+		a := !strings.Contains(item.JavaName, "create")
+		b := !strings.Contains(item.JavaName, "update")
+
+		if a && b {
+			item.Sort = sort
+			listParams = append(listParams, item)
+			sort = sort + 1
+		}
+	}
+
 	return listParams
 }
 
@@ -215,6 +258,25 @@ var ToRustType = map[string]string{
 	"float":             "f32",
 	"double":            "f64",
 	"decimal":           "Decimal",
+	"boolean":           "bool",
+}
+var ToThriftType = map[string]string{
+	"char":              "string",
+	"varchar":           "string",
+	"text":              "string",
+	"tinyint":           "i8",
+	"tinyint unsigned":  "u8",
+	"smallint":          "i16",
+	"smallint unsigned": "u16",
+	"int":               "i32",
+	"int unsigned":      "u32",
+	"bigint":            "i64",
+	"bigint unsigned":   "u64",
+	"datetime":          "string",
+	"timestamp":         "string",
+	"float":             "double",
+	"double":            "double",
+	"decimal":           "i8",
 	"boolean":           "bool",
 }
 var ToGoType = map[string]string{

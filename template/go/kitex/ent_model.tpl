@@ -7,30 +7,31 @@ import (
 	"entgo.io/ent/schema/field"
 )
 
-// {{.JavaName}} holds the schema definition for the {{.JavaName}} entity.
-type {{.JavaName}} struct {
+// {{.UpperOriginalName}} holds the schema definition for the {{.UpperOriginalName}} entity.
+type {{.UpperOriginalName}} struct {
 	ent.Schema
 }
 
-func ({{.JavaName}}) Annotations() []schema.Annotation {
+func ({{.UpperOriginalName}}) Annotations() []schema.Annotation {
 	return []schema.Annotation{
 		entsql.Annotation{
-			Table: "TestUsers",
+			Table: "{{.OriginalName}}",
 		},
 		entsql.WithComments(true),
 		schema.Comment("{{.Comment}}"),
 	}
 }
 
-// Fields of the {{.JavaName}}.
-func ({{.JavaName}}) Fields() []ent.Field {
+// Fields of the {{.UpperOriginalName}}.
+func ({{.UpperOriginalName}}) Fields() []ent.Field {
 	fields := []ent.Field{
     {{- range .TableColumn}}
     {{- if isContain .ColumnName "create"}}
     {{- else if isContain .ColumnName "update"}}
     {{- else if isContain .ColumnName "status"}}
     {{- else if isContain .ColumnName "remark"}}
-    {{- else if eq .ColumnKey "PRI"}}
+    {{- else if isContain .ColumnName "del_flag"}}
+    {{- else if eq .ColumnName "id"}}
     {{- else if eq .GoType "string"}}
         field.String("{{.ColumnName}}").Comment("{{.ColumnComment}}"),
     {{- else}}
@@ -42,7 +43,7 @@ func ({{.JavaName}}) Fields() []ent.Field {
 	return append(fields, mixin.Fields()...)
 }
 
-// Edges of the {{.JavaName}}.
-func ({{.JavaName}}) Edges() []ent.Edge {
+// Edges of the {{.UpperOriginalName}}.
+func ({{.UpperOriginalName}}) Edges() []ent.Edge {
 	return nil
 }

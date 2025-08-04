@@ -10,6 +10,7 @@ import (
 	"github.com/spf13/cobra"
 	"io/ioutil"
 	"os"
+	"strings"
 	"text/template"
 	"time"
 )
@@ -28,6 +29,7 @@ to quickly create a Cobra application.`,
 		var path = "generate/go/kitex"
 		for _, t := range tables {
 			Generate(t, "template/go/kitex/ent_model.tpl", path+"/schema", "")
+			Generate(t, "template/go/kitex/api.tpl", path+"/api", "")
 			// Generate(t, "template/go/kitex/entity.tpl", path+"/model/"+moduleName, "")
 			// Generate(t, "template/go/kitex/req_vo.tpl", path+"/vo/"+moduleName+"/req", "_req")
 			// Generate(t, "template/go/kitex/res_vo.tpl", path+"/vo/"+moduleName+"/resp", "_resp")
@@ -94,5 +96,8 @@ func Generate(t utils.Table, tplName, path, prefix string) error {
 		return err
 	}
 
-	return ioutil.WriteFile(path+string(os.PathSeparator)+t.GoName+prefix+".go", buf.Bytes(), 0755)
+	if strings.Contains(tplName, "api") {
+		return ioutil.WriteFile(path+string(os.PathSeparator)+t.OriginalName+prefix+".thrift", buf.Bytes(), 0755)
+	}
+	return ioutil.WriteFile(path+string(os.PathSeparator)+t.OriginalName+prefix+".go", buf.Bytes(), 0755)
 }

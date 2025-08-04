@@ -30,15 +30,7 @@ to quickly create a Cobra application.`,
 		for _, t := range tables {
 			Generate(t, "template/go/kitex/ent_model.tpl", path+"/schema", "")
 			Generate(t, "template/go/kitex/api.tpl", path+"/api", "")
-			// Generate(t, "template/go/kitex/entity.tpl", path+"/model/"+moduleName, "")
-			// Generate(t, "template/go/kitex/req_vo.tpl", path+"/vo/"+moduleName+"/req", "_req")
-			// Generate(t, "template/go/kitex/res_vo.tpl", path+"/vo/"+moduleName+"/resp", "_resp")
-			// Generate(t, "template/go/kitex/dto.tpl", path+"/dto/"+moduleName, "_dto")
-			// Generate(t, "template/go/kitex/router.tpl", path+"/router/"+moduleName, "_router")
-			// Generate(t, "template/go/kitex/dao.tpl", path+"/dao/"+moduleName, "_dao")
-			// Generate(t, "template/go/kitex/service.tpl", path+"/service/"+moduleName+"/"+t.GoName, "_service")
-			// Generate(t, "template/go/kitex/impl.tpl", path+"/service/"+"/"+moduleName+"/"+t.GoName, "_service_impl")
-			// Generate(t, "template/go/kitex/controller.tpl", path+"/controller/"+moduleName, "_controller")
+			Generate(t, "template/go/kitex/service.tpl", path+"/service", "")
 		}
 	},
 }
@@ -96,7 +88,7 @@ func Generate(t utils.Table, tplName, path, prefix string) error {
 		return err
 	}
 
-	if strings.Contains(tplName, "api") {
+	if strings.Contains(tplName, "api") || strings.Contains(tplName, "service") {
 		return ioutil.WriteFile(path+string(os.PathSeparator)+t.OriginalName+prefix+".thrift", buf.Bytes(), 0755)
 	}
 	return ioutil.WriteFile(path+string(os.PathSeparator)+t.OriginalName+prefix+".go", buf.Bytes(), 0755)

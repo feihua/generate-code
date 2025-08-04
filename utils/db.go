@@ -174,12 +174,14 @@ func buildListParams(tt []TableColumn) []TableColumn {
 	listParams = append(listParams, TableColumn{
 		GoName:        "page_num",
 		ProtoType:     "int32",
+		ThriftType:    "i32",
 		Sort:          sort,
 		ColumnComment: "第几页",
 	})
 	listParams = append(listParams, TableColumn{
 		GoName:        "page_size",
 		ProtoType:     "int32",
+		ThriftType:    "i32",
 		Sort:          sort + 1,
 		ColumnComment: "每页的数量",
 	})

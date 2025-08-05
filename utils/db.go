@@ -11,7 +11,8 @@ import (
 
 type Table struct {
 	OriginalName      string        `json:"table_name" gorm:"column:TABLE_NAME"`       // 表名 sys_user
-	UpperOriginalName string        ` gorm:"-"`                                        // 表名(大写开头) SysUser
+	OriginalName1     string        `gorm:"-"`                                         // 表名 sysuser
+	UpperOriginalName string        `gorm:"-"`                                         // 表名(大写开头) SysUser
 	Comment           string        `json:"table_comment" gorm:"column:TABLE_COMMENT"` // 表注释 用户表
 	TableColumn       []TableColumn ` gorm:"-"`                                        // 表的列
 	ListColumn        []TableColumn ` gorm:"-"`                                        // 查询条件

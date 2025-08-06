@@ -36,6 +36,9 @@ func (s *{{.UpperOriginalName}}Impl) Add{{.JavaName}}(ctx context.Context, reque
 		SetCreateBy("request.CreateBy"). //创建者
 		Save(ctx)
 
+	if err != nil {
+		return nil, fmt.Errorf("添加{{.Comment}}失败: %+v", err)
+	}
 	resp = new({{.ModuleName}}.{{.JavaName}}Resp)
 	resp.BaseResp = &base.BaseResp{
 		Code: "200",
@@ -48,7 +51,7 @@ func (s *{{.UpperOriginalName}}Impl) Add{{.JavaName}}(ctx context.Context, reque
 func (s *{{.UpperOriginalName}}Impl) Delete{{.JavaName}}(ctx context.Context, request *{{.ModuleName}}.Delete{{.JavaName}}Req) (resp *{{.ModuleName}}.{{.JavaName}}Resp, err error) {
 	_, err = s.client.{{.UpperOriginalName}}.Delete().Where({{.OriginalName1}}.IDIn(request.Ids...)).Exec(ctx)
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("删除{{.Comment}}失败: %+v", err)
 	}
 	return
 }
@@ -72,7 +75,7 @@ func (s *{{.UpperOriginalName}}Impl) Update{{.JavaName}}(ctx context.Context, re
 		if ent.IsNotFound(err) {
 			return nil, errors.New("{{.Comment}}不存在")
 		}
-		return nil, err
+		return nil, fmt.Errorf("更新{{.Comment}}失败: %+v", err)
 	}
 
 	resp = new({{.ModuleName}}.{{.JavaName}}Resp)
@@ -86,13 +89,17 @@ func (s *{{.UpperOriginalName}}Impl) Update{{.JavaName}}(ctx context.Context, re
 // Update{{.JavaName}}Status 更新{{.Comment}}状态
 func (s *{{.UpperOriginalName}}Impl) Update{{.JavaName}}Status(ctx context.Context, request *{{.ModuleName}}.Update{{.JavaName}}StatusReq) (resp *{{.ModuleName}}.{{.JavaName}}Resp, err error) {
 
-	for _, id := range request.Ids {
-		_, err = s.client.{{.UpperOriginalName}}.UpdateOneID(id).
-			SetStatus(request.Status).
-			SetUpdateBy("request.SetUpdateBy").
-			SetUpdateTime(time.Now()).
-			Save(ctx)
+    _, err = s.client.{{.UpperOriginalName}}.Update().
+        SetStatus(request.Status).
+        SetUpdateBy("request.SetUpdateBy").
+        SetUpdateTime(time.Now()).
+        Where({{.OriginalName1}}.IDIn(request.Ids...)).
+        Save(ctx)
+
+	if err != nil {
+		return nil, fmt.Errorf("更新{{.Comment}}状态失败: %+v", err)
 	}
+
 	resp = new({{.ModuleName}}.{{.JavaName}}Resp)
 	resp.BaseResp = &base.BaseResp{
 		Code: "200",
@@ -108,7 +115,7 @@ func (s *{{.UpperOriginalName}}Impl) Query{{.JavaName}}Detail(ctx context.Contex
 		if ent.IsNotFound(err) {
 			return nil, errors.New("{{.Comment}}不存在")
 		}
-		return nil, err
+		return nil, fmt.Errorf("查询{{.Comment}}详情失败: %+v", err)
 	}
 
 	resp = new({{.ModuleName}}.Query{{.JavaName}}DetailResp)
@@ -152,6 +159,11 @@ func (s *{{.UpperOriginalName}}Impl) Query{{.JavaName}}List(ctx context.Context,
     {{- end}}
     {{- end}}
 
+	count, err := query.Count(ctx)
+	if err != nil {
+		return nil, fmt.Errorf("查询{{.Comment}}列表失败: %+v", err)
+	}
+	resp.Total = int64(count)
 	if request.PageNum > 0 && request.PageSize > 0 {
 		offset := (request.PageNum - 1) * request.PageSize
 		query = query.Offset(int(offset)).Limit(int(request.PageSize))
@@ -159,7 +171,7 @@ func (s *{{.UpperOriginalName}}Impl) Query{{.JavaName}}List(ctx context.Context,
 
 	list, err := query.Order(ent.Desc({{.OriginalName1}}.FieldCreateTime)).All(ctx)
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("查询{{.Comment}}列表失败: %+v", err)
 	}
 	for _, item := range list {
 		data:= &{{.ModuleName}}.{{.JavaName}}Item{
@@ -174,7 +186,6 @@ func (s *{{.UpperOriginalName}}Impl) Query{{.JavaName}}List(ctx context.Context,
         resp.List = append(resp.List, data)
 	}
 
-	resp.Total = 10
 	resp.BaseResp = &base.BaseResp{
 		Code: "200",
 		Msg:  "success",

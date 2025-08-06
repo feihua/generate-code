@@ -8,6 +8,7 @@ import (
 	{{.OriginalName}} "{{.ProjectName}}/api/biz/model/{{.ModuleName}}/{{.OriginalName}}"
 	"{{.ProjectName}}/api/client"
 	"{{.ProjectName}}/kitex_gen/rpc/{{.ModuleName}}"
+	"{{.ProjectName}}/pkg/mw"
 	"{{.ProjectName}}/pkg/utils"
 )
 
@@ -22,7 +23,7 @@ func Add{{.JavaName}}(ctx context.Context, c *app.RequestContext) {
 		return
 	}
 
-    createBy := ctx.Value("userName").(string)
+    user, _ := c.Get(mw.IdentityKey)
 	param := &{{.ModuleName}}.Add{{.JavaName}}Req{
 	{{- range .TableColumn}}
         {{- if isContain .GoNamePublic "Create"}}
@@ -32,7 +33,7 @@ func Add{{.JavaName}}(ctx context.Context, c *app.RequestContext) {
         {{.GoNamePublic}}: req.{{.GoNamePublic}}, //{{.ColumnComment}}
         {{- end}}
         {{- end}}
-		CreateBy:      createBy, // 创建者
+		CreateBy:      user.(*mw.User).Name, // 创建者
 	}
 
 	result, err := client.{{.JavaName}}Client.Add{{.JavaName}}(ctx, param)
@@ -86,7 +87,7 @@ func Update{{.JavaName}}(ctx context.Context, c *app.RequestContext) {
 		return
 	}
 
-	updateBy := ctx.Value("userName").(string)
+	user, _ := c.Get(mw.IdentityKey)
 	param := &{{.ModuleName}}.Update{{.JavaName}}Req{
     {{- range .TableColumn}}
         {{- if isContain .GoNamePublic "Create"}}
@@ -97,7 +98,7 @@ func Update{{.JavaName}}(ctx context.Context, c *app.RequestContext) {
         {{.GoNamePublic}}: req.{{.GoNamePublic}}, //{{.ColumnComment}}
         {{- end}}
         {{- end}}
-		UpdateBy:      updateBy,
+		UpdateBy:      user.(*mw.User).Name,
 	}
 	result, err := client.{{.JavaName}}Client.Update{{.JavaName}}(ctx, param)
 	if err != nil {
@@ -123,11 +124,11 @@ func Update{{.JavaName}}Status(ctx context.Context, c *app.RequestContext) {
 		return
 	}
 
-	updateBy := ctx.Value("userName").(string)
+	user, _ := c.Get(mw.IdentityKey)
 	param := &{{.ModuleName}}.Update{{.JavaName}}StatusReq{
 		Ids:      req.Ids,
 		Status:   req.Status,
-		UpdateBy: updateBy,
+		UpdateBy: user.(*mw.User).Name,
 	}
 	result, err := client.{{.JavaName}}Client.Update{{.JavaName}}Status(ctx, param)
 	if err != nil {

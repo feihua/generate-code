@@ -31,7 +31,8 @@ to quickly create a Cobra application.`,
 			Generate(t, "template/go/kitex/ent_model.tpl", path+"/schema", "")
 			Generate(t, "template/go/kitex/api.tpl", path+"/api", "")
 			Generate(t, "template/go/kitex/service.tpl", path+"/service", "")
-			Generate(t, "template/go/kitex/handler.tpl", path+"/handler", "")
+			Generate(t, "template/go/kitex/handler.tpl", path+"/service/handler", "")
+			Generate(t, "template/go/kitex/handler_api.tpl", path+"/api/handler", "")
 		}
 	},
 }
@@ -91,7 +92,8 @@ func Generate(t utils.Table, tplName, path, prefix string) error {
 		return err
 	}
 
-	if strings.Contains(tplName, "api") || strings.Contains(tplName, "service") {
+	b := !strings.Contains(tplName, "handler")
+	if strings.Contains(tplName, "api") && b || strings.Contains(tplName, "service") && b {
 		return ioutil.WriteFile(path+string(os.PathSeparator)+t.OriginalName+prefix+".thrift", buf.Bytes(), 0755)
 	}
 	return ioutil.WriteFile(path+string(os.PathSeparator)+t.OriginalName+prefix+".go", buf.Bytes(), 0755)

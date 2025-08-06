@@ -7,7 +7,8 @@ struct Add{{.JavaName}}Req {
 }
 
 struct {{.JavaName}}Resp {
-    1: string RespBody;
+    1: string code
+    2: string msg
 }
 
 struct Delete{{.JavaName}}Req {
@@ -36,8 +37,9 @@ struct {{.JavaName}}Data {
 }
 
 struct Query{{.JavaName}}DetailResp {
-    1：{{.JavaName}}Data data
-    255: base.BaseResp baseResp
+    1: {{.JavaName}}Data data
+    2: string code
+    3: string msg
 }
 
 struct Query{{.JavaName}}ListReq {
@@ -47,12 +49,13 @@ struct Query{{.JavaName}}ListReq {
 }
 
 struct Query{{.JavaName}}ListResp {
-    1：{{.JavaName}}Data list
-    2：bool Success
-    3：i64 Total
-    4：i64 Current
-    5：i64 PageSize
-    255: base.BaseResp baseResp
+    1: {{.JavaName}}Data list
+    2: bool Success
+    3: i64 Total
+    4: i64 Current
+    5: i64 PageSize
+    6: string code
+    7: string msg
 }
 
 service {{.UpperOriginalName}}Service {
@@ -61,11 +64,11 @@ service {{.UpperOriginalName}}Service {
   // 删除{{.Comment}}
     {{.JavaName}}Resp Delete{{.JavaName}}(1: Delete{{.JavaName}}Req request) (api.post="/delete{{.JavaName}}");
   // 更新{{.Comment}}
-    {{.JavaName}}Resp Update{{.JavaName}}(1: Update{{.JavaName}}Req request) (api.post="/update{{.JavaName}}Req");
+    {{.JavaName}}Resp Update{{.JavaName}}(1: Update{{.JavaName}}Req request) (api.post="/update{{.JavaName}}");
   // 更新{{.Comment}}状态
-    {{.JavaName}}StatusResp Update{{.JavaName}}Status(1: Update{{.JavaName}}StatusReq request) (api.post="/update{{.JavaName}}StatusReq");
+    {{.JavaName}}Resp Update{{.JavaName}}Status(1: Update{{.JavaName}}StatusReq request) (api.post="/update{{.JavaName}}Status");
   // 查询{{.Comment}}详情
-    Query{{.JavaName}}DetailResp Query{{.JavaName}}Detail(1: Query{{.JavaName}}DetailReq request) (api.post="/query{{.JavaName}}DetailReq");
+    Query{{.JavaName}}DetailResp Query{{.JavaName}}Detail(1: Query{{.JavaName}}DetailReq request) (api.post="/query{{.JavaName}}Detail");
   // 查询{{.Comment}}列表
-    Query{{.JavaName}}ListResp Query{{.JavaName}}List(1: Query{{.JavaName}}ListReq request) (api.post="/query{{.JavaName}}ListReq");
+    Query{{.JavaName}}ListResp Query{{.JavaName}}List(1: Query{{.JavaName}}ListReq request) (api.post="/query{{.JavaName}}List");
 }

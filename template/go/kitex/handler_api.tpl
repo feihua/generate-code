@@ -190,6 +190,8 @@ func Query{{.JavaName}}List(ctx context.Context, c *app.RequestContext) {
         {{.GoNamePublic}}: req.{{.GoNamePublic}}, //{{.ColumnComment}}
     {{- end}}
     {{- end}}
+        PageNum:       req.PageNum,       // 页码
+        PageSize:      req.PageSize,      // 分页大小
 	}
 	result, err := client.{{.JavaName}}Client.Query{{.JavaName}}List(ctx, param)
 	if err != nil {

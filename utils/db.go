@@ -279,7 +279,7 @@ var ToThriftType = map[string]string{
 	"timestamp":         "string",
 	"float":             "double",
 	"double":            "double",
-	"decimal":           "i64",
+	"decimal":           "double",
 	"boolean":           "bool",
 }
 var ToGoType = map[string]string{

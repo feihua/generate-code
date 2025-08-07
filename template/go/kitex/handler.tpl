@@ -39,11 +39,8 @@ func (s *{{.UpperOriginalName}}Impl) Add{{.JavaName}}(ctx context.Context, reque
 	if err != nil {
 		return nil, fmt.Errorf("添加{{.Comment}}失败: %+v", err)
 	}
-	resp = new({{.ModuleName}}.{{.JavaName}}Resp)
-	resp.BaseResp = &base.BaseResp{
-		Code: "200",
-		Msg:  "success",
-	}
+
+    resp = base.NewBaseResp()
 	return
 }
 
@@ -53,36 +50,39 @@ func (s *{{.UpperOriginalName}}Impl) Delete{{.JavaName}}(ctx context.Context, re
 	if err != nil {
 		return nil, fmt.Errorf("删除{{.Comment}}失败: %+v", err)
 	}
+
+    resp = base.NewBaseResp()
 	return
 }
 
 // Update{{.JavaName}} 更新{{.Comment}}
 func (s *{{.UpperOriginalName}}Impl) Update{{.JavaName}}(ctx context.Context, request *{{.ModuleName}}.Update{{.JavaName}}Req) (resp *{{.ModuleName}}.{{.JavaName}}Resp, err error) {
-	_, err = s.client.{{.UpperOriginalName}}.UpdateOneID(request.Id).
+	exist, err := s.client.{{.UpperOriginalName}}.Query().Where({{.OriginalName1}}.ID(request.Id)).Exist(ctx)
+	if err != nil {
+		return nil, fmt.Errorf("查询{{.Comment}}失败: %+v", err)
+	}
+	if !exist {
+		return nil, errors.New("{{.Comment}}不存在")
+	}
+	_, err = s.client.{{.UpperOriginalName}}.Update().
         {{- range .TableColumn}}
             {{- if isContain .GoNamePublic "Create"}}
             {{- else if isContain .GoNamePublic "Update"}}
             {{- else if eq .ColumnKey "PRI"}}
             {{- else}}
-            Set{{.GoNamePublic}}(request.{{.GoNamePublic}}). //{{.ColumnComment}}
+            Set{{.GoNamePublic}}(request.{{.GoNamePublic}}). // {{.ColumnComment}}
             {{- end}}
             {{- end}}
-		SetUpdateBy("request.SetUpdateBy"). //更新者
-		SetUpdateTime(time.Now()).
+		SetUpdateBy("request.SetUpdateBy"). // 更新者
+		SetUpdateTime(time.Now()). //更新时间
+		Where(({{.OriginalName1}}.ID(request.Id)). // 根据ID更新
 		Save(ctx)
 
 	if err != nil {
-		if ent.IsNotFound(err) {
-			return nil, errors.New("{{.Comment}}不存在")
-		}
 		return nil, fmt.Errorf("更新{{.Comment}}失败: %+v", err)
 	}
 
-	resp = new({{.ModuleName}}.{{.JavaName}}Resp)
-	resp.BaseResp = &base.BaseResp{
-		Code: "200",
-		Msg:  "success",
-	}
+    resp = base.NewBaseResp()
 	return
 }
 
@@ -100,11 +100,7 @@ func (s *{{.UpperOriginalName}}Impl) Update{{.JavaName}}Status(ctx context.Conte
 		return nil, fmt.Errorf("更新{{.Comment}}状态失败: %+v", err)
 	}
 
-	resp = new({{.ModuleName}}.{{.JavaName}}Resp)
-	resp.BaseResp = &base.BaseResp{
-		Code: "200",
-		Msg:  "success",
-	}
+    resp = base.NewBaseResp()
 	return
 }
 
@@ -128,10 +124,7 @@ func (s *{{.UpperOriginalName}}Impl) Query{{.JavaName}}Detail(ctx context.Contex
               {{- end}}
               {{- end}}
 	}
-	resp.BaseResp = &base.BaseResp{
-		Code: "200",
-		Msg:  "success",
-	}
+	resp.BaseResp = base.NewBaseResp()
 	return
 }
 
@@ -186,9 +179,6 @@ func (s *{{.UpperOriginalName}}Impl) Query{{.JavaName}}List(ctx context.Context,
         resp.List = append(resp.List, data)
 	}
 
-	resp.BaseResp = &base.BaseResp{
-		Code: "200",
-		Msg:  "success",
-	}
+	resp.BaseResp = base.NewBaseResp()
 	return
 }

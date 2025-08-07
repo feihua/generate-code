@@ -6,10 +6,6 @@ struct Add{{.JavaName}}Req {
 {{- end}}
 }
 
-struct {{.JavaName}}Resp {
-    1: base.BaseResp baseResp
-}
-
 struct Delete{{.JavaName}}Req {
     1: list<i64> Ids // id集合
 }
@@ -56,13 +52,13 @@ struct Query{{.JavaName}}ListResp {
 
 service {{.UpperOriginalName}}Service {
     // 添加{{.Comment}}
-    {{.JavaName}}Resp Add{{.JavaName}}(1: Add{{.JavaName}}Req request);
+    base.BaseResp Add{{.JavaName}}(1: Add{{.JavaName}}Req request);
     // 删除{{.Comment}}
-    {{.JavaName}}Resp Delete{{.JavaName}}(1: Delete{{.JavaName}}Req request);
+    base.BaseResp Delete{{.JavaName}}(1: Delete{{.JavaName}}Req request);
     // 更新{{.Comment}}
-    {{.JavaName}}Resp Update{{.JavaName}}(1: Update{{.JavaName}}Req request);
+    base.BaseResp Update{{.JavaName}}(1: Update{{.JavaName}}Req request);
     // 更新{{.Comment}}状态
-    {{.JavaName}}Resp Update{{.JavaName}}Status(1: Update{{.JavaName}}StatusReq request);
+    base.BaseResp Update{{.JavaName}}Status(1: Update{{.JavaName}}StatusReq request);
     // 查询{{.Comment}}详情
     Query{{.JavaName}}DetailResp Query{{.JavaName}}Detail(1: Query{{.JavaName}}DetailReq request);
     // 查询{{.Comment}}列表

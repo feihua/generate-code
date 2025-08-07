@@ -34,8 +34,16 @@ func ({{.UpperOriginalName}}) Fields() []ent.Field {
     {{- else if eq .ColumnName "id"}}
     {{- else if eq .GoType "string"}}
         field.String("{{.ColumnName}}").Comment("{{.ColumnComment}}"),
-    {{- else}}
+    {{- else if eq .GoType "int"}}
         field.Int8("{{.ColumnName}}").Comment("{{.ColumnComment}}"),
+    {{- else if eq .GoType "tinyint"}}
+        field.Int8("{{.ColumnName}}").Comment("{{.ColumnComment}}"),
+    {{- else if eq .GoType "float64"}}
+        field.Float("{{.ColumnName}}").Comment("{{.ColumnComment}}"),
+    {{- else if eq .GoType "time.Time"}}
+        field.Time("{{.ColumnName}}").Comment("{{.ColumnComment}}"),
+    {{- else}}
+        field.Int64("{{.ColumnName}}").Comment("{{.ColumnComment}}"),
     {{- end}}
     {{- end}}
 	}

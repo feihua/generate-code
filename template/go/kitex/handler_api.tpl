@@ -42,8 +42,8 @@ func Add{{.JavaName}}(ctx context.Context, c *app.RequestContext) {
 		return
 	}
 
-	if result.BaseResp.Code != "200" {
-		utils.Error(c, result.BaseResp.Msg)
+	if result.Code != "200" {
+		utils.Error(c, result.Msg)
 		return
 	}
 
@@ -68,8 +68,8 @@ func Delete{{.JavaName}}(ctx context.Context, c *app.RequestContext) {
 		utils.Error(c, err.Error())
 		return
 	}
-	if result.BaseResp.Code != "200" {
-		utils.Error(c, result.BaseResp.Msg)
+	if result.Code != "200" {
+		utils.Error(c, result.Msg)
 		return
 	}
 
@@ -105,8 +105,8 @@ func Update{{.JavaName}}(ctx context.Context, c *app.RequestContext) {
 		utils.Error(c, err.Error())
 		return
 	}
-	if result.BaseResp.Code != "200" {
-		utils.Error(c, result.BaseResp.Msg)
+	if result.Code != "200" {
+		utils.Error(c, result.Msg)
 		return
 	}
 
@@ -135,8 +135,8 @@ func Update{{.JavaName}}Status(ctx context.Context, c *app.RequestContext) {
 		utils.Error(c, err.Error())
 		return
 	}
-	if result.BaseResp.Code != "200" {
-		utils.Error(c, result.BaseResp.Msg)
+	if result.Code != "200" {
+		utils.Error(c, result.Msg)
 		return
 	}
 

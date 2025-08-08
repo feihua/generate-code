@@ -1,15 +1,15 @@
-use std::sync::Arc;
+use crate::common::error::AppError;
+use crate::common::result::{ok_result, ok_result_data, ok_result_page};
+use crate::model::system::sys_notice_model::Notice;
+use crate::utils::time_util::time_to_string;
+use crate::vo::system::sys_notice_vo::*;
+use crate::AppState;
 use axum::extract::State;
-use axum::Json;
 use axum::response::IntoResponse;
-use rbatis::rbdc::datetime::DateTime;
+use axum::Json;
 use rbatis::plugin::page::PageRequest;
-use rbs::to_value;
-use crate::{AppState};
-
-use crate::model::{{.RustName}}::{ {{.JavaName}} };
-use crate::vo::*;
-use crate::vo::{{.RustName}}_vo::{*};
+use rbs::value;
+use std::sync::Arc;
 
 /**
  *添加{{.Comment}}
@@ -40,7 +40,7 @@ pub async fn add_{{.RustName}}(State(state): State<Arc<AppState>>, Json(item): J
 
     {{.JavaName}}::insert(&mut rb, &{{.RustName}}).await?;
 
-    BaseResponse::<String>::ok_result()
+    ok_result()
 }
 
 /**
@@ -54,7 +54,7 @@ pub async fn delete_{{.RustName}}(State(state): State<Arc<AppState>>, Json(item)
 
     {{.JavaName}}::delete_in_column(&mut rb, "id", &item.ids).await?;
 
-    BaseResponse::<String>::ok_result()
+    ok_result()
 }
 
 /**
@@ -86,7 +86,7 @@ pub async fn update_{{.RustName}}(State(state): State<Arc<AppState>>, Json(item)
 
     {{.JavaName}}::update_by_column(&mut rb, &{{.RustName}}, "id").await?;
 
-    BaseResponse::<String>::ok_result()
+    ok_result()
 }
 
 /**
@@ -101,7 +101,7 @@ pub async fn update_{{.RustName}}_status(State(state): State<Arc<AppState>>, Jso
    let param = vec![to_value!(1), to_value!(1)];
    rb.exec("update {{.OriginalName}} set status = ? where id in ?", param).await?;
 
-    BaseResponse::<String>::ok_result()
+    ok_result()
 }
 
 /**
@@ -116,12 +116,7 @@ pub async fn query_{{.RustName}}_detail(State(state): State<Arc<AppState>>, Json
      let result = {{.JavaName}}::select_by_id(&mut rb, &item.id).await?;
 
     match result {
-        None => {
-            return BaseResponse::<Query{{.JavaName}}DetailResp>::err_result_data(
-                QueryMenuDetailResp::new(),
-                "{{.Comment}}不存在",
-            );
-        }
+        None => Err(AppError::BusinessError("{{.Comment}}不存在")),
         Some(x) => {
             let {{.RustName}} = Query{{.JavaName}}DetailResp {
             {{- range .TableColumn}}
@@ -138,7 +133,7 @@ pub async fn query_{{.RustName}}_detail(State(state): State<Arc<AppState>>, Json
             };
 
 
-            BaseResponse::<Query{{.JavaName}}DetailResp>::ok_result_data({{.RustName}})
+            ok_result_data({{.RustName}})
         }
     }
 
@@ -176,7 +171,7 @@ pub async fn query_{{.RustName}}_list(State(state): State<Arc<AppState>>, Json(i
         })
     }
 
-    BaseResponse::ok_result_page(data, total)
+    ok_result_page(data, total)
 
 }
 

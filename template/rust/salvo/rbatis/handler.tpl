@@ -8,8 +8,8 @@ use rbs::value;
 use salvo::{Request, Response};
 use salvo::prelude::*;
 
-use crate::common::error::AppResult;
-use crate::common::result::BaseResponse;
+use crate::common::error::{AppError, AppResult};
+use crate::common::result::{ok_result, ok_result_data};
 use crate::model::{{.RustName}}::{ {{.JavaName}} };
 use crate::RB;
 use crate::vo::*;
@@ -45,7 +45,7 @@ pub async fn add_{{.RustName}}(req: &mut Request, res: &mut Response) {
 
     {{.JavaName}}::insert(&mut RB.clone(), &{{.RustName}}).await?;
 
-    BaseResponse::<String>::ok_result(res)
+    ok_result(res)
 }
 
 /**
@@ -60,7 +60,7 @@ pub async fn delete_{{.RustName}}(req: &mut Request, res: &mut Response) {
 
     {{.JavaName}}::delete_by_map(&mut RB.clone(), value!{"id": &item.ids}).await?;
 
-    res.render(Json(handle_result(result)))
+    ok_result(res)
 }
 
 /**
@@ -93,7 +93,7 @@ pub async fn update_{{.RustName}}(req: &mut Request, res: &mut Response) {
 
     {{.JavaName}}::update_by_map(&mut RB.clone(), &{{.RustName}}, value!{"id": &item.id}).await?;
 
-    BaseResponse::<String>::ok_result(res)
+    ok_result(res)
 }
 
 /**
@@ -110,7 +110,7 @@ pub async fn update_{{.RustName}}_status(req: &mut Request, res: &mut Response) 
     let param = vec![value!(1), value!(1)];
     rb.exec("update {{.OriginalName}} set status = ? where id in ?", param).await?;
 
-    BaseResponse::<String>::ok_result(res)
+    ok_result(res)
 }
 
 /**
@@ -126,11 +126,7 @@ pub async fn query_{{.RustName}}_detail(req: &mut Request, res: &mut Response) {
     let result = {{.JavaName}}::select_by_id(&mut RB.clone(), &item.id).await?;
 
     match result {
-        None => BaseResponse::<Query{{.JavaName}}DetailResp>::err_result_data(
-            res,
-            Query{{.JavaName}}DetailResp::new(),
-            "通知公告表不存在",
-        ),
+        None => Err(AppError::BusinessError("{{.Comment}}不存在")),
         Some(x) => {
 
             let data = Query{{.JavaName}}DetailResp {
@@ -147,7 +143,7 @@ pub async fn query_{{.RustName}}_detail(req: &mut Request, res: &mut Response) {
             {{- end}}
             };
 
-            BaseResponse::<Query{{.JavaName}}DetailResp>::ok_result_data(res, data)
+            ok_result_data(res, data)
         }
     }
 
@@ -186,6 +182,6 @@ pub async fn query_{{.RustName}}_list(req: &mut Request, res: &mut Response) {
         })
     }
 
-BaseResponse::<Vec<{{.JavaName}}ListDataResp>>::ok_result_page(res, data, total)
+    ok_result_page(res, data, total)
 
 }

@@ -2,13 +2,7 @@
 
 namespace app\service\{{.ModuleName}};
 
-use app\dao\{{.ModuleName}}\{{.JavaName}}Dao;
-use app\dto\{{.ModuleName}}\{{.GoName}}\Add{{.JavaName}}Dto;
-use app\dto\{{.ModuleName}}\{{.GoName}}\Delete{{.JavaName}}Dto;
-use app\dto\{{.ModuleName}}\{{.GoName}}\Query{{.JavaName}}DetailDto;
-use app\dto\{{.ModuleName}}\{{.GoName}}\Query{{.JavaName}}ListDto;
-use app\dto\{{.ModuleName}}\{{.GoName}}\Update{{.JavaName}}Dto;
-use app\dto\{{.ModuleName}}\{{.GoName}}\Update{{.JavaName}}StatusDto;
+use app\dto\{{.ModuleName}}\{{.GoName}}\{{.JavaName}}Dto;
 use app\model\{{.ModuleName}}\{{.JavaName}}Model;
 use think\db\exception\DbException;
 use Exception;
@@ -18,19 +12,19 @@ use think\model\contract\Modelable;
  * {{.Comment}}服务
  */
 class {{.JavaName}}Service {
-    private {{.JavaName}}Dao ${{.LowerJavaName}}Dao;
+    protected {{.JavaName}}Model ${{.LowerJavaName}}Model;
 
-    public function __construct ({{.JavaName}}Dao ${{.LowerJavaName}}Dao) {
-        $this->{{.LowerJavaName}}Dao = ${{.LowerJavaName}}Dao;
+    public function __construct({{.JavaName}}Model ${{.LowerJavaName}}) {
+        $this->{{.LowerJavaName}}Model = ${{.LowerJavaName}};
     }
 
     /**
      * 添加{{.Comment}}
      * @throws Exception
      */
-    public function add{{.JavaName}} (Add{{.JavaName}}Dto $dto): bool {
-        $dto->validate();
-        return $this->{{.LowerJavaName}}Dao->add{{.JavaName}}($dto);
+    public function add{{.JavaName}} ({{.JavaName}}Dto $dto): bool {
+        $dto->addValidate();
+        return $this->{{.LowerJavaName}}Model->save($dto->toArray());
     }
 
 
@@ -38,35 +32,33 @@ class {{.JavaName}}Service {
      * 删除{{.Comment}}
      * @throws Exception
      */
-    public function delete{{.JavaName}} (Delete{{.JavaName}}Dto $dto): bool {
-        $dto->validate();
+    public function delete{{.JavaName}} (array $ids): bool {
 
-        return $this->{{.LowerJavaName}}Dao->delete{{.JavaName}}($dto->ids);
+        return {{.JavaName}}Model::destroy($ids);
     }
 
     /**
      * 修改{{.Comment}}
      * @throws Exception
      */
-    public function update{{.JavaName}} (Update{{.JavaName}}Dto $dto): bool {
-        $dto->validate();
+    public function update{{.JavaName}} ({{.JavaName}}Dto $dto): bool {
+        $dto->updateValidate();
 
-        ${{.GoName}} = $this->{{.LowerJavaName}}Dao->query{{.JavaName}}ById($dto->id);
+        ${{.GoName}} = $this->{{.LowerJavaName}}Model->where('id', $dto->id)->find();
         if (!${{.GoName}}) {
             throw new Exception('{{.Comment}}不存在');
         }
 
-        return $this->{{.LowerJavaName}}Dao->update{{.JavaName}}($dto);
+        return $this->{{.LowerJavaName}}Model->save($dto->toArray());
     }
 
     /**
      * 修改{{.Comment}}状态
      * @throws Exception
      */
-    public function update{{.JavaName}}Status (Update{{.JavaName}}StatusDto $dto): Modelable {
-        $dto->validate();
+    public function update{{.JavaName}}Status (array $ids, int $status): Modelable {
 
-        return $this->{{.LowerJavaName}}Dao->update{{.JavaName}}Status($dto);
+    return $this->{{.LowerJavaName}}Model->whereIn('id', $ids)->update(['status' => $status]);
     }
 
     /**
@@ -74,9 +66,9 @@ class {{.JavaName}}Service {
      * @throws DbException
      * @throws Exception
      */
-    public function query{{.JavaName}}Detail (Query{{.JavaName}}DetailDto $dto): array {
-        $dto->validate();
-        ${{.GoName}} = $this->{{.LowerJavaName}}Dao->query{{.JavaName}}Detail($dto);
+    public function query{{.JavaName}}Detail (int $id): array {
+
+        ${{.GoName}} = $this->{{.LowerJavaName}}Model->where('id', $id)->find();
 
         if (!${{.GoName}}) {
             throw new Exception('{{.Comment}}不存在');
@@ -90,9 +82,37 @@ class {{.JavaName}}Service {
      * @throws DbException
      * @throws Exception
      */
-    public function query{{.JavaName}}List (Query{{.JavaName}}ListDto $dto): array {
-        $dto->validate();
+    public function query{{.JavaName}}List (array $params): array {
 
-        return $this->{{.LowerJavaName}}Dao->query{{.JavaName}}List($dto);
+    $query = $this->{{.LowerJavaName}}Model->where('1=1');
+
+{{- range .TableColumn}}
+	{{- if isContain .GoNamePublic "Create"}}
+    {{- else if isContain .GoNamePublic "Update"}}
+    {{- else if eq .ColumnKey "PRI"}}
+    {{- else if isContain .JavaName "remark"}}
+    {{- else if isContain .JavaName "sort"}}
+    {{- else if isContain .JavaName "Sort"}}
+	{{- else if eq .GoType "time.Time"}}
+	{{- else if eq .GoType "string"}}
+        if (!empty($params['{{.JavaName}}'])) {
+            $query = $query->where('{{.ColumnName}}', 'like', '%' . $params['{{.JavaName}}'] . '%');
+        }
+    {{- else}}
+        if ($params['{{.JavaName}}'] != 2) {
+            $query = $query->where('{{.ColumnName}}', $params['{{.JavaName}}']);
+        }
+	{{- end}}
+	{{- end}}
+
+
+        $query = $query->order('create_time', 'desc');
+
+        $paginator = $query->paginate(['list_rows' => $params['pageSize'], 'page' => $params['pageNo']]);
+        $total = $paginator->total();
+        $items = $paginator->items();
+
+        return array('total' => $total, 'list' => $items);
     }
+
 }

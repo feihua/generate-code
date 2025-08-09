@@ -6,12 +6,13 @@ package think
 import (
 	"bytes"
 	"fmt"
-	"github.com/feihua/generate-code/utils"
-	"github.com/spf13/cobra"
 	"io/ioutil"
 	"os"
 	"text/template"
 	"time"
+
+	"github.com/feihua/generate-code/utils"
+	"github.com/spf13/cobra"
 )
 
 var Cmd = &cobra.Command{
@@ -31,12 +32,7 @@ to quickly create a Cobra application.`,
 			Generate(t, "template/php/think/controller.tpl", path+"/controller/"+moduleName, "Controller", "")
 			Generate(t, "template/php/think/service.tpl", path+"/service/"+moduleName, "Service", "")
 			Generate(t, "template/php/think/dao.tpl", path+"/dao/"+moduleName, "Dao", "")
-			Generate(t, "template/php/think/dto/add_dto.tpl", path+"/dto/"+moduleName+"/"+t.GoName, "Dto", "Add")
-			Generate(t, "template/php/think/dto/delete_dto.tpl", path+"/dto/"+moduleName+"/"+t.GoName, "Dto", "Delete")
-			Generate(t, "template/php/think/dto/update_dto.tpl", path+"/dto/"+moduleName+"/"+t.GoName, "Dto", "Update")
-			Generate(t, "template/php/think/dto/update_status_dto.tpl", path+"/dto/"+moduleName+"/"+t.GoName, "StatusDto", "Update")
-			Generate(t, "template/php/think/dto/query_dto.tpl", path+"/dto/"+moduleName+"/"+t.GoName, "DetailDto", "Query")
-			Generate(t, "template/php/think/dto/query_list_dto.tpl", path+"/dto/"+moduleName+"/"+t.GoName, "ListDto", "Query")
+			Generate(t, "template/php/think/dto.tpl", path+"/dto/"+moduleName, "Dto", "")
 
 		}
 
@@ -54,7 +50,7 @@ var moduleName string
 
 func init() {
 
-	// go run main.go php think --dsn "root:123456@tcp(127.0.0.1:3306)/gin" --tableNames sys_ --prefix sys_  --author liufeihua --projectName github.com/feihua/simple-go --moduleName system
+	// go run main.go php think --dsn "root:12341qweqfsd2356@tcp(129.204.203.29:3306)/simple-go" --tableNames sys_ --prefix sys_  --author liufeihua --projectName github.com/feihua/simple-go --moduleName system
 	Cmd.Flags().StringVarP(&Dsn, "dsn", "", "", "请输入数据库的地址")
 	Cmd.Flags().StringVarP(&TableNames, "tableNames", "", "", "请输入表名称")
 	Cmd.Flags().StringVarP(&prefix, "prefix", "", "", "生成表时候去掉前缀")

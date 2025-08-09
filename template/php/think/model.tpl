@@ -19,4 +19,17 @@ class {{.JavaName}}Model extends Model {
 {{- end}}
 
     ];
+
+    /**
+     * 转换成数组
+     * @return array
+     */
+    public function toArray (): array {
+        $data = parent::toArray();
+        return [
+            {{- range .TableColumn}}
+            '{{.JavaName}}' => $data['{{.ColumnName}}']?? null, //{{.ColumnComment}}
+            {{- end}}
+        ];
+    }
 }

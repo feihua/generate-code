@@ -95,10 +95,12 @@ class {{.JavaName}}Service {
     {{- else if isContain .JavaName "Sort"}}
 	{{- else if eq .GoType "time.Time"}}
 	{{- else if eq .GoType "string"}}
+        //{{.ColumnComment}}
         if (!empty($params['{{.JavaName}}'])) {
             $query = $query->where('{{.ColumnName}}', 'like', '%' . $params['{{.JavaName}}'] . '%');
         }
     {{- else}}
+        //{{.ColumnComment}}
         if ($params['{{.JavaName}}'] != 2) {
             $query = $query->where('{{.ColumnName}}', $params['{{.JavaName}}']);
         }

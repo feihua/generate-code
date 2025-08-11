@@ -29,6 +29,7 @@ class {{.JavaName}}Dto extends BaseDto {
     {{- range .TableColumn}}
     {{- if isContain .GoNamePublic "Create"}}
     {{- else if isContain .GoNamePublic "Update"}}
+    {{- else if isContain .GoNamePublic "Remark"}}
     {{- else if eq .ColumnKey "PRI"}}
     {{- else if eq .GoType "string"}}
         if (empty($this->{{.JavaName}})) {
@@ -47,6 +48,7 @@ class {{.JavaName}}Dto extends BaseDto {
     {{- range .TableColumn}}
     {{- if isContain .GoNamePublic "Create"}}
     {{- else if isContain .GoNamePublic "Update"}}
+    {{- else if isContain .GoNamePublic "Remark"}}
     {{- else if eq .GoType "string"}}
         if (empty($this->{{.JavaName}})) {
             throw new Exception('{{.ColumnComment}}不能为空');
@@ -63,13 +65,13 @@ class {{.JavaName}}Dto extends BaseDto {
      */
     public function toArray (): array {
         return [
-                {{- range .TableColumn}}
-                {{- if isContain .GoNamePublic "Create"}}
-                {{- else if isContain .GoNamePublic "Update"}}
-                {{- else }}
-                            '{{.ColumnName}}' => $this->{{.JavaName}}, //{{.ColumnComment}}
-                {{- end}}
-                {{- end}}
+            {{- range .TableColumn}}
+            {{- if isContain .GoNamePublic "Create"}}
+            {{- else if isContain .GoNamePublic "Update"}}
+            {{- else }}
+             '{{.ColumnName}}' => $this->{{.JavaName}}, //{{.ColumnComment}}
+            {{- end}}
+            {{- end}}
              ];
         }
 }

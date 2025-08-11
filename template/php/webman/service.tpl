@@ -89,7 +89,7 @@ class {{.JavaName}}Service {
         }
     {{- else}}
         //{{.ColumnComment}}
-        if (isset($params['status']) && $params['{{.JavaName}}'] != 2) {
+        if (isset($params['{{.JavaName}}'])) {
             $query = $query->where('{{.ColumnName}}', $params['{{.JavaName}}']);
         }
     {{- end}}

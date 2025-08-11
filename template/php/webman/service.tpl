@@ -19,7 +19,7 @@ class {{.JavaName}}Service {
      */
     public function add{{.JavaName}} ({{.JavaName}}Dto $dto): Modelable {
         $dto->validate();
-        return {{.UpperOriginalName}}::create($dto);
+        return {{.UpperOriginalName}}::create($dto->toArray());
     }
 
 
@@ -42,7 +42,7 @@ class {{.JavaName}}Service {
             throw new BusinessException('{{.Comment}}不存在');
         }
 
-        return (new {{.UpperOriginalName}}())->save($dto);
+        return (new {{.UpperOriginalName}}())->save($dto->toArray());
     }
 
     /**

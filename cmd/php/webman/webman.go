@@ -6,12 +6,13 @@ package webman
 import (
 	"bytes"
 	"fmt"
-	"github.com/feihua/generate-code/utils"
-	"github.com/spf13/cobra"
 	"io/ioutil"
 	"os"
 	"text/template"
 	"time"
+
+	"github.com/feihua/generate-code/utils"
+	"github.com/spf13/cobra"
 )
 
 var Cmd = &cobra.Command{
@@ -30,12 +31,7 @@ to quickly create a Cobra application.`,
 			Generate(t, "template/php/webman/controller.tpl", path+"/controller/"+moduleName, "Controller", "")
 			Generate(t, "template/php/webman/service.tpl", path+"/service/"+moduleName, "Service", "")
 			Generate(t, "template/php/webman/dao.tpl", path+"/dao/"+moduleName, "Dao", "")
-			Generate(t, "template/php/webman/dto/add_dto.tpl", path+"/dto/"+moduleName+"/"+t.GoName, "Dto", "Add")
-			Generate(t, "template/php/webman/dto/delete_dto.tpl", path+"/dto/"+moduleName+"/"+t.GoName, "Dto", "Delete")
-			Generate(t, "template/php/webman/dto/update_dto.tpl", path+"/dto/"+moduleName+"/"+t.GoName, "Dto", "Update")
-			Generate(t, "template/php/webman/dto/update_status_dto.tpl", path+"/dto/"+moduleName+"/"+t.GoName, "StatusDto", "Update")
-			Generate(t, "template/php/webman/dto/query_dto.tpl", path+"/dto/"+moduleName+"/"+t.GoName, "DetailDto", "Query")
-			Generate(t, "template/php/webman/dto/query_list_dto.tpl", path+"/dto/"+moduleName+"/"+t.GoName, "ListDto", "Query")
+			Generate(t, "template/php/webman/dto.tpl", path+"/dto/"+moduleName, "Dto", "")
 
 		}
 

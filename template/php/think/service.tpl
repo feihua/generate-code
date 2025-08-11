@@ -2,7 +2,7 @@
 
 namespace app\service\{{.ModuleName}};
 
-use app\dto\{{.ModuleName}}\{{.GoName}}\{{.JavaName}}Dto;
+use app\dto\{{.ModuleName}}\{{.JavaName}}Dto;
 use app\model\{{.ModuleName}}\{{.JavaName}}Model;
 use think\db\exception\DbException;
 use Exception;

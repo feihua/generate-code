@@ -2,12 +2,7 @@
 
 namespace app\controller\{{.ModuleName}};
 
-use app\dto\{{.ModuleName}}\{{.GoName}}\Add{{.JavaName}}Dto;
-use app\dto\{{.ModuleName}}\{{.GoName}}\Delete{{.JavaName}}Dto;
-use app\dto\{{.ModuleName}}\{{.GoName}}\Query{{.JavaName}}DetailDto;
-use app\dto\{{.ModuleName}}\{{.GoName}}\Query{{.JavaName}}ListDto;
-use app\dto\{{.ModuleName}}\{{.GoName}}\Update{{.JavaName}}Dto;
-use app\dto\{{.ModuleName}}\{{.GoName}}\Update{{.JavaName}}StatusDto;
+use app\dto\{{.ModuleName}}\{{.JavaName}}Dto;
 use app\result\Result;
 use app\service\{{.ModuleName}}\{{.JavaName}}Service;
 use Exception;
@@ -32,7 +27,7 @@ class {{.JavaName}}Controller {
      */
     public function add{{.JavaName}} (Request $request): Response {
         try {
-            $dto = new Add{{.JavaName}}Dto($request->post());
+            $dto = new {{.JavaName}}Dto($request->post());
             $data = $this->{{.LowerJavaName}}Service->add{{.JavaName}}($dto);
             return Result::Success($data);
         } catch (Exception $e) {
@@ -46,8 +41,8 @@ class {{.JavaName}}Controller {
      */
     public function delete{{.JavaName}} (Request $request): Response {
         try {
-            $dto = new Delete{{.JavaName}}Dto($request->post());
-            $data = $this->{{.LowerJavaName}}Service->delete{{.JavaName}}($dto);
+             $ids = $request->post('ids');
+             $data = $this->{{.LowerJavaName}}Service->delete{{.JavaName}}($ids);
             return Result::Success($data);
         } catch (Exception $e) {
             return Result::ErrorMsg($e->getMessage());
@@ -60,7 +55,7 @@ class {{.JavaName}}Controller {
      */
     public function update{{.JavaName}} (Request $request): Response {
         try {
-            $dto = new Update{{.JavaName}}Dto($request->post());
+            $dto = new {{.JavaName}}Dto($request->post());
             $data = $this->{{.LowerJavaName}}Service->update{{.JavaName}}($dto);
             return Result::Success($data);
         } catch (Exception $e) {
@@ -74,8 +69,9 @@ class {{.JavaName}}Controller {
      */
     public function update{{.JavaName}}Status (Request $request): Response {
         try {
-            $dto = new Update{{.JavaName}}StatusDto($request->post());
-            $data = $this->{{.LowerJavaName}}Service->update{{.JavaName}}Status($dto);
+            $ids = $request->post('ids');
+            $status = $request->post('status');
+            $data = $this->{{.LowerJavaName}}Service->update{{.JavaName}}Status($ids, $status);
             return Result::Success($data);
         } catch (Exception $e) {
             return Result::ErrorMsg($e->getMessage());
@@ -88,9 +84,9 @@ class {{.JavaName}}Controller {
      */
     public function query{{.JavaName}}Detail (Request $request): Response {
         try {
-            $dto = new Query{{.JavaName}}DetailDto($request->post());
+            $id = $request->post('id');
 
-            $data = $this->{{.LowerJavaName}}Service->query{{.JavaName}}Detail($dto);
+            $data = $this->{{.LowerJavaName}}Service->query{{.JavaName}}Detail($id);
             return Result::Success($data);
         } catch (Exception $e) {
             return Result::ErrorMsg($e->getMessage());
@@ -103,7 +99,7 @@ class {{.JavaName}}Controller {
      */
     public function query{{.JavaName}}List (Request $request): Response {
         try {
-            $dto = new Query{{.JavaName}}ListDto($request->post());
+           $dto = $request->post();
 
             $data = $this->{{.LowerJavaName}}Service->query{{.JavaName}}List($dto);
             return Result::Success($data);

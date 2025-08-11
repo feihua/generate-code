@@ -2,7 +2,7 @@
 
 namespace app\controller\{{.ModuleName}};
 
-use app\dto\{{.ModuleName}}\{{.GoName}}\{{.JavaName}}Dto;
+use app\dto\{{.ModuleName}}\{{.JavaName}}Dto;
 use app\result\Result;
 use app\service\{{.ModuleName}}\{{.JavaName}}Service;
 use Exception;

@@ -13,40 +13,40 @@ public interface I{{.JavaName}}Service {
     /// </summary>
     /// <param name="{{.LowerJavaName}}Dto"></param>
     /// <returns></returns>
-    Task<{{.JavaName}}DetailVo> Add{{.JavaName}}Async(Add{{.JavaName}}Dto {{.LowerJavaName}}Dto);
+    Task<{{.JavaName}}DetailVo> Add{{.JavaName}}(Add{{.JavaName}}Dto {{.LowerJavaName}}Dto);
 
     /// <summary>
     /// 删除{{.Comment}}
     /// </summary>
     /// <param name="dto"></param>
     /// <returns></returns>
-    Task Delete{{.JavaName}}Async(Delete{{.JavaName}}Dto dto);
+    Task Delete{{.JavaName}}(Delete{{.JavaName}}Dto dto);
 
     /// <summary>
     /// 更新{{.Comment}}
     /// </summary>
     /// <param name="sys{{.JavaName}}"></param>
     /// <returns></returns>
-    Task Update{{.JavaName}}Async(Update{{.JavaName}}Dto sys{{.JavaName}});
+    Task Update{{.JavaName}}(Update{{.JavaName}}Dto sys{{.JavaName}});
 
     /// <summary>
     /// 更新{{.Comment}}状态
     /// </summary>
     /// <param name="dto"></param>
     /// <returns></returns>
-    Task Update{{.JavaName}}StatusAsync(Update{{.JavaName}}StatusDto dto);
+    Task Update{{.JavaName}}Status(Update{{.JavaName}}StatusDto dto);
 
     /// <summary>
     /// 根据id获取{{.Comment}}
     /// </summary>
     /// <param name="id"></param>
     /// <returns></returns>
-    Task<{{.JavaName}}DetailVo> Query{{.JavaName}}ByIdAsync(long id);
+    Task<{{.JavaName}}DetailVo> Query{{.JavaName}}ById(long id);
 
     /// <summary>
     /// 查询{{.Comment}}列表
     /// </summary>
     /// <param name="dto"></param>
     /// <returns></returns>
-    Task<PageResponseDto<{{.JavaName}}ListVo>> Query{{.JavaName}}sListAsync(Query{{.JavaName}}ListDto dto);
+    Task<PageResponseDto<{{.JavaName}}ListVo>> Query{{.JavaName}}sList(Query{{.JavaName}}ListDto dto);
 }

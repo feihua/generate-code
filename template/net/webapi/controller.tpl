@@ -23,7 +23,7 @@ public class {{.JavaName}}Controller(I{{.JavaName}}Service service, ILogger<{{.J
     public async Task<ApiResponse<bool>> Add{{.JavaName}}(Add{{.JavaName}}Dto dto) {
         logger.LogInformation("添加{{.Comment}}，请求参数：{@Add{{.JavaName}}Dto}", dto);
         try {
-            await service.Add{{.JavaName}}Async(dto);
+            await service.Add{{.JavaName}}(dto);
             return ApiResponse<bool>.Ok(true);
         } catch (Exception ex) {
             return ApiResponse<bool>.Error(ex.Message);
@@ -40,7 +40,7 @@ public class {{.JavaName}}Controller(I{{.JavaName}}Service service, ILogger<{{.J
     public async Task<ApiResponse<bool>> Delete{{.JavaName}}(Delete{{.JavaName}}Dto dto) {
         logger.LogInformation("删除{{.Comment}}，请求参数：{@Delete{{.JavaName}}Dto}", dto);
         try {
-            await service.Delete{{.JavaName}}Async(dto);
+            await service.Delete{{.JavaName}}(dto);
             return ApiResponse<bool>.Ok(true);
         } catch (Exception ex) {
             return ApiResponse<bool>.Error(ex.Message);
@@ -57,7 +57,7 @@ public class {{.JavaName}}Controller(I{{.JavaName}}Service service, ILogger<{{.J
     public async Task<ApiResponse<bool>> Update{{.JavaName}}(Update{{.JavaName}}Dto dto) {
         logger.LogInformation("更新{{.Comment}}，请求参数：{@Update{{.JavaName}}Dto}", dto);
         try {
-            await service.Update{{.JavaName}}Async(dto);
+            await service.Update{{.JavaName}}(dto);
             return ApiResponse<bool>.Ok(true);
         } catch (Exception ex) {
             return ApiResponse<bool>.Error(ex.Message);
@@ -74,7 +74,7 @@ public class {{.JavaName}}Controller(I{{.JavaName}}Service service, ILogger<{{.J
     public async Task<ApiResponse<bool>> Update{{.JavaName}}Status(Update{{.JavaName}}StatusDto dto) {
         logger.LogInformation("更新{{.Comment}}状态，请求参数：{@Update{{.JavaName}}StatusDto}", dto);
         try {
-            await service.Update{{.JavaName}}StatusAsync(dto);
+            await service.Update{{.JavaName}}Status(dto);
             return ApiResponse<bool>.Ok(true);
         } catch (Exception ex) {
             return ApiResponse<bool>.Error(ex.Message);
@@ -91,7 +91,7 @@ public class {{.JavaName}}Controller(I{{.JavaName}}Service service, ILogger<{{.J
     public async Task<ApiResponse<{{.JavaName}}DetailVo>> Get{{.JavaName}}(long id) {
         logger.LogInformation("根据id获取{{.Comment}}，请求参数：{@id}", id);
         try {
-            var result = await service.Query{{.JavaName}}ByIdAsync(id);
+            var result = await service.Query{{.JavaName}}ById(id);
             return ApiResponse<{{.JavaName}}DetailVo>.Ok(result);
         } catch (Exception ex) {
             return ApiResponse<{{.JavaName}}DetailVo>.Error(ex.Message);
@@ -108,7 +108,7 @@ public class {{.JavaName}}Controller(I{{.JavaName}}Service service, ILogger<{{.J
     public async Task<ApiResponse<PageResponseDto<{{.JavaName}}ListVo>>> Get{{.JavaName}}s([FromQuery] Query{{.JavaName}}ListDto dto) {
         logger.LogInformation("查询{{.Comment}}列表，请求参数：{@Query{{.JavaName}}ListDtoto}", dto);
         try {
-            var result = await service.Query{{.JavaName}}sListAsync(dto);
+            var result = await service.Query{{.JavaName}}sList(dto);
             return ApiResponse<PageResponseDto<{{.JavaName}}ListVo>>.Ok(result);
         } catch (Exception ex) {
             return ApiResponse<PageResponseDto<{{.JavaName}}ListVo>>.Error(ex.Message);

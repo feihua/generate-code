@@ -13,21 +13,21 @@ public interface I{{.JavaName}}Repository {
     /// </summary>
     /// <param name="{{.LowerJavaName}}"></param>
     /// <returns></returns>
-    Task<{{.UpperOriginalName}}> AddAsync({{.UpperOriginalName}} {{.LowerJavaName}});
+    Task<{{.UpperOriginalName}}> Add({{.UpperOriginalName}} {{.LowerJavaName}});
 
     /// <summary>
     /// 删除{{.Comment}}
     /// </summary>
     /// <param name="ids"></param>
     /// <returns></returns>
-    Task DeleteAsync(long[] ids);
+    Task Delete(long[] ids);
 
     /// <summary>
     /// 更新{{.Comment}}
     /// </summary>
     /// <param name="{{.LowerJavaName}}"></param>
     /// <returns></returns>
-    Task UpdateAsync({{.UpperOriginalName}} {{.LowerJavaName}});
+    Task Update({{.UpperOriginalName}} {{.LowerJavaName}});
 
     /// <summary>
     /// 更新{{.Comment}}状态
@@ -35,19 +35,19 @@ public interface I{{.JavaName}}Repository {
     /// <param name="ids"></param>
     /// <param name="status"></param>
     /// <returns></returns>
-    Task UpdateStatusAsync(long[] ids, sbyte status);
+    Task UpdateStatus(long[] ids, sbyte status);
 
     /// <summary>
     /// 根据id获取{{.Comment}}
     /// </summary>
     /// <param name="id"></param>
     /// <returns></returns>
-    Task<{{.UpperOriginalName}}?> QueryByIdAsync(long id);
+    Task<{{.UpperOriginalName}}?> QueryById(long id);
 
     /// <summary>
     /// 查询{{.Comment}}列表
     /// </summary>
     /// <param name="dto"></param>
     /// <returns></returns>
-    Task<PageResponseDto<{{.UpperOriginalName}}>> QueryListAsync(Query{{.JavaName}}ListDto dto);
+    Task<PageResponseDto<{{.UpperOriginalName}}>> QueryList(Query{{.JavaName}}ListDto dto);
 }

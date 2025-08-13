@@ -17,7 +17,7 @@ public class {{.JavaName}}Repository(ApplicationDbContext context, ILogger<{{.Ja
     /// </summary>
     /// <param name="{{.LowerJavaName}}"></param>
     /// <returns></returns>
-    public async Task<{{.UpperOriginalName}}> AddAsync({{.UpperOriginalName}} {{.LowerJavaName}}) {
+    public async Task<{{.UpperOriginalName}}> Add({{.UpperOriginalName}} {{.LowerJavaName}}) {
         context.{{.UpperOriginalName}}s.Add({{.LowerJavaName}});
         await context.SaveChangesAsync();
         return {{.LowerJavaName}};
@@ -28,7 +28,7 @@ public class {{.JavaName}}Repository(ApplicationDbContext context, ILogger<{{.Ja
     /// </summary>
     /// <param name="ids"></param>
     /// <returns></returns>
-    public async Task DeleteAsync(long[] ids) {
+    public async Task Delete(long[] ids) {
         await context.{{.UpperOriginalName}}s
             .Where(n => ids.Contains(n.Id))
             .ExecuteDeleteAsync();
@@ -39,7 +39,7 @@ public class {{.JavaName}}Repository(ApplicationDbContext context, ILogger<{{.Ja
     /// </summary>
     /// <param name="{{.LowerJavaName}}"></param>
     /// <returns></returns>
-    public async Task UpdateAsync({{.UpperOriginalName}} {{.LowerJavaName}}) {
+    public async Task Update({{.UpperOriginalName}} {{.LowerJavaName}}) {
         await context.{{.UpperOriginalName}}s
             .Where(n => n.Id == {{.LowerJavaName}}.Id)
             .ExecuteUpdateAsync(setters => setters
@@ -62,7 +62,7 @@ public class {{.JavaName}}Repository(ApplicationDbContext context, ILogger<{{.Ja
     /// <param name="ids"></param>
     /// <param name="status"></param>
     /// <returns></returns>
-    public async Task UpdateStatusAsync(long[] ids, sbyte status) {
+    public async Task UpdateStatus(long[] ids, sbyte status) {
         var {{.LowerJavaName}}s = await context.{{.UpperOriginalName}}s
             .Where(n => ids.Contains(n.Id))
             .ToListAsync();
@@ -80,7 +80,7 @@ public class {{.JavaName}}Repository(ApplicationDbContext context, ILogger<{{.Ja
     /// </summary>
     /// <param name="id"></param>
     /// <returns></returns>
-    public async Task<{{.UpperOriginalName}}?> QueryByIdAsync(long id) {
+    public async Task<{{.UpperOriginalName}}?> QueryById(long id) {
         return await context.{{.UpperOriginalName}}s.FindAsync(id);
     }
 
@@ -89,7 +89,7 @@ public class {{.JavaName}}Repository(ApplicationDbContext context, ILogger<{{.Ja
     /// </summary>
     /// <param name="dto"></param>
     /// <returns></returns>
-    public async Task<PageResponseDto<{{.UpperOriginalName}}>> QueryListAsync(Query{{.JavaName}}ListDto dto) {
+    public async Task<PageResponseDto<{{.UpperOriginalName}}>> QueryList(Query{{.JavaName}}ListDto dto) {
         // 构建查询
         var query = context.{{.UpperOriginalName}}s.AsQueryable();
 

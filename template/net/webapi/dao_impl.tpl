@@ -10,14 +10,7 @@ namespace core_admin.Repository.{{.ModuleName}};
 /// <summary>
 /// {{.Comment}}仓储相关实现
 /// </summary>
-public class {{.JavaName}}Repository : I{{.JavaName}}Repository {
-    private readonly ApplicationDbContext _context;
-    private readonly ILogger<{{.JavaName}}Repository> _logger;
-
-    public {{.JavaName}}Repository(ApplicationDbContext context, ILogger<{{.JavaName}}Repository> logger) {
-        _context = context;
-         _logger = logger;
-    }
+public class {{.JavaName}}Repository(ApplicationDbContext context, ILogger<{{.JavaName}}Repository> logger) : I{{.JavaName}}Repository {
 
     /// <summary>
     /// 添加{{.Comment}}
@@ -25,8 +18,8 @@ public class {{.JavaName}}Repository : I{{.JavaName}}Repository {
     /// <param name="{{.LowerJavaName}}"></param>
     /// <returns></returns>
     public async Task<{{.UpperOriginalName}}> AddAsync({{.UpperOriginalName}} {{.LowerJavaName}}) {
-        _context.{{.UpperOriginalName}}s.Add({{.LowerJavaName}});
-        await _context.SaveChangesAsync();
+        context.{{.UpperOriginalName}}s.Add({{.LowerJavaName}});
+        await context.SaveChangesAsync();
         return {{.LowerJavaName}};
     }
 
@@ -36,13 +29,9 @@ public class {{.JavaName}}Repository : I{{.JavaName}}Repository {
     /// <param name="ids"></param>
     /// <returns></returns>
     public async Task DeleteAsync(long[] ids) {
-        foreach (var id in ids) {
-            var {{.LowerJavaName}} = await _context.{{.UpperOriginalName}}s.FindAsync(id);
-            if ({{.LowerJavaName}} == null) continue;
-            _context.{{.UpperOriginalName}}s.Remove({{.LowerJavaName}});
-        }
-
-        await _context.SaveChangesAsync();
+        await context.{{.UpperOriginalName}}s
+            .Where(n => ids.Contains(n.Id))
+            .ExecuteDeleteAsync();
     }
 
     /// <summary>
@@ -51,19 +40,20 @@ public class {{.JavaName}}Repository : I{{.JavaName}}Repository {
     /// <param name="{{.LowerJavaName}}"></param>
     /// <returns></returns>
     public async Task UpdateAsync({{.UpperOriginalName}} {{.LowerJavaName}}) {
-        // _context.Entry({{.LowerJavaName}}).State = EntityState.Modified;
-        var entity = await _context.{{.UpperOriginalName}}s.FindAsync({{.LowerJavaName}}.Id);
-        if (entity == null) {
-            throw new Exception("{{.Comment}}不存在");
-        }
-
-        // 保留原有的创建信息
-        {{.LowerJavaName}}.CreateTime = entity.CreateTime;
-        {{.LowerJavaName}}.CreateBy = entity.CreateBy;
-        {{.LowerJavaName}}.UpdateBy = "todo";
-
-        _context.Entry(entity).CurrentValues.SetValues({{.LowerJavaName}});
-        await _context.SaveChangesAsync();
+        await context.{{.UpperOriginalName}}s
+            .Where(n => n.Id == {{.LowerJavaName}}.Id)
+            .ExecuteUpdateAsync(setters => setters
+            {{- range .TableColumn}}
+            {{- if isContain .GoNamePublic "UpdateBy"}}
+                .SetProperty(n => n.UpdateBy, "todo") //更新者
+            {{- else if isContain .GoNamePublic "UpdateTime"}}
+                .SetProperty(n => n.UpdateTime, DateTime.Now)); //更新时间
+            {{- else if eq .ColumnKey "PRI"}}
+            {{- else if isContain .GoNamePublic "Create"}}
+            {{- else }}
+                .SetProperty(n => n.{{.GoNamePublic}}, {{.LowerJavaName}}.{{.GoNamePublic}}) //{{.ColumnComment}}
+            {{- end}}
+            {{- end}}
     }
 
     /// <summary>
@@ -73,16 +63,16 @@ public class {{.JavaName}}Repository : I{{.JavaName}}Repository {
     /// <param name="status"></param>
     /// <returns></returns>
     public async Task UpdateStatusAsync(long[] ids, sbyte status) {
-        var {{.LowerJavaName}}s = await _context.{{.UpperOriginalName}}s
+        var {{.LowerJavaName}}s = await context.{{.UpperOriginalName}}s
             .Where(n => ids.Contains(n.Id))
             .ToListAsync();
 
         foreach (var {{.LowerJavaName}} in {{.LowerJavaName}}s) {
             {{.LowerJavaName}}.Status = status;
-            _context.Entry({{.LowerJavaName}}).State = EntityState.Modified;
+            context.Entry({{.LowerJavaName}}).State = EntityState.Modified;
         }
 
-        await _context.SaveChangesAsync();
+        await context.SaveChangesAsync();
     }
 
     /// <summary>
@@ -91,7 +81,7 @@ public class {{.JavaName}}Repository : I{{.JavaName}}Repository {
     /// <param name="id"></param>
     /// <returns></returns>
     public async Task<{{.UpperOriginalName}}?> QueryByIdAsync(long id) {
-        return await _context.{{.UpperOriginalName}}s.FindAsync(id);
+        return await context.{{.UpperOriginalName}}s.FindAsync(id);
     }
 
     /// <summary>
@@ -101,7 +91,7 @@ public class {{.JavaName}}Repository : I{{.JavaName}}Repository {
     /// <returns></returns>
     public async Task<PageResponseDto<{{.UpperOriginalName}}>> QueryListAsync(Query{{.JavaName}}ListDto dto) {
         // 构建查询
-        var query = _context.{{.UpperOriginalName}}s.AsQueryable();
+        var query = context.{{.UpperOriginalName}}s.AsQueryable();
 
 {{- range .TableColumn}}
 	{{- if isContain .GoNamePublic "Create"}}

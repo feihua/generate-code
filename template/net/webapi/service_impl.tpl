@@ -11,16 +11,7 @@ namespace core_admin.Service.{{.ModuleName}};
 /// <summary>
 /// {{.Comment}}相关服务实现
 /// </summary>
-public class {{.JavaName}}Service : I{{.JavaName}}Service {
-    private readonly I{{.JavaName}}Repository _repository;
-    private readonly IMapper _mapper;
-    private readonly ILogger<{{.JavaName}}Service> _logger;
-
-    public {{.JavaName}}Service(I{{.JavaName}}Repository repository, IMapper mapper, ILogger<{{.JavaName}}Service> logger) {
-        _repository = repository;
-        _mapper = mapper;
-        _logger = logger;
-    }
+public class {{.JavaName}}Service(I{{.JavaName}}Repository repository, IMapper mapper, ILogger<{{.JavaName}}Service> logger) : I{{.JavaName}}Service {
 
     /// <summary>
     /// 添加{{.Comment}}
@@ -28,11 +19,11 @@ public class {{.JavaName}}Service : I{{.JavaName}}Service {
     /// <param name="{{.LowerJavaName}}Dto"></param>
     /// <returns></returns>
     public async Task<{{.JavaName}}DetailVo> Add{{.JavaName}}Async(Add{{.JavaName}}Dto {{.LowerJavaName}}Dto) {
-        var {{.LowerJavaName}} = _mapper.Map<{{.UpperOriginalName}}>({{.LowerJavaName}}Dto);
+        var {{.LowerJavaName}} = mapper.Map<{{.UpperOriginalName}}>({{.LowerJavaName}}Dto);
         {{.LowerJavaName}}.CreateTime = DateTime.Now;
 
-        var {{.LowerJavaName}}Res = await _repository.AddAsync({{.LowerJavaName}});
-        var {{.LowerJavaName}}DetailVo = _mapper.Map<{{.JavaName}}DetailVo>({{.LowerJavaName}}Res);
+        var {{.LowerJavaName}}Res = await repository.AddAsync({{.LowerJavaName}});
+        var {{.LowerJavaName}}DetailVo = mapper.Map<{{.JavaName}}DetailVo>({{.LowerJavaName}}Res);
         return {{.LowerJavaName}}DetailVo;
     }
 
@@ -42,7 +33,7 @@ public class {{.JavaName}}Service : I{{.JavaName}}Service {
     /// <param name="dto"></param>
     /// <returns></returns>
     public async Task Delete{{.JavaName}}Async(Delete{{.JavaName}}Dto dto) {
-        await _repository.DeleteAsync(dto.Ids);
+        await repository.DeleteAsync(dto.Ids);
     }
 
     /// <summary>
@@ -51,8 +42,12 @@ public class {{.JavaName}}Service : I{{.JavaName}}Service {
     /// <param name="dto"></param>
     /// <returns></returns>
     public async Task Update{{.JavaName}}Async(Update{{.JavaName}}Dto dto) {
-        var {{.LowerJavaName}} = _mapper.Map<{{.UpperOriginalName}}>(dto);
-        await _repository.UpdateAsync({{.LowerJavaName}});
+        var queryByIdAsync = await repository.QueryByIdAsync(id);
+        if (queryByIdAsync == null) {
+            throw new Exception("{{.Comment}}不存在");
+        }
+        var {{.LowerJavaName}} = mapper.Map<{{.UpperOriginalName}}>(dto);
+        await repository.UpdateAsync({{.LowerJavaName}});
     }
 
     /// <summary>
@@ -61,7 +56,7 @@ public class {{.JavaName}}Service : I{{.JavaName}}Service {
     /// <param name="dto"></param>
     /// <returns></returns>
     public async Task Update{{.JavaName}}StatusAsync(Update{{.JavaName}}StatusDto dto) {
-        await _repository.UpdateStatusAsync(dto.Ids, dto.Status);
+        await repository.UpdateStatusAsync(dto.Ids, dto.Status);
     }
 
 
@@ -71,12 +66,12 @@ public class {{.JavaName}}Service : I{{.JavaName}}Service {
     /// <param name="id"></param>
     /// <returns></returns>
     public async Task<{{.JavaName}}DetailVo> Query{{.JavaName}}ByIdAsync(long id) {
-        var queryByIdAsync = await _repository.QueryByIdAsync(id);
+        var queryByIdAsync = await repository.QueryByIdAsync(id);
         if (queryByIdAsync == null) {
             throw new Exception("{{.Comment}}不存在");
         }
 
-        var {{.LowerJavaName}}DetailVo = _mapper.Map<{{.JavaName}}DetailVo>(queryByIdAsync);
+        var {{.LowerJavaName}}DetailVo = mapper.Map<{{.JavaName}}DetailVo>(queryByIdAsync);
         return {{.LowerJavaName}}DetailVo;
     }
 
@@ -86,13 +81,11 @@ public class {{.JavaName}}Service : I{{.JavaName}}Service {
     /// <returns></returns>
     public async Task<PageResponseDto<{{.JavaName}}ListVo>> Query{{.JavaName}}sListAsync(Query{{.JavaName}}ListDto dto) {
         // 获取分页数据
-        var result = await _repository.QueryListAsync(dto);
+        var result = await repository.QueryListAsync(dto);
 
-        var response = new PageResponseDto<{{.JavaName}}ListVo> {
+        return new PageResponseDto<{{.JavaName}}ListVo> {
             Total = result.Total,
-            List = _mapper.Map<List<{{.JavaName}}ListVo>>(result.List)
+            List = mapper.Map<List<{{.JavaName}}ListVo>>(result.List)
         };
-
-        return response;
     }
 }

@@ -86,8 +86,8 @@ public class {{.JavaName}}Controller(I{{.JavaName}}Service service, ILogger<{{.J
     /// </summary>
     /// <param name="id"></param>
     /// <returns></returns>
-    [HasPermission("ModuleName:{{.LowerJavaName}}:query")]
-    [HttpGet("query/{id}")]
+    [HasPermission("ModuleName:{{.LowerJavaName}}:queryDetail")]
+    [HttpGet("queryDetail/{id:long}")]
     public async Task<ApiResponse<{{.JavaName}}DetailVo>> Get{{.JavaName}}(long id) {
         logger.LogInformation("根据id获取{{.Comment}}，请求参数：{@id}", id);
         try {

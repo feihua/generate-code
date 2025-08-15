@@ -4,6 +4,8 @@ Copyright © 2023 NAME HERE <EMAIL ADDRESS>
 package cmd
 
 import (
+	"github.com/feihua/generate-code/cmd/cpp"
+	"github.com/feihua/generate-code/cmd/cpp/crow"
 	"github.com/feihua/generate-code/cmd/golang"
 	"github.com/feihua/generate-code/cmd/golang/gf"
 	"github.com/feihua/generate-code/cmd/golang/gin"
@@ -113,4 +115,7 @@ func init() {
 	sql.SqlCmd.AddCommand(mysql.Cmd)
 	sql.SqlCmd.AddCommand(oracle.Cmd)
 	sql.SqlCmd.AddCommand(postgresql.Cmd)
+
+	RootCmd.AddCommand(cpp.CppCmd)
+	cpp.CppCmd.AddCommand(crow.Cmd)
 }

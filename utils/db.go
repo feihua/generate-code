@@ -3,10 +3,11 @@ package utils
 import (
 	"embed"
 	"fmt"
-	"gorm.io/driver/mysql"
-	"gorm.io/gorm"
 	"strings"
 	"unicode"
+
+	"gorm.io/driver/mysql"
+	"gorm.io/gorm"
 )
 
 type Table struct {
@@ -174,6 +175,7 @@ func buildListParams(tt []TableColumn) []TableColumn {
 
 	listParams = append(listParams, TableColumn{
 		GoName:        "page_num",
+		JavaName:      "pageNo",
 		ProtoType:     "int32",
 		ThriftType:    "i32",
 		Sort:          sort,
@@ -181,6 +183,7 @@ func buildListParams(tt []TableColumn) []TableColumn {
 	})
 	listParams = append(listParams, TableColumn{
 		GoName:        "page_size",
+		JavaName:      "pageSize",
 		ProtoType:     "int32",
 		ThriftType:    "i32",
 		Sort:          sort + 1,

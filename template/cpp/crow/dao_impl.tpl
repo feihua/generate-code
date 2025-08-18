@@ -124,8 +124,10 @@ std::optional<crow::json::wvalue> {{.JavaName}}DAO::findById(int64_t id) {
 
     crow::json::wvalue json;
     {{- range .TableColumn}}
-    {{- if eq .JavaType `String` }}
+    {{- if or (eq .JavaType `String`) (eq .JavaName `createTime`) }}
     json["{{.JavaName}}"] = row[0][{{Sub .Sort 1}}].as<std::string>(); // {{.ColumnComment}}
+    {{- else if eq .JavaName `updateTime` }}
+    json["{{.JavaName}}"] = row[0][{{Sub .Sort 1}}].is_null() ? "" : row[0][{{Sub .Sort 1}}].as<std::string>(); // {{.ColumnComment}}
     {{- else}}
     json["{{.JavaName}}"] = row[0][{{Sub .Sort 1}}].as<int>(); // {{.ColumnComment}}
     {{- end}}
@@ -138,9 +140,7 @@ std::optional<crow::json::wvalue> {{.JavaName}}DAO::findById(int64_t id) {
  * 查找所有{{.Comment}}（支持分页）
  *
  * @param {{.LowerJavaName}} 查询条件
- * @param page 页码（从1开始）
- * @param pageSize 每页大小
- * @return 包含所有{{.Comment}}对象的向量
+ * @return 包含所有{{.Comment}}对象
  */
 crow::json::wvalue {{.JavaName}}DAO::findAll(const {{.JavaName}}Dto &{{.LowerJavaName}}) {
 
@@ -185,8 +185,10 @@ crow::json::wvalue {{.JavaName}}DAO::findAll(const {{.JavaName}}Dto &{{.LowerJav
     for (const auto &row: result) {
         crow::json::wvalue json;
         {{- range .TableColumn}}
-        {{- if eq .JavaType `String` }}
+        {{- if or (eq .JavaType `String`) (eq .JavaName `createTime`) }}
         json["{{.JavaName}}"] = row[{{.Sort}}].as<std::string>(); // {{.ColumnComment}}
+        {{- else if eq .JavaName `updateTime` }}
+        json["{{.JavaName}}"] = row[{{Sub .Sort 1}}].is_null() ? "" : row[{{Sub .Sort 1}}].as<std::string>(); // {{.ColumnComment}}
         {{- else}}
         json["{{.JavaName}}"] = row[{{.Sort}}].as<int>(); // {{.ColumnComment}}
         {{- end}}
@@ -253,8 +255,10 @@ crow::json::wvalue {{.JavaName}}DAO::findByConditions(const crow::json::rvalue &
     for (const auto &row: result) {
         crow::json::wvalue json;
         {{- range .TableColumn}}
-        {{- if eq .JavaType `String` }}
+        {{- if or (eq .JavaType `String`) (eq .JavaName `createTime`) }}
         json["{{.JavaName}}"] = row[{{.Sort}}].as<std::string>(); // {{.ColumnComment}}
+        {{- else if eq .JavaName `updateTime` }}
+        json["{{.JavaName}}"] = row[{{Sub .Sort 1}}].is_null() ? "" : row[{{Sub .Sort 1}}].as<std::string>(); // {{.ColumnComment}}
         {{- else}}
         json["{{.JavaName}}"] = row[{{.Sort}}].as<int>(); // {{.ColumnComment}}
         {{- end}}
@@ -263,7 +267,7 @@ crow::json::wvalue {{.JavaName}}DAO::findByConditions(const crow::json::rvalue &
     }
 
     crow::json::wvalue json;
-    json["data"] = crow::json::wvalue::list(list.begin(), list.end());
+    json["list"] = crow::json::wvalue::list(list.begin(), list.end());
     json["total"] = countResult[0][0].as<int>();
 
     return json;

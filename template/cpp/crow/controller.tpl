@@ -138,7 +138,7 @@ public:
         * 查找所有{{.Comment}}
         *
         * @param {{.LowerJavaName}} 查询条件
-        * @return 包含所有{{.Comment}}对象的向量
+        * @return 包含所有{{.Comment}}对象集合
         */
         CROW_ROUTE(app, "/api/{{.ModuleName}}/{{.LowerJavaName}}/findAll").methods("POST"_method)([this](const crow::request &req) {
             LOG_INFO("查询{{.Comment}}列表，请求参数：" + req.body);
@@ -161,7 +161,7 @@ public:
          * 查找所有{{.Comment}}
          *
          * @param {{.LowerJavaName}} 查询条件
-         * @return 包含所有{{.Comment}}对象的向量
+         * @return 包含所有{{.Comment}}对象集合
          */
         CROW_ROUTE(app, "/api/{{.ModuleName}}/{{.LowerJavaName}}/search").methods("POST"_method)([this](const crow::request &req) {
             LOG_INFO("搜索{{.Comment}}列表，请求参数：" + req.body);

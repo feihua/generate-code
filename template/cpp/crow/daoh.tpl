@@ -61,7 +61,7 @@ public:
      * 查找所有{{.Comment}}
      *
      * @param user 查询条件
-     * @return 包含所有{{.Comment}}对象的向量
+     * @return 包含所有{{.Comment}}对象集合
      */
     crow::json::wvalue findAll(const {{.JavaName}}Dto &user);
 
@@ -69,7 +69,7 @@ public:
      * 查找所有{{.Comment}}
      *
      * @param user 查询条件
-     * @return 包含所有{{.Comment}}对象的向量
+     * @return 包含所有{{.Comment}}对象集合
      */
     crow::json::wvalue findByConditions(const crow::json::rvalue &conditions);
 };

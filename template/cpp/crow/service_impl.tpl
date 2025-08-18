@@ -68,7 +68,7 @@ crow::json::wvalue {{.JavaName}}Service::findById(int64_t id) {
  * 查找所有{{.Comment}}
  *
  * @param {{.LowerJavaName}} 查询条件
- * @return 包含所有{{.Comment}}对象的向量
+ * @return 包含所有{{.Comment}}对象集合
  */
 crow::json::wvalue {{.JavaName}}Service::findAll(const {{.JavaName}}Dto &{{.LowerJavaName}}) {
     return {{.LowerJavaName}}Dao.findAll({{.LowerJavaName}});
@@ -78,7 +78,7 @@ crow::json::wvalue {{.JavaName}}Service::findAll(const {{.JavaName}}Dto &{{.Lowe
  * 查找所有{{.Comment}}
  *
  * @param {{.LowerJavaName}} 查询条件
- * @return 包含所有{{.Comment}}对象的向量
+ * @return 包含所有{{.Comment}}对象集合
  */
 crow::json::wvalue {{.JavaName}}Service::findByConditions(const crow::json::rvalue &conditions) {
 

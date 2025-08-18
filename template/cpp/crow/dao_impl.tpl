@@ -21,7 +21,7 @@ int {{.JavaName}}DAO::create(const {{.JavaName}}Dto &{{.LowerJavaName}}) {
     std::string sql = R"sql(INSERT INTO {{.OriginalName}}
     ({{- range .AddColumn}}{{.ColumnName}}, {{- end}})
     VALUES
-    (({{- range .AddColumn}}${{.Sort}}, {{- end}}) RETURNING id)sql";
+    ({{- range .AddColumn}}${{.Sort}}, {{- end}}) RETURNING id)sql";
 
     pqxx::work txn(conn);
     auto result = txn.exec(sql, params);
@@ -67,7 +67,7 @@ int {{.JavaName}}DAO::update(int64_t id, const {{.JavaName}}Dto &{{.LowerJavaNam
     params.append(id);
 
     std::string sql = R"sql(UPDATE {{.OriginalName}} SET
-    ({{- range .UpdateColumn}}{{.ColumnName}}=${{.Sort}}, {{- end}})RETURNING id)sql";
+    {{ range .UpdateColumn}}{{.ColumnName}}=${{.Sort}}, {{- end}} where id=$todo RETURNING id)sql";
 
     pqxx::work txn(conn);
     auto result = txn.exec(sql, params);
@@ -156,6 +156,7 @@ crow::json::wvalue {{.JavaName}}DAO::findAll(const {{.JavaName}}Dto &{{.LowerJav
     {{- if eq .JavaName `pageNo` }}
     {{- else if eq .JavaName `pageSize` }}
     {{- else if eq .JavaType `String` }}
+    // {{.ColumnComment}}
     if (!{{$.LowerJavaName}}.{{.JavaName}}.empty()) {
         std::string param = "%" + std::string({{.LowerJavaName}}.{{.JavaName}}) + "%";
         sqlParams.append(param);
@@ -163,10 +164,11 @@ crow::json::wvalue {{.JavaName}}DAO::findAll(const {{.JavaName}}Dto &{{.LowerJav
         whereClause += " AND {{.ColumnName}} LIKE $" + std::to_string(sqlParams.size());
     }
     {{- else}}
+    // {{.ColumnComment}}
     if ({{$.LowerJavaName}}.{{.JavaName}} != 2) {
         sqlParams.append({{.LowerJavaName}}.{{.JavaName}});
 
-        whereClause += " AND {{.ColumnName}} LIKE $" + std::to_string(sqlParams.size());
+        whereClause += " AND {{.ColumnName}} = $" + std::to_string(sqlParams.size());
     }
     {{- end}}
     {{- end}}
@@ -219,6 +221,7 @@ crow::json::wvalue {{.JavaName}}DAO::findByConditions(const crow::json::rvalue &
     {{- if eq .JavaName `pageNo` }}
     {{- else if eq .JavaName `pageSize` }}
     {{- else if eq .JavaType `String` }}
+    // {{.ColumnComment}}
     if (conditions.has("{{.JavaName}}") && conditions["{{.JavaName}}"].s() != "") {
         std::string param = conditions["{{.JavaName}}"].s();
         sqlParams.append("%" + param + "%");
@@ -226,6 +229,7 @@ crow::json::wvalue {{.JavaName}}DAO::findByConditions(const crow::json::rvalue &
         whereClause += " AND {{.ColumnName}} LIKE $" + std::to_string(sqlParams.size());
     }
     {{- else}}
+    // {{.ColumnComment}}
     if (conditions.has("{{.JavaName}}")) {
         int64_t param = conditions["{{.JavaName}}"].i();
         sqlParams.append(param);

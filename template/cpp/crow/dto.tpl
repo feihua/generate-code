@@ -30,6 +30,14 @@ struct {{.JavaName}}Dto {
         return json;
     }
 
+    static crow::json::wvalue toJsonArr(const std::vector<{{.JavaName}}Dto>& items) {
+        std::vector<crow::json::wvalue> list;
+        for (const auto& item : items) {
+            list.push_back(item.toJson());
+        }
+        return crow::json::wvalue::list(list.begin(), list.end());
+    }
+
     static {{.JavaName}}Dto fromJson(const crow::json::rvalue &json) {
         {{.JavaName}}Dto dto;
         {{- range .TableColumn}}

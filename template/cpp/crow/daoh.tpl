@@ -55,7 +55,7 @@ public:
      * @param id 待查找{{.Comment}}的ID
      * @return 如果找到{{.Comment}}，则返回{{.Comment}}对象；否则返回std::nullopt
      */
-    std::optional<crow::json::wvalue> findById(int64_t id);
+    std::optional<{{.JavaName}}Dto> findById(int64_t id);
 
     /**
      * 查找所有{{.Comment}}

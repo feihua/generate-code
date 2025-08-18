@@ -127,7 +127,7 @@ public:
 
                 auto {{.LowerJavaName}} = {{.LowerJavaName}}Service.findById(id);
 
-                return ResponseUtil::success({{.LowerJavaName}});
+                return ResponseUtil::success({{.LowerJavaName}}.toJson());
             } catch (const std::exception &e) {
                 return ResponseUtil::serverError(e.what());
             }

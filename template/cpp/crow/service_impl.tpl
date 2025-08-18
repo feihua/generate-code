@@ -56,7 +56,7 @@ void {{.JavaName}}Service::update{{.JavaName}}Status(const std::vector<int64_t> 
  * @param id 待查找{{.Comment}}的ID
  * @return 如果找到{{.Comment}}，则返回{{.Comment}}对象；否则返回std::nullopt
  */
-crow::json::wvalue {{.JavaName}}Service::findById(int64_t id) {
+{{.JavaName}}Dto {{.JavaName}}Service::findById(int64_t id) {
     auto {{.LowerJavaName}} = {{.LowerJavaName}}Dao.findById(id);
     if (!{{.LowerJavaName}}) {
         throw std::runtime_error("{{.JavaName}}Dto not found");

@@ -115,21 +115,22 @@ std::optional<{{.JavaName}}Dto> {{.JavaName}}DAO::findById(int64_t id) {
     std::string sql = "SELECT * FROM {{.OriginalName}} WHERE id = $1";
 
     pqxx::work txn(conn);
-    auto row = txn.exec(sql, params);
+    auto result = txn.exec(sql, params);
     txn.commit();
 
-    if (row.empty()) {
+    if (result.empty()) {
         return std::nullopt;
     }
 
+    auto row = result[0];
     {{.JavaName}}Dto dto;
     {{- range .TableColumn}}
     {{- if or (eq .JavaType `String`) (eq .JavaName `createTime`) }}
-    dto.{{.JavaName}} = row[0][{{Sub .Sort 1}}].as<std::string>(); // {{.ColumnComment}}
+    dto.{{.JavaName}} = row[{{Sub .Sort 1}}].as<std::string>(); // {{.ColumnComment}}
     {{- else if eq .JavaName `updateTime` }}
-    dto.{{.JavaName}} = row[0][{{Sub .Sort 1}}].is_null() ? "" : row[0][{{Sub .Sort 1}}].as<std::string>(); // {{.ColumnComment}}
+    dto.{{.JavaName}} = row[{{Sub .Sort 1}}].is_null() ? "" : row[{{Sub .Sort 1}}].as<std::string>(); // {{.ColumnComment}}
     {{- else}}
-    dto.{{.JavaName}} = row[0][{{Sub .Sort 1}}].as<int>(); // {{.ColumnComment}}
+    dto.{{.JavaName}} = row[{{Sub .Sort 1}}].as<int>(); // {{.ColumnComment}}
     {{- end}}
     {{- end}}
 

@@ -34,9 +34,9 @@ void {{.JavaName}}Service::delete{{.JavaName}}(const std::vector<int64_t> &id) {
 int {{.JavaName}}Service::update{{.JavaName}}(const {{.JavaName}}Dto &{{.LowerJavaName}}) {
     auto exist = {{.LowerJavaName}}Dao.findById({{.LowerJavaName}}.id);
     if (!exist) {
-        throw std::runtime_error("{{.JavaName}}Dto not found");
+        throw std::runtime_error("{{.Comment}}不存在");
     }
-    return {{.LowerJavaName}}Dao.update({{.LowerJavaName}}.id, {{.LowerJavaName}});
+    return {{.LowerJavaName}}Dao.update({{.LowerJavaName}}.getId, {{.LowerJavaName}});
 }
 
 /**
@@ -59,7 +59,7 @@ void {{.JavaName}}Service::update{{.JavaName}}Status(const std::vector<int64_t> 
 {{.JavaName}}Dto {{.JavaName}}Service::findById(int64_t id) {
     auto {{.LowerJavaName}} = {{.LowerJavaName}}Dao.findById(id);
     if (!{{.LowerJavaName}}) {
-        throw std::runtime_error("{{.JavaName}}Dto not found");
+        throw std::runtime_error("{{.Comment}}不存在");
     }
     return {{.LowerJavaName}}.value();
 }

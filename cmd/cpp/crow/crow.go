@@ -29,8 +29,10 @@ to quickly create a Cobra application.`,
 		tables := utils.New().QueryTables(Dsn, TableNames, prefix)
 		var path = "generate/cpp/crow"
 		for _, t := range tables {
-			Generate(t, "template/cpp/crow/dto.tpl", path+"/dto/"+moduleName, "_dto", "")
-			Generate(t, "template/cpp/crow/controller.tpl", path+"/controllers/"+moduleName, "_controller", "")
+			Generate(t, "template/cpp/crow/dto.tpl", path+"/dto/"+moduleName+"/"+t.GoName, "_dto", "")
+			Generate(t, "template/cpp/crow/dtoh.tpl", path+"/dto/"+moduleName+"/"+t.GoName, "_dto", "")
+			Generate(t, "template/cpp/crow/controller.tpl", path+"/controllers/"+moduleName+"/"+t.GoName, "_controller", "")
+			Generate(t, "template/cpp/crow/controllerh.tpl", path+"/controllers/"+moduleName+"/"+t.GoName, "_controller", "")
 			Generate(t, "template/cpp/crow/daoh.tpl", path+"/dao/"+moduleName+"/"+t.GoName, "_dao", "")
 			Generate(t, "template/cpp/crow/dao_impl.tpl", path+"/dao/"+moduleName+"/"+t.GoName, "_dao", "")
 			Generate(t, "template/cpp/crow/serviceh.tpl", path+"/service/"+moduleName+"/"+t.GoName, "_service", "")
@@ -95,7 +97,11 @@ func Generate(t utils.Table, tplName, path, prefix, prefix1 string) error {
 		return err
 	}
 
-	if strings.Contains(tplName, "daoh") || strings.Contains(tplName, "serviceh") {
+	daoh := strings.Contains(tplName, "daoh")
+	serviceh := strings.Contains(tplName, "serviceh")
+	dtoh := strings.Contains(tplName, "dtoh")
+	controllerh := strings.Contains(tplName, "controllerh")
+	if daoh || serviceh || dtoh || controllerh {
 		return ioutil.WriteFile(path+string(os.PathSeparator)+prefix1+t.GoName+prefix+".h", buf.Bytes(), 0755)
 	}
 	return ioutil.WriteFile(path+string(os.PathSeparator)+prefix1+t.GoName+prefix+".cpp", buf.Bytes(), 0755)

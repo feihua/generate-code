@@ -15,7 +15,7 @@ int {{.JavaName}}DAO::create(const {{.JavaName}}Dto &{{.LowerJavaName}}) {
 
     pqxx::params params;
     {{- range .AddColumn}}
-    params.append({{$.LowerJavaName}}.{{.JavaName}}); // {{.ColumnComment}}
+    params.append({{$.LowerJavaName}}.get{{.GoNamePublic}}()); // {{.ColumnComment}}
     {{- end}}
 
     std::string sql = R"sql(INSERT INTO {{.OriginalName}}
@@ -62,7 +62,7 @@ int {{.JavaName}}DAO::update(int64_t id, const {{.JavaName}}Dto &{{.LowerJavaNam
 
     pqxx::params params;
     {{- range .UpdateColumn}}
-    params.append({{$.LowerJavaName}}.{{.JavaName}}); // {{.ColumnComment}}
+    params.append({{$.LowerJavaName}}.get{{.GoNamePublic}}()); // {{.ColumnComment}}
     {{- end}}
     params.append(id);
 
@@ -126,11 +126,11 @@ std::optional<{{.JavaName}}Dto> {{.JavaName}}DAO::findById(int64_t id) {
     {{.JavaName}}Dto dto;
     {{- range .TableColumn}}
     {{- if or (eq .JavaType `String`) (eq .JavaName `createTime`) }}
-    dto.{{.JavaName}} = row[{{Sub .Sort 1}}].as<std::string>(); // {{.ColumnComment}}
+    dto.set{{.GoNamePublic}}(row[{{Sub .Sort 1}}].as<std::string>()); // {{.ColumnComment}}
     {{- else if eq .JavaName `updateTime` }}
-    dto.{{.JavaName}} = row[{{Sub .Sort 1}}].is_null() ? "" : row[{{Sub .Sort 1}}].as<std::string>(); // {{.ColumnComment}}
+    dto.set{{.GoNamePublic}}(row[{{Sub .Sort 1}}].is_null() ? "" : row[{{Sub .Sort 1}}].as<std::string>()); // {{.ColumnComment}}
     {{- else}}
-    dto.{{.JavaName}} = row[{{Sub .Sort 1}}].as<int>(); // {{.ColumnComment}}
+    dto.set{{.GoNamePublic}}(row[{{Sub .Sort 1}}].as<int>()); // {{.ColumnComment}}
     {{- end}}
     {{- end}}
 
@@ -158,16 +158,16 @@ crow::json::wvalue {{.JavaName}}DAO::findAll(const {{.JavaName}}Dto &{{.LowerJav
     {{- else if eq .JavaName `pageSize` }}
     {{- else if eq .JavaType `String` }}
     // {{.ColumnComment}}
-    if (!{{$.LowerJavaName}}.{{.JavaName}}.empty()) {
-        std::string param = "%" + std::string({{.LowerJavaName}}.{{.JavaName}}) + "%";
+    if (!{{$.LowerJavaName}}.get{{.GoNamePublic}}().empty()) {
+        std::string param = "%" + std::string({{.LowerJavaName}}.get{{.GoNamePublic}}()) + "%";
         sqlParams.append(param);
 
         whereClause += " AND {{.ColumnName}} LIKE $" + std::to_string(sqlParams.size());
     }
     {{- else}}
     // {{.ColumnComment}}
-    if ({{$.LowerJavaName}}.{{.JavaName}} != 2) {
-        sqlParams.append({{.LowerJavaName}}.{{.JavaName}});
+    if ({{$.LowerJavaName}}.get{{.GoNamePublic}}() != 2) {
+        sqlParams.append({{.LowerJavaName}}.get{{.GoNamePublic}}());
 
         whereClause += " AND {{.ColumnName}} = $" + std::to_string(sqlParams.size());
     }
@@ -177,10 +177,10 @@ crow::json::wvalue {{.JavaName}}DAO::findAll(const {{.JavaName}}Dto &{{.LowerJav
     countSql += whereClause;
     pqxx::result countResult = txn.exec(countSql, sqlParams);
 
-    int64_t offset = ({{.LowerJavaName}}.pageNo - 1) * {{.LowerJavaName}}.pageSize;
+    int64_t offset = ({{.LowerJavaName}}.getPageNo - 1) * {{.LowerJavaName}}.getPageSize;
     selectSql += whereClause + " ORDER BY id LIMIT $" + std::to_string(sqlParams.size() + 1)
            + " OFFSET $" + std::to_string(sqlParams.size() + 2);
-    sqlParams.append({{.LowerJavaName}}.pageSize);
+    sqlParams.append({{.LowerJavaName}}.getPageSize);
     sqlParams.append(offset);
 
     pqxx::result result = txn.exec(selectSql, sqlParams);
@@ -191,11 +191,11 @@ crow::json::wvalue {{.JavaName}}DAO::findAll(const {{.JavaName}}Dto &{{.LowerJav
         crow::json::wvalue json;
         {{- range .TableColumn}}
         {{- if or (eq .JavaType `String`) (eq .JavaName `createTime`) }}
-        json["{{.JavaName}}"] = row[{{Sub .Sort 1}}].as<std::string>(); // {{.ColumnComment}}
+        json.set{{.GoNamePublic}}(row[{{Sub .Sort 1}}].as<std::string>()); // {{.ColumnComment}}
         {{- else if eq .JavaName `updateTime` }}
-        json["{{.JavaName}}"] = row[{{Sub .Sort 1}}].is_null() ? "" : row[{{Sub .Sort 1}}].as<std::string>(); // {{.ColumnComment}}
+        json.set{{.GoNamePublic}}(row[{{Sub .Sort 1}}].is_null() ? "" : row[{{Sub .Sort 1}}].as<std::string>()); // {{.ColumnComment}}
         {{- else}}
-        json["{{.JavaName}}"] = row[{{Sub .Sort 1}}].as<int>(); // {{.ColumnComment}}
+        json.set{{.GoNamePublic}}(row[{{Sub .Sort 1}}].as<int>()); // {{.ColumnComment}}
         {{- end}}
         {{- end}}
         list.push_back(json);
@@ -265,11 +265,11 @@ crow::json::wvalue {{.JavaName}}DAO::findByConditions(const crow::json::rvalue &
         crow::json::wvalue json;
         {{- range .TableColumn}}
         {{- if or (eq .JavaType `String`) (eq .JavaName `createTime`) }}
-        json["{{.JavaName}}"] = row[{{Sub .Sort 1}}].as<std::string>(); // {{.ColumnComment}}
+        json.set{{.GoNamePublic}}(row[{{Sub .Sort 1}}].as<std::string>()); // {{.ColumnComment}}
         {{- else if eq .JavaName `updateTime` }}
-        json["{{.JavaName}}"] = row[{{Sub .Sort 1}}].is_null() ? "" : row[{{Sub .Sort 1}}].as<std::string>(); // {{.ColumnComment}}
+        json.set{{.GoNamePublic}}(row[{{Sub .Sort 1}}].is_null() ? "" : row[{{Sub .Sort 1}}].as<std::string>()); // {{.ColumnComment}}
         {{- else}}
-        json["{{.JavaName}}"] = row[{{Sub .Sort 1}}].as<int>(); // {{.ColumnComment}}
+        json.set{{.GoNamePublic}}(row[{{Sub .Sort 1}}].as<int>()); // {{.ColumnComment}}
         {{- end}}
         {{- end}}
         list.push_back(json);

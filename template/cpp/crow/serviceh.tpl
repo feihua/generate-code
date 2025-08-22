@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include "dto/{{.ModuleName}}/{{.GoName}}_dto.cpp"
+#include "dto/{{.ModuleName}}/{{.GoName}}/{{.GoName}}_dto.h"
 #include "dao/{{.ModuleName}}/{{.GoName}}/{{.GoName}}_dao.h"
 #include <vector>
 

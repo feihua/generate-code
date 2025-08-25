@@ -112,10 +112,15 @@ void {{.JavaName}}Controller::registerRoutes(crow::SimpleApp &app) {
     * @param id 待查找{{.Comment}}的ID
     * @return 如果找到{{.Comment}}，则返回{{.Comment}}对象；否则返回std::nullptr
     */
-    CROW_ROUTE(app, "/api/{{.ModuleName}}/{{.LowerJavaName}}/findById/<int>").methods("GET"_method)([this](int id) {
-        LOG_INFO("根据id获取{{.Comment}}，请求参数：" + std::to_string(id));
+    CROW_ROUTE(app, "/api/{{.ModuleName}}/{{.LowerJavaName}}/findById").methods("GET"_method)([this](const crow::request &req) {
         try {
 
+            auto id_param = req.url_params.get("id");
+            if (!id_param) {
+                return ResponseUtil::badRequest("缺少id参数");
+            }
+
+            int id = std::stoi(id_param);
             auto {{.LowerJavaName}} = {{.LowerJavaName}}Service.findById(id);
 
             return ResponseUtil::success({{.LowerJavaName}}.toJson());

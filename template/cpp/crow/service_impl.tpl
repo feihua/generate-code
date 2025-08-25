@@ -46,8 +46,8 @@ int {{.JavaName}}Service::update{{.JavaName}}(const {{.JavaName}}Dto &{{.LowerJa
  * @param status 新的{{.Comment}}状态
  * @return 更新操作是否成功
  */
-void {{.JavaName}}Service::update{{.JavaName}}Status(const std::vector<int64_t> &ids, int64_t status) {
-    return {{.LowerJavaName}}Dao.updateStatus(ids, status);
+void {{.JavaName}}Service::update{{.JavaName}}Status(const std::vector<int64_t> &ids, int64_t status, std::string userName) {
+    return {{.LowerJavaName}}Dao.updateStatus(ids, status, userName);
 }
 
 /**

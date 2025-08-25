@@ -47,7 +47,7 @@ public:
      * @param status 新的{{.Comment}}状态
      * @return 更新操作是否成功
      */
-    void updateStatus(const std::vector<int64_t> &ids, int64_t status);
+    void updateStatus(const std::vector<int64_t> &ids, int64_t status, const std::string userName);
 
     /**
      * 根据{{.Comment}}ID查找{{.Comment}}

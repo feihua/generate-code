@@ -13,13 +13,14 @@ void {{.JavaName}}Controller::registerRoutes(crow::SimpleApp &app) {
      * @param {{.LowerJavaName}} 待创建的{{.Comment}}对象
      * @return 创建成功的{{.Comment}}对象，包括生成的{{.Comment}}ID等信息
      */
-    CROW_ROUTE(app, "/api/{{.ModuleName}}/{{.LowerJavaName}}/add").methods("POST"_method)([this](const crow::request &req) {
+    CROW_ROUTE(app, "/api/{{.ModuleName}}/{{.LowerJavaName}}/add").methods("POST"_method)([this, &app](const crow::request &req) {
         LOG_INFO("添加{{.Comment}}，请求参数：" + req.body);
         try {
             auto json = crow::json::load(req.body);
             if (!json) return crow::response(400, "Invalid JSON");
 
             {{.JavaName}}Dto {{.LowerJavaName}} = {{.JavaName}}Dto::fromJson(json);
+            {{.LowerJavaName}}.setCreateBy(app.get_context<AuthMiddleware>(req).username);
             auto id = {{.LowerJavaName}}Service.create{{.JavaName}}({{.LowerJavaName}});
 
             return ResponseUtil::success(id);
@@ -61,13 +62,14 @@ void {{.JavaName}}Controller::registerRoutes(crow::SimpleApp &app) {
      * @param {{.LowerJavaName}} 新的{{.Comment}}信息
      * @return 更新操作是否成功
      */
-    CROW_ROUTE(app, "/api/{{.ModuleName}}/{{.LowerJavaName}}/update").methods("POST"_method)([this](const crow::request &req) {
+    CROW_ROUTE(app, "/api/{{.ModuleName}}/{{.LowerJavaName}}/update").methods("POST"_method)([this, &app](const crow::request &req) {
         LOG_INFO("更新{{.Comment}}，请求参数：" + req.body);
         try {
             auto json = crow::json::load(req.body);
             if (!json) return crow::response(400, "Invalid JSON");
 
             {{.JavaName}}Dto {{.LowerJavaName}} = {{.JavaName}}Dto::fromJson(json);
+            {{.LowerJavaName}}.setUpdateBy(app.get_context<AuthMiddleware>(req).username);
             auto id = {{.LowerJavaName}}Service.update{{.JavaName}}({{.LowerJavaName}});
 
             return ResponseUtil::success(id);
@@ -83,7 +85,7 @@ void {{.JavaName}}Controller::registerRoutes(crow::SimpleApp &app) {
      * @param status 新的{{.Comment}}状态
      * @return 更新操作是否成功
      */
-    CROW_ROUTE(app, "/api/{{.ModuleName}}/{{.LowerJavaName}}/update{{.JavaName}}Status").methods("POST"_method)([this](const crow::request &req) {
+    CROW_ROUTE(app, "/api/{{.ModuleName}}/{{.LowerJavaName}}/update{{.JavaName}}Status").methods("POST"_method)([this, &app](const crow::request &req) {
         LOG_INFO("更新{{.Comment}}状态，请求参数：" + req.body);
         try {
             auto json = crow::json::load(req.body);
@@ -95,7 +97,8 @@ void {{.JavaName}}Controller::registerRoutes(crow::SimpleApp &app) {
             }
 
             auto status = json["status"].i();
-            {{.LowerJavaName}}Service.update{{.JavaName}}Status(ids, status);
+            auto userName = app.get_context<AuthMiddleware>(req).username
+            {{.LowerJavaName}}Service.update{{.JavaName}}Status(ids, status, userName);
 
             return ResponseUtil::success();
         } catch (const std::exception &e) {

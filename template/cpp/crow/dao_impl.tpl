@@ -17,11 +17,12 @@ int {{.JavaName}}DAO::create(const {{.JavaName}}Dto &{{.LowerJavaName}}) {
     {{- range .AddColumn}}
     params.append({{$.LowerJavaName}}.get{{.GoNamePublic}}()); // {{.ColumnComment}}
     {{- end}}
+    params.append({{$.LowerJavaName}}.getCreateBy()); // 创建者
 
     std::string sql = R"sql(INSERT INTO {{.OriginalName}}
-    ({{- range .AddColumn}}{{.ColumnName}}, {{- end}})
+    ({{- range .AddColumn}}{{.ColumnName}}, {{- end}}create_time,create_by)
     VALUES
-    ({{- range .AddColumn}}${{.Sort}}, {{- end}}) RETURNING id)sql";
+    ({{- range .AddColumn}}${{.Sort}}, {{- end}}current_timestamp(0),$todo) RETURNING id)sql";
 
     pqxx::work txn(conn);
     auto result = txn.exec(sql, params);
@@ -64,10 +65,11 @@ int {{.JavaName}}DAO::update(int64_t id, const {{.JavaName}}Dto &{{.LowerJavaNam
     {{- range .UpdateColumn}}
     params.append({{$.LowerJavaName}}.get{{.GoNamePublic}}()); // {{.ColumnComment}}
     {{- end}}
+    params.append({{$.LowerJavaName}}.getUpdateBy()); // 更新者
     params.append(id);
 
     std::string sql = R"sql(UPDATE {{.OriginalName}} SET
-    {{ range .UpdateColumn}}{{.ColumnName}}=${{.Sort}}, {{- end}} where id=$todo RETURNING id)sql";
+    {{ range .UpdateColumn}}{{.ColumnName}}=${{.Sort}}, {{- end}}update_time=current_timestamp(0),update_by=$todo where id=$todo RETURNING id)sql";
 
     pqxx::work txn(conn);
     auto result = txn.exec(sql, params);
@@ -83,16 +85,17 @@ int {{.JavaName}}DAO::update(int64_t id, const {{.JavaName}}Dto &{{.LowerJavaNam
  * @param status 新的{{.Comment}}状态
  * @return 更新操作是否成功
  */
-void {{.JavaName}}DAO::updateStatus(const std::vector<int64_t> &ids, int64_t status) {
+void {{.JavaName}}DAO::updateStatus(const std::vector<int64_t> &ids, int64_t status, const std::string userName) {
     auto conn = DBConnection::getConnection();
     pqxx::work txn(conn);
 
     for (const auto &id: ids) {
         pqxx::params params;
         params.append(status);
+        params.append(userName);
         params.append(id);
 
-        std::string sql = "UPDATE {{.OriginalName}} SET status=$1 WHERE id = $2";
+        std::string sql = "UPDATE {{.OriginalName}} SET status=$1, update_by=$2, update_time=current_timestamp(0) WHERE id = $3";
 
         auto result = txn.exec(sql, params);
     }

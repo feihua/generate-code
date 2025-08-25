@@ -50,7 +50,7 @@ public:
      * @param status 新的{{.Comment}}状态
      * @return 更新操作是否成功
      */
-    void update{{.JavaName}}Status(const std::vector<int64_t> &ids, int64_t status);
+    void update{{.JavaName}}Status(const std::vector<int64_t> &ids, int64_t status, std::string userName);
 
     /**
      * 根据{{.Comment}}ID查找{{.Comment}}
